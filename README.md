@@ -2,7 +2,7 @@
 
 _It consists of config files and more for my Linux setup and development environment._
 
-To create an efficient developer environment, it's a runbook to use after installing Linux to customize bash & zsh, nano, and various tools; to install required development tools.
+To create an efficient developer environment, it's a runbook to use after installing Linux to quickly customize bash & zsh, nano, and various tools; to quickly install required development tools.
 
 :clap: **How it got created**
 

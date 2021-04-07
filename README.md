@@ -4,7 +4,7 @@ _It consists of config files and more for my Linux setup and development environ
 
 * To create an efficient developer environment, it's a runbook to use after installing Linux to customize bash & zsh, nano, and various tools; to install required development tools.
 
-:clap: **How it is being create**
+:clap: **How it is being created**
 
 Learn, practice and check-in what worked well
 * To learn the depth of Linux, shells, various dev tools capabilities in the context of dev productivity

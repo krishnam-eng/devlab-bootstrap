@@ -1,12 +1,12 @@
 :thinking: **What is this**
 
-_Config files for my Linux setup and development environment._
+_It consists of config files and more for my Linux setup and development environment._
 
 To create an efficient developer environment, it's a runbook to use after installing Linux to customize bash & zsh, nano, and various tools; to install required development tools.
 
-:clap: **How it is being created**
+:clap: **How it is being create**
 
-Learn, prtactice and check-in what worked well
+Learn, practice and check-in what worked well
 * To learn the depth of Linux, shells, various dev tools capabilities in the context of dev productivity
 * To capture 'up and running' & 'tips & tricks along with the learning notes 
 

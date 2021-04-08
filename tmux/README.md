@@ -1,24 +1,24 @@
 ## About
 
-tmux is one of those things in life that at first encounter sound really weird and confusing. Youlearn about them and you can’t quite understand what the heck they do, how they can be useful or why anybody would want to use them. BUT it is one of those things that when given a chance, when given some experimentation, courage and perseverance, it turns out that they are awesome, and youcan’t quite live without them.
+tmux is one of those things in life that at first encounter sound really weird and confusing. You learn about them, and you can't quite understand what the heck they do, how they can be helpful, or why anybody wants to use them. BUT it is one of those things that when given a chance, when given some experimentation, courage and perseverance, it turns out that they are fantastic, and you can't quite live without them.
 
 ## Why Should I Care
 
-Oftentimes in software development you’ll run into the need of having lots of terminals running different tasks: development web servers, editors, git, building, linting, testing, interacting with remote servers, etc… 
+Often in software development, you'll run into the need of having lots of terminals running different tasks: development web servers, editors, git, building, linting, testing, interacting with remote servers, etc.… 
 
-You’re likely to use tabs or different terminal windows which you create on demand and arrange every now and then with the help of your mouse. 
+You're likely to use tabs or different terminal windows, which you create on-demand and arrange now and then with the help of your mouse. 
 
-This is typically slow and will require you to redo the whole setup any time you restart your computer.
+This process is typically slow and will require you to redo the whole setup any time you restart your computer.
 
 - eases the creation and management of terminal windows and panes with a few keyboard shortcuts
-- lets you setup development environments that you can pause and resume at will
+- lets you set up development environments that you can pause and resume at will
 - is entirely customizable and can be made to work perfectly in tandem with Vim
 - lets you pair program remotely with your colleagues
 
 ## Basics 
-You can think of a tmux session as a workspace or project work environment. A session can have multiple windows (which behave like text-based virtual desktops) and multiple panes which let you divide the screen horizontally and vertically within the same window.
+You can think of a tmux session as a workspace or project work environment. A session can have multiple windows (which behave like text-based virtual desktops) and numerous panes, which let you divide the screen horizontally and vertically within the same window.
 
-This is a how a typical day in the life of a tmux-using developer looks like. First things first,one grabs a coffee, magic drink with great invigorating powers to the master of the arcane wizardry arts of coding. Then let’s say that I’m starting a new project. 
+This flow is a how a typical day in the life of a tmux-using developer looks like. First things first, one grabs a coffee, a magic drink with great invigorating powers, to the master of the arcane wizardry arts of coding. Then let's say that I'm starting a new project. 
 
 
 ### Typical Workflow 
@@ -26,12 +26,10 @@ This is a how a typical day in the life of a tmux-using developer looks like. Fi
 ```
 % tmux new -t new-feature
 ```
-- now create as many panes as needed, typically three with one editor in the main terminal and two other terminals for running ad-hoc processes, like interacting with source control, running tests, a web server, etc…
-- I then start coding, click, clap, clickity, clap, and I’ll create additional windows and panes a I see fit. 
-- When I’m done for the day I may leave the session open or I’ll detach from the session with prefix d. The session will remain active in the tmux server with the exact same state, ready for whenever I want to jump back to work.
-- Next day, I then attach to the session that contains my work in progress. Where everything is exactly how I left it. So I just jump right back in and start clicking.
+- now, create as many panes as needed, typically three with one editor in the main terminal and two other terminals for running ad-hoc processes, like interacting with source control, running tests, a web server, etc.…
+- I then start coding, click, clap, clickity, clap, and I'll create additional windows and panes as I see fit.
+- When I'm done for the day, I may leave the session open, or I'll detach from the session with prefix d. The session will remain active in the tmux server with the same state, ready for whenever I want to jump back to work.
+- Next day, I then attach to the session that contains my work in progress. Where everything is exactly how I left it. So I jump right back in and start clicking.
 ```
 % tmux attach -t new-project
 ```
-
-

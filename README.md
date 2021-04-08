@@ -2,7 +2,7 @@
 
 _It consists of config files and more for my Linux setup and development environment._
 
-To create an efficient Linux developer environment, it's a runbook to use to quickly customize and learn 'Tips n Tricks' of bash & zsh, nano, and various tools; to quickly install and configure required development tools.
+To create an efficient Linux developer environment, it's a runbook to use to quickly customize and learn 'Tips n Tricks' of various tools; to quickly install and configure required development tools.
 
 🔩 **How it got created**
 
@@ -12,5 +12,5 @@ Learn, practice and check-in what-worked-well
 
 🚀 **When to use**
 
-* To manage personal customization to bash, zsh, nano configurations for boosting productivity. 
+* To manage personal customization to zsh, bash, nano, tmux configurations for boosting productivity. 
 * To reuse the same config in any new Linux dev environment

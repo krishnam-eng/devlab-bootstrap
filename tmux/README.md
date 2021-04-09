@@ -10,9 +10,7 @@ When you run into the need of having lots of terminals running different tasks (
 - It will save you a lot of headaches if you spend a lot of time in the terminal. Ofcourse, There are other ways of doing multi-tasking like using basic _bg_ & _fg_ commands or using GNU _screen_. However, Tmux is considered to be the next evolutionary step forward. In version RHEL8, the decision was made to [deprecate _screen_ and use _tmux_](https://access.redhat.com/solutions/4136481) instead.
 
 ## Basics 
-You can think of a tmux session as a workspace. Your session can have more discreet components, called windows and panes. The panes let you divide the screen horizontally and vertically within the same window. These are good for organizing multiple activities in a logical way. <img src="https://user-images.githubusercontent.com/82016952/114131171-bf73b800-991f-11eb-9fcd-f55798464769.png" alt="session view img" width="250"/>
-
-You can use sessions for themes (e.g, team-projects, exploration, devops...), windows for projects, panes for activites ().
+You can think of a tmux session as a workspace. Your session can have more discreet components, called windows and panes. The panes let you divide the screen horizontally and vertically within the same window. These are good for organizing multiple activities in a logical way. You can use session for themes (e.g, team-projects, exploration, devops...), window for projects, pane for activites.
 
 You can detach a session, and it becomes a headless entity running in the background; and, you can even close the terminal that launched it. When you reconnect, you can start a new terminal and reattach the still-running background session. Ta da !
 

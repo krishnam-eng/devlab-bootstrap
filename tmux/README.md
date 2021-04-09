@@ -1,21 +1,20 @@
 ## About
+tmux lets you set up development environments that you can pause and resume at will. Meaning? It keeps things running persistently on tmux server, so you can disconnect and connect as needed without interrupting tasks in progress.
 
-tmux lets you set up development environments that you can pause and resume at will. 
-
-What do you mean by pause-and-resume?
-It keeps things running persistently on servers, so you can disconnect and connect as needed without interrupting tasks in progress.
-
-Still, Not clear?
-It is one of those things that at first sounds peculiar and confusing. When you discover about them, and you can't quite grasp what the heck they do, how they can be valuable, or why anybody desires to use them. But it is one of those things that will turn out to be fantastic when given a chance.
+It is one of those things that at first sounds peculiar and confusing. When you discover about them, and you can't quite grasp what the heck they do, how they can be valuable, or why anybody desires to use them. But it is one of those things that will turn out to be fantastic swiss-army-knife when given a chance.
 
 ## Why Should I Care
+When you run into the need of having lots of terminals running different tasks for different projects for different themes (servers, log, editor, git, building, testing, debuggin, etc), You're likely to use different terminal windows or tabs. If you are working on multiple projects and each has its own multiple terminals to control various activities. Using tabs & terminal is not very pretty. This process is typically slow and will require you to redo the whole setup any time restart happens or loose your old session. 
 
-When you run into the need of having lots of terminals running different tasks for different projects for different themes (servers, log view, editors, git, building, testing, interacting with remote servers, etc for project, devops, exploration…), You're likely to use different terminal windows or tabs, which you could create on-demand and arrange now and then with the help of your mouse. 
-
-This process is typically slow and will require you to redo the whole setup any time restart happens or loose your old session. I've been there and It is not pretty. tmux eases the creation and management of terminal windows and panes with a few keyboard shortcuts, and it is entirely customizable.
+- _tmux_ (**t**erminal **mu**ltiple**x**er) eases the creation and management of terminal windows and panes with a few keyboard shortcuts (mouse-free development), and it is entirely customizable.
+- It will save you a lot of headaches if you spend a lot of time in the terminal. Ofcourse, There are other ways of doing multi-tasking like using basic _bg_ & _fg_ commands or using GNU _screen_. However, Tmux is considered to be the next evolutionary step forward. In version RHEL8, the decision was made to [deprecate _screen_ and use _tmux_](https://access.redhat.com/solutions/4136481) instead.
 
 ## Basics 
 You can think of a tmux session as a workspace. Your session can have more discreet components, called windows and panes. The panes let you divide the screen horizontally and vertically within the same window. These are good for organizing multiple activities in a logical way. <img src="https://user-images.githubusercontent.com/82016952/114131171-bf73b800-991f-11eb-9fcd-f55798464769.png" alt="session view img" width="250"/>
+
+You can use sessions for themes (e.g, team-projects, exploration, devops...), windows for projects, panes for activites ().
+
+You can detach a session, and it becomes a headless entity running in the background; and, you can even close the terminal that launched it. When you reconnect, you can start a new terminal and reattach the still-running background session. Ta da !
 
 ### Typical Workflow 
 This flow is how a typical day of a tmux-using developers follow. First things first, one grabs a coffee and bossily commands Google-Home to play BG Music on Spotify. Then, let's say that we are starting the work. 
@@ -59,25 +58,34 @@ bind - split-window -v
 
 - _To get a visual overview of sessions_ ```⌨️ bind-key, then, press w```
 - _To rename a session_ ```⌨️ bind-key, then, press $```
- 
- 
+
 #### Resizing Pane
 - _To bring the selected pane to full size(**z**oom mode) and toggle between modes_ ```⌨️ bind-key, then, press z```
 
-#### The Kill Switch 
-If you no-longer need the working session, windows, or panes, here is the kill switch. Give a thought before you kill a session, becuase the power session is the reason why we are here in the first place.  
+### The Kill Switch 
+If you no-longer need the working session, windows, or panes, here is the kill switch. Give a thought before you kill a session, becuase the power of resuming session is the reason why we are here in the first place.  
 
  - _To kill the current pane_ ```⌨️ bind-key, then, press x```
  - _To kill the current window_ ```⌨️ bind-key, then, press &``` 
  - _To kill session selectively_ ```$ tmux kill-session -t ${session_name}```
  - _To kill all sessions in one go_ ```$ tumex kill-server``` 
 
-
-## 5 Key Takeaways
-- _tmux_ Terminal multiplexer will save you a lot of headaches if you spend a lot of time in the terminal. There are other ways of doing multi-tasking like using _bg_ & _fg_ commands or using _screen_. However, Tmux is considered to be the next evolutionary step forward from screen multiplexer.
-- _tmux_ provides session, window & pane to organize multiple activities in a logical way. With few key-commands, you can manage them well.
-- You can detach a session, and it becomes a headless entity running in the background; and, you can even close the terminal that launched it. When you reconnect, you can start a new terminal and reattach the still-running background session. Ta da ! (Word of Caution: Keep an eye on your sessions, I updated my terminal rc config to list active sessions at the start)
-- You can use sessions for themes (e.g, projects-work, explore, devops...), windows for projects, panes for activites.
+### Few Other Time Savers
+- You can autostart tmux with last dettached session (configure it in your _shell rc_ file)
+```
+# if tmux is executable and not inside a tmux session, then try to attach.
+# if attachment fails, start a new session
+[ -x "$(command -v tmux)" ] && [ -z "${TMUX}" ] && (tmux attach || tmux) >/dev/null 2>&1
+```
+- You set aliases to freuqently used tmux commands (configure it in your _shell rc_ file)
+```
+alias ta='tmux attach -t'
+alias ts='tmux new-session -s'
+alias tl='tmux list-sessions'
+alias tksv='tmux kill-server'
+alias tkss='tmux kill-session -t'
+```
+- You start tmux with default session layout (can be done by writing our own bash script or we could use tmuxinator)
 
 ## Footnote
 Intended Audience: Should I read this? If you are spending time in the terminal, then, Yes. If not so, check out the 'why' & 'key-takeaways' sections to see if it can be a valuable addition to your toolbox.

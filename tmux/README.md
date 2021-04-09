@@ -3,7 +3,7 @@ tmux lets you set up development environments that you can pause and resume at w
 
 It is one of those things that at first sounds peculiar and confusing. When you discover about them, and you can't quite grasp what the heck they do, how they can be valuable, or why anybody desires to use them. But it is one of those things that will turn out to be fantastic swiss-army-knife when given a chance.
 
-## Why Should I Care
+## Why Should You Care
 When you run into the need of having lots of terminals running different tasks for different projects for different themes (servers, log, editor, git, building, testing, debuggin, etc), You're likely to use different terminal windows or tabs. If you are working on multiple projects and each has its own multiple terminals to control various activities. Using tabs & terminal is not very pretty. This process is typically slow and will require you to redo the whole setup any time restart happens or loose your old session. 
 
 - _tmux_ (**t**erminal **mu**ltiple**x**er) eases the creation and management of terminal windows and panes with a few keyboard shortcuts (mouse-free development), and it is entirely customizable.

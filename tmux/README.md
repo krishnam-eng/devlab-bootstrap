@@ -21,13 +21,16 @@ This flow is a how a typical day in the life of a tmux-using developer looks lik
 
 
 ### Typical Workflow 
-- Aways start a new project by creating a new tmux session (project 1-1 session) ```% tmux new -t $new-feature/project-name```
-- now, create as many panes as needed, typically three with one editor in the main terminal and two other terminals for running ad-hoc processes, like interacting with source control, running tests, a web server, etc.…
+- Aways start a new project by creating a new tmux session
+  - _To start new session with a name_ ```$ tmux new -t $new-feature/project-name```
+  - _To  _
+- now, create as many panes as needed, typically three with one editor/log viewer in the main terminal and two other terminals for running ad-hoc processes, like interacting with source control, running tests, a web server, etc.…
   - _To create windows_```⌨️ bind-key , then, press c```
-  - _To create panes_ ```⌨️ bind-key, then, press | for vertical and - for horizontal pane ```
+  - _To give a name to your window (please do)_ ```⌨️  bind-key, then, press ,```
+  - _To close current window_ ```⌨️  bind-key, then, press &```
+  - _To create panes_ ```⌨️ bind-key, then, press % for vertical and " for horizontal pane ```
 - Then, I start working, click, clap, clickity, clap, (this is how my machanical keyboard sings to me) and I'll create additional windows and panes as I see fit.
-  - _To give a name to your window (please do)_ ```⌨️  bind-key, then, press comma (",")```  
-  - _To switch between windows_ ```⌨️ bind-key, then,  press 0..n (ID of the window)```
+  - _To switch between windows_ ```⌨️ bind-key, then,  press 0..9 (ID of the window)``` or ```⌨️ bind-key, then, press p for previous window and n for next window``` 
   - _To switch between panes_ ```⌨️ bind-key , then,  use arrow keys to navigate panes```
 - When I'm done for the day, I may leave the session open, or I'll detach from the session with prefix d. The session will remain active in the tmux server with the same state, ready for whenever I want to jump back to work.
 - Next day, I then attach to the session that contains my work in progress. Where everything is exactly how I left it. So I jump right back in and start clicking. ```% tmux attach -t new-project```
@@ -35,6 +38,8 @@ This flow is a how a typical day in the life of a tmux-using developer looks lik
 ## Tips & Tricks
 
 ### Key Binding
+
+Using default bind-key is like a tongue twister to my figure; if you feel the same, start customizing keys for your comfort. The below are the most common remapped keys. 
 
 **Remap bind-key to Ctr+a from Ctr+b**
 ```shell
@@ -50,3 +55,6 @@ bind | split-window -h
 unbind '"'
 bind - split-window -v    
 ````
+
+## Footnote
+Is it a blog or cheetsheet? The answer is -- it is kind of neither. It is somewhere inbetween and I would tag it as "Dev Productivity", "Up n Running", "Build Your Toolbox". Should I read it? If you'r spending more time in terminal, then, Yes. 

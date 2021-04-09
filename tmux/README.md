@@ -21,19 +21,20 @@ This flow is a how a typical day in the life of a tmux-using developer looks lik
 
 
 ### Typical Workflow 
-- Aways start a new project by creating a new tmux session
+- **Step 1:** You can start using just by invoking ```$ tmux```. However, I would suggest - always begin by creating a new tmux session with a name. The name can be the project that you are working with, so it will be easy to switch between multiple projects, and each project will have its terminal state for them. This way, it boosts productivity significantly during context switch.
   - _To start new session with a name_ ```$ tmux new -t $new-feature/project-name```
-  - _To  _
-- now, create as many panes as needed, typically three with one editor/log viewer in the main terminal and two other terminals for running ad-hoc processes, like interacting with source control, running tests, a web server, etc.…
+  - _To list all active sessions_ ```$ tmux ls```
+- **Step 2:** Now, You can create as many panes as needed, (typically, I go with three; one editor/log viewer in the main terminal and two other terminals for running ad-hoc processes, like interacting with source control, running tests, a web server, etc.…)
   - _To create windows_```⌨️ bind-key , then, press c```
   - _To give a name to your window (please do)_ ```⌨️  bind-key, then, press ,```
-  - _To close current window_ ```⌨️  bind-key, then, press &```
+  - _To close current window_ ```⌨️  bind-key, then, press &``` 
+  - _To destroy the window_ ```⌨️  bind-key, then, press x```
   - _To create panes_ ```⌨️ bind-key, then, press % for vertical and " for horizontal pane ```
-- Then, I start working, click, clap, clickity, clap, (this is how my machanical keyboard sings to me) and I'll create additional windows and panes as I see fit.
-  - _To switch between windows_ ```⌨️ bind-key, then,  press 0..9 (ID of the window)``` or ```⌨️ bind-key, then, press p for previous window and n for next window``` 
-  - _To switch between panes_ ```⌨️ bind-key , then,  use arrow keys to navigate panes```
-- When I'm done for the day, I may leave the session open, or I'll detach from the session with prefix d. The session will remain active in the tmux server with the same state, ready for whenever I want to jump back to work.
-- Next day, I then attach to the session that contains my work in progress. Where everything is exactly how I left it. So I jump right back in and start clicking. ```% tmux attach -t new-project```
+- **Step 3:** Then, You start working, click, clap, clickity, clap, (this is how my machanical keyboard sings to me) and I'll create additional windows and panes as I see fit.
+  - _To switch between windows_ ```⌨️ bind-key, then, press 0..9 (ID of the window)``` or ```⌨️ bind-key, then, press p for previous window and n for next window``` 
+  - _To switch between panes_ ```⌨️ bind-key , then, use Arrows to navigate panes```
+- **Step 4:** When you'r done for the day, you may leave the session open, or you can detach from the session ```⌨️ bind-key , then, press d```. The session will remain active in the tmux server with the same state, ready for whenever I want to jump back to work.
+- **Step 5:** Next day, You attach to the session that contains your work in progress. Where everything is exactly how you left it. So you could jump right back in and start making your keyboard sing. ```% tmux attach -t $session_name```
 
 ## Tips & Tricks
 

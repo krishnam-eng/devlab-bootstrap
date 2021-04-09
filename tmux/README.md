@@ -57,4 +57,5 @@ bind - split-window -v
 ````
 
 ## Footnote
-Is it a blog or cheetsheet? The answer is -- it is kind of neither. It is somewhere inbetween and I would tag it as "Dev Productivity", "Up n Running", "Build Your Toolbox". Should I read it? If you'r spending more time in terminal, then, Yes. 
+Intended Audience: Should I read it? If you'r spending time in terminal, then, Yes. I would tag it as "Dev Productivity", "Up n Running", "Build Your Toolbox", "Terminal Multiplexing". 
+

@@ -33,3 +33,22 @@ This flow is a how a typical day in the life of a tmux-using developer looks lik
 ```
 % tmux attach -t new-project
 ```
+
+## Tips & Tricks
+
+### Key Binding
+
+**Remap bind-key to Ctr+a from Ctr+b**
+```shell
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+```
+
+**Splitting a window in panes is much easier to remember if you use | for vertical splits and - for horizontal splits**
+```shell
+unbind %
+bind | split-window -h    
+unbind '"'
+bind - split-window -v    
+````

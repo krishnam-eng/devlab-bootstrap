@@ -4,7 +4,7 @@ tmux lets you set up development environments that you can pause and resume at w
 It is one of those things that at first sounds peculiar and confusing. When you discover about them, and you can't quite grasp what the heck they do, how they can be valuable, or why anybody desires to use them. But it is one of those things that will turn out to be fantastic swiss-army-knife when given a chance.
 
 ## Why Should You Care
-When you run into the need of having lots of terminals running different tasks for different projects for different themes (servers, log, editor, git, building, testing, debuggin, etc), You're likely to use different terminal windows or tabs. If you are working on multiple projects and each has its own multiple terminals to control various activities. Using tabs & terminal is not very pretty. This process is typically slow and will require you to redo the whole setup any time restart happens or loose your old session. 
+When you run into the need of having lots of terminals running different tasks (servers, log, editor, git, building, testing, debuggin, etc), You're likely to use different terminal windows or tabs. If you are working on multiple projects and each has its own multiple terminals to control various activities. Using tabs & terminal is not very pretty. This process is typically slow and will require you to redo the whole setup any time restart happens or loose your old session. 
 
 - _tmux_ (**t**erminal **mu**ltiple**x**er) eases the creation and management of terminal windows and panes with a few keyboard shortcuts (mouse-free development), and it is entirely customizable.
 - It will save you a lot of headaches if you spend a lot of time in the terminal. Ofcourse, There are other ways of doing multi-tasking like using basic _bg_ & _fg_ commands or using GNU _screen_. However, Tmux is considered to be the next evolutionary step forward. In version RHEL8, the decision was made to [deprecate _screen_ and use _tmux_](https://access.redhat.com/solutions/4136481) instead.
@@ -87,10 +87,10 @@ alias tkss='tmux kill-session -t'
 ```
 - You start tmux with default session layout (can be done by writing our own bash script or we could use tmuxinator)
 
+If you would like to geek around advance options, check out the man page and cheat-sheets avaialble [online](https://tmuxcheatsheet.com/).
+
 ## Footnote
 Intended Audience: Should I read this? If you are spending time in the terminal, then, Yes. If not so, check out the 'why' & 'key-takeaways' sections to see if it can be a valuable addition to your toolbox.
-
-I tried to put the basic & best usage of the tool in the context of typical dev workflow rather than a simple-cheat-sheet. If you would like to geek around advance options, check out the man page and cheat-sheets avaialble [online](https://tmuxcheatsheet.com/).
 
 tags: "Dev Productivity", "Up n Running", "Build Your Toolbox", "Terminal Multiplexing". 
 

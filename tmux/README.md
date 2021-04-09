@@ -1,8 +1,8 @@
 ## About
 
-tmux lets you set up development environments that you can pause and resume at will. It eases the creation and management of terminal windows and panes with a few keyboard shortcuts, and it is entirely customizable.
+tmux lets you set up development environments that you can pause and resume at will. 
 
-What do you mean by pause and resume?
+What do you mean by pause-and-resume?
 It keeps things running persistently on servers, so you can disconnect and connect as needed without interrupting tasks in progress.
 
 Still, Not clear?
@@ -14,18 +14,17 @@ When you run into the need of having lots of terminals running different tasks f
 
 You're likely to use tabs or different terminal windows, which you could create on-demand and arrange now and then with the help of your mouse. 
 
-This process is typically slow and will require you to redo the whole setup any time restart happens or loose your old session. I've been there and It is not pretty.
+This process is typically slow and will require you to redo the whole setup any time restart happens or loose your old session. I've been there and It is not pretty. tmux eases the creation and management of terminal windows and panes with a few keyboard shortcuts, and it is entirely customizable.
 
 ## Basics 
 You can think of a tmux session as a workspace or project work environment. Your session can have more discreet components, called windows and panes. The panes let you divide the screen horizontally and vertically within the same window. These are good for organizing multiple activities in a logical way.
 ![session view](https://user-images.githubusercontent.com/82016952/114131171-bf73b800-991f-11eb-9fcd-f55798464769.png)
 
 ### Typical Workflow 
+This flow is a how a typical day in the life of a tmux-using developer looks like. First things first, one grabs a coffee and setup a BG to play. Then, let's say that we are starting on a new project. 
 
-This flow is a how a typical day in the life of a tmux-using developer looks like. First things first, one grabs a coffee, a magic drink with great invigorating powers, to the master of the arcane wizardry arts of coding. Then let's say that I'm starting a new project. 
-
-- **Step 1:** You can start using just by invoking ```$ tmux```. However, I would suggest - always begin by creating a new tmux session with a name. The name can be the project that you are working with, so it will be easy to switch between multiple projects, and each project will have its terminal state for them. This way, it boosts productivity significantly during context switch.
-  - _To **s**tart new session with a name_ ```$ tmux new -s $new-feature/project-name```
+- **Step 1:** You can start using just by invoking ```$ tmux```. However, I would suggest - always begin by creating a new tmux session with a name. The name could be the project or a theme that you are working with, so it will be easy to switch between them, and each will have its terminal state. This way, it boosts productivity significantly during context switch.
+  - _To **s**tart new session with a name_ ```$ tmux new -s $new-feature/project-name/theme-name```
   - _To **s**witch between sessions_ ```⌨️ bind-key, then, press s```
   - _To **l**ist all active sessions_ ```$ tmux ls```
   - _To rename a session_ ```⌨️ bind-key, then, press $```

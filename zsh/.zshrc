@@ -140,7 +140,10 @@ alias what="whence -w" # -f option will give the function value
 
 ### Coloring
 
-# prompt string left & right
+# to enable a 256-color terminal. This conditional statement ensures that the TERM variable is only set outside of tmux, since tmux sets its own terminal.
+[ -z "$TMUX" ] && export TERM=xterm-256color
+
+# prompt string left & righ
 
 PROMPT='%F{154}%n%f@%F{011}%m%F{010}%#%f '
 

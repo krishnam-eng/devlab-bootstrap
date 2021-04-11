@@ -55,18 +55,16 @@ echo "$((1+$RANDOM % 10)) - some random in 1..10"
 
 [ -f ~/.zshrc ]
 
-[ "cat" -eq "dog" ] 
+[ "cat" != "dog" ] 
 
-# eq, ne, lt, gt,...
+# for integers, eq, ne, lt, gt,...
 
 # != , ==
 
+# Binary operator expect [[ ]] - Extended Test
+
 # even regex !
-[ "cat" =~ c.* ]
-
-
-# multi condition
-
+[[ "cat" =~ c.* ]]
 [[ -d ~ && -f ~/.zshrc ]]
 
 

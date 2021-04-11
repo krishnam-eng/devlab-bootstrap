@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 mk_bkp_dir_for_file()
 {
 	abs_src_filepath=$1

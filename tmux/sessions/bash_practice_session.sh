@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
 
-session="unr-bash"
-repo_path="~/github/ohmy-linux"
+
+session="unr-bash_$(date +%Y%m)" # refersh session monthly once at max todo: send arg for name prefix
+echo "Session Name: ${session}"
+
+repo_path="~/github/ohmy-linux"  # todo: send arg for repo
+echo "Repo Path: ${repo_path}"
 
 #if (($1='n'))
 #then
-tmux kill-server 2>/dev/null;
+# tmux kill-server 2>/dev/null;
 #fi
-
-tmux start-server;
-tmux source-file ${repo_path}/tmux/.tmux.conf;
 
 tmux has-session -t $session 2>/dev/null
 if [ $? != 0 ]
 then
-
     ### Create the session with first window
-
 	tmux new-session -s $session -n dev -d
+
 	# edit pane
-	tmux send-keys -t $session:1.1 "cd $repo_path/bash" C-m
+	tmux send-keys -t $session:1.1 "cd $repo_path/bash/upnrung" C-m
 	tmux send-keys -t $session:1.1 "clear" C-m
 	tmux send-keys -t $session:1.1 "nano $repo_path/bash"
 

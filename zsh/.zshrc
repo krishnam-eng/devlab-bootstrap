@@ -59,10 +59,10 @@ alias hist="history"
 hash -d ml=/home/krishnam/mylib
 
 # Building Dir Stack
-pushd ~/mylib &>/dev/null
-pushd /etc &>/dev/null
-pushd /var &>/dev/null
-alias sd="pushd" # switch dir using dir stack
+# pushd ~/mylib &>/dev/null
+# pushd /etc &>/dev/null
+# pushd /var &>/dev/null
+# alias sd="pushd" # switch dir using dir stack
 ### CLOSE: Dir Nav
 
 

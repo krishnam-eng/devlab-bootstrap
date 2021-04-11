@@ -1,6 +1,4 @@
 #!/bin/sh
-
-
 mk_bkp_dir_for_file()
 {
 	abs_src_filepath=$1

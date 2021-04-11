@@ -83,8 +83,14 @@ alias lt3="tree -a -L 3"
 alias lt4="tree -a -L 4"
 alias lt5="tree -a -L 5"
 
-
 ### CLOSE: List & View alias
+
+
+### Load alias files
+#
+#
+source ~/.myalias/tmux.alias
+###
 
 ### Functions
 # Listing the prompt colors

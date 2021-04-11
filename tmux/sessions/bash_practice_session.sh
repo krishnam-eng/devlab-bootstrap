@@ -5,11 +5,11 @@ repo_path="~/github/ohmy-linux"
 
 #if (($1='n'))
 #then
-tmux kill-server 2>/dev/null
+tmux kill-server 2>/dev/null;
 #fi
 
 tmux start-server;
-#tmux source-file ${repo_path}/tmux/.tmux.conf
+tmux source-file ${repo_path}/tmux/.tmux.conf;
 
 tmux has-session -t $session 2>/dev/null
 if [ $? != 0 ]

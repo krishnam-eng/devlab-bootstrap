@@ -78,7 +78,12 @@ echo "$((1+$RANDOM % 10)) - some random in 1..10"
 #033 is octal code for ESC 
 #0x1b is hex code for ESC
 
-echo -e '\x1b[30;41;5m blink'
+# printf "%-1s: %05d"  string 123  
 
+printf "\033[32;45;05m %1s: %.5d " string 12
+printf "\033[32;45;05m %1s: %.5d " string 12
+printf "\033[32;45;05m %1s: %.5d " string 12
+printf "\033[32;45;05m %1s: %.5d " string 12
 
+#################
  

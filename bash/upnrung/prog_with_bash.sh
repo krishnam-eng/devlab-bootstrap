@@ -69,3 +69,16 @@ echo "$((1+$RANDOM % 10)) - some random in 1..10"
 
 
 
+############### Formatting & Styling 
+
+
+#format ESC[fg,bg;style m
+
+#27 is decimal ASCII for ESC
+#033 is octal code for ESC 
+#0x1b is hex code for ESC
+
+echo -e '\x1b[30;41;5m blink'
+
+
+ 

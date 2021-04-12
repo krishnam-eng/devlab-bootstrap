@@ -16,7 +16,7 @@ echo "${log_prefix} Repo Path: ${repo_path}"
 tmux has-session -t $session 2>/dev/null
 if [ $? != 0 ]
 then
-    ### Create the session with first window
+    ### New session with first window
 	tmux new-session -s $session -n dev -d
 
 	# edit pane
@@ -25,7 +25,7 @@ then
 	tmux send-keys -t $session:1.1 "nano $repo_path/bash"
 
 	# execute pane
-	tmux split-window -v -p 35 -t $session:1 #todo: -c option 
+	tmux split-window -v -p 35 -t $session:1 #todo: -c option
 	tmux send-keys -t $session:1.2 "cd $repo_path" C-m
 	tmux send-keys -t $session:1.2 "git status" C-m
 
@@ -34,30 +34,27 @@ then
 	tmux send-keys -t $session:1.3 "cd $repo_path/bash" C-m
 	tmux send-keys -t $session:1.3 "ls -r *.sh" C-m
 
-    tmux select-pane -t $session:1.1
-
-	### Create other windows
-	# Window "Shell Configuration" - to update shell / create alias as we learn
-	tmux new-window -n s_conf -t $session
-	tmux send-keys -t $session:2.1 "nano $repo_path/zsh/.zshrc"	C-m
-
-	tmux split-window -h -t $session:2
-	tmux send-keys -t $session:2.2 "nano $repo_path/alias/.alias" C-m
-
-	tmux split-window -v -p 50 -t $session:2
-
-	tmux select-pane -t $session:2.1
-
  	# Window "Tmux Config" - update as needed
-   	tmux new-window -n t_conf -t $session
-	tmux send-keys -t $session:3.1 "nano $repo_path/tmux/sessions/bash_practice_session.sh" C-m
+   	tmux new-window -n tconf -t $session
+	tmux send-keys -t $session:2.1 "nano $repo_path/tmux/sessions/bash_practice_session.sh" C-m
+	tmux split-window -h -t $session:2
+	tmux send-keys -t $session:2.2 "nano $repo_path/tmux/.tmux.conf" C-m
+
+	tmux select-pane -t $session:3.1
+
+	 ### New Window "Shell Configuration" - to update shell / create alias as we learn
+	tmux new-window -n sconf -t $session
+	tmux send-keys -t $session:3.1 "nano $repo_path/zsh/.zshrc"	C-m
+
 	tmux split-window -h -t $session:3
-	tmux send-keys -t $session:3.2 "nano $repo_path/tmux/.tmux.conf" C-m
+	tmux send-keys -t $session:3.2 "nano $repo_path/alias/.alias" C-m
+
+	tmux split-window -v -p 50 -t $session:3
 
 	tmux select-pane -t $session:3.1
 
     # Window "Build Functions" - To have help manual handy
-    tmux new-window -n b_fun -t $session
+    tmux new-window -n fun -t $session
     tmux send-keys -t $session:4.1 "nano $repo_path/bash/functions.sh" C-m
 
     tmux split-window -v -p 40 -t $session:4
@@ -66,9 +63,10 @@ then
     tmux select-pane -t $session:4.1
 
     # Window "File Browser" - File Navigation
-    tmux new-window -n browser -t  $session
+    tmux new-window -n file -t  $session
     tmux send-keys -t $session:5.1 "ranger 2>/dev/null" C-m
 
+	# Window "console"
     tmux select-window -t $session:1
     tmux select-pane -t $session:1.1
 fi

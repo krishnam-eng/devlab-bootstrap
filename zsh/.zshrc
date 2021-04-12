@@ -1,3 +1,10 @@
+
+#todo: change the working dir to the file path dir 
+# make everything else relative path
+
+source ~/github/ohmy-linux/zsh/named_dir.sh
+source ~/github/ohmy-linux/alias/tmux.alias
+
 ### START: Automation
 # Auto completion
 autoload -Uz compinit
@@ -52,11 +59,6 @@ alias hist="history"
 # !$number -> n'th cmd in hist
 # $_ -> Last Arg in the prev.cmd
 ### CLOSE: Command History
-
-
-### START: Dir Nav
-# Creating Named Dir by adding ~shortcutname entry in fil/dir names hash table
-hash -d ml=/home/krishnam/mylib
 
 # Building Dir Stack
 # pushd ~/mylib &>/dev/null

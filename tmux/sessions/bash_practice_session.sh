@@ -66,7 +66,7 @@ then
     tmux select-pane -t $session:4.1
 
     # Window "File Browser" - File Navigation
-    tmux new-window -n browser -t $session
+    tmux new-window -n browser -t  $session
     tmux send-keys -t $session:5.1 "ranger 2>/dev/null" C-m
 
     tmux select-window -t $session:1
@@ -77,3 +77,4 @@ fi
 tmux attach-session -t $session
 
 echo "${log_prefix}Session ${session} is created"
+

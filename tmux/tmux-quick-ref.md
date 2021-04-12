@@ -1,3 +1,15 @@
+# Base
+```
+<ctrl>a     <prefix>
+<prefix>:   Entre command mode
+
+ tmux list-commands
+```
+```
+tmux allows sending keys, including Ctrl via C- or ^, alt (Meta) via M-, and special key names. Here’s a list of special keys straight from the manual:
+Up, Down, Left, Right, BSpace, BTab, DC (Delete), End, Enter, Escape, F1 to F12, Home, IC (Insert), NPage/PageDown/PgDn, PPage/PageUp/PgUp, Space, and Tab.
+```
+
 # Session
 ```
  <prefix> s     Choose from a list of sessions
@@ -21,6 +33,8 @@
 
  <prefix> p      Cycle to previous window
  <prefix> n      Cycle to next window
+ <prefix> M-p    Previous window with activity
+ <prefix> M-n    Next window with activity
  <prefix> l      Back to the last window
 
  <prefix> ,      Rename current window
@@ -34,9 +48,10 @@
 ```
 ### Pane
 ```
- <prefix> _     split pane by horizontal line
- <prefix> |     split pane by vertical line
+ <prefix> _      Split the window into two vertical panes
+ <prefix> |      Split the window into two horizontal panes (horizontal )
 
+ <prefix> q      Show the pane number in each pane briefly.
  <prefix> 0-9    Switch to window 0-9 - good enough for quick switch
  <prefix> w      Choose a window from a menu
 
@@ -106,8 +121,8 @@
 
 ```
  h j k l          Move one space left, up, down, right, respectively
- <ctrl>b          Scroll up one “page”
- <ctrl>f          Scroll down one “page”
+ C-b              Scroll up one “page”
+ C-f              Scroll down one “page”
  g                Jump to the top of the buffer
  G                Jump to the end of the buffer
  w                Jump to the beginning of the next word
@@ -131,6 +146,7 @@ Meaning of Symbol next to window name
 !   A bell has occurred in the window.
 +   Window is monitored for content and it has appeared.
 ~   The window has been silent for the monitor-silence interval.
+M   The window contains the marked pane
 Z   The window's active pane is zoomed.
 ```
 
@@ -161,8 +177,16 @@ Shortcut Long version What it does Sample Output
 #W window_name  Name of Window Editor
 ```
 ```
-ANSI color is represented by an integer from 0-7, and then you add eight for the bright color
+The colors available to tmux are:
+- ANSI: black, red, green, yellow, blue, magenta, cyan, white.
+- ANSI: bright colors, such as brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan.
+- colour0 through colour255 from the 256-color set.
+- default
+- hexadecimal RGB code like #000000, #FFFFFF, similar to HTML colors.
+```
 
+```
+ANSI color is represented by an integer from 0-7, and then you add eight for the bright color
 • Black (0) & Bright Black (8)
 • Red (1) & Bright Red (9)
 • Green (2) & Bright Green (10)

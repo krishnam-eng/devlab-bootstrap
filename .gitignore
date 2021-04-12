@@ -9,4 +9,8 @@
 .zhistfile
 .zcompdump
 
+# tmux
+plugins/
+screenshots/
+
 

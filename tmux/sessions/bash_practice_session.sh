@@ -24,13 +24,13 @@ then
 	tmux send-keys -t $session:1.1 "clear" C-m
 	tmux send-keys -t $session:1.1 "nano $repo_path/bash"
 
-	# execute pane
-	tmux split-window -v -p 35 -t $session:1 #todo: -c option
+	# execute pane and open with current dir of prev pane
+	tmux split-window -v -p 35 -t $session:1  -c "#{pane_current_path}"
 	tmux send-keys -t $session:1.2 "cd $repo_path" C-m
 	tmux send-keys -t $session:1.2 "git status" C-m
 
 	# commit pane
-	tmux split-window -h  -t $session
+	tmux split-window -h  -t $session -c "#{pane_current_path}"
 	tmux send-keys -t $session:1.3 "cd $repo_path/bash" C-m
 	tmux send-keys -t $session:1.3 "ls -r *.sh" C-m
 
@@ -74,5 +74,5 @@ fi
 # If -d is specified, any other clients attached to the session are detached. -c working-directory
 tmux attach-session -t $session
 
-echo "${log_prefix}Session ${session} is created"
+echo "${log_prefix} session ${session} is created"
 

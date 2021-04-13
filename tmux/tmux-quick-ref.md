@@ -1,13 +1,29 @@
-# Base
-```
-<ctrl>a     <prefix>
-<prefix>:   Entre command mode
+# tmux Modes
 
- tmux list-commands
+
 ```
+Default Mode: This is similar to vi's insert mode. You are in Default mode by default
+Copy Mode   : ( <Prefix> [) This allows us to access the "Window History" and copy/paste contents from that history. It is similar to vi's normal mode in that it allows you to move around without tinkering with the underlying programs.
+Command Mode: (<Prefix> :) This mode is used to enter arbitrary tmux commands. It is similar to the vi mode of the same name and can be accessed by.
+Clock Mode: (<Prefix> t) This mode shows the current time and is more of a novelty/utility than an actual mode, like the rest.
+```
+
 ```
 tmux allows sending keys, including Ctrl via C- or ^, alt (Meta) via M-, and special key names. Here’s a list of special keys straight from the manual:
 Up, Down, Left, Right, BSpace, BTab, DC (Delete), End, Enter, Escape, F1 to F12, Home, IC (Insert), NPage/PageDown/PgDn, PPage/PageUp/PgUp, Space, and Tab.
+```
+###### basic
+```
+<ctrl>a     <prefix>
+
+- List all active sessions: $ tmux list-sessions #ls
+- List all tmux commands:   $ tmux list-commands #lscm
+- List all key bindings:    $ tmux list-keys
+
+- Set a tmux option: $ tmux set-option
+- See your current options: $ tmux show-options –g
+
+- Reload the tmux configuration: $ tmux source-file ~/.tmux.conf
 ```
 
 # Session
@@ -23,6 +39,12 @@ Up, Down, Left, Right, BSpace, BTab, DC (Delete), End, Enter, Escape, F1 to F12,
  <prefix> d      Detach from your current session
 
  <prefix> X      Closing Session
+
+ - Launch tmux:                      $ tmux
+ - Rename a session:                 $ tmux rename-session
+ - Launch tmux with a named session: $ tmux new-session –s
+ - Start tmux and attach a session by name: $ tmux attach-session -t {session-name} #attach
+
 ```
 ## Window
 ```
@@ -43,7 +65,9 @@ Up, Down, Left, Right, BSpace, BTab, DC (Delete), End, Enter, Escape, F1 to F12,
 
  <prefix> x      Closing Window
 
- tmux move-window /movew -s -t
+ Move the window from one session to another: move-window or <Prefix>, .
+ Link a window between two sessions         : link-window –t {target session}
+ Unlink the window from the current session : unlink-window
 
 ```
 ### Pane
@@ -62,11 +86,10 @@ Up, Down, Left, Right, BSpace, BTab, DC (Delete), End, Enter, Escape, F1 to F12,
  <prefix> ,      Rename current window
 
  <prefix> !      Breaking Window Panes If you have too many panes in a single window.
-
  <prefix> x      Closing Window
 
- tmux move-window /movew -s -t
-
+ Break a pane into its own window: break-pane –s {session}: {window}.{pane}
+ Join the current pane to a target window: join-pane -t {session}:{window}   
 ```
 
 ### Default Layouts
@@ -106,20 +129,29 @@ Up, Down, Left, Right, BSpace, BTab, DC (Delete), End, Enter, Escape, F1 to F12,
 ```
  <prefix> [     Enter Copy Mode
  <prefix> ]     Paste current buffer
- <prefix> =     List all buffers and choose one from which to paste
+ <prefix> =     (show-buffer) List all buffers and choose one from which to paste
  <prefix> C-b   Choose a buffer and paste the contents   
 
  <space>        (in copy mode) Start selection
  <enter>        (in copy mode) Exit copy mode, copy selection to buffer
 
- <prefix> M-s   Save a copy of the current pane to ~/.tmux/screenshots/*$date.screenshots
+ <prefix> M-s   (capture_pane) # Save a copy of the current pane to ~/.tmux/screenshots/*$date.screenshots
 
- show-buffer
+
+ Save the paste buffer to a path:                          save-buffer –b {buffer index} {file path}
+ Load the paste buffer from a file:                        load-buffer {file-path}
+ Set a paste buffer directly:                              set-buffer "{text to set in buffer}"
+ Capture contents of the current pane to the paste buffer: capture-pane
+ View the contents of  most recently copied paste buffer:  show-buffer (-b)
+ Delete items from the paste buffer by index:              delete-buffer –b
 ```
 
 #### Vim Style Navigation for tmux
 
 ```
+
+ $ tmux list-keys -t vi-copy => to view more
+
  h j k l          Move one space left, up, down, right, respectively
  C-b              Scroll up one “page”
  C-f              Scroll down one “page”
@@ -137,7 +169,9 @@ Up, Down, Left, Right, BSpace, BTab, DC (Delete), End, Enter, Escape, F1 to F12,
 ```
 
 ### Status Bar
-
+```
+Show all previously displayed messages: <Prefix>, ~
+```
 ```
 Meaning of Symbol next to window name
 *   Denotes the current window.
@@ -163,16 +197,16 @@ There are four types of commands we can put in the format string:
 Directive     What it does
 #(command)    Insert the first line of the results from that command
 #[attributes] Change the attributes for the rest of the string.
-##            Print the # Character.
 #{Format}     Expand the Format variable.
-```
-```
-Shortcut Long version What it does Sample Output
+##            Print the # Character.
+
 #H host         Hostname of computer dev.natedickson.com
 #h host_short   Hostname without domain name dev
 #D pane_id      Unique Pane ID 15 (if it’s pane 3 of window 5?)
 #P pane_index   Index of current pane 3
 #T pane_title   Title of current pane vim
+#F              Current window flag
+#I              Current window index
 #S session_name Name of the session Coding
 #W window_name  Name of Window Editor
 ```

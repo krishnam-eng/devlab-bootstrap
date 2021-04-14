@@ -1,6 +1,6 @@
 ***DRAFT***
 
-# Dev Productivity: Command Line Happiness with Terminal Multiplexing
+# Dev Productivity Booster: Command Line Happiness with Terminal Multiplexing (tmux)
 
 (Who Should Read It:  
   - Anyone who uses the command line daily and not yet explored tmux in-depth

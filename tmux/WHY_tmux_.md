@@ -14,13 +14,13 @@ You do not need this blog to use tmux. If you want a technical guidebook, look a
 If you are working on many projects or many contexts (DevOps, development, exploring,...) and each needs a set of terminals to control various activities, "creating more tabs & windows and using mouse to organizing them" isn't the best solution. This process is typically slow, and the context switching between different kinds of work is inefficient at best and headaches at worst.
 Of course, there are other ways of managing multi-tasking, like using simple _bg_ & _fg_ commands or using GNU _screen_. However, Tmux is considered to be the next evolutionary step forward. I am not overstating; the screen packages have been [replaced by tmux in RHEL8](https://access.redhat.com/solutions/4136481).
 
-_**T**_erminal _**mu**_ltiple_**x**_ing
+"T"erminal "mu"ltiple"x"ing
 
 I am writing this in github-managed md-file from vim running in a tmux pane, inside a window, in a session running on a tmux server, through a client running in my zsh terminal from my ubuntu virtual box that installed in win10.
 
 It is one of those things that at first sounds peculiar, involved and intensive; you can't quite grasp what the heck they do, how they can be valuable or why anybody even wants to use them. Nonetheless, it is actually one of those things that will turn out to be a fantastic swiss-army-knife when given a chance. Let's give a chance for the below reasons.
 
-**Why tmux?**
+**Why Tmux?**
 
 tmux help solves some the shortcomings of standard terminal emulators. The followings are some of the key reasons why I became a tmux fan:
 

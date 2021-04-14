@@ -45,14 +45,19 @@ Ok, Lets' break down tmux by its objects, from servers down to panes.
 
 ![session.window.pane](https://user-images.githubusercontent.com/82016952/114665020-20cdc980-9d1a-11eb-8feb-6cfc5c883ec3.png)
 
+<iframe src="https://open.spotify.com/embed/track/7kCQHbrTpu7lzm22uGMKMG" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+
 Session, Window, Pane: These are good for logically organizing multiple activities. You can resize /reorg your layout in any way you want in mouse-free style.
 
-I think we got the basics covered. Now, Let's see the general usage of the tool in the context of typical dev workflow.
+I think we got the basic concepts covered. Now, Let's see the general usage of the tool in the context of typical dev workflow.
 
 ### Typical Workflow
-This flow is how a typical day of tmux-using developers follow. First things first, one grabs a coffee and bossily commands GoogleHome to play BG Music on Spotify. Then, let's say that we are starting the work on project A.
+This flow is how a typical day of tmux-using developers follow. First things first, one grabs a coffee and bossily command GoogleHome to play [Mozart](https://open.spotify.com/playlist/37i9dQZF1DX8qqIDAkKiQg) on Spotify. Then, let's say that we are starting the work on project A.
 
-- **Step 1:** You can start just by invoking ```$ tmux```. However, I would suggest that you always begin by creating a session with a name; it is better than a default session name. The name could be the project or a theme you are working on, so it will be easy to recognise and switch between them.
+- **Step 1:** You can start just by invoking ```$ tmux```. However, I suggest that you always begin by creating a session with a name; it is better than a default session name. The name could be the project or a theme you are working on, so it will be easy to recognize and switch between them.
+
+<details>
+<summary> Click here to see commands and keys...</summary>
 ```
  $ tmux                 # Launch tmux with defalut session    
  $ tmux new-session –s  # Launch tmux with a named session
@@ -60,8 +65,11 @@ This flow is how a typical day of tmux-using developers follow. First things fir
 
  *this is a custom key-binding
 ```
-- **Step 2:** Now, You can create as many panes as needed, (typically, the most user go with three panes in a window; one editor in the main terminal and two other terminals for running ad-hoc processes, like interacting with git, running tests, a web server, etc.…)
-Click here to see pane management commands and keys...
+</details>
+- **Step 2:** Now, You can create as many panes as needed (typically, the most user go with three panes in a window; one editor in the main terminal and two other terminals for running processes like interacting with git, running tests, a web server, etc.…)
+
+<details>
+<summary> Click here to see useful pane management commands and keys...</summary>
 ```
 #### Pane Management
 *<prefix> _            Split the window into two vertical panes
@@ -99,8 +107,11 @@ Click here to see pane management commands and keys...
 
 *this is a custom key-binding
 ```
-- **Step 3:** Then, You start working, click clack clickity clack, and while your at it, you can create additional windows as you see fit.
-Click here to see window management commands and keys...
+</details>
+- **Step 3:** Then, You start working, click-clack clickity-clack; while you at it, if a single window can't hold all related terminal works, you can create additional windows as you see fit.
+
+<details>
+<summary>Click here to see useful window management commands and keys...</summary>
 ```
 Frequent Use:
  <prefix> c      Create a new window
@@ -125,8 +136,11 @@ Sporadic Use:
  $ unlink-window                            # Unlink the window from the current session
  $ join-pane -t {session}:{window}          # Join the current pane to a target window
 ```
-- **Step 4:** Then, you just realized that you need to finish off something for project B, you can create new session for project B and switch out from the first session. You can come back to project A workspace later, tomorrow, or next year as long as you tmux server is running (using resurrect plugin, you even resume after server death).
-Click here to see session management commands and keys...
+</details>
+- **Step 4:** Then, you just realized that you need to finish off something for project B; now, you can create a new session for project B and switch out from the first session. You can come back to project A workspace later (maybe tomorrow or next year as long as your tmux server runs).
+
+<details>
+ <summary> Click here to see useful session management commands and keys...</summary>
 ```
 <prefix> s      Choose from a list of sessions
 <prefix> (      Switch to previous session
@@ -134,30 +148,28 @@ Click here to see session management commands and keys...
 <prefix> L      Switch the attached client back to the last session.
 <prefix> $      Rename the session
 ```
-- **Step 5:** When you are done for the day, you may leave the working session open, or you can detach from the session. The session will remain active in the tmux server with the same state, ready for whenever you want to resume the work.
-Click here to see command...
+</details>
+- **Step 5:** When it is (closing time)[https://open.spotify.com/track/1A5V1sxyCLpKJezp75tUXn?si=d65162ee991f4369],  you may leave the working session open or detach the session. The session will remain active in the server with the same state, ready for whenever you want to resume the work. When you detach a session, it becomes a headless entity running in the background; and, you can even close the terminal that launched it.
+
+<details>
+ <summary> Click here to see the command...</summary>
 ```
  <prefix> d      Detach from your current session
 ```
-- **Step 6:** Next day, You attach to the target session that contains your work in progress. So you could jump right back in and start making your keyboard sing again.
-Click here to see command...
+</details>
+- **Step 6:** The next day, when you reconnect, you can start a new terminal and reattach the still-running background session that contains your work in progress. Tada! You just jumped right back in. Now, you can start making your keyboard sing again.
+
+<details>
+ <summary> Click here to see the command...</summary>
 ```
 $ tmux attach-session -t {session-name} # Start tmux and attach a session by name
 ```
+</details>
 
 ### Beyond Basics: Personalizing Environments & Scripting tmux
 
-With the basics under our belt, let's put together a custom configuration. It wraps up with a whirlwind of useful tricks you can use with tmux to improve day to day development.
+With the basics under our belt, let's explore a custom configuration and automation of developer workspace in part 2 of this blog. It will wrap up with a whirlwind of valuable tricks you can use with tmux to improve day to day development.
 
-**Takeaways**
+tmux is a versatile addition to your terminal toolbelt. You don't need to grasp everything in a single sitting; efficiently managing workspace with tmux is a skill acquired over a period. Soon you will find yourself becoming more comfortable with this powerful screen-management tool.
 
-- tmux is a versatile addition to your terminal toolbelt
-
-Looked at how the typical workflow along with some important shortcuts
-
-You can detach a session, and it becomes a headless entity running in the background; and, you can even close the terminal that launched it. When you reconnect, you can start a new terminal and reattach the still-running background session. Ta da !
-
-A word to absolute beginners: Don’t feel you need to grasp the concepts of the
-command line and terminal multiplexing in a single sitting
-
-Being able to efficiently manage your tmux windows and panes is a skill that usually is acquired over a long period of time, as you find yourself becoming more comfortable with this powerful screen-management tool.
+To be continued...

@@ -42,7 +42,7 @@ Ok, Lets' break down tmux by its objects, from servers down to panes.
 - Windows are what you see when tmux is open in front of you.
 - Panes are a terminal in a terminal
 - 
-![image](https://user-images.githubusercontent.com/82016952/114662924-237aef80-9d17-11eb-86d5-511965ba61a2.png)
+![session.window.pane](https://user-images.githubusercontent.com/82016952/114665020-20cdc980-9d1a-11eb-8feb-6cfc5c883ec3.png)
 
 ### Typical Workflow
 Let's see the common bread-and-butter uses in the context of our typical workflow.

@@ -23,6 +23,11 @@ Clock Mode: (<Prefix> t) This mode shows the current time and is more of a novel
 
 # Session
 ```
+ $ tmux                 # Launch tmux with defalut session    
+ $ tmux rename-session  # Rename a session
+ $ tmux new-session –s  # Launch tmux with a named session:
+ $ tmux attach-session -t {session-name} # Start tmux and attach a session by name
+ 
  <prefix> s     Choose from a list of sessions
 
  <prefix> (      Switch to previous session
@@ -34,12 +39,6 @@ Clock Mode: (<Prefix> t) This mode shows the current time and is more of a novel
  <prefix> d      Detach from your current session
 
  <prefix> X      Closing Session
-
- - Launch tmux:                      $ tmux
- - Rename a session:                 $ tmux rename-session
- - Launch tmux with a named session: $ tmux new-session –s
- - Start tmux and attach a session by name: $ tmux attach-session -t {session-name} #attach
-
 ```
 ## Window
 ```

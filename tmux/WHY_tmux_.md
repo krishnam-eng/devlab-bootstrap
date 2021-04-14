@@ -1,15 +1,15 @@
 ***DRAFT***
 
 # Dev Productivity: Command Line Happiness with Terminal Multiplexing
-```
-Who Should Read It:  
+
+_Who Should Read It:_
   - Anyone who uses the command line daily and not yet explored tmux in-depth
   - Others, check out the 'why should you care' section to see if it can be a valuable addition to your toolbox
-```
-You do not need this blog to use tmux. If you want a technical guidebook, look at the manpage for tmux. however, Manpages are seldom adequate to wrap your brain around concepts (why & when); they're there for reference (how) sorted alphabetically instead logically. This blog is the outcome of learning and experimenting with tmux in-depth, along with standard-essentials & my personal recipes for beginners. We will see some of the practical uses of tmux and how to quickly start using it in your day-to-day workflow.
+
+You do not really need this blog to use tmux; If you want a technical guidebook, you could look at the manpage for tmux. However, Manpages are seldom adequate to wrap your brain around concepts (why & when); they're there for reference (how-to) sorted alphabetically instead of logically. Here, We will see 'why tmux', some of its practical uses, and how to quickly start using it in your day-to-day workflow.
 
 ## Why Should You Care
-Suppose you are working on many projects or many contexts (DevOps, development, exploring, etc.). In that case, each needs a set of terminals to control various activities, "creating more tabs & windows and using a mouse to organize them" isn't the best solution. This process is typically slow, and the context-switching between different kinds of work is very unproductive (especially if you end up redoing the same setup afresh).
+Suppose you are working on many projects or many contexts (devOps, development, exploring, etc.). In that case, each needs a set of terminals to control various activities, "creating more tabs & windows and using a mouse to organize them" isn't the best solution. This process is typically slow, and the context-switching between different kinds of work is very unproductive (especially if you end up redoing the same setup afresh).
 
 Of course, there are other ways of managing multi-tasking, like using simple _bg_ & _fg_ commands or using GNU _screen_. However, Tmux is considered to be the next evolutionary step forward. I am not overstating; the screen packages have been [replaced by tmux in RHEL8](https://access.redhat.com/solutions/4136481).
 
@@ -59,7 +59,7 @@ This flow is how tmux-using developers' day looks like. First things first, one 
 ```
  $ tmux                 # Launch tmux with defalut session    
  $ tmux new-session –s  # Launch tmux with a named session
-*<prefix> X            Closing Session
+*[prefix] X            Closing Session
 
 * this is a custom key-binding
 ```
@@ -73,38 +73,38 @@ This flow is how tmux-using developers' day looks like. First things first, one 
 
 ```
 #### Pane Management
-*<prefix> _            Split the window into two vertical panes
-*<prefix> |            Split the window into two horizontal panes (horizontal )
+*[prefix] _            Split the window into two vertical panes
+*[prefix] |            Split the window into two horizontal panes (horizontal )
 
- <prefix> q            Show the pane number in each pane briefly.
- <prefix> arrow-keys   Switch focus to different pane
+ [prefix] q            Show the pane number in each pane briefly.
+ [prefix] arrow-keys   Switch focus to different pane
  C-d                   Close the pane just like how you will close a terminal
 
 #### Layout Management
-<prefix> <space> Rotate through the default layouts
-<prefix> <alt>1  Switch to Even Horizontal Layout
-<prefix> <alt>2  Switch to Even Vertical Layout
-<prefix> <alt>3  Switch to Main Vertical Layout
-<prefix> <alt>4  Switch to Main Horizontal Layout
-<prefix> <alt>5  Switch to Tiled Layout
+[prefix] <space> Rotate through the default layouts
+[prefix] <alt>1  Switch to Even Horizontal Layout
+[prefix] <alt>2  Switch to Even Vertical Layout
+[prefix] <alt>3  Switch to Main Vertical Layout
+[prefix] <alt>4  Switch to Main Horizontal Layout
+[prefix] <alt>5  Switch to Tiled Layout
 
 ### Resizing Panes
-<prefix> z             zoom current pane to full window size
+[prefix] z             zoom current pane to full window size
 
-<prefix> <ctrl>up      increase the height of this pane by one row
-<prefix> <ctrl>down    decrease the height of this pane by one row
-<prefix> <ctrl>left    increase the width of this pane by one column
-<prefix> <ctrl>right   decrease the width of this pane by one column
+[prefix] <ctrl>up      increase the height of this pane by one row
+[prefix] <ctrl>down    decrease the height of this pane by one row
+[prefix] <ctrl>left    increase the width of this pane by one column
+[prefix] <ctrl>right   decrease the width of this pane by one column
 
-*<prefix> H             increase the height of this pane by two row (shift+)
-*<prefix> J             decrease the height of this pane by one row
-*<prefix> K             increase the width of this pane by one column
-*<prefix> L             decrease the width of this pane by one column
+*[prefix] H             increase the height of this pane by two row (shift+)
+*[prefix] J             decrease the height of this pane by one row
+*[prefix] K             increase the width of this pane by one column
+*[prefix] L             decrease the width of this pane by one column
 
-<prefix> <alt>up       increase the height of this pane by five rows
-<prefix> <alt>down     decrease the height of this pane by five rows
-<prefix> <alt>left     increase the width of this pane by five columns
-<prefix> <alt>right    decrease the width of this pane by five columns
+[prefix] <alt>up       increase the height of this pane by five rows
+[prefix] <alt>down     decrease the height of this pane by five rows
+[prefix] <alt>left     increase the width of this pane by five columns
+[prefix] <alt>right    decrease the width of this pane by five columns
 
 *this is a custom key-binding
 ```
@@ -118,22 +118,22 @@ This flow is how tmux-using developers' day looks like. First things first, one 
 
 ```
 Frequent Use:
- <prefix> c      _C_reate a new window
- <prefix> ,      Rename current window
+ [prefix] c      _C_reate a new window
+ [prefix] ,      Rename current window
 
- <prefix> w      Choose a _w_indow from a menu
- <prefix> 0-9    Switch to window 0-9
- <prefix> p      Cycle to _p_revious window
- <prefix> n      Cycle to _n_ext window
- <prefix> l      Back to the _l_ast window
+ [prefix] w      Choose a _w_indow from a menu
+ [prefix] 0-9    Switch to window 0-9
+ [prefix] p      Cycle to _p_revious window
+ [prefix] n      Cycle to _n_ext window
+ [prefix] l      Back to the _l_ast window
 
- <prefix> x      Closing Window
+ [prefix] x      Closing Window
 
 Sporadic Use:
- <prefix> M-p    _p_revious window with activity
- <prefix> M-n    _n_ext window with activity
+ [prefix] M-p    _p_revious window with activity
+ [prefix] M-n    _n_ext window with activity
 
- <prefix> !      Breaking Window Panes If you have too many panes in a single window.
+ [prefix] !      Breaking Window Panes If you have too many panes in a single window.
 
  $ move-window  –t {target session}         # Move the window from one session to another
  $ link-window –t {target session}          # Link a window between two sessions         
@@ -149,11 +149,11 @@ Sporadic Use:
  <summary> Click here to see useful session management commands and keys...</summary>
 
 ```
-<prefix> s      Choose from a list of _s_essions
-<prefix> (      Switch to previous session
-<prefix> )      Switch to next session
-<prefix> L      Switch the attached client back to the _L_ast session.
-<prefix> $      Rename the session
+[prefix] s      Choose from a list of _s_essions
+[prefix] (      Switch to previous session
+[prefix] )      Switch to next session
+[prefix] L      Switch the attached client back to the _L_ast session.
+[prefix] $      Rename the session
 ```
 </details>
 
@@ -163,7 +163,7 @@ Sporadic Use:
  <summary> Click here to see the command...</summary>
 
 ```
- <prefix> d      _d_etach from your current session
+ [prefix] d      _d_etach from your current session
 ```
 </details>
 

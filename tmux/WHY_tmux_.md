@@ -58,18 +58,22 @@ This flow is how a typical day of tmux-using developers follow. First things fir
 
 <details>
 <summary> Click here to see commands and keys...</summary>
+
 ```
  $ tmux                 # Launch tmux with defalut session    
  $ tmux new-session –s  # Launch tmux with a named session
- *<prefix> X            Closing Session
+*<prefix> X            Closing Session
 
- *this is a custom key-binding
+* this is a custom key-binding
 ```
+
 </details>
+
 - **Step 2:** Now, You can create as many panes as needed (typically, the most user go with three panes in a window; one editor in the main terminal and two other terminals for running processes like interacting with git, running tests, a web server, etc.…)
 
 <details>
 <summary> Click here to see useful pane management commands and keys...</summary>
+
 ```
 #### Pane Management
 *<prefix> _            Split the window into two vertical panes
@@ -107,11 +111,13 @@ This flow is how a typical day of tmux-using developers follow. First things fir
 
 *this is a custom key-binding
 ```
+
 </details>
 - **Step 3:** Then, You start working, click-clack clickity-clack; while you at it, if a single window can't hold all related terminal works, you can create additional windows as you see fit.
 
 <details>
 <summary>Click here to see useful window management commands and keys...</summary>
+
 ```
 Frequent Use:
  <prefix> c      Create a new window
@@ -136,11 +142,14 @@ Sporadic Use:
  $ unlink-window                            # Unlink the window from the current session
  $ join-pane -t {session}:{window}          # Join the current pane to a target window
 ```
+
 </details>
+
 - **Step 4:** Then, you just realized that you need to finish off something for project B; now, you can create a new session for project B and switch out from the first session. You can come back to project A workspace later (maybe tomorrow or next year as long as your tmux server runs).
 
 <details>
  <summary> Click here to see useful session management commands and keys...</summary>
+
 ```
 <prefix> s      Choose from a list of sessions
 <prefix> (      Switch to previous session
@@ -153,6 +162,7 @@ Sporadic Use:
 
 <details>
  <summary> Click here to see the command...</summary>
+
 ```
  <prefix> d      Detach from your current session
 ```
@@ -161,6 +171,7 @@ Sporadic Use:
 
 <details>
  <summary> Click here to see the command...</summary>
+
 ```
 $ tmux attach-session -t {session-name} # Start tmux and attach a session by name
 ```

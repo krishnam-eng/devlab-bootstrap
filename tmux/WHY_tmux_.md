@@ -4,7 +4,6 @@
 ```
 Who Should Read It:  
   - Anyone who uses the command line daily and not yet explored tmux in-depth
-  - If you are already using tmux, check out 'beyond basics' section
   - Others, check out the 'why should you care' section to see if it can be a valuable addition to your toolbox
 ```
 You do not need this blog to use tmux. If you want a technical guidebook, look at the manpage for tmux. however, Manpages are seldom adequate to wrap your brain around concepts (why & when); they're there for reference (how) sorted alphabetically instead logically. This blog is the outcome of learning and experimenting with tmux in-depth, along with standard-essentials & my personal recipes for beginners. We will see some of the practical uses of tmux and how to quickly start using it in your day-to-day workflow.
@@ -50,7 +49,7 @@ Session, Window, Pane: These are good for logically organizing multiple activiti
 I think we got the basic concepts covered. Now, Let's see the general usage of the tool in the context of typical dev workflow.
 
 ### Typical Workflow
-This flow is how a typical day of tmux-using developers follow. First things first, one grabs a coffee and bossily command GoogleHome to play [Mozart](https://open.spotify.com/track/7kCQHbrTpu7lzm22uGMKMG?si=caab7dc2fd454728) on Spotify. Then, let's say that we are starting the work on project A.
+This flow is how tmux-using developers' day looks like. First things first, one grabs a coffee ☕ and bossily command GoogleHome to play [Mozart](https://open.spotify.com/track/7kCQHbrTpu7lzm22uGMKMG?si=caab7dc2fd454728) 🎵 on Spotify. Then, let's say that we are starting the work on project A.
 
 - **Step 1:** You can start just by invoking ```$ tmux```. However, I suggest that you always begin by creating a session with a name; it is better than a default session name. The name could be the project or a theme you are working on, so it will be easy to recognize and switch between them.
 

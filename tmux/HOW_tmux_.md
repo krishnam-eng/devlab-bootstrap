@@ -9,11 +9,6 @@ Clock Mode: (<Prefix> t) This mode shows the current time and is more of a novel
 ```
 
 ```
-tmux allows sending keys, including Ctrl via C- or ^, alt (Meta) via M-, and special key names. Here’s a list of special keys straight from the manual:
-Up, Down, Left, Right, BSpace, BTab, DC (Delete), End, Enter, Escape, F1 to F12, Home, IC (Insert), NPage/PageDown/PgDn, PPage/PageUp/PgUp, Space, and Tab.
-```
-###### basic
-```
 <ctrl>a     <prefix>
 
 - List all active sessions: $ tmux list-sessions #ls

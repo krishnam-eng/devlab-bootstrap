@@ -1,11 +1,12 @@
 # tmux Modes
 
-
 ```
 Default Mode: This is similar to vi's insert mode. You are in Default mode by default
 Copy Mode   : ( <Prefix> [) This allows us to access the "Window History" and copy/paste contents from that history. It is similar to vi's normal mode in that it allows you to move around without tinkering with the underlying programs.
 Command Mode: (<Prefix> :) This mode is used to enter arbitrary tmux commands. It is similar to the vi mode of the same name and can be accessed by.
 Clock Mode: (<Prefix> t) This mode shows the current time and is more of a novelty/utility than an actual mode, like the rest.
+
+Keyboard sequences, configuration, and command line actions all boil down to the same core commands inside tmux.
 ```
 
 ```
@@ -27,7 +28,7 @@ Clock Mode: (<Prefix> t) This mode shows the current time and is more of a novel
  $ tmux rename-session  # Rename a session
  $ tmux new-session –s  # Launch tmux with a named session:
  $ tmux attach-session -t {session-name} # Start tmux and attach a session by name
- 
+
  <prefix> s     Choose from a list of sessions
 
  <prefix> (      Switch to previous session
@@ -38,8 +39,11 @@ Clock Mode: (<Prefix> t) This mode shows the current time and is more of a novel
 
  <prefix> d      Detach from your current session
 
- <prefix> X      Closing Session
+ *<prefix> X      Closing Session
+
+ *this is a custom key-binding
 ```
+
 ## Window
 ```
  <prefix> c      Create a new window
@@ -62,7 +66,6 @@ Clock Mode: (<Prefix> t) This mode shows the current time and is more of a novel
  Move the window from one session to another: move-window or <Prefix>, .
  Link a window between two sessions         : link-window –t {target session}
  Unlink the window from the current session : unlink-window
-
 ```
 ### Pane
 ```

@@ -52,7 +52,7 @@ Session, Window, Pane: These are good for logically organizing multiple activiti
 I think we got the basic concepts covered. Now, Let's see the general usage of the tool in the context of typical dev workflow.
 
 ### Typical Workflow
-This flow is how a typical day of tmux-using developers follow. First things first, one grabs a coffee and bossily command GoogleHome to play [Mozart](https://open.spotify.com/playlist/37i9dQZF1DX8qqIDAkKiQg) on Spotify. Then, let's say that we are starting the work on project A.
+This flow is how a typical day of tmux-using developers follow. First things first, one grabs a coffee and bossily command GoogleHome to play [Mozart](https://open.spotify.com/track/7kCQHbrTpu7lzm22uGMKMG?si=caab7dc2fd454728) on Spotify. Then, let's say that we are starting the work on project A.
 
 - **Step 1:** You can start just by invoking ```$ tmux```. However, I suggest that you always begin by creating a session with a name; it is better than a default session name. The name could be the project or a theme you are working on, so it will be easy to recognize and switch between them.
 
@@ -113,6 +113,7 @@ This flow is how a typical day of tmux-using developers follow. First things fir
 ```
 
 </details>
+
 - **Step 3:** Then, You start working, click-clack clickity-clack; while you at it, if a single window can't hold all related terminal works, you can create additional windows as you see fit.
 
 <details>
@@ -120,20 +121,20 @@ This flow is how a typical day of tmux-using developers follow. First things fir
 
 ```
 Frequent Use:
- <prefix> c      Create a new window
+ <prefix> c      _C_reate a new window
  <prefix> ,      Rename current window
 
- <prefix> w      Choose a window from a menu
+ <prefix> w      Choose a _w_indow from a menu
  <prefix> 0-9    Switch to window 0-9
- <prefix> p      Cycle to previous window
- <prefix> n      Cycle to next window
- <prefix> l      Back to the last window
+ <prefix> p      Cycle to _p_revious window
+ <prefix> n      Cycle to _n_ext window
+ <prefix> l      Back to the _l_ast window
 
  <prefix> x      Closing Window
 
 Sporadic Use:
- <prefix> M-p    Previous window with activity
- <prefix> M-n    Next window with activity
+ <prefix> M-p    _p_revious window with activity
+ <prefix> M-n    _n_ext window with activity
 
  <prefix> !      Breaking Window Panes If you have too many panes in a single window.
 
@@ -151,29 +152,31 @@ Sporadic Use:
  <summary> Click here to see useful session management commands and keys...</summary>
 
 ```
-<prefix> s      Choose from a list of sessions
+<prefix> s      Choose from a list of _s_essions
 <prefix> (      Switch to previous session
 <prefix> )      Switch to next session
-<prefix> L      Switch the attached client back to the last session.
+<prefix> L      Switch the attached client back to the _L_ast session.
 <prefix> $      Rename the session
 ```
 </details>
-- **Step 5:** When it is (closing time)[https://open.spotify.com/track/1A5V1sxyCLpKJezp75tUXn?si=d65162ee991f4369],  you may leave the working session open or detach the session. The session will remain active in the server with the same state, ready for whenever you want to resume the work. When you detach a session, it becomes a headless entity running in the background; and, you can even close the terminal that launched it.
+
+- **Step 5:** When it is [closing time](https://open.spotify.com/track/1A5V1sxyCLpKJezp75tUXn?si=d65162ee991f4369), you could leave the **working session** open or detach the session. When you detach a session, it becomes a headless entity running in the background and remain active in the server, ready for whenever you want to resume the work. You can even close the terminal that launched it.
 
 <details>
  <summary> Click here to see the command...</summary>
 
 ```
- <prefix> d      Detach from your current session
+ <prefix> d      _d_etach from your current session
 ```
 </details>
+
 - **Step 6:** The next day, when you reconnect, you can start a new terminal and reattach the still-running background session that contains your work in progress. Tada! You just jumped right back in. Now, you can start making your keyboard sing again.
 
 <details>
  <summary> Click here to see the command...</summary>
 
 ```
-$ tmux attach-session -t {session-name} # Start tmux and attach a session by name
+$ tmux attach-session -t {session-name}   # Start tmux and attach a _t_arget session by name
 ```
 </details>
 

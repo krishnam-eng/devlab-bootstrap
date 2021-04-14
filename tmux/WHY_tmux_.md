@@ -45,8 +45,6 @@ Ok, Lets' break down tmux by its objects, from servers down to panes.
 
 ![session.window.pane](https://user-images.githubusercontent.com/82016952/114665020-20cdc980-9d1a-11eb-8feb-6cfc5c883ec3.png)
 
-<iframe src="https://open.spotify.com/embed/track/7kCQHbrTpu7lzm22uGMKMG" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-
 Session, Window, Pane: These are good for logically organizing multiple activities. You can resize /reorg your layout in any way you want in mouse-free style.
 
 I think we got the basic concepts covered. Now, Let's see the general usage of the tool in the context of typical dev workflow.

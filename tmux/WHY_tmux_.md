@@ -41,8 +41,8 @@ Ok, Lets' break down tmux by its objects, from servers down to panes.
 - Sessions are the containers holding windows. You can think of a tmux session as a workspace. Your session can have more discreet components, called windows and panes. The panes let you divide the screen horizontally and vertically within the same window. These are good for organizing multiple activities in a logical way. You can have multiple sessions. e.g, you could have one session for each application your developing, or a session for work and a session for your cool side exploration.
 - Windows are what you see when tmux is open in front of you.
 - Panes are a terminal in a terminal
-
-
+- 
+![image](https://user-images.githubusercontent.com/82016952/114662924-237aef80-9d17-11eb-86d5-511965ba61a2.png)
 
 ### Typical Workflow
 Let's see the common bread-and-butter uses in the context of our typical workflow.

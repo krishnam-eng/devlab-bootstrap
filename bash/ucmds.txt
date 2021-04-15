@@ -1,0 +1,10 @@
+#### github ssh access
+
+# 1. keygen with ed25519 algo
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# 2. add private to ssh agent 
+ssh-add ~/.ssh/id_ed25519
+
+# 3. add pub key to github->settings->ssh 
+

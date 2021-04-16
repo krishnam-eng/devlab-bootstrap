@@ -27,3 +27,5 @@ git remote set-url origin  git@github.com:krishnam-eng/ohmy-linux.git
 #### setup permissons right 
 
 chmod -R u+x ~/.mytmux/session_scripts/
+systemctl restart sshd.service
+sudo systemctl enable ssh

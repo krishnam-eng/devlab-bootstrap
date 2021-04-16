@@ -1,0 +1,17 @@
+##########
+# You may configure the default behavior of the OpenSSH server application, sshd, by editing the file /etc/ssh/sshd_config
+# 
+# just to keep the original untouch, having few custom config in different file 
+##########
+
+# To set your OpenSSH to listen on TCP port 9022 instead of the default TCP port 22 
+Port 9022
+
+# To make your OpenSSH server display the contents of the /etc/issue.net file as a pre-login banner
+Banner ~/github/ohmy-linux/ssh/issue.net
+
+
+# To make it more secure, do not allow password auth, allow onlt key based login 
+PasswordAuthentication no
+
+

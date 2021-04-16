@@ -12,7 +12,7 @@
 
 Include /etc/ssh/sshd_config.d/*.conf
 
-Port 9022
+#Port 22
 #AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::
@@ -55,10 +55,7 @@ Port 9022
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
-
-# krishnam: more safer this way
-# PasswordAuthentication no
-
+#PasswordAuthentication yes
 #PermitEmptyPasswords no
 
 # Change to yes to enable challenge-response passwords (beware issues with
@@ -110,7 +107,7 @@ PrintMotd no
 #VersionAddendum none
 
 # no default banner path
-Banner ~/.myssh/issue.net
+#Banner none
 
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*
@@ -124,4 +121,3 @@ Subsystem	sftp	/usr/lib/openssh/sftp-server
 #	AllowTcpForwarding no
 #	PermitTTY no
 #	ForceCommand cvs server
-

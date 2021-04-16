@@ -1,0 +1,7 @@
+#####################
+# frequently used launch commands
+#####################
+
+# launch dev tmux session - replace the value with recent work  
+alias ldev='sh /home/krishnam/.mytmux/session_scripts/mylinux_practice_session.sh'
+

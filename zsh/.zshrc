@@ -4,6 +4,7 @@
 
 source ~/github/ohmy-linux/zsh/named_dir.sh
 source ~/github/ohmy-linux/alias/tmux.alias
+source ~/github/ohmy-linux/alias/launch.alias
 
 ### START: Automation
 # Auto completion

@@ -55,11 +55,18 @@ git remote set-url origin  git@github.com:krishnam-eng/ohmy-linux.git
 ##### useful cmds
 
 # from local to add pub key to remote
-ssh-copy-id username@hostname -p '22'
+ssh-copy-id username@hostname -p 'portnumber in sshd'
 
 # or append pub keys to ~/.ssh/authorized_keys
 
-# connect to remote
-ssh -p '22' 'username@hostname'
+# connect to remote from terminal
+ssh -p 'portnumber' 'username@hostname'
+
+# connect to remote from windows Putty
+# 1. use brdige network adaptor
+# 2. use NAT for port forwarding
+Hostname : username@hostname Post: port as per sshd
+% ps -ef | grep sshd
+
 
 

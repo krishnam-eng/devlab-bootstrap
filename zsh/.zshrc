@@ -2,9 +2,11 @@
 #todo: change the working dir to the file path dir 
 # make everything else relative path
 
-source ~/github/ohmy-linux/zsh/named_dir.sh
+source ~/github/ohmy-linux/alias/git.alias
 source ~/github/ohmy-linux/alias/tmux.alias
 source ~/github/ohmy-linux/alias/launch.alias
+
+source ~/github/ohmy-linux/zsh/named_dir.sh
 
 ### START: Automation
 # Auto completion

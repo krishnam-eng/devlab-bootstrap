@@ -68,3 +68,70 @@ for i in ${fruits[@]}
 do
 	echo "Taking $i out from Fruit Basket "
 done 
+
+
+for i in $(ls)
+do
+	echo $i
+done
+
+echo "selecting behavior using case"
+
+animal="dog"
+
+case $animal in
+	cat) echo "rose";; # one for ; is for what we execute and one ; is for telling i am done with action 
+	dog|puppy) echo "K";;
+	*) echo "";;
+esac
+
+
+greet(){
+	echo "Hi there ! $1"  # $2...n arg numbers
+
+}
+
+# call function 
+greet
+greet "Bala"
+
+echo "======= FUN Variable========="
+
+greetall(){
+	for i in $@   #$* also gives params
+	do
+		echo "arg: $i for $FUNCNAME"  # $0 is reserved for function's name 
+	done 
+}
+
+greetall "B" "A" "C"
+
+greetall $(ls .)
+
+
+echo "=========== local var ========"
+
+var1="I'm global"
+
+myfun(){
+	var2="I'm inside fun" # it is also global . 
+	local var3="I'm var with local"
+}
+
+echo $var1
+echo $var2
+echo $var3
+
+
+echo "=======Writing and reading file========="
+# >, >|, >>, <
+
+for i in {1..10}
+do
+	$(mkdir -p out/)
+	echo "line number $i" >> out/stdout.log
+done
+
+while read f       #reads from input redirection
+	do echo "$f"
+done < out/stdout.log

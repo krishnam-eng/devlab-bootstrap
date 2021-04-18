@@ -6,15 +6,15 @@ alias src="source ~/.zshrc"
 
 
 #alias
-source ~lrepo/alias/enhance.alias
-source ~lrepo/alias/git.alias
-source ~lrepo/alias/tmux.alias
-source ~lrepo/alias/launch.alias
-source ~lrepo/alias/lang.alias
+source ~wsrepo/alias/enhance.alias
+source ~wsrepo/alias/git.alias
+source ~wsrepo/alias/tmux.alias
+source ~wsrepo/alias/launch.alias
+source ~wsrepo/alias/lang.alias
 
 # functions
-source ~lrepo/func/colorama.sh
-source ~lrepo/func/basic.sh
+source ~wsrepo/func/colorama.sh
+source ~wsrepo/func/basic.sh
 
 
 ### START: Automation

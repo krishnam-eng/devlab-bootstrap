@@ -2,8 +2,8 @@
 # frequently used launch commands
 #####################
 
-# launch visual studio 
-alias ide='/usr/bin/code'
+# launch visual studio in bg
+alias ide='/usr/bin/code &'
 
 
 # launch dev tmux session - replace the value with recent work  

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~lrepo/func/colorama.sh
+source ~wsrepo/func/colorama.sh
 
 # P: Showing Where You Are - show working directory 
 

@@ -1,33 +1,6 @@
 #!/usr/bin/env bash
 
-#########
-# pwd()
-# fcmd()
-# fcmdall()
-# finfo()
-#########
-
-# terminal color style format string
-cs_black="\033[30m"
-cs_red="\033[31m"
-cs_green="\033[32m"
-cs_yellow="\033[33m"
-cs_blue="\033[34m"
-cs_magenta="\033[35m"
-cs_cyan="\033[36m"
-cs_white="\033[37m"
-
-cs_bblack="\033[90m"
-cs_bred="\033[91m"
-cs_bgreen="\033[92m"
-cs_byellow="\033[93m"
-cs_bblue="\033[94m"
-cs_bmagenta="\033[95m"
-cs_bcyan="\033[96m"
-cs_bwhite="\033[97m"
-
-cs_reset="\033[0m"
-
+source ~lrepo/func/colorama.sh
 
 # P: Showing Where You Are - show working directory 
 

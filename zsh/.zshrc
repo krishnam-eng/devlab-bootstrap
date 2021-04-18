@@ -13,6 +13,7 @@ source ~lrepo/alias/launch.alias
 source ~lrepo/alias/lang.alias
 
 # functions
+source ~lrepo/func/colorama.sh
 source ~lrepo/func/basic.sh
 
 

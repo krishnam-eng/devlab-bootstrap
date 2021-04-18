@@ -1,16 +1,19 @@
+# frequently used dirs
+source ~/github/ohmy-linux/zsh/namedir.sh
 
-#todo: change the working dir to the file path dir 
-# make everything else relative path
+# Reload run commands/configuration
+alias src="source ~/.zshrc"
+
 
 #alias
-source ~/github/ohmy-linux/alias/git.alias
-source ~/github/ohmy-linux/alias/tmux.alias
-source ~/github/ohmy-linux/alias/launch.alias
+source ~lrepo/alias/git.alias
+source ~lrepo/alias/tmux.alias
+source ~lrepo/alias/launch.alias
+source ~lrepo/alias/proglang.alias
 
 # functions
-source ~/github/ohmy-linux/func/basic.sh
+source ~lrepo/func/basic.sh
 
-source ~/github/ohmy-linux/zsh/named_dir.sh
 
 ### START: Automation
 # Auto completion
@@ -30,9 +33,6 @@ autoload -U zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
 # Load my plugins
 #source  ~/.z_oh-my-zsh/*.sh
 #add one apt-install script - fonts-powerline, java , git 
-
-# Reload run commands/configuration
-alias src="source ~/.zshrc"
 
 # Edit configuration (save them in github, explore oh-my-zsh plugins & themes - agnoster)
 alias ezenv="nano ~/.zshenv" # Put global changes (for every 'login','i','ni' shell session)

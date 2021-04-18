@@ -9,4 +9,4 @@
 
 1. Create "shared" directory in your home
 1. Mount the shared folder from the host to your ~/shared directory
-```sudo mount -t vboxsf  win_shared  ~/shared```
+```sudo mount -t vboxsf  vbox_shared  ~/shared```

@@ -17,4 +17,7 @@ hash -d bash=~/.mybash    # ~bash
 
 # quick access to repos
 hash -d gh=~/github               # ~gh
-hash -d lrepo=~/github/ohmy-linux # ~lrepo
+hash -d wsrepo=~/github/ohmy-linux # workspace repo ~wsrepo
+hash -d pyrepo=~/github/practice-python # python repo ~pyrepo
+hash -d learnpy=~/github/practice-python/ex-files/learning-python # ~learnpy
+

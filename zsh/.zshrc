@@ -6,10 +6,11 @@ alias src="source ~/.zshrc"
 
 
 #alias
+source ~lrepo/alias/enhance.alias
 source ~lrepo/alias/git.alias
 source ~lrepo/alias/tmux.alias
 source ~lrepo/alias/launch.alias
-source ~lrepo/alias/proglang.alias
+source ~lrepo/alias/lang.alias
 
 # functions
 source ~lrepo/func/basic.sh

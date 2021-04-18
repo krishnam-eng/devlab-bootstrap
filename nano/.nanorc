@@ -40,6 +40,7 @@ set tabsize 4
 set titlecolor lagoon,blue
 
 set trimblanks
+
 # Detect word boundaries differently by treating punctuation characters as parts of words.
 set wordbounds
 

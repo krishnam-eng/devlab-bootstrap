@@ -1,0 +1,9 @@
+######
+# Enhance existing commands and builtins 
+#   
+#   by setting default preferable options
+#
+###### 
+
+
+alias mkdir="mkdir -p"

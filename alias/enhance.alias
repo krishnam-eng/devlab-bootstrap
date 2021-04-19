@@ -15,16 +15,27 @@ alias src="source ~/.zshrc"
 alias e="nano"
 alias ezshrc="nano ~/.zshrc"
 
+#####################
 #### ls, the common ones I use a lot shortened for rapid fire usage
+#####################
 
 # ls - set color option 
 alias ls="ls --color=always --width=80"
 
+# with Size and Sorted
+alias lS='ls -1FSsh'
+
 # long list : size,show type,human readable (with out dot files)
 alias ll='ls -lFh'     
 
+# Dot: Showing All Hidden (Dot) Files in the Current Directory
+alias ldot='ls -ld .*'
+
 # All: long list,show almost all,show type,human readable (with dot files)
 alias la="ls -ABFXh --block-size=K -l"                                                     
+
+# all file but in one col 
+alias lA='ls -1Fcart'
 
 # ls for machince read (all files and full timestamp
 alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"                          
@@ -34,48 +45,73 @@ alias lr='ls -tRFh'
 
 # Tree: use tree like ls , -a => all , -prune => no empty dir , -L 2 => 2 level                          
 alias lt="tree -a -L 1"
+alias lt1="tree -a -L 1"
 alias lt2="tree -a -L 2"
 alias lt3="tree -a -L 3"
 alias lt4="tree -a -L 4"
 alias lt5="tree -a -L 5"
 
-alias ll='ls -l'      #long list
-alias ldot='ls -ld .*'
-alias lS='ls -1FSsh'
-alias lart='ls -1Fcart'
-alias lrt='ls -1Fcrt'
+# Quick access to the .zshrc file
+alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc' 
 
-alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc' # Quick access to the .zshrc file
-
+# set color to grep
 alias grep='grep --color'
-alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
+
+# smart grep with default exclution filter
+alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git} '
 
 alias t='tail -f'
 
+# alias as option for reading stdout
 # Command line head / tail shortcuts
 alias -g H='| head'
 alias -g T='| tail'
+
 alias -g G='| grep'
+
+alias -g M="| more"
 alias -g L="| less"
-alias -g M="| most"
 alias -g LL="2>&1 | less"
-alias -g CA="2>&1 | cat -A"
-alias -g NE="2> /dev/null"
-alias -g NUL="> /dev/null 2>&1"
-alias -g P="2>&1| pygmentize -l pytb"
+alias -g NE="2>/dev/null"  # No Std Error
 
-alias dud='du -d 1 -h'
-alias duf='du -sh *'
-(( $+commands[fd] )) || alias fd='find . -type d -name'
-alias ff='find . -type f -name'
 
-alias h='history'
-alias hgrep="fc -El 0 | grep"
-alias help='man'
-alias p='ps -f'
-alias sortnr='sort -n -r'
-alias unexport='unset'
+#alias dud='du -d 1 -h'
+#alias duf='du -sh *'
 
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+#alias ff='find . -type f -name'
+
+#alias h='history'
+#alias hgrep="fc -El 0 | grep"
+#alias help='man'
+#alias p='ps -f'
+#alias sortnr='sort -n -r'
+#alias unexport='unset'
+
+#alias rm='rm -i'
+#alias cp='cp -i'
+#alias mv='mv -i'
+
+#########################
+# Replacing Builtins and External Commands
+#
+# enable -a will list all builtins and their enabled or disabled status.
+########################
+
+cd () {
+    builtin cd "$@"
+    echo "${cs_yellow}$OLDPWD${cs_reset} --> ${cs_bblue}$PWD${cs_reset}"
+}
+
+#######################
+## Func
+#######################
+
+# Determining if You Are Running Interactively
+# $- is a string listing of all the current shell option flags 
+# is_interactive ; echo $!
+is_interactive(){
+    case "$-" in
+        *i*) return 1;;
+        *) return 0;;
+    esac
+}

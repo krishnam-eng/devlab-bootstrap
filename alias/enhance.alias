@@ -51,6 +51,11 @@ alias lt3="tree -a -L 3"
 alias lt4="tree -a -L 4"
 alias lt5="tree -a -L 5"
 
+# list shells & you can change shell chsh -s /path
+alias lshells="cat /etc/shells"
+
+
+
 # Quick access to the .zshrc file
 alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc' 
 
@@ -62,8 +67,14 @@ alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git} '
 
 alias t='tail -f'
 
-# alias as option for reading stdout
-# Command line head / tail shortcuts
+############
+# std in out 
+#
+# > >> (appending) 2>(std err) &>(std out & error)  < (in)
+#
+# tail: -n 2 will give last two line (offset from end) 
+# tail: -n +2 will skip first line and give everything else  (offset from top)
+############
 alias -g H='| head'
 alias -g T='| tail'
 
@@ -71,9 +82,10 @@ alias -g G='| grep'
 
 alias -g M="| more"
 alias -g L="| less"
-alias -g LL="2>&1 | less"
-alias -g NE="2>/dev/null"  # No Std Error
+alias -g MOE=">& | more"  # send both STDOUT and STDERR
+alias -g NE="2>/dev/null"  # throwing output away
 
+# list 
 
 #alias dud='du -d 1 -h'
 #alias duf='du -sh *'

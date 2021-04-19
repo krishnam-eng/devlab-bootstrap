@@ -1,10 +1,6 @@
 # frequently used dirs
 source ~/github/ohmy-linux/zsh/namedir.sh
 
-# Reload run commands/configuration
-alias src="source ~/.zshrc"
-
-
 #alias
 source ~wsrepo/alias/enhance.alias
 source ~wsrepo/alias/git.alias
@@ -32,17 +28,6 @@ setopt autocd
 # Bulk rename utility
 autoload -U zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
 
-# Load my plugins
-#source  ~/.z_oh-my-zsh/*.sh
-#add one apt-install script - fonts-powerline, java , git 
-
-# Edit configuration (save them in github, explore oh-my-zsh plugins & themes - agnoster)
-alias ezenv="nano ~/.zshenv" # Put global changes (for every 'login','i','ni' shell session)
-alias ezpro="nano ~/.zprofile" # for only 'login' shells profiles
-alias ezrc="nano ~/.zshrc" # Put customization for user-level interactions (for every 'i' shell)
-alias ezlog="nano ~/.zlogin" # for only login shell, login comes at the end so admin can override rc
-
-alias enrc="nano ~/.nanorc"
 ### CLOSE: Automation
 
 ### START: Redirection & MultiOS

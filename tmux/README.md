@@ -5,7 +5,7 @@ _Who Should Read It:_
 
 ![quote](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lyc8bs2wkp9lrjgcjdt5.jpg)
  
-You do not really need this blog to use tmux; If you want a technical guidebook, you could look at the manpage for tmux. However, manpages are seldom adequate to wrap your brain around concepts (why & when); they're there for reference (how-to) sorted alphabetically instead of logically. Here, We will see 'why tmux', some of its practical uses, and how to quickly start using it in your day-to-day workflow.
+You do not really need this post to use tmux; If you want a technical guidebook, you could look at the manpage for tmux. However, manpages are seldom adequate to wrap your brain around concepts (why & when); they're there for reference (how-to) sorted alphabetically instead of logically. Here, We will see 'why tmux', some of its practical uses, and how to quickly start using it in your day-to-day workflow.
 
 ## Why Should You Care
 Suppose you are working on many projects or many contexts (DevOps, development, exploring, etc.). In that case, each needs a set of terminals to control various activities, "creating more tabs & windows and using a mouse to organize them" isn't the best solution. This process is typically slow, and the context-switching between different kinds of work is very unproductive (especially if you end up redoing the same setup afresh).

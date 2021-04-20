@@ -156,10 +156,7 @@ $ tmux attach-session -t {session-name}   # Start tmux and attach a _t_arget ses
 ```
 
 ## Beyond Basics: Personalizing Environments & Scripting tmux
-Intended Audience:
-* tmux users (beginners) or you read part one of "Command line Happiness" post
-
-This post is part two of the " x" blog. With the basics under our belt, let's explore a custom configuration and automation of the developer workspace now.
+Intended Audience: tmux users (beginners) or you read [the part one](https://dev.to/krishnam/dev-productivity-command-line-happiness-with-terminal-multiplexing-5067) of "Command Line Happiness" post.
 
 ### tmux: 13 Cool Tweaks to Make It Personal and Powerful
 Here are your ready-to-use valuable tmux tips-&-tweaks. Try these to improve your day-to-day development while start using tmux.
@@ -168,20 +165,20 @@ Here are your ready-to-use valuable tmux tips-&-tweaks. Try these to improve you
 
 In general, I prefer using the default setting with any tech/tools that I use as long as it serves my purpose. However, tmux is different. It is designed to be customizable. On Top of that, these are my reasons why you should tweak it.
 
-1. Keyboard shortcuts in tmux are a bit of a stretch, both physically and sometimes mentally
-2. tmux has a lot of less-than-stellar default setting
-3. Moreover, the configuration is fun, especially when you personalize it to suit your needs; after all, that's what it's for!
+1. Keyboard shortcuts in tmux are a bit of **a stretch, both physically and sometimes mentally**
+2. tmux has a lot of **less-than-stellar default** setting
+3. Moreover, the configuration is fun, especially when you personalize it to **suit your needs**; after all, that's what it's for!
 
 Follow along, and let's make your tmux friendly. Along the way, do not forget to put more comments in your configuration file; they'll jog your memory later. Treat your tmux config as a living document; Learn, practice, and update.
 
-Start with the biggie !
+Let's start with the biggie ! <prefix>
 
 #### 1. Prefix Should be Simple
 By default, all key bindings will demand a "prefix" key before they are active. It is similar to a <leader> key in vim. The default is `Ctrl-b`.
 
 The default is a little hard to trigger as the keyboard button is pretty far. Most prefer the 'C-a' as prefix key:
 - It puts your prefix in the home row.
-- CapsLock can be remapped with a Ctr key, and A sits just next to the CapsLock.
+- CapsLock can be remapped with a Ctr key, and A sits just next to the it.
 - If you have already used the GNU screen, 'C-a' is already the standard key for you.
 
 ```
@@ -192,13 +189,13 @@ bind-key C-a send-prefix    # ensure that we can send Ctrl-A to other apps or th
 
 #### 2. Just Reload the Config
 
-Considering you will be doing config tweaks and testing the impact, it is good to introduce the shortcut here.
+Considering you will be doing config tweaks and testing the impact often, it is good to introduce the shortcut here.
 
 By default, there are two ways of reloading
 1. shutting down all tmux sessions and start them
 2. executing 'source-file ~/.tmux.conf' on all the sessions
 
-What on earth you want to follow the above approach! let's create the shortcut - `Ctr+r`
+What on earth you want to follow the above approaches! let's create the shortcut - `Ctr+r`
 ```
 bind-key C-r source-file ~/.tmux.conf \; display "Config Reloaded !"
 ```
@@ -259,3 +256,151 @@ Additionally, you also mention the directory to open in the new pane when you sp
 bind-key | split-window -h -c "#{pane_current_path}" # let's open pane with current directory with -c option
 bind-key _ split-window -v -c "#{pane_current_path}"
 ```
+
+#### 8. Make Movements Quick
+One of the main reasons for using tmux is because it’s keyboard-centric and plays well with Vim, another my favourite keyboard-centric tool. If you use Vim, you’re probably familiar with its use of h, j, k, and l for movement keys. This way, you do not have to take your fingers off the home row to move to anywhere else.
+
+Let's make movements in pane, window, & command prompt much familiar and faster,
+```
+# Pane: Vim Style Movements
+bind-key -r h select-pane -L              # go left
+bind-key -r j select-pane -D              # go down
+bind-key -r l select-pane -R              # go right
+bind-key -r k select-pane -U              # go up
+
+# Pane: Arrow Movements
+bind-key Up select-pane -U
+bind-key Down select-pane -D
+bind-key Left select-pane -L
+bind-key Right select-pane -R
+
+# Window: Movements
+bind-key L last-window
+bind-key -r C-h select-window -t :-              # cycle through the windows for quick window selection
+bind-key -r C-l select-window -t :+
+
+# word separators for automatic word selection
+set-window-option -g word-separators ' @"=()[]'  # default => ‘ -_@’.
+
+# tmux adds a short, almost imperceptible delay between the commands that can cause funny behavior when running vim inside tmux.
+set-option -s escape-time 0
+
+# Command Prompt Movements:  within the tmux command prompt and the command prompt is accessed using <P>: (in the status line)
+set-option -g status-keys vi                 
+```
+
+#### 9. Resizing Panes
+The default keys: Ctr+ Up/Down/Left/Right for one row movements , Alt + Up/Down/Left/Right => five row movements.
+
+Let's add one more to the set (Vim way)
+```
+# Vim Style
+bind-key -r H resize-pane -L 2         # resize a pane two rows at a time.
+bind-key -r J resize-pane -D 2
+bind-key -r K resize-pane -U 2
+bind-key -r L resize-pane -R 2
+```
+
+#### 10. Copying and Pasting Text
+We will do multiple custom setting here. This tweak can be a real productivity boost if you happen to do a lot of copying and pasting between windows.
+
+We will do these;
+- Navigating through output in a quick way like vi
+- Vim Style in Copy-Mode
+- Setup keys (install xclip if you don't already have it)
+  - To copy from the current buffer to the sys clipboard `Alt+c`
+  - To paste text from sys clipboard into current buffer `Alt+v`
+  - To copy to the sys clipboard directly from the selection `Ctr+c`
+  - To paste text from sys clipboard into the view `Ctr+v`
+- Take a screenshot of the pane and store it with timestamp `Alt+s`
+
+```
+# To navigating through output in quick way, enable vim navigation keys
+set-window-option -g mode-keys vi
+
+# Vim Style in Copy-Mode "<prefix> ["
+# Interacting with Paste Buffer
+bind-key Escape copy-mode
+bind-key -T copy-mode-vi 'v' send-keys -X begin-selection            -N "start visual mode for selection"
+bind-key -T copy-mode-vi 'y' send-keys -X copy-selection-and-cancel  -N "yank text into the buffer"
+bind-key C-b choose-buffer # view the buffer stack
+unbind-key p
+bind-key p paste-buffer # default "<prefix> ]"
+
+# Alt+C: To copy from the current buffer to the sys clipboard .
+bind-key M-c run "tmux save-buffer - | xclip -i -sel clipboard"
+
+# Alt+V: To paste text from sys clipboard into current buffer
+bind-key M-v run "tmux set-buffer \"$(xclip -o -sel clipboard)\""
+
+# Ctr+C: Make it even better -just one step to move from sys->buffer->editor vice versa
+bind-key -Tcopy-mode-vi C-c send -X copy-pipe "xclip -i -sel p -f | xclip -i -sel c" \; display-message "copied to system clipboard"
+
+# Ctr+V: To paste text from sys clipboard into the view
+bind-key C-v run "tmux set-buffer \"$(xclip -o -sel clipboard)\";tmux paste-buffer"
+
+# To take ASCII screenshots (tmux-resurrect uses C-s for saving, here binding to Alt-s ) .
+# create the dir for storing screenshots
+bind-key M-s run "tmux capture-pane; tmux save-buffer ~/.mytmux/pane_screenshots/\"$(date +%FT%T)\".screenshots"
+
+```
+
+#### 11. Visual Styling: Configuring Colors
+Once the proper colour mode is set, you'll find it much easier to use Vim, Emacs, and other full-colour programs from within tmux, especially when you are using more complex colour schemes shell or syntax highlighting.
+
+What you can do here is up to your preference. It goes beyond just colour to your eyes. Let me demo with a few of my tricks;
+
+- Let's dim out any pane that's not active. It is a lot easier to see the active pane than looking for * in the status bar.
+- Customize pane divider to make it subtle and yet distinct.
+- Make the message colour not harmful to your eyes
+
+```
+# Set the default terminal mode to 256color mode
+set -g default-terminal "screen-256color"
+
+# Pane divider
+set-window-option -g pane-border-style fg=colour11,bg=colour234
+set-window-option -g pane-active-border-style fg=colour118,bg=colour234
+
+# Cool trick: Let's dim out any pane that's not active.
+set-window-option -g window-style fg=white,bg=colour236
+set-window-option -g window-active-style fg=white,bg=colour235
+
+# Command / Message line
+set-window-option -g message-style fg=black,bold,bg=colour11
+```
+
+#### 12. Dress Up the Status Line
+
+This is how you tailor up the dress for your status line  
+- Status bar colour and window indicator colour
+- What do you want to see on the left side & right side
+- Setup soft activity alerts
+
+Instead of going fancy here, I just focused on what can help me during my work and less resource-intensive operation. Below is my status bar config;
+```
+# Status Bar
+set-option -g status-style fg=white,bg=colour04
+set-option -g status-justify centre
+set-window-option -g window-status-style fg=colour118,bg=colour04
+set-window-option -g window-status-current-style fg=black,bold,bg=colour011
+set-window-option -g window-status-last-style fg=black,bold,bg=colour011
+set-window-option -g window-status-separator |
+
+# Left Side
+# Show my active session, window, pane name or id  
+set-option -g status-left-length 50   # default 10
+set-option -g status-left "[#[fg=white]S: #S, #[fg=colour11]W #I-#W, #[fg=colour3]P: #P #[fg=white]]"
+# set-option -g status-left-style
+
+# Right Side
+set-option -g status-right-length 50   # default 50
+set-option -g status-right "#[fg=grey,dim,bg=default] uptime: #(uptime | cut -f 4-5 -d\" \" | cut -f 1 -d\",\")"
+
+# Enable Activity Alerts
+set-option -g status-interval 60           # Update the status line every 60 seconds (15 is default)
+set-window-option -g monitor-activity on   # highlights the window name in the status line
+```
+
+#### 13. Extending tmux with Plugins
+

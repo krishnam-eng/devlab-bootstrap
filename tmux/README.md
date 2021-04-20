@@ -404,3 +404,34 @@ set-window-option -g monitor-activity on   # highlights the window name in the s
 
 #### 13. Extending tmux with Plugins
 
+There are many tmux [plugins](https://github.com/tmux-plugins?q=&type=&language=&sort=stargazers) available for tmux. If I have to choose one, that would be 'tmux-resurrect'.
+- This plugin restores the tmux environment after system restart. This plugin goes to great lengths to save and restore all the details from your tmux environment. See [doc](https://github.com/tmux-plugins/tmux-resurrect)
+- If you setup resurrect, then the next logical thing to do is set up 'continuum' to make the saving and restoring as an automatic step
+
+Here is the step to setup tmux plugin management; 
+```
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+
+# Last saved environment is automatically restored when tmux is started.
+set -g @continuum-boot 'on'  
+
+# terminal window will go fullscreen
+set -g @continuum-boot-options 'fullscreen' 
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+# run-shell "mkdir -p ~/.tmux/plugins/"
+# run-shell "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
+
+run '~/.tmux/plugins/tpm/tpm'
+
+# Hit prefix + I to install plugins for the first time. It takes few seconds. So, wait before panic.
+# 
+# resurrect key bindings:
+#   prefix + Ctrl-s - save
+#   prefix + Ctrl-r - restore
+# 
+```
+_Note: All of these tweaks are tested and working in Ubuntu.20.10 and tmux3.1b_

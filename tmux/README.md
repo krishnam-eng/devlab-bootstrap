@@ -173,3 +173,89 @@ In general, I prefer using the default setting with any tech/tools that I use as
 3. Moreover, the configuration is fun, especially when you personalize it to suit your needs; after all, that's what it's for!
 
 Follow along, and let's make your tmux friendly. Along the way, do not forget to put more comments in your configuration file; they'll jog your memory later. Treat your tmux config as a living document; Learn, practice, and update.
+
+Start with the biggie !
+
+#### 1. Prefix Should be Simple
+By default, all key bindings will demand a "prefix" key before they are active. It is similar to a <leader> key in vim. The default is `Ctrl-b`.
+
+The default is a little hard to trigger as the keyboard button is pretty far. Most prefer the 'C-a' as prefix key:
+- It puts your prefix in the home row.
+- CapsLock can be remapped with a Ctr key, and A sits just next to the CapsLock.
+- If you have already used the GNU screen, 'C-a' is already the standard key for you.
+
+```
+unbind-key C-b              # free the original bind-key key
+set-option -g prefix C-a    # setting the prefix from C-b to C-a
+bind-key C-a send-prefix    # ensure that we can send Ctrl-A to other apps or the shell that your interacting
+```
+
+#### 2. Just Reload the Config
+
+Considering you will be doing config tweaks and testing the impact, it is good to introduce the shortcut here.
+
+By default, there are two ways of reloading
+1. shutting down all tmux sessions and start them
+2. executing 'source-file ~/.tmux.conf' on all the sessions
+
+What on earth you want to follow the above approach! let's create the shortcut - `Ctr+r`
+```
+bind-key C-r source-file ~/.tmux.conf \; display "Config Reloaded !"
+```
+
+#### 3. This is Where I Want to Start
+If you do not want to use your default shell and prefer something else, it is easy to set in tmux.
+tmux allows you to set default shell and default commands to run when it launches a new pane.
+
+Let me set my default to my fav shell - zsh. Macs now use zsh as the default login shell across the operating system. It is for a reason. Give it a try if you don't already use zsh as your default shell.
+```
+set-option -g default-shell /usr/bin/zsh        # login shell for new windows/pane
+set-option -g default-command "cd ~/github/"    # command used for new windows
+```
+
+#### 4. I Can't See Enough !
+- By default, the message that comes in the status bar disappears in the blink of an eye and the pane number display time also too short to notice. Tweak the time as you wish.
+- If you feel your default history limit is not good enough for your case, crank that up too.
+- Lock the session after x mins of inactivity. Sometimes, it is good to protect your screen to make sure other's should not see enough.
+- Default names given to the window are too vague even if you can see. Hi tmux, let me name it.
+
+```
+set-option -g display-time 2000            # By default, status msg disappears in the blink of an eye (750ms)
+set-option -g display-panes-time 2000      # By default, pane number disappears in 1 s
+set-option -g history-limit 50000          # maximum number of lines held in window history - crank it up from 2k default
+set-option -g lock-after-time 3600         # lock the session after 60 mins of inactivity. Sometimes, it is good to protect your screen to make sure other's can't see enough.
+set-option -wg automatic-rename off        # default names are too vague to see. Let me name it.
+```
+#### 5. Count like Human
+
+- By default, the windows or panes start with index 0 (silly programmers!). Though tmux is one of those "created by and for programmers", this indexing makes it challenging to do switching windows; window 0 will be all the way to left in the status bar and the 0 in keyboard is all way to the right, then 1 key comes in the left...it messes with you.
+
+- Let's imagine you have three windows. If we removed the second window, the default result would be two remaining windows, numbered 1 and 3. but, tmux could automatically renumber the windows to 1 and 2 with the right setting.
+
+Ok, Let's make tmux a human for a bit,
+
+```
+set-option -g base-index 1                # window index will start with 1
+set-window-option -g pane-base-index 1    # pane index will start with 1
+set-option -g renumber-windows on         
+```
+#### 6. Kill it with X-Force !
+
+By default, if you press <prefix> x, tmux will ask if you're sure you want to kill a pane before it does it. That's nice and all, but what if you'd rather just kill it? Let's do that. And, while we’re at it, let’s create a custom key combo for killing the entire session too.
+
+```
+unbind-key x               # unbind-key “x” from it’s current job of “ask and then close”
+bind-key x kill-pane       # rebind-key it to just “close”
+bind-key X kill-session    # key combo for killing the entire session - <prefix> + shift + x
+```
+
+#### 7. Make Splitting Panes Intuitive
+
+Splitting a window in panes are currently bound to <prefix> % and <prefix> ”>, which are hard to remember. It is much easier to remember if you use | for vertical splits and - for horizontal splits. For now, I will leave the default binding as it is since I don’t have any other use for these weird key commands.
+
+Additionally, you also mention the directory to open in the new pane when you split.
+
+```
+bind-key | split-window -h -c "#{pane_current_path}" # let's open pane with current directory with -c option
+bind-key _ split-window -v -c "#{pane_current_path}"
+```

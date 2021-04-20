@@ -156,7 +156,9 @@ $ tmux attach-session -t {session-name}   # Start tmux and attach a _t_arget ses
 ```
 
 ## Beyond Basics: Personalizing Environments & Scripting tmux
-Intended Audience: tmux users (beginners) or you read [the part one](https://dev.to/krishnam/dev-productivity-command-line-happiness-with-terminal-multiplexing-5067) of "Command Line Happiness" post.
+With the basics under our belt, let's explore a custom configuration and automation of developer workspace. It will wrap up with valuable tricks you can use with tmux to improve your day-to-day development. 
+
+![tools](https://user-images.githubusercontent.com/82016952/115446579-0c676080-a235-11eb-9943-39de3b7c2355.png)
 
 ### tmux: 13 Cool Tweaks to Make It Personal and Powerful
 Here are your ready-to-use valuable tmux tips-&-tweaks. Try these to improve your day-to-day development while start using tmux.
@@ -435,3 +437,5 @@ run '~/.tmux/plugins/tpm/tpm'
 # 
 ```
 _Note: All of these tweaks are tested and working in Ubuntu.20.10 and tmux3.1b_
+
+tmux is a versatile addition to your terminal toolbelt. No need to grasp everything in a single sitting; efficiently managing workspace with tmux is a skill acquired over a period. Soon you will find yourself becoming more comfortable with this powerful screen-management tool.

@@ -3,11 +3,11 @@ _Who Should Read It:_
   - If you are already using tmux, check out 'beyond basics' section.
   - Others, check out the 'why should you care' section to see if it can be a valuable addition to your toolbox.
 
-![quote](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lyc8bs2wkp9lrjgcjdt5.jpg)
- 
 You do not really need this post to use tmux; If you want a technical guidebook, you could look at the manpage for tmux. However, manpages are seldom adequate to wrap your brain around concepts (why & when); they're there for reference (how-to) sorted alphabetically instead of logically. Here, We will see 'why tmux', some of its practical uses, and how to quickly start using it in your day-to-day workflow.
 
 ## Why Should You Care
+"Give me six hours to chop down a tree and I will spend the first four sharpening the axe" - Abraham Lincoln
+
 Suppose you are working on many projects or many contexts (DevOps, development, exploring, etc.). In that case, each needs a set of terminals to control various activities, "creating more tabs & windows and using a mouse to organize them" isn't the best solution. This process is typically slow, and the context-switching between different kinds of work is very unproductive (especially if you end up redoing the same setup afresh).
 
 Of course, there are other ways of managing multi-tasking, like using simple _bg_ & _fg_ commands or using the GNU _screen_. However, Tmux is considered to be the next evolutionary step forward. I am not overstating; even the screen packages have been [replaced by tmux in RHEL8](https://access.redhat.com/solutions/4136481).

@@ -156,16 +156,20 @@ $ tmux attach-session -t {session-name}   # Start tmux and attach a _t_arget ses
 ```
 
 ## Beyond Basics: Personalizing Environments & Scripting tmux
+Intended Audience:
+* tmux users (beginners) or you read part one of "Command line Happiness" post
 
-With the basics under our belt, let's explore a custom configuration and automation of developer workspace in part two of this blog. It will wrap up with valuable tricks you can use with tmux to improve your day-to-day development. For the Impatient, you could check out my tmux setup [here -github](https://github.com/krishnam-eng/ohmy-linux/tree/main/tmux) 
+This post is part two of the " x" blog. With the basics under our belt, let's explore a custom configuration and automation of the developer workspace now.
 
 ### tmux: 13 Cool Tweaks to Make It Personal and Powerful
-This section provides ready-to-use "Top 13 tmux tips & tweaks" that you should consider while start using tmux, 
+Here are your ready-to-use valuable tmux tips-&-tweaks. Try these to improve your day-to-day development while start using tmux.
 
-for these three reasons:
+**Why do you want to tweak the default setup ?**
+
+In general, I prefer using the default setting with any tech/tools that I use as long as it serves my purpose. However, tmux is different. It is designed to be customizable. On Top of that, these are my reasons why you should tweak it.
 
 1. Keyboard shortcuts in tmux are a bit of a stretch, both physically and sometimes mentally
 2. tmux has a lot of less-than-stellar default setting
 3. Moreover, the configuration is fun, especially when you personalize it to suit your needs; after all, that's what it's for!
 
-Follow along, and let's make your tmux friendly. Along the way, do not forget to put more comments in your configuration file; they'll jog your memory later. Treat your tmux config as a living document; Learn, practice, and update. 
+Follow along, and let's make your tmux friendly. Along the way, do not forget to put more comments in your configuration file; they'll jog your memory later. Treat your tmux config as a living document; Learn, practice, and update.

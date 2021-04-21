@@ -16,6 +16,7 @@ Learn, practice and check-in what-worked-well
 - To manage personal customization to zsh, bash, nano, tmux configurations for boosting productivity. 
 - To reuse the same config in any new Linux dev environment
 
-✍️ **Related Blogs**
+✍️ **My Related Blogs**
 
+- [tmux: 13 Cool Tweaks to Make It Personal and Powerful](https://dev.to/krishnam/tmux-13-cool-tweaks-to-make-it-personal-and-powerful-487p)
 - [Productivity Booster: Command Line Happiness with tmux](https://dev.to/krishnam/dev-productivity-command-line-happiness-with-terminal-multiplexing-5067)

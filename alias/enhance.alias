@@ -73,6 +73,7 @@ alias t='tail -f'
 # > >> (appending) 2>(std err) &>(std out & error)  < (in)
 #
 # tail: -n 2 will give last two line (offset from end) 
+# Skipping a header in a file
 # tail: -n +2 will skip first line and give everything else  (offset from top)
 ############
 alias -g H='| head'

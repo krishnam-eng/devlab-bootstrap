@@ -45,8 +45,6 @@ SAVEHIST=1000
 # To save unexecuted cmd to history, make the command as comment by prefixing # and executing
 setopt interactivecomments
 
-# History shortcuts / expansion
-alias hist="history"
 # !! -> previously run command (e.g, if sudo is missed, instead retying all, use `sudo !!`)
 # !* -> Args given to prev. cmd (e.g, `ls /var/zxv.f ; stat !*`)
 # !$number -> n'th cmd in hist
@@ -59,41 +57,6 @@ alias hist="history"
 # pushd /var &>/dev/null
 # alias sd="pushd" # switch dir using dir stack
 ### CLOSE: Dir Nav
-
-
-### START: List & View alias
-#ls for machince read
-alias lm="ls -aFXZ --color=always --full-time  --sort=size --block-size=KiB -n"
-
-#ls for human read
-alias lh="ls -ABFX --color=always --block-size=K -l"
-
-#ls for normal use
-alias ls="ls -ABFX --color=always --width=80"
-
-# use tree like ls , -a => all , -prune => no empty dir , -L 2 => 2 level 
-alias lt="tree -a -L 1"
-alias lt2="tree -a -L 2"
-alias lt3="tree -a -L 3"
-alias lt4="tree -a -L 4"
-alias lt5="tree -a -L 5"
-
-### CLOSE: List & View alias
-
-### Functions
-# Listing the prompt colors
-function pcolors() {
-  for color in {000..255}; do
-    print -P "$color: %F{$color}████ Foreground %f%K{$color} Background %k"
-  done
-}
-
-### To get about the given command or file or dir, run the below
-# which
-# type
-# stat
-alias what="whence -w" # -f option will give the function value 
-###
 
 ###
 #PROMPT='%n@%F{green}%m%f %K{red}

@@ -53,4 +53,14 @@ ls -lh /usr/bin/python*
 firefox https://code.visualstudio.com/Download
 sudo dpkg -i ~/dwnlds/code_1.55.2-16183│07277_amd64.deb
 
+# for python formatting
+sudo apt install python3-pip
+pip3 install autopep8
+
+/usr/bin/python3.9 /home/krishnam/.vscode/extensions/ms-python.python-2021.4.765268190/pythonFiles/pyvsc-run-isolated.py pip install -U autopep8 --user
+
+/usr/bin/python3.9 /home/krishnam/.vscode/extensions/ms-python.python-2021.4.765268190/pythonFiles/pyvsc-run-isolated.py pip install -U autopep8 --user/usr/bin/python3.9 /home/krishnam/.vscode/extensions/ms-python.python-2021.4.765268190/pythonFiles/pyvsc-run-isolated.py pip install -U rope --user
+
+
+
 

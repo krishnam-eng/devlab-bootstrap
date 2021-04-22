@@ -67,25 +67,6 @@ alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git} '
 
 alias t='tail -f'
 
-############
-# std in out 
-#
-# > >> (appending) 2>(std err) &>(std out & error)  < (in)
-#
-# tail: -n 2 will give last two line (offset from end) 
-# Skipping a header in a file
-# tail: -n +2 will skip first line and give everything else  (offset from top)
-############
-alias -g H='| head'
-alias -g T='| tail'
-
-alias -g G='| grep'
-
-alias -g M="| more"
-alias -g L="| less"
-alias -g MOE=">& | more"  # send both STDOUT and STDERR
-alias -g NE="2>/dev/null"  # throwing output away
-
 # clear dump files using cmd substitution
 # The earlier shell syntax was to use backquotes (``) instead of $() for enclosing the sub-command. The $() syntax is preferred over the older `` syntax because it is easier to nest and arguably easier to read
 alias cdump="rm $(find . -name "*dump")"

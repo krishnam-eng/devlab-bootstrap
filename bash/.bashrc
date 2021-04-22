@@ -1,3 +1,3 @@
 if [ -d ~/.myalias ]; then
-    . ~/.myalias/*.alias
+    . ~/.myalias/*.bash
 fi

@@ -44,4 +44,9 @@ mv .zshrc ~/.mybkp/.zshrc_$(date +%y%m%d)
 ln -s ~/github/ohmy-linux/zsh  ~/.myzsh
 ln -s ~/github/ohmy-linux/tmux  ~/.mytmux
 ln -s ~/github/ohmy-linux/nano  ~/.mynano
+ln -s ~/github/ohmy-linux/alias  ~/.myalias
+
+# this will change zdotdir value to start using ~/.myzsh as zdotdir
+ln -s ~/.myzsh/.zshenv ~/.zshenv
+
 

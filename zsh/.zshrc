@@ -5,12 +5,10 @@ source ~/.myzsh/namedir.sh
 source ~/.myfunc/colorama.sh
 source ~/.myfunc/basic.sh
 
-# load custom aliases
-source ~/.myalias/enhance.alias
-source ~/.myalias/git.alias
-source ~/.myalias/tmux.alias
-source ~/.myalias/launch.alias
-source ~/.myalias/lang.alias
+if [ -d ~/.myalias ]; then
+  source ~/.myalias/*.bash
+  source ~/.myalias/*.zsh
+fi
 
 ### START: Automation
 # Auto completion

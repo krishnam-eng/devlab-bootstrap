@@ -81,13 +81,6 @@ alias lt5="tree -a -L 5"
 
 ### CLOSE: List & View alias
 
-
-### Load alias files
-#
-#
-source ~/.myalias/tmux.alias
-###
-
 ### Functions
 # Listing the prompt colors
 function pcolors() {

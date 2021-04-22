@@ -1,17 +1,16 @@
 # frequently used dirs
-source ~/github/ohmy-linux/zsh/namedir.sh
+source ~/.myzsh/namedir.sh
 
-#alias
-source ~wsrepo/alias/enhance.alias
-source ~wsrepo/alias/git.alias
-source ~wsrepo/alias/tmux.alias
-source ~wsrepo/alias/launch.alias
-source ~wsrepo/alias/lang.alias
+# load custom functions
+source ~/.myfunc/colorama.sh
+source ~/.myfunc/basic.sh
 
-# functions
-source ~wsrepo/func/colorama.sh
-source ~wsrepo/func/basic.sh
-
+# load custom aliases
+source ~/.myalias/enhance.alias
+source ~/.myalias/git.alias
+source ~/.myalias/tmux.alias
+source ~/.myalias/launch.alias
+source ~/.myalias/lang.alias
 
 ### START: Automation
 # Auto completion

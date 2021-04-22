@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
+##############
+#
+#   Portable Dev Environment - Build anywhere
+#
+###############
 
-###### checkout github repos
+######
+# checkout github repos
+######
+
 mkdir -p ~/github
 
 # Setup SSH pub key for secure interaction with github
@@ -24,3 +32,16 @@ if [[ ! -d ~/github/practice-java-performance-tuning ]]; then
     echo "cloning practice-python repo..."
     git clone git@github.com:krishnam-eng/practice-java-performance-tuning.git ~/github/practice-java-performance-tuning
 fi
+
+#####
+# Setup zsh & tmux configs
+#####
+
+# take a backup
+mkdir -p ~/.mybkp
+mv .zshrc ~/.mybkp/.zshrc_$(date +%y%m%d)
+
+ln -s ~/github/ohmy-linux/zsh  ~/.myzsh
+ln -s ~/github/ohmy-linux/tmux  ~/.mytmux
+ln -s ~/github/ohmy-linux/nano  ~/.mynano
+

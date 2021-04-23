@@ -13,5 +13,6 @@
 tmux/plugins/tpm
 tmux/plugins/tmux-resurrect
 tmux/plugins/tmux-continuum
+tmux/resurrect
 tmux/screenshots/*.screenshot
 

@@ -43,6 +43,12 @@ Invoke-WebRequest https://releases.ubuntu.com/21.04/ubuntu-21.04-desktop-amd64.i
 
 ![image](https://user-images.githubusercontent.com/82016952/115804110-ea6e0980-a3ff-11eb-87b1-0cca9c4f862e.png)
 
+#### Setup Graphics 
+
+![image](https://user-images.githubusercontent.com/82016952/115804323-66685180-a400-11eb-8d28-fb9fb68f85c1.png)
+
+![image](https://user-images.githubusercontent.com/82016952/115804395-89930100-a400-11eb-82a2-5b5d59ee48eb.png)
+
 
 #### Mount Shared Folder
 1. Open VirtualBox

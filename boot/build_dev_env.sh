@@ -11,6 +11,7 @@
 #####
 sudo apt install xclip
 sudo apt install git
+sudo apt  install tmux
 
 ######
 # checkout dev env github repo
@@ -59,4 +60,6 @@ ln -s ~/.mybash/.bashrc  ~/.bashrc
 # for nano 
 ln -s ~/.mynano/.nanorc  ~/.nanorc
 
+# for tmux 
+ln -s ~/.mytmux/.tmux.conf ~/.tmux.conf
 

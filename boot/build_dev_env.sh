@@ -6,8 +6,14 @@
 #
 ###############
 
+#####
+#  Install List
+#####
+sudo apt install xclip
+sudo apt install git
+
 ######
-# checkout github repos
+# checkout dev env github repo
 ######
 
 mkdir -p ~/github
@@ -16,7 +22,7 @@ mkdir -p ~/github
 ssh-keygen -t ed25519 -C "krishnam.balamurugan.eng@gmail.com" 
 
 # Copy public key and add key in github with this.  github->"Setting" -> "SSH and GPG keys".
-cat gh_id_ed25519.pub | xclip -sel clip
+cat ~/.ssh/id_ed25519.pub | xclip -sel clip
 
 if [[ ! -d ~/github/ohmy-linux ]]; then
     echo "cloning ohmy-linux repo..."
@@ -26,23 +32,13 @@ if [[ ! -d ~/github/ohmy-linux ]]; then
     # git remote set-url origin git@github.com:krishnam-eng/practice-python.git
 fi
 
-if [[ ! -d ~/github/practice-python ]]; then
-    echo "cloning practice-python repo..."
-    git clone git@github.com:krishnam-eng/practice-python.git ~/github/practice-python
-fi
-
-if [[ ! -d ~/github/practice-java-performance-tuning ]]; then
-    echo "cloning practice-python repo..."
-    git clone git@github.com:krishnam-eng/practice-java-performance-tuning.git ~/github/practice-java-performance-tuning
-fi
-
 #####
 # Setup zsh, bash, tmux, nano run command configs
 #####
 
 # take a backup
 mkdir -p ~/.mybkp
-mv .zshrc ~/.mybkp/.zshrc_$(date +%y%m%d)
+mv .zshrc ~/.mybkp/.zshrc_$(date +%y%m%d)-old
 mv .bashrc ~/.mybkp/.bashrc_$(date +%y%m%d)-old
 
 # link from the home itself

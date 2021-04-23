@@ -6,6 +6,13 @@
 
 tracing_enabled=1
 
+########
+# system level run commands
+########
+defaultsdir=/usr/local/lib/initfiles
+if [ -r $defaultsdir/system-bashrc ]; then . $defaultsdir/system-bashrc; fi
+
+
 ######## in this section
 # bashrc default from ubunutu21.04 with minor tweaks
 ########

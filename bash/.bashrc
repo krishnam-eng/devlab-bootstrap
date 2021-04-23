@@ -124,7 +124,7 @@ export LOG_TS="[$(date --utc --rfc-3339=ns)] "
 if [ -d ~/.myalias ]; then
     for afile in ~/.myalias/*.bash
     do
-        tracing_enabled && echo $LOG_TS"Sourcing ${afile} ..."
+        $tracing_enabled && echo $LOG_TS"Sourcing ${afile} ..."
         source $afile
     done
     unset afile

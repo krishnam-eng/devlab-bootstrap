@@ -1,6 +1,9 @@
+################
 #description  : This script will be executed by bash 
 #bash_version : 5.1.4(1)-release
 #author	     : krishnam
+################
+
 
 ######## in this section
 # bashrc default from ubunutu21.04 with minor tweaks

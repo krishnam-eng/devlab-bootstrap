@@ -5,9 +5,7 @@
 #author	      : krishnam
 ################
 
-source ~/.myfunc/colorama.bash
-
-# P: Showing Where You Are - show working directory 
+# Showing Where You Are - show working directory
 
 function swd {
   echo $cs_bblue"Logical Path:$cs_reset $(command pwd -L )" # print working dir logical path

@@ -4,12 +4,10 @@
 #author	     : krishnam
 ################
 
-set trace="true"
-
 if [[ -d ~/.myalias ]]; then
   for afile in ~/.myalias/*sh
   do
-    [ "${trace}"="true" ] && echo $LOG_TS"Sourcing ${afile} ..."
+    # echo $LOG_TS"Sourcing ${afile} ..."
     source $afile
   done
   unset afile
@@ -18,7 +16,7 @@ fi
 if [ -d ~/.myfunc ]; then
   for ffile in ~/.myfunc/*sh
   do
-    [ "${trace}"="true" ] && echo $LOG_TS"Sourcing ${ffile} ..."
+    # echo $LOG_TS"Sourcing ${ffile} ..."
     source $ffile
   done
   unset ffile

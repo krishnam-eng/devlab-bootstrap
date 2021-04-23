@@ -72,3 +72,5 @@ ln -s ~/.mynano/.nanorc  ~/.nanorc
 # for tmux 
 ln -s ~/.mytmux/.tmux.conf ~/.tmux.conf
 
+# set default shell to zsh [echo $SHELL]
+chsh -s $(which zsh)

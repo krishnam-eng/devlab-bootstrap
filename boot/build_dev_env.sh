@@ -37,10 +37,8 @@ if [[ ! -d ~/github/ohmy-linux ]]; then
 fi
 
 # TMUX plugin manager
-if [[ ! -d ~/.tmux/plugins/tpm ]]; then
-  mkdir -p  ~/.tmux/plugins/
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-fi
+mkdir -p ~/github/ohmy-linux/tmux/plugins/tpm
+git clone https://github.com/tmux-plugins/tpm ~/github/ohmy-linux/tmux/plugins/tpm
 
 #####
 # Setup zsh, bash, tmux, nano run command configs

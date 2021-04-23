@@ -9,8 +9,12 @@
 #####
 #  Install List
 #####
-sudo apt install xclip
 sudo apt install git
+sudo apt install zsh
+sudo apt install tmux
+sudo apt install nano
+
+sudo apt install xclip
 
 ######
 # checkout dev env github repo
@@ -30,6 +34,12 @@ if [[ ! -d ~/github/ohmy-linux ]]; then
     
     # if it was cloned from http, use below to change to ssh
     # git remote set-url origin git@github.com:krishnam-eng/practice-python.git
+fi
+
+# TMUX plugin manager
+if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+  mkdir -p  ~/.tmux/plugins/
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
 #####
@@ -59,4 +69,8 @@ ln -s ~/.mybash/.bashrc  ~/.bashrc
 # for nano 
 ln -s ~/.mynano/.nanorc  ~/.nanorc
 
+# for tmux 
+ln -s ~/.mytmux/.tmux.conf ~/.tmux.conf
 
+# set default shell to zsh [echo $SHELL]
+chsh -s $(which zsh)

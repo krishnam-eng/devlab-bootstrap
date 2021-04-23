@@ -1,3 +1,33 @@
+#### Vbox
+
+**Host OS & Guest OS**
+
+**Download Virtual Box** 
+```
+Invoke-WebRequest https://download.virtualbox.org/virtualbox/6.1.20/VirtualBox-6.1.20-143896-Win.exe
+```
+
+**Download Guest OS** (ubuntu)
+```
+Invoke-WebRequest https://releases.ubuntu.com/21.04/ubuntu-21.04-desktop-amd64.iso
+```
+
+**Create Virtual Machince With Guest OS**
+![image](https://user-images.githubusercontent.com/82016952/115802609-d96fc900-a3fc-11eb-8a64-8834279eee0f.png)
+
+![image](https://user-images.githubusercontent.com/82016952/115802695-002dff80-a3fd-11eb-809d-48868b0a5f62.png)
+
+![image](https://user-images.githubusercontent.com/82016952/115802788-26539f80-a3fd-11eb-965a-2940bbb05d1e.png)
+
+![image](https://user-images.githubusercontent.com/82016952/115802873-5602a780-a3fd-11eb-8d38-6e46aa51a55b.png)
+
+![image](https://user-images.githubusercontent.com/82016952/115802997-9104db00-a3fd-11eb-977f-3cef2122fc0e.png)
+
+![image](https://user-images.githubusercontent.com/82016952/115803028-a548d800-a3fd-11eb-8ba4-8ba869e8991c.png)
+
+![image](https://user-images.githubusercontent.com/82016952/115803045-af6ad680-a3fd-11eb-88ce-35ca4c8a141b.png)
+
+![image](https://user-images.githubusercontent.com/82016952/115803064-bf82b600-a3fd-11eb-9689-82483ec45d84.png)
 
 #### Mount Shared Folder
 1. Open VirtualBox

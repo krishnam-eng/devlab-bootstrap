@@ -57,6 +57,17 @@ Invoke-WebRequest https://releases.ubuntu.com/21.04/ubuntu-21.04-desktop-amd64.i
 ![image](https://user-images.githubusercontent.com/82016952/115805418-90227800-a402-11eb-9ab7-c2f024bfd8d8.png)
 ![image](https://user-images.githubusercontent.com/82016952/115805641-fe673a80-a402-11eb-95ec-a3192329de63.png)
 
+#### Shared Clipboard Between Host & Guest
+
+![image](https://user-images.githubusercontent.com/82016952/115805943-9402ca00-a403-11eb-9ce0-c8c7870f1364.png)
+
+#### Ubunutu Dev Env
+
+![image](https://user-images.githubusercontent.com/82016952/115805806-51d98880-a403-11eb-9a50-b1f53d920274.png)
+
+```
+$ \rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos 
+```
 #### Mount Shared Folder
 1. Open VirtualBox
 1. Right-click your VM, then click Settings

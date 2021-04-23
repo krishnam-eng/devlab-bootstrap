@@ -10,7 +10,5 @@
 .zcompdump
 
 # tmux
-plugins/
-screenshots/
-
-
+tmux/plugins/**
+tmux/screenshots/**

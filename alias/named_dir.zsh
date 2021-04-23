@@ -10,14 +10,11 @@
 
 # quick access to config files
 hash -d zsh=~/.myzsh      # ~zsh
-hash -d nano=~/.mynano    # ~nano
-hash -d tmux=~/.mytmux    # ~tmux
 hash -d bash=~/.mybash    # ~bash
-
+hash -d tmux=~/.mytmux    # ~tmux
+hash -d nano=~/.mynano    # ~nano
 
 # quick access to repos
-hash -d gh=~/github               # ~gh
-hash -d wsrepo=~/github/ohmy-linux # workspace repo ~wsrepo
-hash -d pyrepo=~/github/practice-python # python repo ~pyrepo
-hash -d learnpy=~/github/practice-python/ex-files/learning-python # ~learnpy
-
+hash -d gh=~/github                   # ~gh
+hash -d lrp=~/github/ohmy-linux       # workspace repo ~lrp
+hash -d pyrp=~/github/practice-python # python repo ~pyrp

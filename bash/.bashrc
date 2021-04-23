@@ -93,7 +93,7 @@ export LOG_TS="[$(date --utc --rfc-3339=ns)] "
 if [ -d ~/.myalias ]; then
     for afile in ~/.myalias/*.bash
     do
-        [ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${afile} ..."
+        #[ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${afile} ..."
         source $afile
     done
     unset afile
@@ -102,7 +102,7 @@ fi
 if [ -d ~/.myfunc ]; then
     for ffile in ~/.myfunc/*.bash
     do
-        [ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${ffile} ..."
+        #[ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${ffile} ..."
         source $ffile
     done
     unset ffile

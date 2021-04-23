@@ -1,4 +1,6 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+#description  : This script will be executed by bash 
+#bash_version : 5.1.4(1)-release
+#author	     : krishnam
 
 ######## in this section
 # bashrc default from ubunutu21.04 with minor tweaks
@@ -113,10 +115,13 @@ fi
 # source command is a bash built-in, if you want to be compatable with posix, use "." here.
 # source, at present support only one file at a time, Let's iterate over our alias dir to load all. 
 # I have named all bash compatable alias files with .bash suffix to keep zsh specific alias syntax seperately
+export LOG_TS="[$(date --utc --rfc-3339=ns)] "
+
 if [ -d ~/.myalias ]; then
     for afile in ~/.myalias/*.bash
     do
-        echo "Sourcing ${afile} ..."
+        echo $LOG_TS"Sourcing ${afile} ..."
         source $afile
     done
+    unset afile
 fi

@@ -52,6 +52,7 @@ mv .zshrc ~/.mybkp/.zshrc_$(date +%y%m%d)-old
 mv .bashrc ~/.mybkp/.bashrc_$(date +%y%m%d)-old
 
 # link from the home itself
+ln -s ~/github/ohmy-linux/env  ~/.myenv
 ln -s ~/github/ohmy-linux/zsh  ~/.myzsh
 ln -s ~/github/ohmy-linux/bash  ~/.mybash
 ln -s ~/github/ohmy-linux/tmux  ~/.mytmux

@@ -1,120 +1,89 @@
-################
+################=============================----------------------------
 #description  : This script will be executed by bash 
 #bash_version : 5.1.4(1)-release
 #author	     : krishnam
-################
+################=============================----------------------------
 
-tracing_enabled=1
+tracing_enabled=0
 
-######## in this section
-# bashrc default from ubunutu21.04 with minor tweaks
-########
+########=============================----------------------------
+# source global definitions (if any)
+########=============================----------------------------
+if [ -f /etc/bashrc ]; then 
+  . /etc/bashrc
+fi
 
-# If not running interactively, don't do anything [ubuntu21.04 default]
+defaultsdir=/usr/local/lib/initfiles
+if [ -r $defaultsdir/system-bashrc ]; then 
+  . $defaultsdir/system-bashrc
+fi
+
+# If not running interactively, don't do anything
 case $- in
     *i*) ;;
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history [ubuntu21.04 default]
+######## 
+# completion 
+########
+
+# Enable bash programmable completion features in interactive shells
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+	. /usr/share/bash-completion/bash_completion
+elif [ -f /etc/bash_completion ]; then
+	. /etc/bash_completion
+fi
+
+# Set the default editor
+export EDITOR=nano
+
+######## 
+# colors 
+########
+
+# To have colors for ls and all grep commands such as grep, egrep and zgrep
+export CLICOLOR=1
+export LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:*.xml=00;31:'
+alias grep="/usr/bin/grep $GREP_OPTIONS"
+unset GREP_OPTIONS
+
+# Color for manpages in less makes manpages a little easier to read
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+
+######## 
+# History 
+########
+
+# Don't put duplicate lines in the history and do not add lines that start with a space
 HISTCONTROL=ignoreboth
 
-# append to the history file, don't overwrite it  [ubuntu21.04 default]
+# append to the history file, don't overwrite it so if you start a new terminal, you have old session history
 shopt -s histappend
+
+# Check the window size after each command and, if necessary, update the values of LINES and COLUMNS
+shopt -s checkwinsize
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 # cranked up default by 10x
 HISTSIZE=10000
 HISTFILESIZE=20000
 
-# check the window size after each command and, if necessary, 
-# update the values of LINES and COLUMNS.  [ubuntu21.04 default]
-shopt -s checkwinsize
+# colorful promt
+PS1='\[\033[01;32m\]\u\[\033[01;33m\]@\[\033[01;36m\]\h\[\033[01;3$((1 + $RANDOM % 7))m\]$ \[\033[0m\]'
 
-# make less more friendly for non-text input files, see lesspipe(1) [ubuntu21.04 default]
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt below) [ubuntu21.04 default]
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color) [ubuntu21.04 default]
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt [ubuntu21.04 default is no]
-force_color_prompt=yes
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-        # We have color support; assume it's compliant with Ecma-48
-        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-        # a case would tend to support setf rather than setaf.)
-        color_prompt=yes
-    else
-        color_prompt=
-    fi
-fi
-
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
-# enable color support of ls and also add handy aliases [ubuntu21.04 default]
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# colored GCC warnings and errors [ubuntu21.04 default]
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# Add an "alert" alias for long running commands.  Use like so:
-# sleep 10; alert  [ubuntu21.04 default]
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package. [ubuntu21.04 default]
+######## 
+# Alias definitions 
+########
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc). [ubuntu21.04 default]
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
-######## in this section
-# source all custom alias & functions definitions
-########
 
 # source command is a bash built-in, if you want to be compatable with posix, use "." here.
 # source, at present support only one file at a time, Let's iterate over our alias dir to load all. 
@@ -124,7 +93,7 @@ export LOG_TS="[$(date --utc --rfc-3339=ns)] "
 if [ -d ~/.myalias ]; then
     for afile in ~/.myalias/*.bash
     do
-        [ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${afile} ..."
+        #[ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${afile} ..."
         source $afile
     done
     unset afile
@@ -133,7 +102,7 @@ fi
 if [ -d ~/.myfunc ]; then
     for ffile in ~/.myfunc/*.bash
     do
-        [ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${ffile} ..."
+        #[ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${ffile} ..."
         source $ffile
     done
     unset ffile

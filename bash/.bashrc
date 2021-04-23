@@ -129,3 +129,12 @@ if [ -d ~/.myalias ]; then
     done
     unset afile
 fi
+
+if [ -d ~/.myfunc ]; then
+    for ffile in ~/.myfunc/*.bash
+    do
+        [ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${ffile} ..."
+        source $ffile
+    done
+    unset ffile
+fi

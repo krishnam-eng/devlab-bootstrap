@@ -35,7 +35,7 @@ set speller "aspell -c -x:"
 
 set statuscolor blue,lagoon
 
-set tabsize 4
+set tabsize 2
 set tabstospaces
 
 set titlecolor lagoon,blue

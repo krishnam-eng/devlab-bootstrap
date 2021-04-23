@@ -1,13 +1,27 @@
-# frequently used dirs
-source ~/.myzsh/namedir.sh
+################
+#description : This script will be executed by zsh
+#zsh_version : 5.8 (zsh --version)
+#author	     : krishnam
+################
 
-# load custom functions
-source ~/.myfunc/colorama.sh
-source ~/.myfunc/basic.sh
+set tracing_enabled=1
 
-if [ -d ~/.myalias ]; then
-  source ~/.myalias/*.bash
-  source ~/.myalias/*.zsh
+if [[ -d ~/.myalias ]]; then
+  for afile in ~/.myalias/*sh
+  do
+    echo $LOG_TS"Sourcing ${afile} ..."
+    source $afile
+  done
+  unset afile
+fi
+
+if [ -d ~/.myfunc ]; then
+  for ffile in ~/.myfunc/*sh
+  do
+    echo $LOG_TS"Sourcing ${ffile} ..."
+    source $ffile
+  done
+  unset ffile
 fi
 
 ### START: Automation

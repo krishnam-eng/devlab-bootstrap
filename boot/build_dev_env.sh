@@ -46,12 +46,17 @@ ln -s ~/github/ohmy-linux/zsh  ~/.myzsh
 ln -s ~/github/ohmy-linux/bash  ~/.mybash
 ln -s ~/github/ohmy-linux/tmux  ~/.mytmux
 ln -s ~/github/ohmy-linux/nano  ~/.mynano
+ln -s ~/github/ohmy-linux/func  ~/.myfunc
 ln -s ~/github/ohmy-linux/alias  ~/.myalias
 
-# this will change zdotdir value to start using ~/.myzsh as zdotdir
+
+# for zsh (env to start using ~/.myzsh as zdotdir)
 ln -s ~/.myzsh/.zshenv ~/.zshenv
 
 # for bash
 ln -s ~/.mybash/.bashrc  ~/.bashrc
+
+# for nano 
+ln -s ~/.mynano/.nanorc  ~/.nanorc
 
 

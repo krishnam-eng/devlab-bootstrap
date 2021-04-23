@@ -10,5 +10,8 @@
 .zcompdump
 
 # tmux
-tmux/plugins/**
-tmux/screenshots/**
+tmux/plugins/tpm/**
+tmux/plugins/tmux-resurrect/**
+tmux/plugins/tmux-continuum/**
+tmux/screenshots/*.screenshot
+

@@ -16,6 +16,7 @@ sudo apt install nano            # feature-rich CLI text editor for power users
 sudo apt install vim             # open-source clone of vi text editor developed to be customizable and able to work with any type of text
 
 sudo apt install tree            # list dir in tree form
+sudo apt install ranger          # console file manager with VI key bindings
 sudo apt install xclip           # copy
 sudo apt install zip             # default in > ubuntu21.04 
 sudo apt install unzip           # default in > ubuntu21.04 
@@ -33,6 +34,7 @@ sudo apt install python3.9       # python latest
 sudo apt install python3-pip     # package management - Pip Installs Packages
 sudo apt install default-jdk     # open jdk
 sudo apt install tomcat9         # servlet container
+sudo apt install nodejs          # servlet container
 
 # VS Code IDE Setup
 firefox https://code.visualstudio.com/Download &; 

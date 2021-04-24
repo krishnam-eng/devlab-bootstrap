@@ -21,7 +21,7 @@ sudo apt install xclip           # copy
 
 sudo apt install cowsay          # An ASCII cow in terminal that will say what ever you want
 sudo apt install figlet          # utility for creating ASCII text banners or large letters out of ordinary text
-sudo apt install cmatrix         # animation that looks alike Hacker‘s desktop
+sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in a Linux terminal
 
 sudo apt install zip             # default in > ubuntu21.04 
 sudo apt install unzip           # default in > ubuntu21.04 

@@ -11,6 +11,7 @@
 # Skipping a header in a file
 # tail: -n +2 will skip first line and give everything else  (offset from top)
 ############
+alias -g R='| lolcat'
 alias -g H='| head'
 alias -g T='| tail'
 

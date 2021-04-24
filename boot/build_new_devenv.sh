@@ -27,6 +27,7 @@ sudo apt install default-jdk     # open jdk
 sudo apt install tomcat9         # servlet container
 sudo apt install nodejs          # servlet container
 sudo apt install npm             # package manager for the nodejs platform
+sudo apt install httpie          # user-friendly command-line HTTP client for the API era
 
 # general tools
 sudo apt install tree            # list dir in tree form
@@ -46,10 +47,14 @@ sudo apt install exa             # more user-friendly version of ls
 sudo apt install fd-find         # a program to find entries in your filesytem. It is a simple, fast and user-friendly alternative to find
 sudo apt install ncdu            # NCurses Disk Usage: to view and analyse disk space usage. It can drill down into directories and report space used by individual directories. 
 sudo apt install htop            # interactive process viewer similar to top but that provides a nicer user experience out of the box
+sudo pip install glances         # system monitoring tool 
+sudo apt install htop            # top-like interface for container metrics
+
 
 sudo apt install sysstat         # iostat - cpu usage
 sudo apt install lm-sensors      # cpu temp
 
+# just for fun
 sudo apt install cowsay          # An ASCII cow in terminal that will say what ever you want
 sudo apt install figlet          # utility for creating ASCII text banners or large letters out of ordinary text
 sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in a Linux terminal

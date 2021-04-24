@@ -86,9 +86,9 @@ alias sdump='find . -name "*dump"'
 #alias sortnr='sort -n -r'
 #alias unexport='unset'
 
-#alias rm='rm -i'
-#alias cp='cp -i'
-#alias mv='mv -i'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
 
 #########################
 # Replacing Builtins and External Commands

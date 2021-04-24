@@ -9,12 +9,20 @@
 #####
 #  Install List
 #####
-sudo apt install git
-sudo apt install zsh
-sudo apt install tmux
-sudo apt install nano
-
-sudo apt install xclip
+sudo apt install git             # version control
+sudo apt install zsh             # powerful sh 
+sudo apt install tmux            # terminal multiplexer
+sudo apt install nano            # editor
+sudo apt install spell           # used in nano
+sudo apt install tree            #  
+sudo apt install xclip           # copy
+sudo apt install sysstat         # iostat
+sudo apt install lm-sensors      # cpu temp
+sudo apt install python3.9       # python latest
+sudo apt install python3-pip     # package management - Pip Installs Packages
+sudo apt install default-jdk     # open jdk
+sudo apt install apache2         # web server 
+sudo apt install tomcat9         # servlet container
 
 ######
 # checkout dev env github repo

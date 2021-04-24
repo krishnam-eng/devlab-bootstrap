@@ -8,8 +8,8 @@
 # Showing Where You Are - show working directory
 
 function swd {
-  echo $cs_bblue"Logical Path:$cs_reset $(command pwd -L )" # print working dir logical path
-	echo $cs_bgreen"Physical Path:$cs_reset $(command pwd -P )" # physical location - useful for syslink
+  echo $CS_bblue"Logical Path:$CS_reset $(command pwd -L )" # print working dir logical path
+	echo $CS_bgreen"Physical Path:$CS_reset $(command pwd -P )" # physical location - useful for syslink
 }
 
 # P: Finding and Running Commands
@@ -21,34 +21,34 @@ function swd {
 # Option: -s search in manpages
 
 function fcmd {
-  echo $cs_bcyan"[whence]:$cs_byellow $(whence $1)"$cs_reset
-  echo $cs_bcyan"[type]  :$cs_byellow $(type $1)"$cs_reset
-  echo $cs_bcyan"[which] :$cs_byellow $(which $1)"$cs_reset
+  echo $CS_bcyan"[whence]:$CS_byellow $(whence $1)"$CS_reset
+  echo $CS_bcyan"[type]  :$CS_byellow $(type $1)"$CS_reset
+  echo $CS_bcyan"[which] :$CS_byellow $(which $1)"$CS_reset
   while getopts "s" opt
   do
     case $opt in
-      s) echo $cs_bcyan"[apropos]:$cs_reset $(apropos $1)";;
+      s) echo $CS_bcyan"[apropos]:$CS_reset $(apropos $1)";;
     esac
   done
 }
 
 # file info
 function finfo {
-  echo $cs_bcyan"[ls]$cs_reset $(ls -l $1)"
-  echo $cs_byellow"[file]$cs_reset $(file $1)"
-	echo $cs_bgreen"[stat]$cs_reset $(stat $1)"
+  echo $CS_bcyan"[ls]$CS_reset $(ls -l $1)"
+  echo $CS_byellow"[file]$CS_reset $(file $1)"
+	echo $CS_bgreen"[stat]$CS_reset $(stat $1)"
 }
 
 # ubuntu update
 function upkg {
-  echo $cs_bcyan"UPDATE....."$cs_reset
+  echo ${LOG_TS}$CS_bcyan"UPDATE....."$CS_reset
 	sudo apt-get update
 
-	echo $cs_bgreen"UPGRADE....."$cs_reset
+	echo ${LOG_TS}$CS_bgreen"UPGRADE....."$CS_reset
 	sudo apt-get upgrade
 
 	if [[ $1 == 'c' ]] ; then
-	    echo $cs_bred"REMOVE....."$cs_reset
+	    echo ${LOG_TS}$CS_bred"REMOVE....."$CS_reset
 		sudo apt-get autoremove
 	fi
 }

@@ -10,29 +10,14 @@
 #  Install List
 #####
 
+# workspace
 sudo apt install zsh             # powerful sh 
 sudo apt install tmux            # terminal multiplexer
 sudo apt install nano            # feature-rich CLI text editor for power users
+sudo apt install spell           # used in nano for spell check
 sudo apt install vim             # open-source clone of vi text editor developed to be customizable and able to work with any type of text
 
-sudo apt install tree            # list dir in tree form
-sudo apt install ranger          # console file manager with VI key bindings
-sudo apt install xclip           # copy
-
-sudo apt install cowsay          # An ASCII cow in terminal that will say what ever you want
-sudo apt install figlet          # utility for creating ASCII text banners or large letters out of ordinary text
-sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in a Linux terminal
-
-sudo apt install zip             # default in > ubuntu21.04 
-sudo apt install unzip           # default in > ubuntu21.04 
-sudo apt install rar             # archive utilities 
-sudo apt install unrar           # archive utilities 
-sudo apt install rsync           # utility tool for performing swift incremental file transfers 
-sudo apt install gnome-tweaks    # useful to change capslock key binding
-sudo apt install spell           # used in nano for spell check
-sudo apt install sysstat         # iostat - cpu usage
-sudo apt install lm-sensors      # cpu temp
-
+# coder
 sudo apt install git             # version control
 sudo apt install apache2         # web server 
 sudo apt install python3.9       # python latest
@@ -41,6 +26,33 @@ sudo apt install ruby            # need for ruby gems
 sudo apt install default-jdk     # open jdk
 sudo apt install tomcat9         # servlet container
 sudo apt install nodejs          # servlet container
+sudo apt install npm             # package manager for the nodejs platform
+
+# general tools
+sudo apt install tree            # list dir in tree form
+sudo apt install ranger          # console file manager with vi key bindings
+sudo apt install xclip           # clipboard management
+sudo npm install -g tldr         # TooLongDidntRead: tldr pages are a community effort to simplify the beloved man pages with practical examples
+sudo apt install rsync           # utility tool for performing swift incremental file transfers 
+sudo apt install jq              # lightweight and flexible command-line JSON processor. It is like sed for JSON data. use it to slice and filter and map and transform structured data
+sudo apt install zip             # default in > ubuntu21.04 
+sudo apt install unzip           # default in > ubuntu21.04 
+sudo apt install rar             # archive utilities 
+sudo apt install unrar           # archive utilities 
+sudo apt install gnome-tweaks    # useful to change capslock key binding
+
+# alternatice utilities
+sudo apt install exa             # more user-friendly version of ls
+sudo apt install fd-find         # a program to find entries in your filesytem. It is a simple, fast and user-friendly alternative to find
+sudo apt install ncdu            # NCurses Disk Usage: to view and analyse disk space usage. It can drill down into directories and report space used by individual directories. 
+sudo apt install htop            # interactive process viewer similar to top but that provides a nicer user experience out of the box
+
+sudo apt install sysstat         # iostat - cpu usage
+sudo apt install lm-sensors      # cpu temp
+
+sudo apt install cowsay          # An ASCII cow in terminal that will say what ever you want
+sudo apt install figlet          # utility for creating ASCII text banners or large letters out of ordinary text
+sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in a Linux terminal
 
 # VS Code IDE Setup
 firefox https://code.visualstudio.com/Download &; 

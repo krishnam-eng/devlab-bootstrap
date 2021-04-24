@@ -98,7 +98,7 @@ alias mv='mv -i'
 
 cd () {
     builtin cd "$@"
-    echo "${cs_yellow}$OLDPWD${cs_reset} --> ${cs_bblue}$PWD${cs_reset}"
+    echo "${CS_yellow}$OLDPWD${CS_reset} --> ${CS_bcyan}$PWD${CS_reset}"
 }
 
 #######################

@@ -16,7 +16,8 @@ alias emkdir="mkdir -p"
 alias ls="ls --color=always --width=80"
 
 # Dot: Showing All Hidden (Dot) Files in the Current Directory
-alias ldot='ls -d .*'
+# add -l for long list
+alias ld='ls -d .*'
 
 # All: long list,show almost all,show type,human readable (with dot files)
 alias la="ls -lABFXh --block-size=K"
@@ -44,13 +45,15 @@ alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"
 
 alias els="exa"
 
-alias edot="exa -d .*"
+alias eld="exa -ld .*"
 
-alias ela="exa -l"
+alias ela="exa --long"
 
-alias elo="exa -s"
+alias elo="exa -l --header -s"
 
-alias elr="exa -R"
+alias elr="exa --recurse"
+
+alias elg="exa --long --header --git"
 
 alias elm="exa --long --extended"
 
@@ -65,9 +68,6 @@ alias elt3l="exa --tree --level=3 --long"
 
 alias elt4="exa --tree --level=4"
 alias elt4l="exa --tree --level=4 --long"
-
-
-alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"
 
 ##########=======-----LS END-----======##########
 

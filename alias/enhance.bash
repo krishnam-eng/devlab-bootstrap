@@ -57,17 +57,12 @@ alias elg="exa --long --header --git"
 
 alias elm="exa --long --extended"
 
-alias elt="exa --tree"
-alias eltl="exa --tree --long"
+alias elt="exa --tree --long"
 
-alias elt2="exa --tree --level=2"
-alias elt2l="exa --tree --level=2 --long"
-
-alias elt3="exa --tree --level=3"
-alias elt3l="exa --tree --level=3 --long"
-
-alias elt4="exa --tree --level=4"
-alias elt4l="exa --tree --level=4 --long"
+alias elt1="exa --tree --long --level=2"
+alias elt2="exa --tree --level=2 --long"
+alias elt3="exa --tree --level=3 --long"
+alias elt4="exa --tree --level=4 --long"
 
 ##########=======-----LS END-----======##########
 

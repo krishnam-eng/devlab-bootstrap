@@ -26,11 +26,11 @@ alias la="ls -lABFXh --block-size=K"
 alias lr='ls -tRFh'
 
 # Tree: use tree like ls , -a => all , -prune => no empty dir , -L 2 => 2 level
-alias lt="tree -a"
-alias lt1="tree -a -L 1"
-alias lt2="tree -a -L 2"
-alias lt3="tree -a -L 3"
-alias lt4="tree -a -L 4"
+alias lt="tree "
+alias lt1="tree -L 1"
+alias lt2="tree -L 2"
+alias lt3="tree -L 3"
+alias lt4="tree -L 4"
 
 # Order: with Size and Sorted
 alias lo='ls -1FSsh'

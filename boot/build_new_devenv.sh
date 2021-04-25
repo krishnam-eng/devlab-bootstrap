@@ -122,3 +122,7 @@ ln -s ~/.mytmux/.tmux.conf ~/.tmux.conf
 
 # set default shell to zsh [echo $SHELL]
 chsh -s $(which zsh)
+
+# mount shared folder from host os (for vbox)
+mkdir -p ~/shared
+sudo mount -t vboxsf  vbox_shared  ~/shared

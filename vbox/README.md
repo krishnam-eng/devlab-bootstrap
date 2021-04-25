@@ -79,3 +79,5 @@ $ \rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos
 1. Create "shared" directory in your home
 1. Mount the shared folder from the host to your ~/shared directory
 ```sudo mount -t vboxsf  vbox_shared  ~/shared```
+![image](https://user-images.githubusercontent.com/82016952/115995823-69c72d00-a5fa-11eb-91ce-24a29d93c671.png)
+

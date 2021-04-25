@@ -6,54 +6,78 @@
 ###### 
 
 # creat missing dirs in the path
-alias mkdir="mkdir -p"
+alias emkdir="mkdir -p"
 
-# reload default shell run commands
-alias src="source ~/.zshrc"
+##########===========----------------
+# enhanced ls with built-in
+##########===========----------------
 
-# use default edit as nano & frquent edit files
-alias e="nano"
-alias ezshrc="nano ~/.zshrc"
-
-#####################
-#### ls, the common ones I use a lot shortened for rapid fire usage
-#####################
-
-# ls - set color option 
+# ls - set color option
 alias ls="ls --color=always --width=80"
 
-# with Size and Sorted
-alias lS='ls -1FSsh'
-
-# long list : size,show type,human readable (with out dot files)
-alias ll='ls -lFh'     
-
 # Dot: Showing All Hidden (Dot) Files in the Current Directory
-alias ldot='ls -ld .*'
+alias ldot='ls -d .*'
 
 # All: long list,show almost all,show type,human readable (with dot files)
-alias la="ls -ABFXh --block-size=K -l"                                                     
-
-# all file but in one col 
-alias lA='ls -1Fcart'
-
-# ls for machince read (all files and full timestamp
-alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"                          
+alias la="ls -lABFXh --block-size=K"
 
 # Recursive: sorted by date,recursive,show type,human readable
-alias lr='ls -tRFh'   
+alias lr='ls -tRFh'
 
-# Tree: use tree like ls , -a => all , -prune => no empty dir , -L 2 => 2 level                          
-alias lt="tree -a -L 1"
+# Tree: use tree like ls , -a => all , -prune => no empty dir , -L 2 => 2 level
+alias lt="tree -a"
 alias lt1="tree -a -L 1"
 alias lt2="tree -a -L 2"
 alias lt3="tree -a -L 3"
 alias lt4="tree -a -L 4"
-alias lt5="tree -a -L 5"
+
+# Order: with Size and Sorted
+alias lo='ls -1FSsh'
+
+# ls for machince read (all files and full timestamp
+alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"
+
+
+##########===========----------------
+# enhanced ls with exa
+##########===========----------------
+
+alias els="exa"
+
+alias edot="exa -d .*"
+
+alias ela="exa -l"
+
+alias elo="exa -s"
+
+alias elr="exa -R"
+
+alias elm="exa --long --extended"
+
+alias elt="exa --tree"
+alias eltl="exa --tree --long"
+
+alias elt2="exa --tree --level=2"
+alias elt2l="exa --tree --level=2 --long"
+
+alias elt3="exa --tree --level=3"
+alias elt3l="exa --tree --level=3 --long"
+
+alias elt4="exa --tree --level=4"
+alias elt4l="exa --tree --level=4 --long"
+
+
+alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"
+
+##########=======-----LS END-----======##########
+
+
+# use default edit as nano & frquent edit files
+alias e="nano"
+
 
 # list shells & you can change shell chsh -s /path
 alias lshells="cat /etc/shells"
-
 
 
 # Quick access to the .zshrc file

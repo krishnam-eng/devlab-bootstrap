@@ -22,3 +22,4 @@ if [ -d ~/.myenv ]; then
 fi
 
 export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
+

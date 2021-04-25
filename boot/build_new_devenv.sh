@@ -21,15 +21,19 @@ sudo apt install vim             # open-source clone of vi text editor developed
 sudo apt install git             # version control
 sudo apt install apache2         # web server 
 sudo apt install apache2-utils   # apache bench for cli single page load test
+
 sudo apt install python3.9       # python latest
 sudo apt install python3-pip     # package management - Pip Installs Packages
+sudo pip3 install locust         # open source load testing tool, define user behaviour with Python code
+sudo pip3 install autopep8       # vscode needs this for auto formatting 
+
 sudo apt install ruby            # need for ruby gems 
 sudo apt install default-jdk     # open jdk
 sudo apt install tomcat9         # servlet container
 sudo apt install nodejs          # servlet container
 sudo apt install npm             # package manager for the nodejs platform
 sudo apt install httpie          # user-friendly command-line HTTP client for the API era
-pip install locust               # open source load testing tool, define user behaviour with Python code
+
 
 # general tools
 sudo apt install tree            # list dir in tree form

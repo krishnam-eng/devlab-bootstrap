@@ -126,3 +126,6 @@ chsh -s $(which zsh)
 # mount shared folder from host os (for vbox)
 mkdir -p ~/shared
 sudo mount -t vboxsf  vbox_shared  ~/shared
+
+# this is a workspace, remove all default desktop dirs and enter into zen mode
+\rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos

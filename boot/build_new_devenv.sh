@@ -19,12 +19,15 @@ sudo apt install vim             # open-source clone of vi text editor developed
 
 # coder
 sudo apt install git             # version control
+
 sudo apt install apache2         # web server 
 sudo apt install apache2-utils   # apache bench for cli single page load test
 
 sudo apt install python3.9       # python latest
 sudo apt install python3-pip     # package management - Pip Installs Packages
 sudo pip3 install locust         # open source load testing tool, define user behaviour with Python code
+
+sudo apt install code            # VS Code IDE
 sudo pip3 install autopep8       # vscode needs this for auto formatting 
 
 sudo apt install ruby            # need for ruby gems 
@@ -65,9 +68,6 @@ sudo apt install cowsay          # An ASCII cow in terminal that will say what e
 sudo apt install figlet          # utility for creating ASCII text banners or large letters out of ordinary text
 sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in a Linux terminal
 
-# VS Code IDE Setup
-firefox https://code.visualstudio.com/Download &; 
-sudo dpkg -i ~/code_*_amd64.deb;
 
 ######
 # checkout dev env github repo

@@ -53,3 +53,7 @@ gem install lolcat
 
 ![image](https://user-images.githubusercontent.com/82016952/115950054-94c85880-a4f6-11eb-9d27-5830c9668789.png)
 
+### Never Blank Screen
+
+![image](https://user-images.githubusercontent.com/82016952/116283449-85246a80-a7a9-11eb-935c-fb0eae929ab5.png)
+

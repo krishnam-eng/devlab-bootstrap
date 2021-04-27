@@ -97,31 +97,33 @@ git clone https://github.com/tmux-plugins/tpm ~/github/ohmy-linux/tmux/plugins/t
 # Setup zsh, bash, tmux, nano run command configs
 #####
 
-# take a backup
-mkdir -p ~/.mybkp
-mv .zshrc ~/.mybkp/.zshrc_$(date +%y%m%d)-old
-mv .bashrc ~/.mybkp/.bashrc_$(date +%y%m%d)-old
-
 # link from the home itself
-ln -s ~/github/ohmy-linux/env  ~/.myenv
-ln -s ~/github/ohmy-linux/zsh  ~/.myzsh
-ln -s ~/github/ohmy-linux/bash  ~/.mybash
-ln -s ~/github/ohmy-linux/tmux  ~/.mytmux
-ln -s ~/github/ohmy-linux/nano  ~/.mynano
-ln -s ~/github/ohmy-linux/func  ~/.myfunc
 ln -s ~/github/ohmy-linux/alias  ~/.myalias
+ln -s ~/github/ohmy-linux/bash   ~/.mybash
+ln -s ~/github/ohmy-linux/env    ~/.myenv
+ln -s ~/github/ohmy-linux/func   ~/.myfunc
+ln -s ~/github/ohmy-linux/nano   ~/.mynano
+ln -s ~/github/ohmy-linux/tmux   ~/.mytmux
+ln -s ~/github/ohmy-linux/zsh    ~/.myzsh
 
+# Verify the list 
+la ~/.my*
 
-# for zsh (env to start using ~/.myzsh as zdotdir)
+# take a backup of old configs
+mkdir -p ~/.mybkp
+
+cp ~/.bashrc ~/.mybkp/.bashrc_$(date +%y%m%d)-old
+cp ~/.tmux.conf ~/.mybkp/.tmux.conf_$(date +%y%m%d)-old
+cp ~/.zshenv ~/.mybkp/.zshenv_$(date +%y%m%d)-old
+cp ~/.zshrc ~/.mybkp/.zshrc_$(date +%y%m%d)-old
+cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old
+
+rm -f  ~/.zshenv ~/.zshrc ~/.bashrc ~/.tmux.conf ~/.nanorc
+
+# create links to tools configs
 ln -s ~/.myzsh/.zshenv ~/.zshenv
-
-# for bash
 ln -s ~/.mybash/.bashrc  ~/.bashrc
-
-# for nano 
 ln -s ~/.mynano/.nanorc  ~/.nanorc
-
-# for tmux 
 ln -s ~/.mytmux/.tmux.conf ~/.tmux.conf
 
 # set default shell to zsh [echo $SHELL]

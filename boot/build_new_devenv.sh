@@ -25,8 +25,8 @@ sudo apt install apache2-utils   # apache bench for cli single page load test
 
 sudo apt install python3.9       # python latest
 sudo apt install python3-pip     # package management - Pip Installs Packages
-sudo pip3 install locust         # open source load testing tool, define user behaviour with Python code
-
+sudo pip install locust          # open source load testing tool, define user behaviour with Python code
+sudo pip install rope            # python refactoring library - used in vscode 
 sudo apt install code            # VS Code IDE
 sudo pip3 install autopep8       # vscode needs this for auto formatting 
 

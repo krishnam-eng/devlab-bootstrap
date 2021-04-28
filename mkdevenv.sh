@@ -73,20 +73,10 @@ sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in
 ######
 # checkout dev env github repo
 ######
-
-mkdir -p ~/github
-
-# Setup SSH pub key for secure interaction with github
-ssh-keygen -t ed25519 -C "krishnam.balamurugan.eng@gmail.com" 
-
-# Copy public key and add key in github with this.  github->"Setting" -> "SSH and GPG keys".
-cat ~/.ssh/id_ed25519.pub | xclip -sel clip
-
 if [[ ! -d ~/github/ohmy-linux ]]; then
-    echo "cloning ohmy-linux repo..."
-    git clone git@github.com:krishnam-eng/ohmy-linux ~/github/ohmy-linux
-    
-    # if it was cloned from http, use below to change to ssh
+    mkdir -p ~/github
+    git clone https://github.com/krishnam-eng/ohmy-linux ~/github/ohmy-linux
+    # if it was cloned from http, use below to change to ssh once ssh pub key added to githubsetup
     # git remote set-url origin git@github.com:krishnam-eng/practice-python.git
 fi
 

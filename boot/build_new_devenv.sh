@@ -24,6 +24,7 @@ sudo apt install apache2         # web server
 sudo apt install apache2-utils   # apache bench for cli single page load test
 
 sudo apt install python3.9       # python latest
+sudo apt install virtualenv      # provides virtual environment - has its own Python binary and independent set of Python packages
 sudo apt install python3-pip     # package management - Pip Installs Packages
 sudo pip install locust          # open source load testing tool, define user behaviour with Python code
 sudo pip install rope            # python refactoring library - used in vscode 

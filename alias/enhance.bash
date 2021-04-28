@@ -5,8 +5,21 @@
 #
 ###### 
 
-# creat missing dirs in the path
-alias emkdir="mkdir -p"
+##########===========----------------
+# enhanced dir cmds (make,copy...) with built-in
+##########===========----------------
+
+# creat the intermediate parent directories if needed
+alias emkdir="mkdir --parents"
+
+# creat the intermediate parent directories if needed
+alias ecp="cp -rv --parents"
+
+# copy "d"ir recursively with verbose mode
+alias cpd="cp -rv"
+
+# copy after dereferencing "l"inks
+alias cpl="cp -L"
 
 ##########===========----------------
 # enhanced ls with built-in
@@ -65,6 +78,7 @@ alias elt3="exa --tree --level=3 --long"
 alias elt4="exa --tree --level=4 --long"
 
 ##########=======-----LS END-----======##########
+
 
 
 # use default edit as nano & frquent edit files

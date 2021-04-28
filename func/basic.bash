@@ -41,14 +41,16 @@ function finfo {
 
 # ubuntu update
 function upkg {
-  echo ${LOG_TS}$CS_bcyan"UPDATE....."$CS_reset
-	sudo apt-get update
+  echo ${LOG_TS}$CS_bcyan"UPDATE============"$CS_reset
+	sudo apt-get update --fix-missing
 
-	echo ${LOG_TS}$CS_bgreen"UPGRADE....."$CS_reset
+	echo ${LOG_TS}$CS_bgreen"UPGRADE+++++++++++"$CS_reset
 	sudo apt-get dist-upgrade
-
+  
+  echo ${LOG_TS}$CS_bred"CLEAN------------"$CS_reset
+  sudo apt-get clean
 	if [[ $1 == 'c' ]] ; then
-	    echo ${LOG_TS}$CS_bred"REMOVE....."$CS_reset
+	    echo ${LOG_TS}$CS_bred"REMOVE-----------"$CS_reset
 		sudo apt-get autoremove
 	fi
 }

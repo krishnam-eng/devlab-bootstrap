@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
-
 ##############
 #
 #   Portable Dev Environment - Build anywhere
 #
 ###############
-
-#####
-#  Install List
-#####
 
 # workspace
 sudo apt install zsh             # powerful sh 
@@ -25,6 +20,7 @@ sudo apt install apache2-utils   # apache bench for cli single page load test
 
 sudo apt install python3.9       # python latest
 sudo apt install virtualenv      # provides virtual environment - has its own Python binary and independent set of Python packages
+sudo pip install  virtualenvwrapper # provides a set of commands that extend Python virtual environments for more control and better manageability. It places all your virtual environments in one directory
 sudo apt install python3-pip     # package management - Pip Installs Packages
 sudo pip install locust          # open source load testing tool, define user behaviour with Python code
 sudo pip install rope            # python refactoring library - used in vscode 

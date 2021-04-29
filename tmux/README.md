@@ -71,9 +71,10 @@ This flow is how tmux-using developers' day looks like. First things first, one 
 *[prefix] _            Split the window into two vertical panes
 *[prefix] |            Split the window into two horizontal panes (horizontal )
 
- [prefix] q            Show the pane number in each pane briefly.
- [prefix] arrow-keys   Switch focus to different pane
- C-d                   Close the pane just like how you will close a terminal
+ [prefix] q           Show the pane number in each pane briefly.
+ [prefix] arrow-keys  Switch focus to different pane
+ [prefix] {/}         Swap Pane
+C-d                   Close the pane just like how you will close a terminal
 
 #### Layout Management
 [prefix] <space> Rotate through the default layouts

@@ -1,28 +1,39 @@
-#### Vbox
+# Virtual Box Setup For Devloper Lab
+- [Virtual Box Setup For Devloper Lab](#virtual-box-setup-for-devloper-lab)
+    - [Get VBox & Guest OS](#get-vbox--guest-os)
+    - [Create Virtual Machince](#create-virtual-machince)
+      - [Setup Guest OS](#setup-guest-os)
+      - [Setup Graphics](#setup-graphics)
+      - [Shared Clipboard Between Host & Guest](#shared-clipboard-between-host--guest)
+      - [Ubunutu Dev Env](#ubunutu-dev-env)
+      - [Mount Shared Folder](#mount-shared-folder)
 
-**Host OS & Guest OS**
+### Get VBox & Guest OS
 
 **Download Virtual Box** 
-```
-Invoke-WebRequest https://download.virtualbox.org/virtualbox/6.1.20/VirtualBox-6.1.20-143896-Win.exe
+```powershell 
+Invoke-WebRequest -Uri https://download.virtualbox.org/virtualbox/6.1.20/VirtualBox-6.1.20-143896-Win.exe -UseBasicParsing -Outfile VirtualBox-6.1.20-143896-Win.exe
+.\VirtualBox-6.1.20-143896-Win.exe
 ```
 
 **Download Guest OS** (ubuntu)
-```
-Invoke-WebRequest https://releases.ubuntu.com/21.04/ubuntu-21.04-desktop-amd64.iso
+```powershell
+Invoke-WebRequest -Uri https://releases.ubuntu.com/21.04/ubuntu-21.04-desktop-amd64.iso -Outfile ubuntu-21.04-desktop-amd64.iso
 ```
 
-**Create Virtual Machince**
+### Create Virtual Machince
+
+Tips:
 - Use SSD Drive 
-- Setup RAM Size (Do not forget that  your host computer will use only the remaining available RAM)
+- Setup RAM Size: Do not forget that  your host computer will use only the remaining available RAM)
+- Setup Harddisk Size: Choose Dynamically Grow Option
+  
+<img src="https://user-images.githubusercontent.com/82016952/115802609-d96fc900-a3fc-11eb-8a64-8834279eee0f.png" width="550">
 
-![image](https://user-images.githubusercontent.com/82016952/115802609-d96fc900-a3fc-11eb-8a64-8834279eee0f.png)
+<img src="https://user-images.githubusercontent.com/82016952/115802695-002dff80-a3fd-11eb-809d-48868b0a5f62.png" width="550">
 
-- Setup Harddisk Size 
-- Choose Dynamically Grow Option
-![image](https://user-images.githubusercontent.com/82016952/115802695-002dff80-a3fd-11eb-809d-48868b0a5f62.png)
 
-**Setup Guest OS**
+#### Setup Guest OS
 ![image](https://user-images.githubusercontent.com/82016952/115802788-26539f80-a3fd-11eb-965a-2940bbb05d1e.png)
 
 ![image](https://user-images.githubusercontent.com/82016952/115802873-5602a780-a3fd-11eb-8d38-6e46aa51a55b.png)

@@ -20,7 +20,7 @@ sudo apt install apache2-utils   # apache bench for cli single page load test
 
 sudo apt install python3.9       # python latest
 sudo apt install virtualenv      # provides virtual environment - has its own Python binary and independent set of Python packages
-sudo pip install  virtualenvwrapper # provides a set of commands that extend Python virtual environments for more control and better manageability. It places all your virtual environments in one directory
+sudo pip install virtualenvwrapper # provides a set of commands that extend Python virtual environments for more control and better manageability. It places all your virtual environments in one directory
 sudo apt install python3-pip     # package management - Pip Installs Packages
 sudo pip install locust          # open source load testing tool, define user behaviour with Python code
 sudo pip install rope            # python refactoring library - used in vscode 
@@ -64,7 +64,6 @@ sudo apt install lm-sensors      # cpu temp
 sudo apt install cowsay          # An ASCII cow in terminal that will say what ever you want
 sudo apt install figlet          # utility for creating ASCII text banners or large letters out of ordinary text
 sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in a Linux terminal
-
 
 ######
 # checkout dev env github repo
@@ -122,3 +121,13 @@ sudo mount -t vboxsf  vbox_shared  ~/shared
 
 # this is a workspace, remove all default desktop dirs and enter into zen mode
 \rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos
+
+# keep things updated. the below steps is available as a signle custom function in func/* files -- $ update
+sudo apt-get update --fix-missing
+sudo apt-get dist-upgrade
+sudo apt-get autoremove
+sudo apt-get autoclean
+sudo pip install --upgrade pip
+sudo apt-get clean
+
+

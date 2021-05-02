@@ -51,6 +51,8 @@ alias lo='ls -1FSsh'
 # ls for machince read (all files and full timestamp
 alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"
 
+# Other useful options
+# -1 => print in one column
 
 ##########===========----------------
 # enhanced ls with exa

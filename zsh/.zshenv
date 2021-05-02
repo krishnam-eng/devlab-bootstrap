@@ -14,6 +14,7 @@ export ZDOTDIR=~/.myzsh/
 # use this for log prefix
 
 if [ -d ~/.myenv ]; then
+  # Recipe: Running All Scripts in a Directory
   for efile in ~/.myenv/*sh
   do
     source $efile

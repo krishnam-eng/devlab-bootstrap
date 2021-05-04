@@ -5,3 +5,16 @@
 PS1="$_OLD_VIRTUAL_PS1"
 _OLD_RPROMPT="$RPROMPT"
 RPROMPT="%{${fg_bold[white]}%}(env: %{${fg[green]}%}`basename \"$VIRTUAL_ENV\"`%{${fg_bold[white]}%})%{${reset_color}%} $RPROMPT"
+
+
+# Changing the Default Behavior of cd
+#   cd w/o args will go to the project root
+cd () {
+    if (( $# == 0 ))
+    then
+        builtin cd $PROJECT_HOME
+    else
+        builtin cd "$@"
+    fi
+}
+cd

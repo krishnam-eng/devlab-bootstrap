@@ -18,6 +18,7 @@ hash -d nano=~/.mynano    # ~nano
 hash -d gh=~/github                     # ~gh
 hash -d lrp=~/github/ohmy-linux         # workspace repo ~lrp
 hash -d alias=~/github/ohmy-linux/alias # ~alias
+hash -d env=~/github/ohmy-linux/env     # ~env
 
 hash -d ltrp=~/github/load-testing      # load testing ~lrp
 hash -d pyrp=~/github/practice-python   # python repo ~pyrp

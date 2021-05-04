@@ -90,7 +90,9 @@ ln -s ~/github/ohmy-linux/env    ~/.myenv
 ln -s ~/github/ohmy-linux/func   ~/.myfunc
 ln -s ~/github/ohmy-linux/nano   ~/.mynano
 ln -s ~/github/ohmy-linux/tmux   ~/.mytmux
+ln -s ~/github/ohmy-linux/venv   ~/.myvenv
 ln -s ~/github/ohmy-linux/zsh    ~/.myzsh
+
 
 # Verify the list 
 la ~/.my*
@@ -129,5 +131,3 @@ sudo apt-get autoremove
 sudo apt-get autoclean
 sudo pip install --upgrade pip
 sudo apt-get clean
-
-

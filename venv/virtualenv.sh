@@ -21,3 +21,4 @@ pip install -r requirements.txt
 # To return to normal system settings, type
 deactivate
 
+#* created alias for all venv commands - check alias/venv.bash

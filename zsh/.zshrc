@@ -22,6 +22,9 @@ if [ -d ~/.myfunc ]; then
   unset ffile
 fi
 
+# load venv extention config to work with python projects
+source ~/.myvenv/virtualenvwrapper.sh
+
 ### START: Automation
 # Auto completion
 autoload -Uz compinit

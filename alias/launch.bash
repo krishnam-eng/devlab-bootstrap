@@ -30,22 +30,22 @@ alias rvenv="pip3 install -r venv/requirements.venv"
 #   -r requirement file
 #   -i install
 #   -a associate an existing project
-alias mkvenv="mkvirtualenv" # make
-alias cpvenv="cpvirtualenv" # copy
-alias rmvenv="rmvirtualenv" # remove
+alias mkvenv="mkvirtualenv"    # make
+alias cpvenv="cpvirtualenv"    # copy
+alias rmvenv="rmvirtualenv"    # remove
+alias lsvenv="lsvirtualenv -b" #ls envs
 
 # Activates the virtual environment or switches from the current environment to the specified one
-alias svenv="workon" #switch or start workspace
+alias avenv="workon" #switch or start workspace
 
-# Deactivates (kill) the virtual environment.
-alias kvenv="deactivate"
+# Deactivates the virtual environment.
+alias dvenv="deactivate"
 
 # run cmds in all venvs
-alias avenv="allvirtualenv"
+alias cvenv="allvirtualenv"
 
-# list all v envs
-alias lsvenv="lsvirtualenv -l"
-
+# remove all installs form venv
+alias wvenv="wipeenv"
 
 
 # use neo vim

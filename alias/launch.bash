@@ -26,7 +26,13 @@ alias rvenv="pip3 install -r venv/requirements.venv"
 # load virtual env from snapshot
 
 # To use venv wrapper extention
-alias mkvenv="mkvirtualenv"
+# Options:
+#   -r requirement file
+#   -i install
+#   -a associate an existing project
+alias mkvenv="mkvirtualenv" # make
+alias cpvenv="cpvirtualenv" # copy
+alias rmvenv="rmvirtualenv" # remove
 
 # Activates the virtual environment or switches from the current environment to the specified one
 alias svenv="workon" #switch or start workspace
@@ -34,6 +40,11 @@ alias svenv="workon" #switch or start workspace
 # Deactivates (kill) the virtual environment.
 alias kvenv="deactivate"
 
+# run cmds in all venvs
+alias avenv="allvirtualenv"
+
+# list all v envs
+alias lsvenv="lsvirtualenv -l"
 
 
 

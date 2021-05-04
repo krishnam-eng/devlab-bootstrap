@@ -4,4 +4,6 @@
 # reverse the effect of showing the active virtualenv on the right side of my screen instead
 RPROMPT="$_OLD_RPROMPT"
 
-# https://virtualenvwrapper.readthedocs.io/en/latest/tips.html
+# restore the default behaviour of cd
+unset -f cd
+

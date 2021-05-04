@@ -1,3 +1,10 @@
 #!/usr/bin/zsh
 # This hook is sourced after a new virtualenv is activated.
 
+# if venv name is same as any existing project name , let's move there
+proj_name=$(basename $VIRTUAL_ENV)
+if [ -e $PROJECT_HOME/$proj_name ]
+then
+  add2virtualenv $PROJECT_HOME/$proj_name
+  cd $PROJECT_HOME/$proj_name
+fi

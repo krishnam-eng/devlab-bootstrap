@@ -1,3 +1,7 @@
 #!/usr/bin/zsh
 # This hook is sourced after every virtualenv is deactivated.
 
+# reverse the effect of showing the active virtualenv on the right side of my screen instead
+RPROMPT="$_OLD_RPROMPT"
+
+# https://virtualenvwrapper.readthedocs.io/en/latest/tips.html

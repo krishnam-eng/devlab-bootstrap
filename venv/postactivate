@@ -18,3 +18,13 @@ cd () {
     fi
 }
 cd
+
+
+# move to project folder if exist (it will work if the env is same as the project name)
+proj_name=$(basename $VIRTUAL_ENV)
+proj_dir="$PROJECT_HOME/$proj_name"
+
+if [ -d $proj_dir ]
+then
+  cd $proj_dir
+fi

@@ -50,7 +50,7 @@ sudo apt install gnome-tweaks    # useful to change capslock key binding
 
 # alternatice utilities
 sudo apt install exa             # more user-friendly version of ls
-sudo apt install fd-find         # a program to find entries in your filesytem. It is a simple, fast and user-friendly alternative to find
+sudo apt install fd-find         # fdfind: a program to find entries in your filesytem. It is a simple, fast and user-friendly alternative to find
 sudo apt install ncdu            # NCurses Disk Usage: to view and analyse disk space usage. It can drill down into directories and report space used by individual directories. 
 sudo apt install htop            # interactive process viewer similar to top but that provides a nicer user experience out of the box
 sudo pip install glances         # system monitoring tool 

@@ -5,6 +5,9 @@
 #     $ usage: xcmd aliasName
 ####
 
+# shows the number of files that a user can have opened per login session
+alias filelimit="cat /proc/sys/fs/file-max"
+
 if [ "$ZSH_SHELL"="zsh" ]; then
 
   alias -g H='| head'

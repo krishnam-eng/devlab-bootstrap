@@ -21,6 +21,9 @@ alias cpd="cp -rv"
 # copy after dereferencing "l"inks
 alias cpl="cp -L"
 
+# remove "d"ir recursively
+alias rmd="\rm -rf"
+
 ##########===========----------------
 # enhanced ls with built-in
 ##########===========----------------
@@ -156,3 +159,5 @@ is_interactive(){
         *) return 0;;
     esac
 }
+
+alias rcat="lolcat"

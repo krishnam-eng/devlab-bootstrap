@@ -10,14 +10,15 @@ alias vscode='code &'
 alias venv="virtualenv --python python3"
 
 # activate venv
-avenv (){
+srcvenv (){
   source ${1}/bin/activate
 }
 
 # snapshot venv requirements
 ssvenv (){
   mkdir -p venv
-  pip3 freeze > venv/requirements.venv
+  pip3 freeze >| venv/requirements.txt
+  lolcat venv/requirements.txt
 }
 
 # recreate venv from snapshot

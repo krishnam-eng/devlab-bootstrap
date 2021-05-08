@@ -17,7 +17,6 @@ cd () {
         builtin cd "$@"
     fi
 }
-cd
 
 # Hack 1: try to guess the project dir from venv name
 #
@@ -32,13 +31,11 @@ case $venv_name in
   "ppy") proj_name="practice-python";;
 esac
 
-echo "Identified Project: ${proj_name}"
-
 proj_fullpath="$PROJECT_HOME/$proj_name"
 
-echo "Identified Project Path: ${proj_fullpath}"
 if [ -e $proj_fullpath ]
 then
+  echo "Identified Project: ${proj_fullpath}"
   add2virtualenv $proj_fullpath
   cd $proj_fullpath
 fi

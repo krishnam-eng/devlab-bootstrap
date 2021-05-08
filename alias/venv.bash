@@ -17,13 +17,14 @@ ssvenv (){
 # recreate venv from snapshot
 alias rcvenv="pip3 install -r venv/requirements.txt"
 
-# Make virtual env from requirement file if available 
+# make virtual env from requirement file if available
 mkvenv (){
-  if [ -f  venv/requirements.txt ]
+  if [ -f  "venv/requirements.txt" ]
   then
-    mkvirtualenv -r venv/requirements.txt
-  else 
-    mkvirtualenv
+    echo "${LOG_TS} Creating virtual environement from venv/requirements.txt ..."
+    mkvirtualenv $1 -r venv/requirements.txt
+  else
+    mkvirtualenv $1
     # -i install
     # -a associate an existing project
   fi

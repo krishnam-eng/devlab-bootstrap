@@ -2,9 +2,10 @@
 # This hook is sourced after every virtualenv is activated.
 
 # Hack 1: Show the active virtualenv on the right side of my screen instead
-PS1="$_OLD_VIRTUAL_PS1"
-_OLD_RPROMPT="$RPROMPT"
-RPROMPT=">`basename \"$VIRTUAL_ENV\"`<$RPROMPT"
+# PS1="$_OLD_VIRTUAL_PS1"
+# _OLD_RPROMPT="$RPROMPT"
+# RPROMPT=">`basename \"$VIRTUAL_ENV\"`<$RPROMPT"
+# changelog: I moved prompt change to zsh setup itself to construct based on this env
 
 # Hack 2: Changing the Default Behavior of cd
 #
@@ -18,7 +19,7 @@ cd () {
     fi
 }
 
-# Hack 1: try to guess the project dir from venv name
+# Hack 3: try to guess the project dir from venv name
 #
 #   change dir to the proj location
 #   Adds the specified directories to the Python path for the currently-active virtualenv.

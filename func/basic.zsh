@@ -29,6 +29,4 @@ function szsh {
     done
     unset ffile
   fi
- 
 }
-

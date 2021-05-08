@@ -141,7 +141,7 @@ alias mv='mv -i'
 # enable -a will list all builtins and their enabled or disabled status.
 ########################
 
-cd () {
+ecd () {
     builtin cd "$@"
     echo "${CS_yellow}$OLDPWD${CS_reset} --> ${CS_bcyan}$PWD${CS_reset}"
 }

@@ -14,6 +14,8 @@ hash -d bash=~/.mybash    # ~bash
 hash -d tmux=~/.mytmux    # ~tmux
 hash -d nano=~/.mynano    # ~nano
 hash -d venv=~/.myvenv    # ~venv
+hash -d func=~/.myfunc    # ~func
+
 
 # quick access to Repos
 hash -d gh=~/github                     # ~gh

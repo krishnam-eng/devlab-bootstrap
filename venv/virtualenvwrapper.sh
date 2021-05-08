@@ -48,4 +48,4 @@ then
 fi
 
 # by default, venv  prefix the prompt with venv name, let's disable it since we are already personalized prompt zsh using venv variable.
-
+export VIRTUAL_ENV_DISABLE_PROMPT=1

@@ -4,6 +4,7 @@
 
 # virtualenvwrapper extensions include wrappers for creating and deleting virtual environments
 #   managing your development workflow, making it easier to work on more than one project at a time without introducing conflicts in their dependencies
+# https://virtualenv.pypa.io/en/latest/index.html
 
 # Features (Why Do I Use)
 #   Organizes all of your virtual environments in one place.
@@ -19,7 +20,7 @@
 # deactivate
 #   Deactivates the virtual environment.
 
-# wrapper loads based on path, to be certain, let's define it
+# wrapper loads bin based on path, to be certain which gets picked, let's define it here
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
 
@@ -30,13 +31,13 @@ export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
 export WORKON_HOME=~/.virtualenvs
 
 # location where the user-defined hooks should be placed
-export VIRTUALENVWRAPPER_HOOK_DIR=~/.myvenv
-export VIRTUALENVWRAPPER_LOG_FILE=${WORKON_HOME}/log/hook.log
-
-# location of your development project directories
+export VIRTUALENVWRAPPER_HOOK_DIR=~/.myvenv # hooks are in VCS
+export VIRTUALENVWRAPPER_LOG_FILE=~/log/venvwrapper.log
+export VIRTUALENVWRAPPER_TMPDIR=~/tmp
 export PROJECT_HOME=~/github
 
-mkdir -p $WORKON_HOME/log
+mkdir -p ~/log
+mkdir -p ~/tmp
 
 # lazy loading
 export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
@@ -45,3 +46,6 @@ if [ -e /usr/local/bin/virtualenvwrapper_lazy.sh ]
 then
   source /usr/local/bin/virtualenvwrapper_lazy.sh
 fi
+
+# by default, venv  prefix the prompt with venv name, let's disable it since we are already personalized prompt zsh using venv variable.
+

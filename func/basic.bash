@@ -6,7 +6,6 @@
 ################
 
 # Showing Where You Are - show working directory
-
 function swd {
   echo $CS_bblue"Logical Path:$CS_reset $(command pwd -L )" # print working dir logical path
 	echo $CS_bgreen"Physical Path:$CS_reset $(command pwd -P )" # physical location - useful for syslink
@@ -97,4 +96,3 @@ function sbash {
   fi
  
 }
-

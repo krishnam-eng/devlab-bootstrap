@@ -1,13 +1,13 @@
 #!/usr/bin/zsh
 # This hook is sourced after every virtualenv is activated.
 
-# show the active virtualenv on the right side of my screen instead
+# Hack 1: Show the active virtualenv on the right side of my screen instead
 PS1="$_OLD_VIRTUAL_PS1"
 _OLD_RPROMPT="$RPROMPT"
-RPROMPT="%{${fg_bold[white]}%}(env: %{${fg[green]}%}`basename \"$VIRTUAL_ENV\"`%{${fg_bold[white]}%})%{${reset_color}%} $RPROMPT"
+RPROMPT=">`basename \"$VIRTUAL_ENV\"`<$RPROMPT"
 
-
-# Changing the Default Behavior of cd
+# Hack 2: Changing the Default Behavior of cd
+#
 #   cd w/o args will go to the project root
 cd () {
     if (( $# == 0 ))
@@ -19,12 +19,26 @@ cd () {
 }
 cd
 
+# Hack 1: try to guess the project dir from venv name
+#
+#   change dir to the proj location
+#   Adds the specified directories to the Python path for the currently-active virtualenv.
+venv_name=$(basename $VIRTUAL_ENV)
 
-# move to project folder if exist (it will work if the env is same as the project name)
-proj_name=$(basename $VIRTUAL_ENV)
-proj_dir="$PROJECT_HOME/$proj_name"
+proj_name=$venv_name
 
-if [ -d $proj_dir ]
+case $venv_name in
+  "hlt") proj_name="howdoi-loadtest";;
+  "ppy") proj_name="practice-python";;
+esac
+
+echo "Identified Project: ${proj_name}"
+
+proj_fullpath="$PROJECT_HOME/$proj_name"
+
+echo "Identified Project Path: ${proj_fullpath}"
+if [ -e $proj_fullpath ]
 then
-  cd $proj_dir
+  add2virtualenv $proj_fullpath
+  cd $proj_fullpath
 fi

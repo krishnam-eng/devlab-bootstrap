@@ -14,18 +14,20 @@ sudo apt install vim             # open-source clone of vi text editor developed
 
 # coder
 sudo apt install git             # version control
+sudo apt install code            # VS Code IDE
 
 sudo apt install apache2         # web server 
 sudo apt install apache2-utils   # apache bench for cli single page load test
 
 sudo apt install python3.9       # python latest
-sudo apt install virtualenv      # provides virtual environment - has its own Python binary and independent set of Python packages
-sudo pip install virtualenvwrapper # provides a set of commands that extend Python virtual environments for more control and better manageability. It places all your virtual environments in one directory
 sudo apt install python3-pip     # package management - Pip Installs Packages
-sudo pip install locust          # open source load testing tool, define user behaviour with Python code
-sudo pip install rope            # python refactoring library - used in vscode 
-sudo apt install code            # VS Code IDE
-sudo pip3 install autopep8       # vscode needs this for auto formatting 
+sudo apt install pipx            # help you install and run end-user applications written in Python into an isolated environment. It's roughly similar to apt-get.
+sudo apt install virtualenv      # provides virtual environment - has its own Python binary and independent set of Python packages
+pipx install autopep8            # vscode needs this for auto formatting 
+pipx install virtualenvwrapper   # provides a set of commands that extend Python virtual environments for more control and better manageability. It places all your virtual environments in one directory
+pipx install locust              # open source load testing tool, define user behaviour with Python code
+pipx install rope                # python refactoring library - used in vscode 
+
 
 sudo apt install ruby            # need for ruby gems 
 sudo apt install default-jdk     # open jdk

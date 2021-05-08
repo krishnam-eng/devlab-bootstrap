@@ -15,7 +15,7 @@ ssvenv (){
 }
 
 # recreate venv from snapshot
-alias rvenv="pip3 install -r venv/requirements.venv"
+alias rcvenv="pip3 install -r venv/requirements.venv"
 
 # load virtual env from snapshot
 

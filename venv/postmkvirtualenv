@@ -1,10 +1,23 @@
 #!/usr/bin/zsh
 # This hook is sourced after a new virtualenv is activated.
 
-# if venv name is same as any existing project name , let's move there
-proj_name=$(basename $VIRTUAL_ENV)
-if [ -e $PROJECT_HOME/$proj_name ]
+# if venv name is same as any existing project name, let's move there
+venv_name=$(basename $VIRTUAL_ENV)
+
+proj_name=$venv_name
+
+case $venv_name in
+  "hlt") proj_name="howdoi-loadtest";;
+  "ppy") proj_name="practice-python";;
+esac
+
+echo "Identified Project: ${proj_name}"
+
+proj_fullpath="$PROJECT_HOME/$proj_name"
+
+echo "Identified Project Path: ${proj_fullpath}"
+if [ -e $proj_fullpath ]
 then
-  add2virtualenv $PROJECT_HOME/$proj_name
-  cd $PROJECT_HOME/$proj_name
+  add2virtualenv $proj_fullname
+  cd $PROJECT_HOME/$proj_fullname
 fi

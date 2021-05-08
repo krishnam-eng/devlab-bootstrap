@@ -15,19 +15,23 @@ ssvenv (){
 }
 
 # recreate venv from snapshot
-alias rcvenv="pip3 install -r venv/requirements.venv"
+alias rcvenv="pip3 install -r venv/requirements.txt"
 
-# load virtual env from snapshot
-
-# To use venv wrapper extention
-# Options:
-#   -r requirement file
-#   -i install
-#   -a associate an existing project
-alias mkvenv="mkvirtualenv"    # make
+# Make virtual env from requirement file if available 
+mkvenv (){
+  if [ -f  venv/requirements.txt ]
+  then
+    mkvirtualenv -r venv/requirements.txt
+  else 
+    mkvirtualenv
+    # -i install
+    # -a associate an existing project
+  fi
+}
 alias cpvenv="cpvirtualenv"    # copy
 alias rmvenv="rmvirtualenv"    # remove
 alias lsvenv="lsvirtualenv -b" #ls envs
+
 
 # Activates the virtual environment or switches from the current environment to the specified one
 alias avenv="workon" #switch or start workspace

@@ -143,7 +143,8 @@ alias mv='mv -i'
 
 ecd () {
     builtin cd "$@"
-    echo "${CS_yellow}$OLDPWD${CS_reset} --> ${CS_bcyan}$PWD${CS_reset}"
+    echo "${LOG_TS} ${CS_yellow}$OLDPWD${CS_reset} --> ${CS_bcyan}$PWD${CS_reset}"
+    gitvenv
 }
 
 #######################

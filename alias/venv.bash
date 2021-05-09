@@ -12,11 +12,14 @@ srcvenv (){
   source ${1}/bin/activate
 }
 
-# snapshot venv requirements
+# save venv requirements & venv name
 svenv (){
   mkdir -p venv
+  echo "${LOG_TS}Writing package requirements to ${CS_bcyan}venv/requirements.txt${CS_reset}"
   pip freeze >| venv/requirements.txt
   lolcat venv/requirements.txt
+  echo "${LOG_TS}Writing venv name to ${CS_bcyan}venv/name.venv${CS_reset}"
+  echo $(basename $VIRTUAL_ENV) >| venv/name.venv
 }
 
 # recreate venv from snapshot

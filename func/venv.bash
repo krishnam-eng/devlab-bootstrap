@@ -8,8 +8,8 @@ gitvenv (){
     if [ $? -eq 0 ]; then
 
         # Find the repo root and check for virtualenv name override
-        export GIT_DIR=$(\cd $gitdir_rpath; pwd)
-        export GIT_PROJ_ROOT=`dirname "$GIT_DIR"`
+        GIT_DIR=$(\cd $gitdir_rpath; pwd)
+        GIT_PROJ_ROOT=`dirname "$GIT_DIR"`
 
         VENV_NAME=`basename "$GIT_PROJ_ROOT"`
         echo "${LOG_TS} Identified Git Project: ${CS_bcyan}$VENV_NAME${CS_reset}"

@@ -14,6 +14,7 @@ sudo apt install vim             # open-source clone of vi text editor developed
 
 # coder
 sudo apt install git             # version control
+sudo apt install kdiff3          # compares and merges two or three input files or directories
 sudo apt install code            # VS Code IDE
 
 sudo apt install apache2         # web server 

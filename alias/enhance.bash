@@ -55,11 +55,16 @@ alias lo='ls -1FSsh'
 alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"
 
 # List all env
-alias le="declare -p" # or use 'export -p' or 'env' to see all exported variables
+alias lsenv="declare -p" # or use 'export -p' or 'env' to see all exported variables
 
 # List all variables
-alias lv="set"
+alias lsvar="set"
 
+# List all gh
+alias lsgh="lt1 ~/github/"
+
+# List all my dir
+alias lsmy="lt1 ~/.my*"
 
 # Other useful options
 # -1 => print in one column
@@ -116,8 +121,6 @@ alias t='tail -f'
 # The earlier shell syntax was to use backquotes (``) instead of $() for enclosing the sub-command. The $() syntax is preferred over the older `` syntax because it is easier to nest and arguably easier to read
 alias cdump="rm $(find . -name "*dump")"
 alias sdump='find . -name "*dump"'
-
-# list 
 
 #alias dud='du -d 1 -h'
 #alias duf='du -sh *'

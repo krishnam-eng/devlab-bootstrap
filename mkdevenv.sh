@@ -40,6 +40,7 @@ sudo apt install httpie          # user-friendly command-line HTTP client for th
 
 # general tools
 sudo apt install tree            # list dir in tree form
+sudo spt install gawk            # GNU awk
 sudo apt install ranger          # console file manager with vi key bindings
 sudo apt install xclip           # clipboard management
 sudo npm install -g tldr         # TooLongDidntRead: tldr pages are a community effort to simplify the beloved man pages with practical examples

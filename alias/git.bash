@@ -5,12 +5,10 @@
 # (sorted alphabetically)
 #
 
-#imu: 
 alias g='git'
 
-#imu: 
-alias ga='git add'
-alias gaa='git add --all'
+alias ga='git add'            # iuse
+alias gaa='git add --all'     # iuse
 alias gapa='git add --patch'
 alias gau='git add --update'
 alias gav='git add --verbose'
@@ -38,7 +36,7 @@ alias gca='git commit -v -a'
 alias gca!='git commit -v -a --amend'
 alias gcan!='git commit -v -a --no-edit --amend'
 alias gcans!='git commit -v -a -s --no-edit --amend'
-alias gcam='git commit -a -m'        # mfused
+alias gcam='git commit -a -m'   # iuse
 alias gcsm='git commit -s -m'
 alias gcb='git checkout -b'
 alias gcf='git config --list'
@@ -135,7 +133,7 @@ alias grrm='git remote remove'
 alias grs='git restore'
 alias grset='git remote set-url'
 alias grss='git restore --source'
-alias grst='git restore --staged'
+alias grst='git restore --staged'   # iuse
 alias grt='cd "$(git rev-parse --show-toplevel || echo .)"'
 alias gru='git reset --'
 alias grup='git remote update'

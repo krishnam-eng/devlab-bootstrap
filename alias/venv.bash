@@ -15,10 +15,10 @@ srcvenv (){
 # save venv requirements & venv name
 svenv (){
   mkdir -p venv
-  echo "${LOG_TS}Writing package requirements to ${CS_bcyan}venv/requirements.txt${CS_reset}"
+  echo "${LOG_TS} Writing package requirements to ${CS_bcyan}venv/requirements.txt${CS_reset}"
   pip freeze >| venv/requirements.txt
   lolcat venv/requirements.txt
-  echo "${LOG_TS}Writing venv name to ${CS_bcyan}venv/name.venv${CS_reset}"
+  echo "${LOG_TS} Writing venv name to ${CS_bcyan}venv/name.venv${CS_reset}"
   echo $(basename $VIRTUAL_ENV) >| venv/name.venv
 }
 
@@ -31,22 +31,43 @@ alias rvenv="pip install -r venv/requirements.txt"
 
 # make virtual env from requirement file if available
 #   don’t create VCS ignore directive in the destination directory
+#   activate the venv
+#   create venv metadata if not exist
 mkvenv (){
   if [ -f  "venv/requirements.txt" ]
   then
-    echo "${LOG_TS} Creating virtual environement from venv/requirements.txt ..."
-    mkvirtualenv $1 -r venv/requirements.txt --no-vcs-ignore
+    echo "${LOG_TS} Creating venv from venv/requirements.txt ..."
+    if [ -f "venv/name.venv" ]
+    then
+      echo "${LOG_TS} Fetching venv name from ${CS_bcyan}venv/name.venv ${CS_reset}..."
+      vname=$(cat venv/name.venv)
+      mkvirtualenv $vname -r venv/requirements.txt --no-vcs-ignore
+    else
+      echo "${LOG_TS} ${CS_red} Found no venv name metadata ! ${CS_reset}"
+      echo "${LOG_TS} Creating temp venv..."
+      ctdir=$(pwd)
+      mktmpenv -r venv/requirements.txt --no-vcs-ignore
+      $(cd $ctdir)
+    fi
+  # no venv metadata: maybe first time venv for this project, or no proj specific venv
   else
-    mkvirtualenv $1 --no-vcs-ignore
-    # -i install
-    # -a associate an existing project
+    if [ $# -eq 0 ]
+    then
+      vname=$(basename `pwd`)
+    else
+      vname=$1
+    fi
+    echo "${LOG_TS} Creating venv for ${CS_bcyan}${vname} ${CS_reset}..."
+    echo "${LOG_TS} Activating venv ${CS_bcyan}${vname} ${CS_reset}..."
+    mkvirtualenv $vname --no-vcs-ignore
+    workon $vname && svenv
   fi
-
-  # todo: add logic to create temp venv if no name provided or the name is tmp using `mktmpenv`
 }
+
 alias cpvenv="cpvirtualenv"    # copy
 alias rmvenv="rmvirtualenv"    # remove
 alias lsvenv="lsvirtualenv -b" # ls venvs
+alias shvenv="showvirtualenv"  # show current env details
 alias rcvenv="allvirtualenv"   # run-cmds in all venvs
 
 alias avenv="workon"     # Activates the virtual environment or switch to venv

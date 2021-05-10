@@ -20,6 +20,7 @@ svenv (){
   lolcat venv/requirements.txt
   echo "${LOG_TS} Writing venv name to ${CS_bcyan}venv/name.venv${CS_reset}"
   echo $(basename $VIRTUAL_ENV) >| venv/name.venv
+  lolcat venv/name.venv
 }
 
 # recreate venv from snapshot
@@ -53,7 +54,9 @@ mkvenv (){
   else
     if [ $# -eq 0 ]
     then
-      vname=$(basename `pwd`)
+      ctdir_rpath=$(basename `pwd`)
+      vname=$(genvname $ctdir_rpath)
+      echo "${LOG_TS} Generated venv name ${CS_bcyan}${vname}${CS_reset} from ${CS_bcyan}${ctdir_rpath}${CS_reset}..."
     else
       vname=$1
     fi
@@ -70,6 +73,7 @@ alias lsvenv="lsvirtualenv -b" # ls venvs
 alias shvenv="showvirtualenv"  # show current env details
 alias rcvenv="allvirtualenv"   # run-cmds in all venvs
 
+# todo: activate to auto pick venv name from name.venv file
 alias avenv="workon"     # Activates the virtual environment or switch to venv
 alias dvenv="deactivate" # Deactivates the virtual environment.
 

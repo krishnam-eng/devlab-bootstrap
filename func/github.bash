@@ -29,9 +29,9 @@ function ghclone(){
   git config --global diff.tool kdiff3
   git config --global merge.tool kdiff3
 
-  echo "${LOG_TS} List config ${CS_bgreen} global ${CS_reset}..."
+  echo "${LOG_TS} List config ${CS_bgreen}global${CS_reset}..."
   git config --global --list
 
-  echo "${LOG_TS} List config ${CS_green} local ${CS_reset}..."
+  echo "${LOG_TS} List config ${CS_green}local${CS_reset}..."
   git config --local --list
 }

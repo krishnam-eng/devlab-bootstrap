@@ -1,19 +1,19 @@
 `This page is the outcome of learning awk programming. it contains learning notes and act as my quick reference card`
 
-- [AWK Quick Reference Notes](#awk-quick-reference-notes)
+- [GAWK Quick Reference Notes](#gawk-quick-reference-notes)
   - [Basics: Getting Started](#basics-getting-started)
     - [Structure](#structure)
     - [Running AWK](#running-awk)
-  - [Records and Fields](#records-and-fields)
+  - [Regular Expressions](#regular-expressions)
+    - [Records and Fields](#records-and-fields)
     - [variables and Operations](#variables-and-operations)
-    - [Regular Expressions](#regular-expressions)
     - [Control Structures](#control-structures)
     - [Formatting Output](#formatting-output)
     - [Combining AWk with Other Tools](#combining-awk-with-other-tools)
     - [Handy AWK Program Files](#handy-awk-program-files)
 
 
-# AWK Quick Reference Notes
+# GAWK Quick Reference Notes
 Basic function of awk is to search files for lines and perform actions on that line using awk program. This program consist of _pattern-action_ pairs.
 
 - awk program is data driven where as most others are procedural - where you describe every steps in great details.
@@ -57,7 +57,7 @@ END{ # END rule run this block at the end of reading all inputs
   - `awk -f prog-file.awk ip-file1`
   - use .awk suffix for keeping housekeeping easier
   - if the file name does not have / then awk searches a list of dirs (searchpath)
-    - use `AWKPATH` to define search path
+    - use `AWKPATH` to define search path. If file not found, the path is searched agin with .awk suffix
 - Executable awk program 
 - use headerline `#!/usr/bin/awk -f` file advice to give which interpreter to run
   - chmod +x prog-file
@@ -79,13 +79,19 @@ _most frequently used options _
 |         -D | Enable _D_ebug mode                 |
 |         -S | Run in sandbox mode                 |
 |         -- | End of cmdline options              |
-|          - | represent stdin                     |
 
-## Records and Fields
+**Others**
+- You can use `-` to refer to stdin on the cmd line
+- nonoption command-line args are placed in the ARGV array
+- gawk allows you to include other awk source file using @include
+- gawk allows you to load C/C++ functions using @load
+
+## Regular Expressions
+
+
+### Records and Fields
 
 ### variables and Operations
-
-### Regular Expressions
 
 ### Control Structures
 

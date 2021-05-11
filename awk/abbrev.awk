@@ -1,3 +1,5 @@
+#!/usr/bin/awk -f
+
 # convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")
 BEGIN{
   FS="-";

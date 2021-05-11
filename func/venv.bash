@@ -36,5 +36,6 @@ gitvenv (){
 # convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")
 ##
 function genvname (){
-  echo "$1" | awk -f ~/.myawk/abbrev.awk
+  echo "$1" | awk -f abbrev
+  # abbrev is a custom executable awk program
 }

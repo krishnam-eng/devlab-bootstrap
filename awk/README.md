@@ -17,13 +17,11 @@
       - [Groups](#groups)
       - [Assertions](#assertions)
       - [Flags](#flags)
+    - [Reading Input: Records and Fields](#reading-input-records-and-fields)
+    - [Printing Output: Formatting, Records and Fields](#printing-output-formatting-records-and-fields)
   - [Others](#others)
-    - [Records and Fields](#records-and-fields)
     - [variables and Operations](#variables-and-operations)
     - [Control Structures](#control-structures)
-    - [Formatting Output](#formatting-output)
-    - [Combining AWk with Other Tools](#combining-awk-with-other-tools)
-    - [Handy AWK Program Files](#handy-awk-program-files)
 
 
 # GAWK Quick Reference Notes
@@ -234,17 +232,52 @@ _python_
 
 - IGNORECASE
 
-## Others
+### Reading Input: Records and Fields
 
-### Records and Fields
+- _records_ : input is split into records and rules acts on record
+  - default: one line `RS="\n"`
+  - `RS` -> _record separator_ 
+  - `RS=""` -> empty string means records are seperated by one or more blank lines
+  - `RS="\0"` -> whole file becomes one record
+  - `RT` -> when RS is regex, RT will be set to actual matched text by gawk
+- _fields_ : each record is  split into fields
+  - default: whitespace `" "`
+  - `FS` - _field separator_ how fields are separated
+  - `FS=""` -> making each char a seperate field
+  - `FS="\n"` -> making full line as a single field
+  - `NF` -> number of fields in the current record
+  - `$n` -> dollar sign refers to field
+  - `$0` -> the full record 
+  - `$any_numeric_var` or `$(some num exp 2+3)` -> non constant number field
+  - `$n=` -> changing the contents of the field with '=' ; $0 will be recalculated if any change 
+  - Fixed-Width Data: `FIELDWIDTHS="3 3 5 10"` (gawk)
+- Separator
+  - can be single char
+  - can be regex like `FS="[ \t\n]+"`
+  - can be multi chars `FS=", \t"`
+- BEGIN pattern's action can be used to set custom values
+  - BEGIN{ RS="\n"; FS="\t"}
+
+_Dark Corner_
+- FPAT
+- getline
+- reading i/p with a timeout
+
+### Printing Output: Formatting, Records and Fields
+
+- _print_
+  - `print item1, item2` separated by single space 
+  - string, number, field , var or any awk exp 
+  - no args means $0
+  - can be used only in action part - not pattern part
+- Output Separator
+  - `OFS` output field separator
+  - `ORS` o/p record separator 
+  - `OFMT` o/p format while doing number to string before printing e.g. `OFMT="%3.2f"` 
+  - BEGIN pattern's action can be used to set custom values
+## Others
 
 ### variables and Operations
 
 ### Control Structures
-
-### Formatting Output
-
-### Combining AWk with Other Tools
-
-### Handy AWK Program Files
 

@@ -31,8 +31,25 @@ gitvenv (){
     fi
 }
 
+##
 # generate venv name from github proj name
+# convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")
+##
 function genvname (){
-  # how: take first char of each words which are seperated by "-"
-  echo "$1" | awk 'BEGIN{FS="-";OFS="\n"}{print $1, $2;}' | awk 'BEGIN{FIELDWIDTHS="1 1 1 1 1 1 1 1 1 1 1 1 1 1 "; ORS=""}{print $1 $NF}' | awk 'BEGIN{FIELDWIDTHS="1 1 2"}{print $1 $3}'
+  echo "$1" | awk '
+                    BEGIN{
+                          FS="-";
+                          OFS="\n"
+                          }
+                    {print $1, $2;}
+                  ' | awk '
+                           BEGIN{
+                                FIELDWIDTHS="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"; # split as 15 chars
+                                ORS=""
+                                }
+                           {print $1 $NF}
+                           ' | awk '
+                                    BEGIN{FIELDWIDTHS="1 1 2"}
+                                    {print $1 $3}
+                                    '
 }

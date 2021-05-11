@@ -1,5 +1,7 @@
 `This page is the outcome of learning awk programming. it contains learning notes and act as my quick reference card`
 
+![Mimetypes-application-x-awk-icon](https://user-images.githubusercontent.com/82016952/117792222-b8b2ca80-b268-11eb-9bdb-6afbd8bb8ade.png)
+
 - [GAWK Quick Reference Notes](#gawk-quick-reference-notes)
   - [Basics: Getting Started](#basics-getting-started)
     - [Structure](#structure)

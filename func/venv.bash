@@ -36,20 +36,5 @@ gitvenv (){
 # convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")
 ##
 function genvname (){
-  echo "$1" | awk '
-                    BEGIN{
-                          FS="-";
-                          OFS="\n"
-                          }
-                    {print $1, $2;}
-                  ' | awk '
-                           BEGIN{
-                                FIELDWIDTHS="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"; # split as 15 chars
-                                ORS=""
-                                }
-                           {print $1 $NF}
-                           ' | awk '
-                                    BEGIN{FIELDWIDTHS="1 1 2"}
-                                    {print $1 $3}
-                                    '
+  echo "$1" | awk -f ~/.myawk/abbrev.awk
 }

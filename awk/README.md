@@ -6,8 +6,17 @@
   - [Basics: Getting Started](#basics-getting-started)
     - [Structure](#structure)
     - [Running AWK](#running-awk)
+      - [Options](#options)
   - [Regular Expressions](#regular-expressions)
     - [Regular Expression Operators](#regular-expression-operators)
+      - [**Basic Characters:**](#basic-characters)
+      - [**Quantifiers:**](#quantifiers)
+      - [**Sets:**](#sets)
+      - [**Character Classes (set):**](#character-classes-set)
+      - [**Escape Sequence**](#escape-sequence)
+      - [**Groups:**](#groups)
+      - [**Assertions:**](#assertions)
+      - [**Flags:**](#flags)
   - [Others](#others)
     - [Records and Fields](#records-and-fields)
     - [variables and Operations](#variables-and-operations)
@@ -67,7 +76,7 @@ END{ # END rule run this block at the end of reading all inputs
   - chmod +x prog-file
   - Add prog dir to $PATH
 
-**Options**
+#### Options
 
 _most frequently used options _
 
@@ -100,13 +109,11 @@ _most frequently used options _
   - Using regex constants makes your prog less error-prone
   - regexname = "regex"; $0 ~ regex_name {print}
 
-
-
 ### Regular Expression Operators
 
 _These are regex metachar_
 
-**Basic Characters:**
+#### **Basic Characters:**
 
 | Expression | Explanations                                                                                     |
 | ---------- | ------------------------------------------------------------------------------------------------ |
@@ -117,7 +124,7 @@ _These are regex metachar_
 | xy         | Matches the string xy                                                                            |
 | "a\| b"    | Matches expression a or b. If a is matched first, b is left untried.                             |
 
-**Quantifiers:**
+#### **Quantifiers:**
 | Expression | Explanations                                                   |
 | ---------- | -------------------------------------------------------------- |
 | +          | Matches the expression to its left 1 or more times.            |
@@ -128,8 +135,7 @@ _These are regex metachar_
 | {p, }      | Matches the expression to its left p or more times.            |
 | { , q}     | Matches the expression to its left up to q times               |
 
-
-|**Sets:**
+#### **Sets:**
 | Expression | Explanations                                                                                     |
 | ---------- | ------------------------------------------------------------------------------------------------ |
 | [abc]      | Matches either a, b, or c. It does not match abc.                                                |
@@ -142,8 +148,7 @@ _These are regex metachar_
 | [^ab5]     | Adding ^ excludes any character in the set. Here, it matches characters that are not a, b, or 5. |
 | \[a\]      | Matches [a] because both parentheses [ ] are escaped                                             |
 
-
-**Character Classes (set):**
+#### **Character Classes (set):**
 
 - special notation for describing lists of characters (gawk regex operators are included in this list)
 - POSIX char class are allowed only inside bracket experssion [: :]
@@ -172,7 +177,8 @@ _These are regex metachar_
 | \<         | match empty string at the beginning                                                                         |
 | \>         | match empty string at the end                                                                               |
 | \y         | match empty string at either at the start or the end                                                        |
-**Escape Sequence**
+
+#### **Escape Sequence**
 
 _These are valid inside regex_
 
@@ -194,7 +200,7 @@ _These are valid inside regex_
 | \xhh | hexadecimal number | Represent a hexadecimal number                                                                |
 | \0   | Null               | Termination of the string                                                                     |
 
-**Groups:**
+#### **Groups:**
 | Expression | Explanations                                                                                 |
 | ---------- | -------------------------------------------------------------------------------------------- |
 | ( )        | Matches the expression inside the parentheses and groups it which we can capture as required |
@@ -203,7 +209,7 @@ _These are valid inside regex_
 | (?:A)      | Matches the expression as represented by A, but cannot be retrieved afterwards.              |
 | (?P=group) | Matches the expression matched by an earlier group named “group”                             |
 
-**Assertions:**
+#### **Assertions:**
 | Expression | Explanations                                                                                             |
 | ---------- | -------------------------------------------------------------------------------------------------------- |
 | A(?=B)     | This matches the expression A only if it is followed by B. (Positive look ahead assertion)               |
@@ -212,7 +218,7 @@ _These are valid inside regex_
 | (?<!B)A    | This matches the expression A only if B is not immediately to its left. (Negative look behind assertion) |
 | (?()       | )                                                                                                        | If else conditional |
 
-**Flags:**
+#### **Flags:**
 | Expression | Explanations                                         |
 | ---------- | ---------------------------------------------------- |
 | a          | Matches ASCII only                                   |

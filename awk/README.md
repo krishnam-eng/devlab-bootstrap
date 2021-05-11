@@ -19,9 +19,7 @@
       - [Flags](#flags)
     - [Reading Input: Records and Fields](#reading-input-records-and-fields)
     - [Printing Output: Formatting, Records and Fields](#printing-output-formatting-records-and-fields)
-  - [Others](#others)
-    - [variables and Operations](#variables-and-operations)
-    - [Control Structures](#control-structures)
+    - [Variables and Operations](#variables-and-operations)
 
 
 # GAWK Quick Reference Notes
@@ -270,14 +268,51 @@ _Dark Corner_
   - string, number, field , var or any awk exp 
   - no args means $0
   - can be used only in action part - not pattern part
+- _printf format, item1, item2_
+  - format-specifier => % + (modifer)? + format-control-letter
+    - `%` format specifier starts with
+    - `d D e E f g G o s x X %` format-control letter 
+      - decimal, integer, float, scientific, scientific or float, octal, string, hex
+    - `n .n n$ - + # 0 '` modifier
+      - width, precision, positional specifier, left-justify, , padding with zero, only int part
 - Output Separator
   - `OFS` output field separator
   - `ORS` o/p record separator 
   - `OFMT` o/p format while doing number to string before printing e.g. `OFMT="%3.2f"` 
   - BEGIN pattern's action can be used to set custom values
-## Others
+- Redirect Output
+  - print xyz > file
+  - print xyz >> file
+  - print | command 
+  - close() close open file in the END's action 
 
-### variables and Operations
+### Variables and Operations
 
-### Control Structures
+Operations
+- `()` group
+- `$` Field reference 
+- Increment & Decrement `++, --`
+  - pre, post
+- Arithmetic operators `^ ** - + * / %  + - ` 
+  - unary first, then, binary opt in precedence
+- String concat
+- Relational Operators `< <= > >= == != ~ !~ in`
+- Boolean Expressions `&& || !`
+- Conditional Exp `selector ? if-true-exp : if-false-exp`
+- Assignment `=, +=, -=`
+
+(_sorted by precedence order high to low_)
+
+Variable
+- No Fixed Type
+  - can be num or str
+
+Function Calls
+- just write () after function name
+  - built-in func: 
+  - numeric
+    - exp, int, log, rand, cos, sin, sqrt, srand
+  - string
+    - 
+  - user-defined func
 

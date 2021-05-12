@@ -8,7 +8,7 @@ alias tad='tmux attach -d -t'
 alias tksv='tmux kill-server'
 alias tkss='tmux kill-session -t'
 
-
+# tmux default session
 tds (){
   if [ $# -eq 0 ]
   then
@@ -21,6 +21,8 @@ tds (){
 
   echo "${LOG_TS}Session Name: ${session}"
   echo "${LOG_TS}Repo Path: ${repo_path}"
+
+  cd `printf "%s/%s" $(dirname ~pfkrp) $(basename ~pfkrp)`
 
   zsh ~tmux/sessions/create_ghproj_workspace.zsh $session $repo_path
 }

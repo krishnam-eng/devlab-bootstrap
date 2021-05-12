@@ -11,7 +11,7 @@ alias -s md=code
 alias -s py=code
 
 # shell
-alias -s {sh,bash,zsh}=nano
+# alias -s {sh,bash,zsh}=nano
 
 # run commands file
 alias -s {zshrc,nanorc,bashrc}=nano

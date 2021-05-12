@@ -62,6 +62,7 @@ alias lsvar="set"
 
 # List all gh
 alias lsgh="lt1 ~/github/"
+alias ghls="lt1 ~/github/"
 
 # List all my dir
 alias lsmy="lt1 ~/.my*"

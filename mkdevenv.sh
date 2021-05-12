@@ -100,6 +100,7 @@ ln -s ~/github/ohmy-linux/nano   ~/.mynano
 ln -s ~/github/ohmy-linux/tmux   ~/.mytmux
 ln -s ~/github/ohmy-linux/venv   ~/.myvenv
 ln -s ~/github/ohmy-linux/zsh    ~/.myzsh
+ln -s ~/github/ohmy-linux/awk    ~/.myawk
 
 
 # Verify the list 

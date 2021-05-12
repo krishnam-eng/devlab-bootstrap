@@ -1,5 +1,5 @@
-alias tns='tmux -f ~/.mytmux/.tmux.conf new-session -s'
-alias tds='/usr/bin/bash create_ghproj_workspace.sh'
+alias tns='tmux -f ~tmux/.tmux.conf new-session -s'
+alias tds='zsh ~tmux/sessions/create_ghproj_workspace.zsh'
 alias tls='tmux list-sessions'
 
 alias ta='tmux attach -t'

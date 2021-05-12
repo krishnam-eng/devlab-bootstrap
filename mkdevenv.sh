@@ -72,17 +72,20 @@ sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in
 ######
 # checkout dev env github repo
 ######
-if [[ ! -d ~/github/ohmy-linux ]]; then
+if [[ ! -d ~/github/ohmy-linux ]] 
+then
     mkdir -p ~/github
-    git clone https://github.com/krishnam-eng/ohmy-linux ~/github/ohmy-linux
     # git clone git@github.com:krishnam-eng/ohmy-linux ~/github/ohmy-linux
+    git clone https://github.com/krishnam-eng/ohmy-linux ~/github/ohmy-linux
+    
     # if it was cloned from http, use below to change to ssh once ssh pub key added to githubsetup
     # git remote set-url origin git@github.com:krishnam-eng/practice-python.git
-fi
+    
+    # TMUX plugin manager
+    mkdir -p ~/github/ohmy-linux/tmux/plugins/tpm
+    git clone https://github.com/tmux-plugins/tpm ~/github/ohmy-linux/tmux/plugins/tpm
 
-# TMUX plugin manager
-mkdir -p ~/github/ohmy-linux/tmux/plugins/tpm
-git clone https://github.com/tmux-plugins/tpm ~/github/ohmy-linux/tmux/plugins/tpm
+fi
 
 #####
 # Setup zsh, bash, tmux, nano run command configs

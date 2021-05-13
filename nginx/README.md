@@ -65,7 +65,7 @@ sudo chmod 755 ~nginx/var-www/perftestsite.lht
 cd ~nginx/var-www/perftestsite.lht
 sudo chmod 644 *
 
-# test from cli
+test from cli
 >curl localhost
 <h1> under construction </h1>
 ```
@@ -75,3 +75,17 @@ find ~nginx/var-www/perftestsite.lht/ -type f -exec chmod 644 {} \;
 find ~nginx/var-www/perftestsite.lht/ -type d -exec chmod 755 {} \;
 
 ```
+
+### Troubleshoot NGINX
+
+- nginx test config `` 
+- nginx status ``
+- nginx reload ``
+- verify ports `lsof -P -n -i :80 -i :433 | grep LISTEN`
+- follow the log `tail -f *.log`
+- search engines
+- stackoverflow
+
+
+
+

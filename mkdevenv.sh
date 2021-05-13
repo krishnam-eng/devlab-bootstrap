@@ -95,18 +95,21 @@ fi
 #####
 
 # link from the home itself
-ln -s ~/github/ohmy-linux/alias  ~/.myalias
-ln -s ~/github/ohmy-linux/bash   ~/.mybash
 ln -s ~/github/ohmy-linux/env    ~/.myenv
+ln -s ~/github/ohmy-linux/alias  ~/.myalias
 ln -s ~/github/ohmy-linux/func   ~/.myfunc
-ln -s ~/github/ohmy-linux/nano   ~/.mynano
-ln -s ~/github/ohmy-linux/tmux   ~/.mytmux
-ln -s ~/github/ohmy-linux/venv   ~/.myvenv
-ln -s ~/github/ohmy-linux/zsh    ~/.myzsh
 ln -s ~/github/ohmy-linux/awk    ~/.myawk
 
+ln -s ~/github/ohmy-linux/bash   ~/.mybash
+ln -s ~/github/ohmy-linux/zsh    ~/.myzsh
 
-# Verify the list 
+ln -s ~/github/ohmy-linux/tmux   ~/.mytmux
+ln -s ~/github/ohmy-linux/venv   ~/.myvenv
+ln -s ~/github/ohmy-linux/nano   ~/.mynano
+
+ln -s ~/github/ohmy-linux/nginx  ~/.mynginx
+
+# Verify the list
 la ~/.my*
 
 # take a backup of old configs
@@ -125,6 +128,7 @@ ln -s ~/.myzsh/.zshenv ~/.zshenv
 ln -s ~/.mybash/.bashrc  ~/.bashrc
 ln -s ~/.mynano/.nanorc  ~/.nanorc
 ln -s ~/.mytmux/.tmux.conf ~/.tmux.conf
+ln -s ~/.mynginx/site-available/default.conf /etc/nginx/site-enabled/default
 
 # set default shell to zsh [echo $SHELL]
 chsh -s $(which zsh)

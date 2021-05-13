@@ -10,7 +10,7 @@ alias ngsp="sudo systemctl stop nginx"
 alias ngrl="sudo systemctl reload nginx"
 alias ngia="sudo systemctl is-active nginx" # start & stop comd do not produce any stdout so use this to get the status 
 alias ngss="sudo systemctl status nginx --no-pager" # systemctl uses pager by default, so you need to use q to end status; instead use no-pager switch to get around this
-alias ngtt="sudo nginx -t" # test config and show status
+alias ngtcf="sudo nginx -t" # test config and show status
 alias ngtd="sudo nginx -T | less" # test and dump the config
 alias nghp="sudo nginx -h" # help
 
@@ -25,7 +25,8 @@ alias ngecf="sudo $EDITOR /etc/nginx/nginx.conf"     # edit conf
 alias ngcdetc="cd /etc/nginx"                # p\yetsee enginex\
 alias ngcdlog="cd /var/log/nginx"            # web service log
 alias ngcdsa="cd /etc/nginx/sites-available" # server conf of sites
-alias ngcdrt="cd /var/www"                 # default root folder for web server
+alias ngcdse="cd /etc/nginx/sites-enabled"   # server conf of enabled sites
+alias ngcdrt="cd /var/www"                   # default root folder for web server
 
 # Back Up: to version control
 ngbkpcf(){

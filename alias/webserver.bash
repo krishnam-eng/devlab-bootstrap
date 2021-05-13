@@ -1,24 +1,22 @@
 #!/usr/bin/env bash
 
-# default root folder for web server
-alias cdwsroot="cd /var/www"
-
 ########
 # nginx - prefix 'ng'
 ########
 alias ngst="sudo systemctl status nginx"
 
-# view error log
-alias ngvelog="less /var/log/nginx/error.log"
+# Files & Dirs
+alias ngvelog="less /var/log/nginx/error.log"  # view error log
+alias ngvalog="less /var/log/nginx/access.log" # view access log
+alias ngvse="la /etc/nginx/sites-enabled"      # sites enabled
 
-# view access log
-alias ngvalog="less /var/log/nginx/access.log"
+alias ngcdetc="cd /etc/nginx"                # p\yetsee enginex\
+alias ngcdlog="cd /var/log/nginx"            # web service log
+alias ngcdsa="cd /etc/nginx/sites-available" # server conf of sites
+alias ngcdroot="cd /var/www"                 # default root folder for web server
 
-alias ngcdetc="cd /etc/nginx"
-alias ngcdlog="cd /var/log/nginx"
-
-# back up to version control
-ngbk2vcs(){
+# Back Up: to version control
+ngbkconf(){
   \cp /etc/nginx/nginx.conf ~/github/ohmy-linux/nginx/nginx.conf
 }
 

@@ -42,6 +42,7 @@ sudo apt install httpie          # user-friendly command-line HTTP client for th
 
 
 # general tools
+sudo apt install curl            # 
 sudo apt install tree            # list dir in tree form
 sudo spt install gawk            # GNU awk
 sudo apt install ranger          # console file manager with vi key bindings

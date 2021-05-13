@@ -64,5 +64,9 @@ www-data
 sudo chmod 755 ~nginx/var-www/perftestsite.local
 cd ~nginx/var-www/perftestsite.local
 sudo chmod 644 *
+
+# test from cli
+>curl localhost
+<h1> under construction </h1>
 ```
 

@@ -20,7 +20,7 @@ alias ngvalog="less /var/log/nginx/access.log" # view access log
 alias ngvse="la /etc/nginx/sites-enabled"      # view sites enabled
 alias ngvcf="cat /etc/nginx/nginx.conf"      # view conf
 
-alias ngecf="sudo /etc/nginx/nginx.conf"     # edit conf
+alias ngecf="sudo $EDITOR /etc/nginx/nginx.conf"     # edit conf
 
 alias ngcdetc="cd /etc/nginx"                # p\yetsee enginex\
 alias ngcdlog="cd /var/log/nginx"            # web service log

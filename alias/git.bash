@@ -1,14 +1,29 @@
 #!/usr/bin/env bash
 
-#
-# Aliases
-# (sorted alphabetically)
-#
+#--------------------------------------------------
+# Git Aliases
+# (grouped by usage and then sorted alphabetically)
+#--------------------------------------------------
 
+### Frequently Used alias
+alias ga='git add'
+alias gaa='git add --all --verbose'
+alias gaf5="git add --refersh"
+
+alias gc='git commit -v'
+
+alias grs='git restore'
+alias grst='git restore --staged'
+alias grss='git restore --source'
+
+alias gst='git status'
+alias gss='git status -s'
+alias gsb='git status -sb'
+
+
+### Others
 alias g='git'
 
-alias ga='git add'            # iuse
-alias gaa='git add --all'     # iuse
 alias gapa='git add --patch'
 alias gau='git add --update'
 alias gav='git add --verbose'
@@ -29,7 +44,6 @@ alias gbsg='git bisect good'
 alias gbsr='git bisect reset'
 alias gbss='git bisect start'
 
-alias gc='git commit -v'
 alias gc!='git commit -v --amend'
 alias gcn!='git commit -v --no-edit --amend'
 alias gca='git commit -v -a'
@@ -130,23 +144,19 @@ alias grm='git rm'
 alias grmc='git rm --cached'
 alias grmv='git remote rename'
 alias grrm='git remote remove'
-alias grs='git restore'
+
 alias grset='git remote set-url'
-alias grss='git restore --source'
-alias grst='git restore --staged'   # iuse
 alias grt='cd "$(git rev-parse --show-toplevel || echo .)"'
 alias gru='git reset --'
 alias grup='git remote update'
 alias grv='git remote -v'
 
-alias gsb='git status -sb'
 alias gsd='git svn dcommit'
 alias gsh='git show'
 alias gsi='git submodule init'
 alias gsps='git show --pretty=short --show-signature'
 alias gsr='git svn rebase'
-alias gss='git status -s'
-alias gst='git status'
+
 
 alias gstaa='git stash apply'
 alias gstc='git stash clear'

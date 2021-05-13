@@ -86,6 +86,30 @@ find ~nginx/var-www/perftestsite.lht/ -type d -exec chmod 755 {} \;
 - search engines
 - stackoverflow
 
+### Security with NGINX
 
+- keep os patched & updated `update`
 
+- limit access
+
+```bash
+location /sensitivedatadir  {
+  allow 127.0.0.1;
+  deny all;
+  # get 403 forbidden
+}
+```
+
+- setup username & password 
+
+```bash
+sudo htpasswd -c /etc/nginx/passwords admin
+less /etc/nginx/passwords
+sudo htpasswd  /etc/nginx/passwords guest
+sudo chown www-data /etc/nginx/passwords
+sudo chmod 600 /etc/nginx/passwords
+ls -la /etc/nginx/passwords
+```
+
+- Use SSL to protect transmissions
 

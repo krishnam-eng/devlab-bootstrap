@@ -17,8 +17,11 @@ sudo apt install git             # version control
 sudo apt install kdiff3          # compares and merges two or three input files or directories
 sudo apt install code            # VS Code IDE
 
-sudo apt install apache2         # web server 
-sudo apt install apache2-utils   # apache bench for cli single page load test
+sudo apt install apache2         # web server
+sudo apt install nginx           # web server
+
+sudo apt install apache2-utils   # ab: apache bench for cli single page load test
+
 
 sudo apt install python3.9       # python latest
 sudo apt install python3-pip     # package management - Pip Installs Packages

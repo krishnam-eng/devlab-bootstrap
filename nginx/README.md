@@ -2,7 +2,7 @@
 
 ## nginx cli, files & dirs
 
-check `alias/webserver.bash` for more details
+check `../alias/webserver.bash` for more details
 
 ## Configuring vhost
 ### Difference Between site-* & conf.d dirs

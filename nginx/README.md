@@ -130,3 +130,24 @@ add ssl directives and set permanent redirect for http port. check perftextsite 
 
 ```
 
+## Reverse Proxy 
+
+- Client request comes to reverse-proxy and it communicate with **one** server (load balancer connects to multiple servers)
+  - caching can be done
+
+`upstream` directive comes in http context 
+
+```
+(global context)
+http{
+  upstream {
+
+  }
+
+}
+```
+
+## Load balancer 
+- client request comes to load-balancer and it communicate with multiple servers
+  - session persistence can be done
+- Methods: Round Robin (--), Least Connections (least_ conn), IP Hash (ip_hash) - based on client ip addr, (weight) can use more weight for high resource server

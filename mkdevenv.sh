@@ -20,8 +20,7 @@ sudo apt install code            # VS Code IDE
 sudo apt install apache2         # web server
 sudo apt install nginx           # web server
 
-sudo apt install apache2-utils   # ab: apache bench for cli single page load test
-
+sudo apt install apache2-utils   # ab: apache bench for cli single page load test, htpassword : create pwd
 
 sudo apt install python3.9       # python latest
 sudo apt install python3-pip     # package management - Pip Installs Packages

@@ -109,7 +109,24 @@ sudo htpasswd  /etc/nginx/passwords guest
 sudo chown www-data /etc/nginx/passwords
 sudo chmod 600 /etc/nginx/passwords
 ls -la /etc/nginx/passwords
+
+location ...{
+  auth_base ...
+  auth_base_user_password ...
+}
+
+
 ```
 
-- Use SSL to protect transmissions
+- Use SSL (secure sockets layer) to protect transmissions
+  - HTTPS started using TLS (transport layer security) for encrypting web traffic
+  - the term SSL still used in to describe certificates (can be public) and keys (for encrpt - keep it private)
+
+```
+# create certificate and key
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx.key -out /etc/ssl/certs/nginx.crt
+
+add ssl directives and set permanent redirect for http port. check perftextsite config
+
+```
 

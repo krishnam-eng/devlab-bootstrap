@@ -32,7 +32,8 @@ sudo ln -s ~nginx/sites-available/perftestsite.local.conf /etc/nginx/sites-enabl
 ```
 ### Common Issues I faced
 
-```nginx: [warn] conflicting server name "" on 0.0.0.0:90, ignored````
+`nginx: [warn] conflicting server name "" on 0.0.0.0:90, ignored`
+
  - Accidently defined the server_name directive in two places
   - check site-enabled `>ngcdsa`
 

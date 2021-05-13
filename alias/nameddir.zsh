@@ -18,6 +18,7 @@ hash -d func=~/.myfunc    # ~func
 hash -d alias=~/.myalias  # ~alias
 hash -d env=~/.myenv      # ~env
 hash -d awk=~/.myawk      # ~awk
+hash -d nginx=~/.mynginx  # ~nginx
 hash -d gh=~/github       # ~gh
 
 # quick access to all checkout repos

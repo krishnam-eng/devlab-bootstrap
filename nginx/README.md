@@ -34,6 +34,20 @@ sudo ln -s ~nginx/sites-available/perftestsite.local.conf /etc/nginx/sites-enabl
 
 `nginx: [warn] conflicting server name "" on 0.0.0.0:90, ignored`
 
- - Accidently defined the server_name directive in two places
+- Accidently defined the server_name directive in two places
   - check site-enabled `>ngcdsa`
+
+`403 Forbidden Error`
+- Wrong root dir or File permission Issue
+  - chmod 755 rootdir
+  - chmod 644 files
+  - change owner to nginx user 
+```bash
+>ngusr 
+www-data
+>sudo chown -R www-data:www-data  ~nginx/var-www/perftestsite.local
+sudo chmod 755 ~nginx/var-www/perftestsite.local
+cd ~nginx/var-www/perftestsite.local
+sudo chmod 644 *
+```
 

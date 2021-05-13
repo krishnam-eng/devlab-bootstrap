@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ########
-# nginx - prefix 'ng'
+# nginx
 ########
 
 # nginx cli
@@ -11,23 +11,24 @@ alias ngrl="sudo systemctl reload nginx"
 alias ngia="sudo systemctl is-active nginx" # start & stop comd do not produce any stdout so use this to get the status 
 alias ngss="sudo systemctl status nginx --no-pager" # systemctl uses pager by default, so you need to use q to end status; instead use no-pager switch to get around this
 alias ngtt="sudo nginx -t" # test config and show status
-alias ngvconf="sudo nginx -T | less" # test and dump the config
+alias ngtd="sudo nginx -T | less" # test and dump the config
 alias nghp="sudo nginx -h" # help
-
-
 
 # Files & Dirs
 alias ngvelog="less /var/log/nginx/error.log"  # view error log
 alias ngvalog="less /var/log/nginx/access.log" # view access log
-alias ngvse="la /etc/nginx/sites-enabled"      # sites enabled
+alias ngvse="la /etc/nginx/sites-enabled"      # view sites enabled
+alias ngvcf="cat /etc/nginx/nginx.conf"      # view conf
+
+alias ngecf="sudo /etc/nginx/nginx.conf"     # edit conf
 
 alias ngcdetc="cd /etc/nginx"                # p\yetsee enginex\
 alias ngcdlog="cd /var/log/nginx"            # web service log
 alias ngcdsa="cd /etc/nginx/sites-available" # server conf of sites
-alias ngcdroot="cd /var/www"                 # default root folder for web server
+alias ngcdrt="cd /var/www"                 # default root folder for web server
 
 # Back Up: to version control
-ngbkconf(){
+ngbkpcf(){
   \cp /etc/nginx/nginx.conf ~/github/ohmy-linux/nginx/nginx.conf
 }
 
@@ -46,3 +47,14 @@ alias aconf="nano /etc/apache2/apache2.conf" # ubuntu
 # todos:
 #   [] create nameddir for these cd paths
 ##
+
+###################################################################
+#   alias pattern:
+#         who{1,2} 'ng'
+#       + what{1,3} 'e -edit, v -view, cd, sp - stop'
+#       + where{2,3} 'log, cf - config'
+#
+#       abbrev:
+#         =^(.) + (.)$ if the word is ((last || middle) && length >4)
+#        +=^(.) for word in compound-word
+###################################################################

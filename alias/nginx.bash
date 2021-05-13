@@ -17,6 +17,7 @@ alias nghp="sudo nginx -h" # help
 
 alias ngps="ps -ef | grep nginx"
 alias ngusr="ps -ef | awk '/nginx.*worker.*process$/{print \$1}'"
+alias ngport="netstat -plan | grep nginx"
 
 # Files & Dirs
 alias ngvelog="less /var/log/nginx/error.log"  # view error log
@@ -41,6 +42,11 @@ alias ngcdrt="cd /var/www"                   # default root folder for web serve
 ngbkpcf(){
   \cp /etc/nginx/nginx.conf ~/github/ohmy-linux/nginx/nginx.conf
 }
+
+# list open files - ls port listen
+alias lspln="sudo lsof -i | grep LISTEN"
+alias ngv
+
 
 #########
 # apache2

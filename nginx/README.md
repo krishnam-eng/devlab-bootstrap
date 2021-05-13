@@ -4,7 +4,22 @@
 
 check `../alias/webserver.bash` for more details
 
-## Configuring vhost
+## Configuring Server (vhost)
+
+```
+http {
+    server {
+        # Server configuration
+    }
+
+    # or, include path to server / vhost config 
+
+    include site-enabled/
+}
+```
+
+
+
 ### Difference Between site-* & conf.d dirs
 
 It boils down to two school of thoughts on how to mamange vhost configs
@@ -28,7 +43,7 @@ echo '<h1>Under Construction</h1>' > ~nginx/var-www/perftestsite.local/index.htm
 
 ```bash
 rm /etc/nginx/sites-enabled/default
-sudo ln -s ~nginx/sites-available/perftestsite.local.conf /etc/nginx/sites-enabled/perftestsite.local.conf
+sudo ln -s ~nginx/sites-available/perftestsite.lht.conf /etc/nginx/sites-enabled/default
 ```
 ### Common Issues I faced
 

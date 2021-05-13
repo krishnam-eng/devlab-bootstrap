@@ -51,3 +51,6 @@ set wordbounds
 # white, and black
 # Each of these eight names may be prefixed with the word light to get a brighter version of that
 # color.
+
+# custom syntax highlighter
+include "~nano/syntax-highlight/nginx.nanorc"

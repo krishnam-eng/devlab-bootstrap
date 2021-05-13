@@ -60,9 +60,9 @@ sudo ln -s ~nginx/sites-available/perftestsite.lht.conf /etc/nginx/sites-enabled
 ```bash
 >ngusr 
 www-data
->sudo chown -R www-data:www-data  ~nginx/var-www/perftestsite.local
-sudo chmod 755 ~nginx/var-www/perftestsite.local
-cd ~nginx/var-www/perftestsite.local
+>sudo chown -R www-data:www-data  ~nginx/var-www/perftestsite.lht
+sudo chmod 755 ~nginx/var-www/perftestsite.lht
+cd ~nginx/var-www/perftestsite.lht
 sudo chmod 644 *
 
 # test from cli
@@ -70,3 +70,8 @@ sudo chmod 644 *
 <h1> under construction </h1>
 ```
 
+```
+find ~nginx/var-www/perftestsite.lht/ -type f -exec chmod 644 {} \;
+find ~nginx/var-www/perftestsite.lht/ -type d -exec chmod 755 {} \;
+
+```

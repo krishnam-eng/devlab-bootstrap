@@ -4,19 +4,28 @@
 # nginx
 ########
 
-# nginx cli
+# nginx service
 alias ngst="sudo systemctl start nginx"
 alias ngsp="sudo systemctl stop nginx"
 alias ngrl="sudo systemctl reload nginx"
 alias ngia="sudo systemctl is-active nginx" # start & stop comd do not produce any stdout so use this to get the status 
 alias ngss="sudo systemctl status nginx --no-pager" # systemctl uses pager by default, so you need to use q to end status; instead use no-pager switch to get around this
+
 alias ngtcf="sudo nginx -t" # test config and show status
 alias ngtd="sudo nginx -T | less" # test and dump the config
 alias nghp="sudo nginx -h" # help
 
+alias ngps="ps -ef | grep nginx"
+alias ngusr="ps -ef | awk '/nginx.*worker.*process$/{print \$1}'"
+
 # Files & Dirs
 alias ngvelog="less /var/log/nginx/error.log"  # view error log
 alias ngvalog="less /var/log/nginx/access.log" # view access log
+
+alias ngmelog="tail -f /var/log/nginx/error.log"  # monitor error log
+alias ngmalog="tail -f /var/log/nginx/access.log" # monitor access log
+
+
 alias ngvse="la /etc/nginx/sites-enabled"      # view sites enabled
 alias ngvcf="cat /etc/nginx/nginx.conf"      # view conf
 

@@ -2,24 +2,53 @@
 
 ## nginx cli, files & dirs
 
-check `../alias/webserver.bash` for more details
+```
+# Files & Dirs
+alias ngcdcrt="cd /etc/nginx"                # configuration-root
+alias ngcdlog="cd /var/log/nginx"            # default log location
+alias ngcdsa="cd /etc/nginx/sites-available" # server conf of available sites
+alias ngcdse="cd /etc/nginx/sites-enabled"   # server conf of enabled sites
+alias ngcdhs="cd /etc/nginx/conf.d"          # default http-site configs
+alias ngcdrt="cd /var/www"                   # default root folder for web server
 
-## Configuring Server (vhost)
+alias ngvelog="less /var/log/nginx/error.log"  # view error log
+alias ngvalog="less /var/log/nginx/access.log" # view access log
+
+alias ngmelog="tail -f /var/log/nginx/error.log"  # monitor error log
+alias ngmalog="tail -f /var/log/nginx/access.log" # monitor access log
+
+
+alias ngvse="la /etc/nginx/sites-enabled"      # view sites enabled
+alias ngvsa="la /etc/nginx/sites-available"    # view sites available
+alias ngvhs="la /etc/nginx/conf.d"             # view default http-site configs
+alias ngvcf="cat /etc/nginx/nginx.conf"        # view conf entry point
+
+alias ngecf="sudo $EDITOR /etc/nginx/nginx.conf"     # edit conf
+
 
 ```
+check `../alias/webserver.bash` for more details
+
+
+## Structure
+```
 http {
+    # Server content 
     server {
-        # Server configuration
+        listen ...;
+        server_name
+        
+        location / {
+            root ...;
+            index ....;
+        }
     }
-
     # or, include path to server / vhost config 
-
     include site-enabled/
 }
 ```
 
-
-
+## Configuring Server (vhost)
 ### Difference Between site-* & conf.d dirs
 
 It boils down to two school of thoughts on how to mamange vhost configs

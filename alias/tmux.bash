@@ -1,15 +1,16 @@
-alias tns='tmux -f ~tmux/.tmux.conf new-session -s'
+# creat new-session
+alias tmcns='tmux -f ~tmux/.tmux.conf new-session -s'
 
-alias tls='tmux list-sessions'
+alias tmls='tmux list-sessions'
 
-alias ta='tmux attach -t'
-alias tad='tmux attach -d -t'
+alias tmah='tmux attach -t'
+alias tmad='tmux attach -d -t'
 
-alias tksv='tmux kill-server'
-alias tkss='tmux kill-session -t'
+alias tmksr='tmux kill-server'
+alias tmksn='tmux kill-session -t'
 
-# tmux default session
-tds (){
+# tmux create default-session
+tmcds (){
   if [ $# -eq 0 ]
   then
     session="df_$(date +%Y%m)" # refersh default session monthly once at max
@@ -26,3 +27,5 @@ tds (){
 
   zsh ~tmux/sessions/create_ghproj_workspace.zsh $session $repo_path
 }
+
+alias tmalias="alias | awk '/^tm/{print}' | lolcat "

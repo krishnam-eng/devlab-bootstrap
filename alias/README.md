@@ -19,29 +19,36 @@ abbrev logic
         +=^(.) for word in compound-word                                                             
 ```
 
-#### Abbrev Examples
+#### Abbrev Conventions
 
 |abbrev|who|
 |----:|---|
 |g|git|
-|t|tmux|
+
+|abbrev|who|
+|----:|---|
+|tm|tmux|
 |ng|nginx|
+
+|abbrev|what|
+|----:|---|
+|c|create|
+|e|edit|
+|k|kill|
+|m|monitor - e.g tail flow|
+|v|view|
 
 |abbrev|what|
 |----:|---|
 |cd|change directory|
 |rm|remove|
+|ls|list|
 |st|start|
 |sp|stop|
 |rl|reload|
 |qt|quit|
 |ss|status|
-|ls|list|
-|v|view|
-|e|edit|
-|m|monitor - e.g tail flow|
 
-e.g.
 |abbrev|where|
 |----:|---|
 |cf|conf|

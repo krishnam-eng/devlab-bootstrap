@@ -4,6 +4,13 @@
 
 ```
 # Files & Dirs
+alias ngcdcrt="cd /etc/nginx"                # configuration-root
+alias ngcdlog="cd /var/log/nginx"            # default log location
+alias ngcdsa="cd /etc/nginx/sites-available" # server conf of available sites
+alias ngcdse="cd /etc/nginx/sites-enabled"   # server conf of enabled sites
+alias ngcdhs="cd /etc/nginx/conf.d"          # default http-site configs
+alias ngcdrt="cd /var/www"                   # default root folder for web server
+
 alias ngvelog="less /var/log/nginx/error.log"  # view error log
 alias ngvalog="less /var/log/nginx/access.log" # view access log
 
@@ -18,11 +25,7 @@ alias ngvcf="cat /etc/nginx/nginx.conf"        # view conf entry point
 
 alias ngecf="sudo $EDITOR /etc/nginx/nginx.conf"     # edit conf
 
-alias ngcdetc="cd /etc/nginx"                # configuration root : p\yetsee enginex\
-alias ngcdlog="cd /var/log/nginx"            # web service log
-alias ngcdsa="cd /etc/nginx/sites-available" # server conf of sites
-alias ngcdse="cd /etc/nginx/sites-enabled"   # server conf of enabled sites
-alias ngcdrt="cd /var/www"                   # default root folder for web server
+
 ```
 check `../alias/webserver.bash` for more details
 
@@ -30,8 +33,15 @@ check `../alias/webserver.bash` for more details
 ## Structure
 ```
 http {
+    # Server content 
     server {
-        # Server configuration
+        listen ...;
+        server_name
+        
+        location / {
+            root ...;
+            index ....;
+        }
     }
     # or, include path to server / vhost config 
     include site-enabled/

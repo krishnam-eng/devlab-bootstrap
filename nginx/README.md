@@ -1,5 +1,9 @@
 # NGINX Notes
 
+## Drop-In Configs
+
+- https://github.com/krishnam-eng/ohmy-linux/tree/main/nginx/sites-available
+
 ## nginx cli, files & dirs
 
 ```

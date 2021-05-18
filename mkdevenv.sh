@@ -87,6 +87,7 @@ then
     # TMUX plugin manager
     mkdir -p ~/github/ohmy-linux/tmux/plugins/tpm
     git clone https://github.com/tmux-plugins/tpm ~/github/ohmy-linux/tmux/plugins/tpm
+    # next: reload tmux conf , and press <prefix> Shift+R to install plugins
 
 fi
 

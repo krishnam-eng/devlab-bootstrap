@@ -88,7 +88,21 @@ fi
 # source command is a bash built-in, if you want to be compatable with posix, use "." here.
 # source, at present support only one file at a time, Let's iterate over our alias dir to load all. 
 # I have named all bash compatable alias files with .bash suffix to keep zsh specific alias syntax seperately
-export LOG_TS="[$(date --utc --rfc-3339=ns)] "
+
+[ -z "$TMUX" ] && export TERM=xterm-256color
+
+# use this for log prefix
+
+if [ -d ~/.myenv ]; then
+  # Recipe: Running All Scripts in a Directory
+  for efile in ~/.myenv/*.bash
+  do
+    source $efile
+  done
+  unset efile
+fi
+
+export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
 
 if [ -d ~/.myalias ]; then
     for afile in ~/.myalias/*.bash

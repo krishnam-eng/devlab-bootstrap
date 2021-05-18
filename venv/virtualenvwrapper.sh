@@ -22,7 +22,15 @@
 
 #### Installing
 # pip install virtualenvwrapper
+# or
 # pip install --user virtualenvwrapper
+# or
+# The below is the hack if the above two is not working due to permission issue
+# vritualenv kdev
+# export VIRTUALENVWRAPPER_PYTHON=~/kdev/bin/python3
+# source kdev/bin/activate
+# source kdev/bin/virtualenvwrapper.sh
+# --now, all the wrapper commands will work in kdev venv :) 
 
 # wrapper loads bin based on path, to be certain which gets picked, let's define it here
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3

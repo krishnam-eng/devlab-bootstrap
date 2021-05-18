@@ -106,3 +106,5 @@ setopt interactivecomments
 # 3. non-interactive shell => no i/ps taken - run script or cmd %zsh myscript
 # echo $- => *i* for interactive
 ###
+
+source ~/.myenv/prompt.zsh 

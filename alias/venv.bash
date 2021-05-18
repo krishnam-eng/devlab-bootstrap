@@ -3,7 +3,7 @@
 ############
 
 # create virtual env with py3
-alias venv="virtualenv --python python3 --with-traceback true"
+alias venv="virtualenv --python python3 " # --with-traceback true 
 
 # activate venv
 #   to ensure that commands from within the python virtual environment take priority over your system paths
@@ -42,12 +42,12 @@ mkvenv (){
     then
       echo "${LOG_TS} Fetching venv name from ${CS_bcyan}venv/name.venv ${CS_reset}..."
       vname=$(cat venv/name.venv)
-      mkvirtualenv $vname -r venv/requirements.txt --no-vcs-ignore
+      mkvirtualenv $vname -r venv/requirements.txt # --no-vcs-ignore
     else
       echo "${LOG_TS} ${CS_red} Found no venv name metadata ! ${CS_reset}"
       echo "${LOG_TS} Creating temp venv..."
       ctdir=$(pwd)
-      mktmpenv -r venv/requirements.txt --no-vcs-ignore
+      mktmpenv -r venv/requirements.txt # --no-vcs-ignore
       $(cd $ctdir)
     fi
   # no venv metadata: maybe first time venv for this project, or no proj specific venv
@@ -62,7 +62,7 @@ mkvenv (){
     fi
     echo "${LOG_TS} Creating venv for ${CS_bcyan}${vname} ${CS_reset}..."
     echo "${LOG_TS} Activating venv ${CS_bcyan}${vname} ${CS_reset}..."
-    mkvirtualenv $vname --no-vcs-ignore
+    mkvirtualenv $vname # --no-vcs-ignore
     workon $vname && svenv
   fi
 }

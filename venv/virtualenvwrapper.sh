@@ -20,6 +20,10 @@
 # deactivate
 #   Deactivates the virtual environment.
 
+#### Installing
+# pip install virtualenvwrapper
+# pip install --user virtualenvwrapper
+
 # wrapper loads bin based on path, to be certain which gets picked, let's define it here
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv

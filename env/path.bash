@@ -36,3 +36,7 @@ fi
 #* neovim uses different dir for config and data
 export VIMCONFIG=~/.myvim
 export VIMDATA=~/.myvim
+
+# pipx
+export PIPX_BIN_DIR=$HOME/kroot/local/bin
+export PIPX_HOME=$HOME/kroot/local/pipx

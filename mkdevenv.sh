@@ -55,6 +55,17 @@ sudo apt install vim             # open-source clone of vi text editor developed
 sudo apt install git             # version control
 sudo apt install kdiff3          # compares and merges two or three input files or directories
 sudo apt install code            # VS Code IDE
+# OR
+function installvscode(){
+    mkdir -p ~/kroot/ide
+    cd ~/kroot/ide
+    # download from firefox https://code.visualstudio.com/download
+    tar -xvf code-stable-x64-1620838810.tar.gz
+    mv VSCode-linux-x64 vscode
+    rm code-stable-x64-1620838810.tar.gz
+    # make sure this is added to path via rc file
+    PATH="$HOME/kroot/ide/vscode/bin:$PATH"
+}
 
 sudo apt install apache2         # web server
 sudo apt install nginx           # web server

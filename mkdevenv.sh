@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 ##############
-#
-#   Portable Dev Environment - Build anywhere
-#
+# description: Portable Dev Environment - Build anywhere
+# author     : krishnam
 ###############
 
 ######

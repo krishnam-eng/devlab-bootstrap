@@ -24,9 +24,12 @@ then
 
 fi
 
-####### Install Required Packages
+####### 
+# Install Required Packages using
+#   ubuntu_install() or 
+#   kroot_install() - installs within venv if you do not have root access in the dev env
+###
 
-# install with venv if you do not have root access to the dev env 
 function kroot_install(){
     python --version      # [3.7.4 - 3.9]
     virtualenv --version  # [15.2.0 - 20.4.6]
@@ -47,19 +50,18 @@ function kroot_install(){
 
     # Other installs
     install_vscode()
-    
-    # Let's use the power of pipx
-    #
-    # pipx setup (https://pipxproject.github.io/pipx/)
-    # pip install pipx 
-    # now use pipx to install needed tools for effective dev env
-    # mkdir ~/kroot/local/bin
-    # mkdir ~/kroot/local/pipx
-    # export PIPX_BIN_DIR=~/kroot/local/bin
-    # export PIPX_HOME=~/kroot/local/pipx
-    # pipx install lolcat # install anything which will trigger shared libraries creation 
-    # watch -d -n 5 "du -ckh /u/krishnam/kroot/local/pipx/"
-    # ERROR: maximum recursion depth exceeded while calling a Python object
+   
+}
+
+function install_node(){
+    cd ~/kroot
+    # download from https://nodejs.org/en/
+    wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-x64.tar.xz
+    tar -xf node-v14.17.0-linux-x64.tar.xz
+    mv node-v14.17.0-linux-x64 node
+    rm node-v14.17.0-linux-x64.tar.xz
+    # make sure this is added to path via rc file
+    PATH="$HOME/kroot/node/bin:$PATH"
 }
 
 function install_vscode(){
@@ -72,14 +74,17 @@ function install_vscode(){
     PATH="$HOME/kroot/vscode/bin:$PATH"
 }
 
-function install_node(){
-    cd ~/kroot
-    # download from https://nodejs.org/en/
-    tar -xvf node-v14.17.0-linux-x64.tar.xz
-    mv node-v14.17.0-linux-x64 node
-    rm node-v14.17.0-linux-x64.tar.xz
-    # make sure this is added to path via rc file
-    PATH="$HOME/kroot/node/bin:$PATH"
+function install_pipx(){
+    # pipx setup (https://pipxproject.github.io/pipx/)
+    # pip install pipx 
+    # now use pipx to install needed tools for effective dev env
+    # mkdir ~/kroot/local/bin
+    # mkdir ~/kroot/local/pipx
+    # export PIPX_BIN_DIR=~/kroot/local/bin
+    # export PIPX_HOME=~/kroot/local/pipx
+    # pipx install lolcat # install anything which will trigger shared libraries creation 
+    # watch -d -n 5 "du -ckh /u/krishnam/kroot/local/pipx/"
+    # ERROR: maximum recursion depth exceeded while calling a Python object
 }
 
 

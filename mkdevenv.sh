@@ -83,7 +83,7 @@ function install_in_ubuntu_env(){
     sudo npm install -g tldr         # TooLongDidntRead: tldr pages are a community effort to simplify the beloved man pages with practical examples
     
     # alternatice utilities
-    # sudo apt install exa             # more user-friendly version of ls (in <RHEL8 version `GLIBC_2.18' not found)
+    sudo apt install exa             # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18' not found]
     sudo apt install fd-find         # fdfind: a program to find entries in your filesytem. It is a simple, fast and user-friendly alternative to find
     sudo apt install ncdu            # NCurses Disk Usage: to view and analyse disk space usage. It can drill down into directories and report space used by individual directories. 
     sudo apt install htop            # interactive process viewer similar to top but that provides a nicer user experience out of the box
@@ -91,13 +91,13 @@ function install_in_ubuntu_env(){
     sudo apt install ctop            # top-like interface for container metrics
 
     sudo apt install sysstat         # iostat - cpu usage
-    # sudo apt install lm-sensors    # cpu temp (unable to use it in vbox)
+    sudo apt install lm-sensors      # cpu temp (unable to use it in vbox)
 
     # just for fun
     sudo apt install cowsay [cowthink] # An ASCII cow in terminal that will say what ever you want
     sudo apt install figlet            # utility for creating ASCII text banners or large letters out of ordinary text
-    # sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in a Linux terminal (no npm version)
-    # sudo apt install lolcat          # (npm version is not good) 
+    sudo apt install cmatrix           # shows a scrolling ‘Matrix‘ like screen in a Linux terminal [Not in venv setup]
+    sudo apt install lolcat            # [Not in venv setup] 
 }
 
 function install_in_virtual_env(){

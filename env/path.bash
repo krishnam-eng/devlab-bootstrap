@@ -20,6 +20,12 @@ then
   PATH="$PATH:$HOME/.mytmux/sessions"
 fi
 
+# krishnam-root venv path
+if [ -d "$HOME/kroot/bin" ]
+then
+  PATH="$PATH:$HOME/kroot/bin"
+fi
+
 # IDE Path
 if [ -d "$HOME/kroot/ide/vscode/bin" ]
 then

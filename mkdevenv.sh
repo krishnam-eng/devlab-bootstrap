@@ -34,8 +34,14 @@ function kroot_install(){
     virtualenv --python=python3 kroot
     cd kroot/
     source bin/activate
-
-    pip install pipx  # https://pipxproject.github.io/pipx/
+    
+    # pipx setup (https://pipxproject.github.io/pipx/)
+    pip install pipx  
+    mkdir ~/kroot/local/bin
+    mkdir ~/kroot/local/pipx
+    export PIPX_BIN_DIR=~/kroot/local/bin
+    export PIPX_HOME=~/kroot/local/pipx
+    pipx install pycowsay # install anything which will trigger shared libraries creation 
 }
 
 function installvscode(){

@@ -20,6 +20,12 @@ then
   PATH="$PATH:$HOME/.mytmux/sessions"
 fi
 
+# IDE Path
+if [ -d "$HOME/kroot/ide/vscode/bin" ]
+then
+  PATH="$PATH:$HOME/kroot/ide/vscode/bin"
+fi
+
 # vim config path
 #* neovim uses different dir for config and data
 export VIMCONFIG=~/.myvim

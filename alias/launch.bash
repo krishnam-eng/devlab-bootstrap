@@ -6,7 +6,7 @@
 alias vscode="code . &"
 
 # use neo vim
-alias vim="nvim"
+# alias vim="nvim"
 alias vi="nvim"
 
 # launch dev tmux session - replace the value with recent work

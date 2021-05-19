@@ -37,11 +37,19 @@ function kroot_install(){
     
     # pipx setup (https://pipxproject.github.io/pipx/)
     pip install pipx  
+    
+    # ! deactivate the kroot venv before running pipx install to avoid " maximum recursion depth exceeded while calling a Python object" error
+    deactivate
+    
+    # now use pipx to install needed tools for effective dev env
     mkdir ~/kroot/local/bin
     mkdir ~/kroot/local/pipx
     export PIPX_BIN_DIR=~/kroot/local/bin
     export PIPX_HOME=~/kroot/local/pipx
-    pipx install pycowsay # install anything which will trigger shared libraries creation 
+    pipx install lolcat # install anything which will trigger shared libraries creation 
+    
+    # monitor the activity
+    watch -d -n 5 "du -ckh /u/krishnam/kroot/local/pipx/"
 }
 
 function installvscode(){
@@ -106,6 +114,7 @@ sudo apt install httpie          # user-friendly command-line HTTP client for th
 
 
 # general tools
+sudo apt install watch
 sudo apt install curl            # 
 sudo apt install tree            # list dir in tree form
 sudo spt install gawk            # GNU awk

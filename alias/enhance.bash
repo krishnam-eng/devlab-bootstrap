@@ -33,7 +33,7 @@ alias ls="ls --color=always --width=80"
 
 # Dot: Showing All Hidden (Dot) Files in the Current Directory
 # add -l for long list
-alias ld='ls -d .*'
+alias l.='ls -d .*'
 
 # All: long list,show almost all,show type,human readable (with dot files)
 alias la="ls -lABFXh --block-size=K"
@@ -166,3 +166,9 @@ is_interactive(){
 }
 
 alias rcat="lolcat"
+
+###########
+# Others 
+#############
+
+alias ewatch="watch -d"

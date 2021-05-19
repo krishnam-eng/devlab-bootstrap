@@ -5,6 +5,45 @@
 #
 ###############
 
+######
+# checkout dev env github repo
+######
+if [[ ! -d ~/github/ohmy-linux ]] 
+then
+    mkdir -p ~/github
+    # git clone git@github.com:krishnam-eng/ohmy-linux ~/github/ohmy-linux
+    git clone https://github.com/krishnam-eng/ohmy-linux ~/github/ohmy-linux
+    
+    # if it was cloned from http, use below to change to ssh once ssh pub key added to githubsetup
+    # git remote set-url origin git@github.com:krishnam-eng/practice-python.git
+    
+    # TMUX plugin manager
+    mkdir -p ~/github/ohmy-linux/tmux/plugins/tpm
+    git clone https://github.com/tmux-plugins/tpm ~/github/ohmy-linux/tmux/plugins/tpm
+    # next: reload tmux conf , and press <prefix> Shift+R to install plugins
+
+fi
+
+#### What Do I have Already
+function whatdoihave(){
+    zsh --version  # [5.0.2 - 5.8]
+    tmux -V        # [3.1c - 3.2]
+    nano -V        # [2.3.1 - 5.7]
+    vim --version  # [8.1 - 8.2]
+    
+    git --version   # [2.28 - 2.31.1]
+    kdiff3 -version # [0.9.98]
+}
+
+# install with venv if do not have root access to the dev env 
+function kroot(){
+    virtualenv --python=python3 kroot
+    cd kroot/
+    source bin/activate
+}
+
+##### Install List
+
 # workspace
 sudo apt install zsh             # powerful sh 
 sudo apt install tmux            # terminal multiplexer
@@ -71,25 +110,6 @@ sudo apt install lm-sensors      # cpu temp
 sudo apt install cowsay          # An ASCII cow in terminal that will say what ever you want
 sudo apt install figlet          # utility for creating ASCII text banners or large letters out of ordinary text
 sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in a Linux terminal
-
-######
-# checkout dev env github repo
-######
-if [[ ! -d ~/github/ohmy-linux ]] 
-then
-    mkdir -p ~/github
-    # git clone git@github.com:krishnam-eng/ohmy-linux ~/github/ohmy-linux
-    git clone https://github.com/krishnam-eng/ohmy-linux ~/github/ohmy-linux
-    
-    # if it was cloned from http, use below to change to ssh once ssh pub key added to githubsetup
-    # git remote set-url origin git@github.com:krishnam-eng/practice-python.git
-    
-    # TMUX plugin manager
-    mkdir -p ~/github/ohmy-linux/tmux/plugins/tpm
-    git clone https://github.com/tmux-plugins/tpm ~/github/ohmy-linux/tmux/plugins/tpm
-    # next: reload tmux conf , and press <prefix> Shift+R to install plugins
-
-fi
 
 #####
 # Setup zsh, bash, tmux, nano run command configs

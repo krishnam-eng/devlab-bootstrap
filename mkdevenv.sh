@@ -24,25 +24,48 @@ then
 
 fi
 
+####### Install Required Packages
+
+# install with venv if you do not have root access to the dev env 
+function kroot_install(){
+    python --version      # [3.7.4 - 3.9]
+    virtualenv --version  # [15.2.0 - 20.4.6]
+
+    virtualenv --python=python3 kroot
+    cd kroot/
+    source bin/activate
+
+    pip install pipx  # https://pipxproject.github.io/pipx/
+}
+
+function installvscode(){
+    mkdir -p ~/kroot/ide
+    cd ~/kroot/ide
+    # download from firefox https://code.visualstudio.com/download
+    tar -xvf code-stable-x64-1620838810.tar.gz
+    mv VSCode-linux-x64 vscode
+    rm code-stable-x64-1620838810.tar.gz
+    # make sure this is added to path via rc file
+    PATH="$HOME/kroot/ide/vscode/bin:$PATH"
+}
+
 #### What Do I have Already
 function whatdoihave(){
     zsh --version  # [5.0.2 - 5.8]
     tmux -V        # [3.1c - 3.2]
     nano -V        # [2.3.1 - 5.7]
     vim --version  # [8.1 - 8.2]
-    
+
     git --version   # [2.28 - 2.31.1]
     kdiff3 -version # [0.9.98]
 }
 
-# install with venv if do not have root access to the dev env 
-function kroot(){
-    virtualenv --python=python3 kroot
-    cd kroot/
-    source bin/activate
-}
-
-##### Install List
+function ubuntu_install(){
+# start with venv setup
+sudo apt install python3.9       # python latest
+sudo apt install python3-pip     # package management - Pip Installs Packages
+sudo apt install pipx            # help you install and run end-user applications written in Python into an isolated environment. It's roughly similar to apt-get.
+sudo apt install virtualenv      # provides virtual environment - has its own Python binary and independent set of Python packages
 
 # workspace
 sudo apt install zsh             # powerful sh 
@@ -55,27 +78,13 @@ sudo apt install vim             # open-source clone of vi text editor developed
 sudo apt install git             # version control
 sudo apt install kdiff3          # compares and merges two or three input files or directories
 sudo apt install code            # VS Code IDE
-# OR
-function installvscode(){
-    mkdir -p ~/kroot/ide
-    cd ~/kroot/ide
-    # download from firefox https://code.visualstudio.com/download
-    tar -xvf code-stable-x64-1620838810.tar.gz
-    mv VSCode-linux-x64 vscode
-    rm code-stable-x64-1620838810.tar.gz
-    # make sure this is added to path via rc file
-    PATH="$HOME/kroot/ide/vscode/bin:$PATH"
-}
 
 sudo apt install apache2         # web server
 sudo apt install nginx           # web server
 sudo apt install apache2-utils   # ab: apache bench for cli single page load test, htpassword : create pwd
 sudo apt install openssl         # to create ssl certificates
 
-sudo apt install python3.9       # python latest
-sudo apt install python3-pip     # package management - Pip Installs Packages
-sudo apt install pipx            # help you install and run end-user applications written in Python into an isolated environment. It's roughly similar to apt-get.
-sudo apt install virtualenv      # provides virtual environment - has its own Python binary and independent set of Python packages
+
 pipx install autopep8            # vscode needs this for auto formatting 
 pipx install virtualenvwrapper   # provides a set of commands that extend Python virtual environments for more control and better manageability. It places all your virtual environments in one directory
 pipx install locust              # open source load testing tool, define user behaviour with Python code
@@ -121,6 +130,8 @@ sudo apt install lm-sensors      # cpu temp
 sudo apt install cowsay          # An ASCII cow in terminal that will say what ever you want
 sudo apt install figlet          # utility for creating ASCII text banners or large letters out of ordinary text
 sudo apt install cmatrix         # shows a scrolling ‘Matrix‘ like screen in a Linux terminal
+
+}
 
 #####
 # Setup zsh, bash, tmux, nano run command configs

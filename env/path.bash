@@ -27,9 +27,9 @@ then
 fi
 
 # IDE Path
-if [ -d "$HOME/kroot/ide/vscode/bin" ]
+if [ -d "$HOME/kroot/vscode/bin" ]
 then
-  PATH="$PATH:$HOME/kroot/ide/vscode/bin"
+  PATH="$PATH:$HOME/kroot/vscode/bin"
 fi
 
 if [ -d "$HOME/kroot/node/bin" ]

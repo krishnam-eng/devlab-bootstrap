@@ -32,6 +32,11 @@ then
   PATH="$PATH:$HOME/kroot/ide/vscode/bin"
 fi
 
+if [ -d "$HOME/kroot/node/bin" ]
+then
+  PATH="$PATH:$HOME/kroot/node/bin"
+fi
+
 # vim config path
 #* neovim uses different dir for config and data
 export VIMCONFIG=~/.myvim

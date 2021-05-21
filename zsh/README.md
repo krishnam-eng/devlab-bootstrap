@@ -2,13 +2,35 @@
 
 zsh has a list of files it will execute at shell startup. The list of possible files is even longer, but somewhat more ordered.
 
-|all users     |	user	  |login shell |interactive shell|	scripts| terminal app|
-|--------------|----------|------|------|-----------------|---------------------|
-|/etc/zshenv	 |.zshenv	  |√	   |√	    |√	              | √                   |
-|/etc/zprofile |.zprofile	|√	   |x	    |x	              |	√                   |
-|/etc/zshrc	   |.zshrc	  |√	   |√	    |x	              |	√                   |
-|/etc/zlogin	 |.zlogin	  |√	   |x	    |x	              |	√                   |
-|/etc/zlogout	 |.zlogout	|√	   |x	    |x	              |	√                   |
++----------------+-----------+-----------+------+
+|                |Interactive|Interactive|Script|
+|                |login      |non-login  |      |
++----------------+-----------+-----------+------+
+|/etc/zshenv     |    A      |    A      |  A   |
++----------------+-----------+-----------+------+
+|~/.zshenv       |    B      |    B      |  B   |
++----------------+-----------+-----------+------+
+|/etc/zprofile   |    C      |           |      |
++----------------+-----------+-----------+------+
+|~/.zprofile     |    D      |           |      |
++----------------+-----------+-----------+------+
+|/etc/zshrc      |    E      |    C      |      |
++----------------+-----------+-----------+------+
+|~/.zshrc        |    F      |    D      |      |
++----------------+-----------+-----------+------+
+|/etc/zlogin     |    G      |           |      |
++----------------+-----------+-----------+------+
+|~/.zlogin       |    H      |           |      |
++----------------+-----------+-----------+------+
++----------------+-----------+-----------+------+
+|~/.zlogout      |    I      |           |      |
++----------------+-----------+-----------+------+
+|/etc/zlogout    |    J      |           |      |
++----------------+-----------+-----------+------+
+
+`bash --login --noprofile` => to skip reading from profile 
+`--norc` = > to skip rc file
+
 
 #### Why So Many Files?
 The files in /etc/ will be launched (when present) for all users. The .z* files only for the individual user.

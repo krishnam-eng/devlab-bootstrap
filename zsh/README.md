@@ -2,6 +2,7 @@
 
 zsh has a list of files it will execute at shell startup. The list of possible files is even longer, but somewhat more ordered.
 
+```
 +----------------+-----------+-----------+------+
 |                |Interactive|Interactive|Script|
 |                |login      |non-login  |      |
@@ -27,7 +28,7 @@ zsh has a list of files it will execute at shell startup. The list of possible f
 +----------------+-----------+-----------+------+
 |/etc/zlogout    |    J      |           |      |
 +----------------+-----------+-----------+------+
-
+```
 `bash --login --noprofile` => to skip reading from profile 
 `--norc` = > to skip rc file
 

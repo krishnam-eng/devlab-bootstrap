@@ -42,6 +42,7 @@ alias la="ls -lABFXh --block-size=K"
 alias lr='ls -tRFh'
 
 # Tree: use tree like ls , -a => all , -prune => no empty dir , -L 2 => 2 level
+alias tree="tree -C"
 alias lt="tree "
 alias lt1="tree -L 1"
 alias lt2="tree -L 2"

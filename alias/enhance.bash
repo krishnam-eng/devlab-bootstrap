@@ -64,6 +64,10 @@ alias lsvar="set"
 alias lsgh="lt1 ~/github/"
 alias ghls="lt1 ~/github/"
 
+# List node installed packages 
+alias ndls="lt1 ~/kroot/node/bin"
+
+
 # List all my dir
 alias lsmy="lt1 ~/.my*"
 

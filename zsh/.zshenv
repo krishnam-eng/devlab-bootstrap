@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 
 ##########
 # DOT DIR
@@ -8,19 +8,3 @@
 ##########
 
 export ZDOTDIR=~/.myzsh/
-
-[ -z "$TMUX" ] && export TERM=xterm-256color
-
-# use this for log prefix
-
-if [ -d ~/.myenv ]; then
-  # Recipe: Running All Scripts in a Directory
-  for efile in ~/.myenv/*sh
-  do
-    source $efile
-  done
-  unset efile
-fi
-
-export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
-

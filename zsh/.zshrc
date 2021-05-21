@@ -22,6 +22,9 @@ if [ -d ~/.myfunc ]; then
   unset ffile
 fi
 
+# load prompt config here instead in zshenv to make sure nothing else overrides my prompt
+source ~/.myenv/interactice-shell/prompt.bash
+
 # load venv extention config to work with python projects
 source ~/.myvenv/virtualenvwrapper.sh
 
@@ -107,4 +110,4 @@ setopt interactivecomments
 # echo $- => *i* for interactive
 ###
 
-source ~/.myenv/prompt.zsh 
+source ~/.myenv/profile/prompt.zsh 

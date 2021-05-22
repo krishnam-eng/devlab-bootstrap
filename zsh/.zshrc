@@ -117,8 +117,9 @@ setopt interactivecomments
 # echo $- => *i* for interactive
 ###
 
-source ~/.myenv/profile/prompt.zsh 
-source /home/krishnam/kroot/themes/powerlevel10k/powerlevel10k.zsh-theme
+# using theme
+# source ~/.myenv/interactive_shell/prompt.zsh
+source $HOME/kroot/themes/powerlevel10k/powerlevel10k.zsh-theme
 
-# To customize prompt, run `p10k configure` or edit ~/.myzsh//.p10k.zsh.
-[[ ! -f ~/.myzsh//.p10k.zsh ]] || source ~/.myzsh//.p10k.zsh
+# To customize prompt, run `p10k configure` or edit ~/.myzsh/.p10k.zsh.
+[[ ! -f ~/.myzsh/.p10k.zsh ]] || source ~/.myzsh/.p10k.zsh

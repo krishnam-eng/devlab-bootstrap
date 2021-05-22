@@ -1,12 +1,20 @@
 #####################
-# frequently used launch commands
+# change the default option of frequently used launch commands
 #####################
+
+# run in quite mode
+#   - it ignores warning messages from nanorc file. it can happen If you are using older version of nano with new version options
+alias nano="nano -q"
+
+# enable unicode (utf-8) char by default
+#   - needed for powerline
+alias tmux="tmux -u"
+
 
 # launch visual studio in bg
 alias vscode="code . &"
 
-# run quite 
-alias nano="nano -q"
+
 
 # use neo vim
 # alias vim="nvim"

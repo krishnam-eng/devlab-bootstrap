@@ -121,3 +121,4 @@ if [ -d ~/.myfunc ]; then
     done
     unset ffile
 fi
+. "$HOME/.cargo/env"

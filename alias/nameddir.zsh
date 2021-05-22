@@ -19,7 +19,10 @@ hash -d alias=~/.myalias  # ~alias
 hash -d env=~/.myenv      # ~env
 hash -d awk=~/.myawk      # ~awk
 hash -d nginx=~/.mynginx  # ~nginx
+
+# frequently used dirs
 hash -d gh=~/github       # ~gh
+hash -d tmp=~/tmp         # ~tmp
 
 # quick access to all checkout repos
 # convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")

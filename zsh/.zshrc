@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.myzsh//.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 ################
 #description : This script will be executed by zsh
 #zsh_version : 5.8 (zsh --version)
@@ -111,3 +118,7 @@ setopt interactivecomments
 ###
 
 source ~/.myenv/profile/prompt.zsh 
+source /home/krishnam/kroot/themes/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.myzsh//.p10k.zsh.
+[[ ! -f ~/.myzsh//.p10k.zsh ]] || source ~/.myzsh//.p10k.zsh

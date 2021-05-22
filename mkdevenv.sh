@@ -230,6 +230,11 @@ function create_myconf_links(){
     ln -s ~/.mynano/.nanorc  ~/.nanorc
     ln -s ~/.mytmux/.tmux.conf ~/.tmux.conf
     ln -s ~/.myzsh/.zshenv ~/.zshenv
+
+    # zsh theme - power10k
+    mkdir -p ~/kroot/theme/
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/theme/powerlevel10k
+
 }
 
 function othersetup(){

@@ -1,5 +1,5 @@
 #####################
-# change the default option of frequently used launch commands
+# change the default option of frequently used commands
 #####################
 
 # run in quite mode
@@ -10,9 +10,11 @@ alias nano="nano -q"
 #   - needed for powerline
 alias tmux="tmux -u"
 
+# create missing parents
+alias mkdir="mkdir -p"
 
 # launch visual studio in bg
-alias vscode="code . &"
+alias code="code . &"
 
 
 

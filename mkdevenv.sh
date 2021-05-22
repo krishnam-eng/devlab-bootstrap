@@ -152,6 +152,11 @@ function install_vscode(){
     PATH="$HOME/kroot/vscode/bin:$PATH"
 }
 
+function install_rust(){
+    curl https://sh.rustup.rs -sSf | sh
+    source $HOME/.cargo/env
+}
+
 function install_pipx(){
     # pipx setup (https://pipxproject.github.io/pipx/)
     # pip install pipx 

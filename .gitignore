@@ -20,4 +20,5 @@ tmux/plugins/tmux-sidebar
 tmux/plugins/tmux-cpu
 tmux/resurrect
 tmux/screenshots/*.screenshot
+tmux/plugins/tmux-mem-cpu-load
 

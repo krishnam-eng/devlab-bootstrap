@@ -107,7 +107,7 @@ if [[ -d ~/.myalias ]]; then
   unset afile
 fi
 
-# todo: make them as lazy load using auto load capability
+# todo: make them as lazy load using auto load capability or set it in fpath
 if [ -d ~/.myfunc ]; then
   for ffile in ~/.myfunc/*sh
   do
@@ -168,16 +168,34 @@ setopt INC_APPEND_HISTORY
 # share history between different zsh processes
 setopt SHARE_HISTORY
 
-########
-#  automation / auto load functions
-########
+##############
+#  Auto Completion
+#
+#     Tab to start the auto-complete, tab-again to cycle-through
+#
+#   types:
+#       filname/dir      [ str<Tab>
+#       external command [ str<Tab>
+#       built-in command [ str<Tab>
+#       command option   [ -<Tab>
+#       env variables    [ $str<Tab>
+#       alias            [ str<Tab>
+#       function         [ str<Tab>
+#       expanding cmd    [ echo `which zsh`<Tab> => echo /usr/bin/zsh 
+#
+#   you can see where this is going
+#
+##############
+
+# Load auto completion feature
+autoload -Uz compinit
+compinit
+
+# menu selection from the guess list
+zstyle ':completion:*' menu select=1
 
 # Change dir by just hitting enter on dir name
 setopt autocd
-
-# Auto completion
-autoload -Uz compinit
-compinit # Tab to start the auto-complete, tab-again to cycle-through
 
 # Move cursor inbetween incomplete word and type
 setopt completeinword
@@ -185,16 +203,12 @@ setopt completeinword
 # Suggest mis-spelled commands
 setopt correct
 
-# Load prompt module
-#   To use predefined prompt configs >prompt -p to view all themes
-#     e.g prompt adam1 yellow
-autoload -Uz promptinit
-promptinit
 
-# treat $PROMPT just as if it were vanilla shell variable - will be checked against for command substitution, parameters and arithmetic expanstion
-setopt PROMPT_SUBST
+#####################
+#         Redirection & MultiOS
+#
+####################
 
-### START: Redirection & MultiOS
 # To prevent stdout or stderr (1> or 2>) redirection to existing file, use append >>
 setopt noclobber
 #o enable multiple output stream
@@ -207,10 +221,8 @@ setopt multios
 # alias sd="pushd" # switch dir using dir stack
 ### CLOSE: Dir Nav
 
-###
-#PROMPT='%n@%F{green}%m%f %K{red}
-
 ### To list the values of ....., run the below
+# todo: move to ls.bash file
 #  %setopt ; unsetopt -> zsh options
 #  %alias
 #  %functions ; echo $fpath;
@@ -266,9 +278,6 @@ setopt multios
 #  todo: -L and find useful commands - take a print
 #  use `bindkey -l` to view avilable keymaps
 #
-#
-#
-#
 ##################
 
 # By default zsh relies on $EDITOR & $VISUAL to guess the binding. Don't guess now.(use -v for vi mode
@@ -276,13 +285,28 @@ bindkey -e
 # skip beeping on errors.
 setopt NO_BEEP
 
-#########
-# The End
-#   last benchers
-########
+
+################
+#   Prompt Style & Theme
+#
+#   theme: p10k
+################
+
+# Load prompt module
+#   To use predefined prompt configs >prompt -p to view all themes
+#     e.g prompt adam1 yellow
+autoload -Uz promptinit
+promptinit
+
+# treat $PROMPT just as if it were vanilla shell variable - will be checked against for command substitution, parameters and arithmetic expanstion
+setopt PROMPT_SUBST
 
 # source ~/.myenv/interactive_shell/prompt.zsh
 source $HOME/kroot/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run p10k configure or edit ~/.myzsh/.p10k.zsh.
 [[ ! -f ~/.myzsh/.p10k.zsh ]] || source ~/.myzsh/.p10k.zsh
+
+#########
+# Any Last Benchers ?
+########

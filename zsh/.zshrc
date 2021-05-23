@@ -117,6 +117,11 @@ if [ -d ~/.myfunc ]; then
   unset ffile
 fi
 
+# Extending your fpath
+#
+# test and enable the below
+# fpath=(~/.myfunc $fpath)
+
 ################
 # Working with History
 #   make myshell remember like elephant
@@ -191,8 +196,14 @@ setopt SHARE_HISTORY
 autoload -Uz compinit
 compinit
 
-# menu selection from the guess list
+# add more flair to your auto complete sugesstions, by grouping them by type
+zstyle ':completion:*' group-name ''
+
+# enable menu selection from the guess list
 zstyle ':completion:*' menu select=1
+
+# show command options with description and make it easy to move around too with double Tab
+zstyle ':completion:*' verbose yes
 
 # Change dir by just hitting enter on dir name
 setopt autocd

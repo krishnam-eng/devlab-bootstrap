@@ -1,15 +1,11 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.myzsh//.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+################
+# description : This script (known as _startup file_) will be executed by zsh and all my zsh preferences goes here
+# zsh_version : 5.8 (zsh --version)
+# author	     : krishnam
+################
 
-################
-#description : This script will be executed by zsh
-#zsh_version : 5.8 (zsh --version)
-#author	     : krishnam
-################
+autoload -Uz promptinit
+
 
 if [[ -d ~/.myalias ]]; then
   for afile in ~/.myalias/*sh
@@ -35,6 +31,13 @@ source ~/.myenv/interactice-shell/prompt.bash
 # load venv extention config to work with python projects
 source ~/.myvenv/virtualenvwrapper.sh
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.myzsh//.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 ### START: Automation
 # Auto completion
 autoload -Uz compinit
@@ -47,7 +50,7 @@ setopt correct
 # Change dir by just hitting enter on dir name
 setopt autocd
 
-# Bulk rename utility
+`# Bulk rename utility
 autoload -U zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
 
 ### CLOSE: Automation

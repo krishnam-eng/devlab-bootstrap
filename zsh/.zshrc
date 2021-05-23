@@ -25,19 +25,68 @@ source ~/.myenv/interactice-shell/prompt.bash
 source ~/.myvenv/virtualenvwrapper.sh
 
 ################
-# Expansions
+#                Expansions
+#
 #         Alias Expansion
 #   ${}   Parameter Expansion  [ e.g a=cat ; echo ${a}man => catman
 #   $()   Command Substitution [ echo $(date)
 #   $(()) Arithmetic Expansion [ echo $[4/2] - 2
 #   {}    Brace Expansion      [ e.g %echo c{a,o,u}t => cat cot cut, %echo {1..5} => 1 2 3 4 5
 #   !     History Expansion
+#   *?[]^ Filename Generation  or Globbing as in Global Substitution
 #         Process Sub          [ => > < >> | , tee
 #         Filename Exp         [ ~ , =ls , ~customshortname
-#         Filename Generation  [ * => any  string , ? => any char , [] => any specific chars
+#         Process Sub          [ => > < >> | , tee#
 ###############
 
 ##############
+#               Globbing
+#
+# Basic
+#      * - wildcard - any chars
+#      ? - any single char        [ ls script.?? > script.sh
+#     [] - bracket for a sequance of chars. supports char set also like [[:alpha:]]*
+#      ^ - avoid [^o] - no o
+# Extended
+#    **/ - recursive searching in child dirs  [ **/*.md - it matchs all md files in child dir also
+#   ***/ - recursive searching including links   [  ***/*.md - it matchs all md files including links
+#    (|) - alternate pattern [  *.(bash|zsh) matchs both script files
+#    <-> - numeric ranges    [ log_<10-20>.txt
+#     ~  - should not match [ b*~*.o - file start with b and do nto have .o in it
+#     ^  - caret and tilde does the same - operator for negating
+# Qualifier
+#     (/) - dir
+#     (.) - file
+#     (@) - link
+#     (rwx) - read, write, execute
+#     (o) - order n- name, L- size , m- modified
+#     (O) - Reverse sort
+#  Time Qualifier
+#     (mh-1) -  modified in last 1h
+#     (ch-1) -  created in last 1h
+#     (ah-1) -  accessed in last 1h
+#     h, m, w, M - hour, min, week, Month
+# File Size Qualifier
+#     (L[kmg][+-]size) kb, mb, gb, larger than, smaller than
+###############
+
+# do not show "no matches found:..."
+setopt null_glob
+
+# do nto show "no bad pattern" either
+setopt no_bad_pattern
+
+# make it similar to bash - in case of any nomatch, pattern will be treated as string
+unsetopt nomatch
+
+# enable extened globbing. this enables cool features like recursive seraching "**/"
+setopt EXTENDED_GLOB
+
+# Bulk rename utility - works based on pattern
+autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
+
+
+###############
 # Load Aliases & Functions
 #     to make life easy
 #
@@ -145,9 +194,6 @@ promptinit
 # treat $PROMPT just as if it were vanilla shell variable - will be checked against for command substitution, parameters and arithmetic expanstion
 setopt PROMPT_SUBST
 
-# Bulk rename utility
-autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
-
 ### START: Redirection & MultiOS
 # To prevent stdout or stderr (1> or 2>) redirection to existing file, use append >>
 setopt noclobber
@@ -212,13 +258,20 @@ setopt multios
 #   Ctrl + S Incremental search forwards (automatically enables NO_FLOW_CONTROL option)
 #   Esc  + < go to very beginning of our history file
 #
+# Execute Mode
+#  Esc + x  - open cmd mode: ctr+shit+p in vscode  or : in tmux
+#     where-is mode
+#
 #  use `bindkey -L` to list all current bindings
 #  todo: -L and find useful commands - take a print
 #  use `bindkey -l` to view avilable keymaps
+#
+#
+#
+#
 ##################
 
 # By default zsh relies on $EDITOR & $VISUAL to guess the binding. Don't guess now.(use -v for vi mode
-# 
 bindkey -e
 # skip beeping on errors.
 setopt NO_BEEP

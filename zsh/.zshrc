@@ -180,7 +180,7 @@ setopt multios
 #
 #   The Zsh Line Editor allows you to define your own key bindings and set of custom keymaps (collections of key bindings) in addition to extending predefined entries.
 #
-#   From EMACS Keybindings
+# From EMACS Keybindings
 #
 # Move
 #   Ctrl + A Moves the cursor to the beginning of the line
@@ -210,11 +210,18 @@ setopt multios
 # Search
 #   Ctrl + R Incremental search backwards
 #   Ctrl + S Incremental search forwards (automatically enables NO_FLOW_CONTROL option)
+#   Esc  + < go to very beginning of our history file
 #
+#  use `bindkey -L` to list all current bindings
+#  todo: -L and find useful commands - take a print
+#  use `bindkey -l` to view avilable keymaps
 ##################
 
 # By default zsh relies on $EDITOR & $VISUAL to guess the binding. Don't guess now.(use -v for vi mode
+# 
 bindkey -e
+# skip beeping on errors.
+setopt NO_BEEP
 
 #########
 # The End

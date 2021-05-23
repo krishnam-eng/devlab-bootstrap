@@ -38,13 +38,14 @@ source ~/.myvenv/virtualenvwrapper.sh
 ###############
 
 ##############
-# Aliases & Functions
+# Load Aliases & Functions
 #     to make life easy
 #
 #     Create: alias name="expand to this"
-#     Unset : unalias name
-#     Global: alias -g chars  - not just for cmd replacement. just replace anywhere in the full cmd.
-#     Suffix: alias -s        - open file based on suffix
+#            Unset : unalias name
+#     Global: alias -g chars   - not just for cmd replacement. just replace anywhere in the full cmd.
+#     Suffix: alias -s         -  open file based on suffix
+#     Hash  : hash -d namedir=/path/to/dir
 ##############
 
 # load all alias files with `source filename` or `. filename` (. is posix std way)
@@ -68,7 +69,7 @@ if [ -d ~/.myfunc ]; then
 fi
 
 ################
-# History
+# Working with History
 #   make myshell remember like elephant
 #
 #
@@ -103,7 +104,7 @@ setopt HIST_VERIFY
 # saves timestamp and duration for each history entry run. excellent for data analysis
 setopt EXTENDED_HISTORY
 
-# ignore duplicate when showing results
+# If a new command line being added to the history list duplicates an older one, the older command is removed from the list
 setopt HIST_IGNORE_ALL_DUPS
 
 # When searching for history entries in the line editor, do not display duplicates of a line previously found, even if the duplicates are not contiguous.
@@ -153,9 +154,6 @@ setopt noclobber
 #o enable multiple output stream
 setopt multios
 
-
-### CLOSE: Command History
-
 # Building Dir Stack
 # pushd ~/mylib &>/dev/null
 # pushd /etc &>/dev/null
@@ -173,21 +171,56 @@ setopt multios
 #  %enable ; diable -> bulit-in commands
 #  %hash -> named dirs
 #  %dirs -> dir stack
-#  %echo $- => shows zsh options 
+#  %echo $- => shows zsh options
 #  %echo $PROMPT
 ###
 
+############
+# ZLE
+#
+#   The Zsh Line Editor allows you to define your own key bindings and set of custom keymaps (collections of key bindings) in addition to extending predefined entries.
+#
+#   From EMACS Keybindings
+#
+# Move
+#   Ctrl + A Moves the cursor to the beginning of the line
+#   Ctrl + E Moves the cursor to the end of the line
+#
+#   Esc + B Moves the cursor backwards one word
+#   Esc + F Moves the cursor forward one word
+#
+# Delete
+#   Ctrl + U Deletes the whole line
+#   Ctrl + K Kills (or deletes) until the end of the line
+#
+#   Esc + Backspace Deletes one word on the left of the cursor
+#   Esc + D Deletes one word on the right of the cursor
+#   Ctrl + W Deletes the whole word backwards from the cursor location
+#
+#   Ctrl + D Deletes a character (moves forward) / lists completions / logs out
+#
+# Yank
+#   Ctrl + Y Yanks the last killed word
+#   Esc + Y Switches the last yanked word
+#
+# Swap
+#   Ctrl + T Transposes two characters
+#   Esc + T Transposes two words
+#
+# Search
+#   Ctrl + R Incremental search backwards
+#   Ctrl + S Incremental search forwards (automatically enables NO_FLOW_CONTROL option)
+#
+##################
 
+# By default zsh relies on $EDITOR & $VISUAL to guess the binding. Don't guess now.(use -v for vi mode
+bindkey -e
 
+#########
+# The End
+#   last benchers
+########
 
-### Types of Shells
-# 1. Login Shell => when you open new terminal
-# 2. interactive shell =>  type cmds , login is interatice also
-# 3. non-interactive shell => no i/ps taken - run script or cmd %zsh myscript
-# echo $- => *i* for interactive
-###
-
-# using theme
 # source ~/.myenv/interactive_shell/prompt.zsh
 source $HOME/kroot/themes/powerlevel10k/powerlevel10k.zsh-theme
 

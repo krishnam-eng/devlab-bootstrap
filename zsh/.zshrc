@@ -174,7 +174,7 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 ##############
-#  Auto Completion
+#  Auto Completion & Some More Magic
 #
 #     Tab to start the auto-complete, tab-again to cycle-through
 #
@@ -186,7 +186,7 @@ setopt SHARE_HISTORY
 #       env variables    [ $str<Tab>
 #       alias            [ str<Tab>
 #       function         [ str<Tab>
-#       expanding cmd    [ echo `which zsh`<Tab> => echo /usr/bin/zsh 
+#       expanding cmd    [ echo `which zsh`<Tab> => echo /usr/bin/zsh
 #
 #   you can see where this is going
 #
@@ -214,6 +214,8 @@ setopt completeinword
 # Suggest mis-spelled commands
 setopt correct
 
+# type cmd and pressing spacebar now triggers history expansion. e.g. echo !!<Space> => echo ls
+bindkey ' ' magic-space
 
 #####################
 #         Redirection & MultiOS
@@ -300,7 +302,7 @@ setopt NO_BEEP
 ################
 #   Prompt Style & Theme
 #
-#   theme: p10k
+#       better be the last bencher
 ################
 
 # Load prompt module
@@ -312,12 +314,20 @@ promptinit
 # treat $PROMPT just as if it were vanilla shell variable - will be checked against for command substitution, parameters and arithmetic expanstion
 setopt PROMPT_SUBST
 
+# use below for enabling custom promt
 # source ~/.myenv/interactive_shell/prompt.zsh
-source $HOME/kroot/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run p10k configure or edit ~/.myzsh/.p10k.zsh.
+[[ ! -f ~/kroot/powerlevel10k/powerlevel10k.zsh-theme ]] || source ~/kroot/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.myzsh/.p10k.zsh ]] || source ~/.myzsh/.p10k.zsh
 
-#########
-# Any Last Benchers ?
-########
+# enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing
+[[ ! -f ~/kroot/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/kroot/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# todo:
+#   - More exploration on tips & tricks
+#   - don't load everything ! rather learn to choose
+#
+# https://grml.org/zsh/zsh-lovers.html
+# https://github.com/zsh-users
+# selective tricks from - oh-my-zsh or Prezto

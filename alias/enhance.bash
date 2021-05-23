@@ -28,9 +28,6 @@ alias rmd="\rm -rf"
 # enhanced ls with built-in
 ##########===========----------------
 
-# ls - set color option
-alias ls="ls --color=always --width=80"
-
 # Dot: Showing All Hidden (Dot) Files in the Current Directory
 # add -l for long list
 alias l.='ls -d .*'
@@ -42,7 +39,6 @@ alias la="ls -lABFXh --block-size=K"
 alias lr='ls -tRFh'
 
 # Tree: use tree like ls , -a => all , -prune => no empty dir , -L 2 => 2 level
-alias tree="tree -C"
 alias lt="tree "
 alias lt1="tree -L 1"
 alias lt2="tree -L 2"
@@ -63,14 +59,15 @@ alias lsvar="set"
 
 # List all gh
 alias lsgh="lt1 ~/github/"
-alias ghls="lt1 ~/github/"
 
-# List node installed packages 
-alias ndls="lt1 ~/kroot/node/bin"
-
+# List node installed packages
+alias lsnd="lt1 ~/kroot/node/bin"
 
 # List all my dir
 alias lsmy="lt1 ~/.my*"
+
+# list shells & you can change shell chsh -s /path
+alias lssh="cat /etc/shells"
 
 # Other useful options
 # -1 => print in one column
@@ -102,26 +99,16 @@ alias elt4="exa --tree --level=4 --long"
 
 ##########=======-----LS END-----======##########
 
-
-
 # use default edit as nano & frquent edit files
 alias e="nano"
-
-
-# list shells & you can change shell chsh -s /path
-alias lshells="cat /etc/shells"
-
 
 # Quick access to the .zshrc file
 alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc' 
 
-# set color to grep
-alias grep='grep --color'
-
 # smart grep with default exclution filter
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git} '
 
-alias t='tail -f'
+alias tf='tail -f'
 
 # clear dump files using cmd substitution
 # The earlier shell syntax was to use backquotes (``) instead of $() for enclosing the sub-command. The $() syntax is preferred over the older `` syntax because it is easier to nest and arguably easier to read
@@ -131,18 +118,14 @@ alias sdump='find . -name "*dump"'
 #alias dud='du -d 1 -h'
 #alias duf='du -sh *'
 
-#alias ff='find . -type f -name'
+# find file
+alias ffl='find . -type f -name'
 
-#alias h='history'
+alias h='history'
 #alias hgrep="fc -El 0 | grep"
-#alias help='man'
-#alias p='ps -f'
+alias help='man'
 #alias sortnr='sort -n -r'
 #alias unexport='unset'
-
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
 
 #########################
 # Replacing Builtins and External Commands
@@ -150,11 +133,21 @@ alias mv='mv -i'
 # enable -a will list all builtins and their enabled or disabled status.
 ########################
 
+#######################
+# Change Dir
+######################
 ecd () {
     builtin cd "$@"
     echo "${LOG_TS} ${CS_yellow}$OLDPWD${CS_reset} --> ${CS_bcyan}$PWD${CS_reset}"
     gitvenv
 }
+
+# go up one to five steps
+alias u.="cd .."
+alias u..="cd ../.."
+alias u...="cd ../../.."
+alias u....="cd ../../../.."
+alias u.....="cd ../../../../.."
 
 #######################
 ## Func
@@ -177,3 +170,4 @@ alias rcat="lolcat"
 #############
 
 alias ewatch="watch -d"
+

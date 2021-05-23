@@ -1,11 +1,24 @@
+#!/usr/bin/env bash
 #####################
-# Overridding behaviors:
-#   change the default option of frequently used commands
-#   make sensible feature as default behavior
+# description: Overridding default command behaviors
+#               - change the default option of frequently used commands
+#               - make sensible feature as default behavior
+#               - use "command " as prefix to execute the actual command
+# author       : krishnam
+# sh version   : works with both bash and zsh
 #####################
 
 # ls - set color option
-alias ls="ls --color=always --width=80"
+alias ls="ls --color=always --width=120"
+
+# set colro to grep
+alias grep="grep --color"
+
+# set color with LS_COLOR for tree
+alias tree="tree -C"
+
+# 
+alias ps="ps -ef"
 
 # run in quite mode
 #   - it ignores warning messages from nanorc file. it can happen If you are using older version of nano with new version options

@@ -14,7 +14,7 @@ if [ "$ZSH_SHELL"="zsh" ]; then
   alias -g G='| grep'
   alias -g M="| more"
   alias -g L="| less"
-  alias -g NE="2>/dev/null"  # throwing output away
+  alias -g NUL="2>/dev/null"  # throwing output away
   alias -g R='| lolcat'
 
   # Sending output and error messages to the same file

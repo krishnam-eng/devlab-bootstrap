@@ -4,9 +4,20 @@
 # author	     : krishnam
 ################
 
-autoload -Uz promptinit
+###############
+# init
+###############
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.myzsh//.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
+##############
+# Aliases & Functions
+##############
 if [[ -d ~/.myalias ]]; then
   for afile in ~/.myalias/*sh
   do
@@ -31,29 +42,34 @@ source ~/.myenv/interactice-shell/prompt.bash
 # load venv extention config to work with python projects
 source ~/.myvenv/virtualenvwrapper.sh
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.myzsh//.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-### START: Automation
-# Auto completion
-autoload -Uz compinit
-compinit # Tab to start the auto-complete, tab-again to cycle-through
-setopt completeinword # Move cursor inbetween incomplete word and type
-
-# Suggest mis-spelled commands
-setopt correct
+########
+#  automation / auto load functions
+########
 
 # Change dir by just hitting enter on dir name
 setopt autocd
 
-`# Bulk rename utility
-autoload -U zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
+# Auto completion
+autoload -Uz compinit
+compinit # Tab to start the auto-complete, tab-again to cycle-through
 
-### CLOSE: Automation
+# Move cursor inbetween incomplete word and type
+setopt completeinword
+
+# Suggest mis-spelled commands
+setopt correct
+
+# Load prompt module
+#   To use predefined prompt configs >prompt -p to view all themes
+#     e.g prompt adam1 yellow
+autoload -Uz promptinit
+promptinit
+
+# treat $PROMPT just as if it were vanilla shell variable - will be checked against for command substitution, parameters and arithmetic expanstion
+setopt PROMPT_SUBST
+
+# Bulk rename utility
+autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
 
 ### START: Redirection & MultiOS
 # To prevent stdout or stderr (1> or 2>) redirection to existing file, use append >>
@@ -124,5 +140,5 @@ setopt interactivecomments
 # source ~/.myenv/interactive_shell/prompt.zsh
 source $HOME/kroot/themes/powerlevel10k/powerlevel10k.zsh-theme
 
-# To customize prompt, run `p10k configure` or edit ~/.myzsh/.p10k.zsh.
+# To customize prompt, run p10k configure or edit ~/.myzsh/.p10k.zsh.
 [[ ! -f ~/.myzsh/.p10k.zsh ]] || source ~/.myzsh/.p10k.zsh

@@ -1,7 +1,11 @@
 #####################
-# change the default option of frequently used commands
+# Overridding behaviors:
+#   change the default option of frequently used commands
+#   make sensible feature as default behavior
 #####################
 
+# ls - set color option
+alias ls="ls --color=always --width=80"
 
 # run in quite mode
 #   - it ignores warning messages from nanorc file. it can happen If you are using older version of nano with new version options
@@ -16,7 +20,6 @@ alias mkdir="mkdir -p"
 
 # launch visual studio in bg
 alias code="code . &"
-
 
 #
 # usual alias expansion will be suppressed with -U option and -z seems to be to avoid Ksh-isms

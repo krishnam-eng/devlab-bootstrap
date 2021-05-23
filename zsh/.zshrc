@@ -18,10 +18,36 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# load prompt config here instead in zshenv to make sure nothing else overrides my prompt
+source ~/.myenv/interactice-shell/prompt.bash
+
+# load venv extention config to work with python projects
+source ~/.myvenv/virtualenvwrapper.sh
+
+################
+# Expansions
+#         Alias Expansion
+#   ${}   Parameter Expansion  [ e.g a=cat ; echo ${a}man => catman
+#   $()   Command Substitution [ echo $(date)
+#   $(()) Arithmetic Expansion [ echo $[4/2] - 2
+#   {}    Brace Expansion      [ e.g %echo c{a,o,u}t => cat cot cut, %echo {1..5} => 1 2 3 4 5
+#   !     History Expansion
+#         Process Sub          [ => > < >> | , tee
+#         Filename Exp         [ ~ , =ls , ~customshortname
+#         Filename Generation  [ * => any  string , ? => any char , [] => any specific chars
+###############
+
 ##############
 # Aliases & Functions
 #     to make life easy
+#
+#     Create: alias name="expand to this"
+#     Unset : unalias name
+#     Global: alias -g chars  - not just for cmd replacement. just replace anywhere in the full cmd.
+#     Suffix: alias -s        - open file based on suffix
 ##############
+
+# load all alias files with `source filename` or `. filename` (. is posix std way)
 if [[ -d ~/.myalias ]]; then
   for afile in ~/.myalias/*sh
   do
@@ -31,6 +57,7 @@ if [[ -d ~/.myalias ]]; then
   unset afile
 fi
 
+# todo: make them as lazy load using auto load capability
 if [ -d ~/.myfunc ]; then
   for ffile in ~/.myfunc/*sh
   do
@@ -40,42 +67,37 @@ if [ -d ~/.myfunc ]; then
   unset ffile
 fi
 
-# load prompt config here instead in zshenv to make sure nothing else overrides my prompt
-source ~/.myenv/interactice-shell/prompt.bash
-
-# load venv extention config to work with python projects
-source ~/.myvenv/virtualenvwrapper.sh
-
-
 ################
 # History
-#   to remember like elephant
-################
-
-# up or down to navigate history or use CTR+R to search history
-HISTFILE=~/.myzsh/.zhistfile
-HISTSIZE=10000
-SAVEHIST=10000
-
-# To save unexecuted cmd to history, make the command as comment by prefixing # and executing
-setopt interactivecomments
-
-# History Expansion
+#   make myshell remember like elephant
+#
+#
 #  Previous Command
 #     **Event Designator(!) + Word Designators(*, ^, $ - like regex style)**
 #       !! -> previously run command (e.g, if sudo is missed, instead retying all, use `sudo !!`)
 #       !* -> All Args of the prev. cmd (e.g, `ls /var/zxv.f ; stat !*`)
 #       !^ -> First Arg of the prev. cmd (e.g, `ls /var/zxv.f xyx.txt ; stat !^`)
-#       !$ -> Last Arg of the prev. cmd (e.g, `ls /var/zxv.f xyx.txt ; stat !^`)
+#       !$ -> Last Arg of the prev. cmd (e.g, `ls /var/zxv.f xyx.txt ; stat !$`)
+#
 #  Search History
 #     !<hist.number> -> n th cmd in hist use '-' to count backward
 #     !<match.str> -> last cmd executed which had this 'str'
+#
 #  Substitution
 #     ^history-entry^word-replacement
+################
+
+# up or down to navigate history or use CTR+R to search history
+HISTFILE=~/.myzsh/.zhistfile
+HISTSIZE=100000
+SAVEHIST=100000 # hist won't be saved with out this
+
+# To save unexecuted cmd to history, make the command as comment by prefixing # and executing
+setopt interactivecomments
 
 # set histchars='@^#' if you want to change default char '!'
 
-# to avoid blind faith during history expansion
+# to avoid blind faith during history expansion, Don't execute immediately upon history expansion.
 setopt HIST_VERIFY
 
 # saves timestamp and duration for each history entry run. excellent for data analysis
@@ -84,15 +106,17 @@ setopt EXTENDED_HISTORY
 # ignore duplicate when showing results
 setopt HIST_IGNORE_ALL_DUPS
 
+# When searching for history entries in the line editor, do not display duplicates of a line previously found, even if the duplicates are not contiguous.
+setopt HIST_FIND_NO_DUPS
+
 # reduce extra spaces and tabs from history entries
 setopt HIST_REDUCE_BLANKS
 
-# add entries to the history as they are typed. I know you want this.
+# add entries to the history as they are typed instead of waiting shell to exit. I know you want this.
 setopt INC_APPEND_HISTORY
 
 # share history between different zsh processes
 setopt SHARE_HISTORY
-
 
 ########
 #  automation / auto load functions
@@ -154,18 +178,6 @@ setopt multios
 ###
 
 
-### Expansions
-# 1. Hist Exp
-# 2. Alias Exp
-# 3. Process Sub => > < >> | , tee
-# 4. Param Exp => a=cat ; echo ${a}man => catman
-# 5. Cmd Exp => echo ${date}
-# 6. Arithmetic Exp  => echo $[4/2] - 2
-# 7. Brace Exp => patern into txt e.g %echo c{a,o,u}t => cat cot cut, %echo {1..5} => 1 2 3 4 5,touch
-# file_{0..100}
-# 8. Filename Exp => path to a file -> ~ , =ls , ~customshortname
-# 9. Filename Generation =>  * - any  string , ? - any char , [] any specific chars
-###
 
 
 ### Types of Shells

@@ -1,14 +1,17 @@
+#!/usr/bin/env zsh
+
 ################
 # description : This script (known as _startup file_) will be executed by zsh and all my zsh preferences goes here
 # zsh_version : 5.8 (zsh --version)
-# author	     : krishnam
+# author	    : krishnam
 ################
 
 ###############
 # init
+#   some people so adament to be first in the line
 ###############
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.myzsh//.zshrc.
+# Enable Powerlevel10k instant prompt. Should stay close to the top of .zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -17,6 +20,7 @@ fi
 
 ##############
 # Aliases & Functions
+#     to make life easy
 ##############
 if [[ -d ~/.myalias ]]; then
   for afile in ~/.myalias/*sh
@@ -41,6 +45,54 @@ source ~/.myenv/interactice-shell/prompt.bash
 
 # load venv extention config to work with python projects
 source ~/.myvenv/virtualenvwrapper.sh
+
+
+################
+# History
+#   to remember like elephant
+################
+
+# up or down to navigate history or use CTR+R to search history
+HISTFILE=~/.myzsh/.zhistfile
+HISTSIZE=10000
+SAVEHIST=10000
+
+# To save unexecuted cmd to history, make the command as comment by prefixing # and executing
+setopt interactivecomments
+
+# History Expansion
+#  Previous Command
+#     **Event Designator(!) + Word Designators(*, ^, $ - like regex style)**
+#       !! -> previously run command (e.g, if sudo is missed, instead retying all, use `sudo !!`)
+#       !* -> All Args of the prev. cmd (e.g, `ls /var/zxv.f ; stat !*`)
+#       !^ -> First Arg of the prev. cmd (e.g, `ls /var/zxv.f xyx.txt ; stat !^`)
+#       !$ -> Last Arg of the prev. cmd (e.g, `ls /var/zxv.f xyx.txt ; stat !^`)
+#  Search History
+#     !<hist.number> -> n th cmd in hist use '-' to count backward
+#     !<match.str> -> last cmd executed which had this 'str'
+#  Substitution
+#     ^history-entry^word-replacement
+
+# set histchars='@^#' if you want to change default char '!'
+
+# to avoid blind faith during history expansion
+setopt HIST_VERIFY
+
+# saves timestamp and duration for each history entry run. excellent for data analysis
+setopt EXTENDED_HISTORY
+
+# ignore duplicate when showing results
+setopt HIST_IGNORE_ALL_DUPS
+
+# reduce extra spaces and tabs from history entries
+setopt HIST_REDUCE_BLANKS
+
+# add entries to the history as they are typed. I know you want this.
+setopt INC_APPEND_HISTORY
+
+# share history between different zsh processes
+setopt SHARE_HISTORY
+
 
 ########
 #  automation / auto load functions
@@ -76,21 +128,8 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
 setopt noclobber
 #o enable multiple output stream
 setopt multios
-### CLOSE: Redirection & MultiOS
 
-### START: Command History
-# up or down to navigate history or use CTR+R to search history
-HISTFILE=~/.myzsh/.zhistfile
-HISTSIZE=1000
-SAVEHIST=1000
 
-# To save unexecuted cmd to history, make the command as comment by prefixing # and executing
-setopt interactivecomments
-
-# !! -> previously run command (e.g, if sudo is missed, instead retying all, use `sudo !!`)
-# !* -> Args given to prev. cmd (e.g, `ls /var/zxv.f ; stat !*`)
-# !$number -> n'th cmd in hist
-# $_ -> Last Arg in the prev.cmd
 ### CLOSE: Command History
 
 # Building Dir Stack

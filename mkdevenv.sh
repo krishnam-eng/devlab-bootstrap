@@ -240,7 +240,8 @@ function create_myconf_links(){
     pip install --user powerline-status
     ln -s ~/github/ohmy-linux/font/ ~/.local/share/fonts
     fc-cache -vf ~/.local/share/fonts
-    ln -s ~/github/ohmy-linux/font/conf.d ~/.fonts.conf.d
+    ln -s ~/github/ohmy-linux/font/conf.d ~/.fonts.conf.d 
+    ln -s ~/github/ohmy-linux/font/conf.d ~/.config/fontconfig/conf.d 
 }
 
 function othersetup(){

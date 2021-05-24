@@ -231,9 +231,10 @@ function create_myconf_links(){
     ln -s ~/.mytmux/.tmux.conf ~/.tmux.conf
     ln -s ~/.myzsh/.zshenv ~/.zshenv
 
-    # zsh theme - power10k
+    # zsh theme - power10k or power9k based on zsh version
     mkdir -p ~/kroot
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/powerlevel10k    
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/powerlevel10k
+    git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/powerlevel9k
     git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/tmux-powerline 
 
 

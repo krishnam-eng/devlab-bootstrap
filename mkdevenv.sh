@@ -232,8 +232,8 @@ function create_myconf_links(){
     ln -s ~/.myzsh/.zshenv ~/.zshenv
 
     # zsh theme - power10k
-    mkdir -p ~/kroot/theme/
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/theme/powerlevel10k
+    mkdir -p ~/kroot
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/powerlevel10k
 
 }
 

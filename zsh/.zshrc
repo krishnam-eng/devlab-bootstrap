@@ -317,15 +317,13 @@ setopt PROMPT_SUBST
 # use below for enabling custom promt
 # source ~/.myenv/interactive_shell/prompt.zsh
 
+# To customize prompt, run `p10k configure` or edit ~/.myzsh/.p10k.zsh.
 autoload -Uz is-at-least
-
+is-at-least 5.1 && [[ -f ~/.myzsh/.p10k.zsh ]] && source ~/.myzsh/.p10k.zsh
 is-at-least 5.1 && [[ -f ~/kroot/powerlevel10k/powerlevel10k.zsh-theme ]] && source ~/kroot/powerlevel10k/powerlevel10k.zsh-theme
 
+# to support old zsh version
 [[ $ZSH_VERSION == '5.0.2' && -f ~/kroot/powerlevel9k/powerlevel9k.zsh-theme ]] && source ~/kroot/powerlevel9k/powerlevel9k.zsh-theme
-
-# To customize prompt, run `p10k configure` or edit ~/.myzsh/.p10k.zsh.
-is-at-least 5.1 && [[ -f ~/.myzsh/.p10k.zsh ]] && source ~/.myzsh/.p10k.zsh
-
 [[ $ZSH_VERSION == '5.0.2' &&  -f ~/.myzsh/.p9k.zsh ]] && source ~/.myzsh/.p9k.zsh
 
 # enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing

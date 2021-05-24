@@ -26,7 +26,3 @@ fi
 
 # use this for log prefix
 export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
-
-
-
-. "$HOME/.cargo/env"

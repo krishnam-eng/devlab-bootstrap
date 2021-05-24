@@ -233,7 +233,9 @@ function create_myconf_links(){
 
     # zsh theme - power10k
     mkdir -p ~/kroot
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/powerlevel10k
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/powerlevel10k    
+    git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/tmux-powerline 
+
 
 }
 

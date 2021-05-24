@@ -121,4 +121,6 @@ if [ -d ~/.myfunc ]; then
     done
     unset ffile
 fi
-. "$HOME/.cargo/env"
+
+# this is for rust
+# . "$HOME/.cargo/env"

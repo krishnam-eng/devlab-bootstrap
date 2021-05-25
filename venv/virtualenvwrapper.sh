@@ -34,7 +34,9 @@
 # include this ~/kdev/bin to the PATH and install any tool you need using this hack
 
 # wrapper loads bin based on path, to be certain which gets picked, let's define it here
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+# export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+# check if virtualenvwrapper has been installed for VIRTUALENVWRAPPER_PYTHON if `source bin/virtualenvwrapper.sh` fails
+export VIRTUALENVWRAPPER_PYTHON=$HOME/kroot/bin/python3
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
 
 # to ensure that all new environments are isolated from the system site-packages directory

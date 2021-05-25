@@ -34,9 +34,14 @@
 # include this ~/kdev/bin to the PATH and install any tool you need using this hack
 
 # wrapper loads bin based on path, to be certain which gets picked, let's define it here
-# export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 # check if virtualenvwrapper has been installed for VIRTUALENVWRAPPER_PYTHON if `source bin/virtualenvwrapper.sh` fails
-export VIRTUALENVWRAPPER_PYTHON=$HOME/kroot/bin/python3
+if [ -d $HOME/kroot/bin/python3 ]
+then
+  export VIRTUALENVWRAPPER_PYTHON=$HOME/kroot/bin/python3
+else
+  export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+fi
+
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
 
 # to ensure that all new environments are isolated from the system site-packages directory
@@ -55,10 +60,19 @@ mkdir -p ~/log
 mkdir -p ~/tmp
 
 # lazy loading
+if [ -e $HOME/kroot/bin/virtualenvwrapper.sh ]
+then
+  export VIRTUALENVWRAPPER_SCRIPT=$HOME/kroot/bin/virtualenvwrapper.sh
+else
+  export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+fi
+
 export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
 
-if [ -e /usr/local/bin/virtualenvwrapper_lazy.sh ]
+if [ -e $HOME/kroot/bin/virtualenvwrapper_lazy.sh ]
 then
+  source $HOME/kroot/bin/virtualenvwrapper_lazy.sh
+else
   source /usr/local/bin/virtualenvwrapper_lazy.sh
 fi
 

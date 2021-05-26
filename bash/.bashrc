@@ -93,9 +93,9 @@ fi
 
 # use this for log prefix
 
-if [ -d ~/.myenv ]; then
+if [ -d ~/kroot/myws/env ]; then
   # Recipe: Running All Scripts in a Directory
-  for efile in ~/.myenv/*.bash
+  for efile in ~/kroot/myws/env/*.bash
   do
     source $efile
   done
@@ -104,8 +104,8 @@ fi
 
 export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
 
-if [ -d ~/.myalias ]; then
-    for afile in ~/.myalias/*.bash
+if [ -d ~/kroot/myws/alias ]; then
+    for afile in ~/kroot/myws/alias/*.bash
     do
         #[ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${afile} ..."
         source $afile
@@ -113,8 +113,8 @@ if [ -d ~/.myalias ]; then
     unset afile
 fi
 
-if [ -d ~/.myfunc ]; then
-    for ffile in ~/.myfunc/*.bash
+if [ -d ~/kroot/myws/func ]; then
+    for ffile in ~/kroot/myws/func/*.bash
     do
         #[ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${ffile} ..."
         source $ffile

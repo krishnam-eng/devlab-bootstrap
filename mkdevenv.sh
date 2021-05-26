@@ -236,6 +236,7 @@ function create_myconf_links(){
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/powerlevel10k
     git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/powerlevel9k
     git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/tmux-powerline 
+    cp ~/.mytmux/tmux-powerline-theme.sh ~/kroot/tmux-powerline/themes
     # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
     pip install --user powerline-status
     ln -s ~/github/ohmy-linux/font/ ~/.local/share/fonts

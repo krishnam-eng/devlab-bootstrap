@@ -64,13 +64,17 @@ if [ -e $HOME/kroot/bin/virtualenvwrapper.sh ]
 then
   export VIRTUALENVWRAPPER_SCRIPT=$HOME/kroot/bin/virtualenvwrapper.sh
 elif [ -e /usr/local/bin/virtualenvwrapper.sh ]
+then
   export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+else
+  export VIRTUALENVWRAPPER_SCRIPT=
 fi
 
 if [ -e $HOME/kroot/bin/virtualenvwrapper_lazy.sh ]
 then
   source $HOME/kroot/bin/virtualenvwrapper_lazy.sh
 elif [ -e /usr/local/bin/virtualenvwrapper_lazy.sh ]
+then
   source /usr/local/bin/virtualenvwrapper_lazy.sh
 fi
 

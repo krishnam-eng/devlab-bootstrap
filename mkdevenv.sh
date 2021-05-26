@@ -4,8 +4,8 @@
 # description: Build portable dev environment anywhere
 # author     : krishnam
 #
-#   Step 1: Checkout this github repo
-#              `checkout_mydevenv_repo()`
+#   Step 1: Build workspace core with battle tested and fine tunned pre-configurations 
+#              `build_my_workspace_core()`
 #   Step 2: Install required packages - use kroot hack if you do not have root access to the devenv
 #               install_in_ubuntu_env()
 #               or install_in_virtual_env()
@@ -13,21 +13,46 @@
 #               `create_myconf_links()`
 #############################################################################################
 
-function checkout_mydevenv_repo(){
-    if [[ ! -d ~/github/ohmy-linux ]] 
+function build_my_workspace_core(){
+    # create _k_rishnam config _root_
+    mkdir -p ~/kroot
+    
+    if [[ ! -d ~/kroot/myws ]] 
     then
-        mkdir -p ~/github
-        # git clone git@github.com:krishnam-eng/ohmy-linux ~/github/ohmy-linux
-        git clone https://github.com/krishnam-eng/ohmy-linux ~/github/ohmy-linux
-
-        # if it was cloned from http, use below to change to ssh once ssh pub key added to githubsetup
-        # git remote set-url origin git@github.com:krishnam-eng/practice-python.git
+        # * myws: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
+        git clone https://github.com/krishnam-eng/ohmy-linux ~/kroot/myws 
 
         # TMUX plugin manager
-        mkdir -p ~/github/ohmy-linux/tmux/plugins/tpm
-        git clone https://github.com/tmux-plugins/tpm ~/github/ohmy-linux/tmux/plugins/tpm
+        mkdir -p ~/kroot/myws/tmux/plugins/tpm
+        git clone https://github.com/tmux-plugins/tpm ~/kroot/myws/tmux/plugins/tpm
         # next: reload tmux conf , and press <prefix> Shift+R to install plugins
     fi
+    
+    # create links to tools run configs
+    ln -s ~/kroot/myws/bash/.bashrc  ~/.bashrc
+    ln -s ~/kroot/myws/nano/.nanorc  ~/.nanorc
+    ln -s ~/kroot/myws/tmux/.tmux.conf ~/.tmux.conf
+    ln -s ~/kroot/myws/zsh/.zshenv ~/.zshenv
+
+    # zsh style - theme & font to boost dev productivity
+    if [[ ! -d ~kroot/style ]] 
+    then    
+        mkdir -p ~kroot/style
+
+        git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/style/zsh-syntax-highlighting  
+
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/style/powerlevel10k
+        git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/style/powerlevel9k
+
+        git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/style/tmux-powerline 
+        cp -f ~/kroot/myws/tmux/tmux-powerline-theme.sh ~/kroot/style/tmux-powerline/themes/default.sh
+
+        # font
+        pip install --user powerline-status
+        fc-cache -vf ~/kroot/myws/font
+        fc-list    
+    fi
+    # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
 }
 
 
@@ -200,22 +225,7 @@ function whatdoihave(){
 }
 
 
-function create_myconf_links(){
-    # Verify the list and create missing links
-    la ~/.my*
-
-    # link from the home itself
-    ln -s ~/github/ohmy-linux/alias  ~/.myalias
-    ln -s ~/github/ohmy-linux/awk    ~/.myawk
-    ln -s ~/github/ohmy-linux/bash   ~/.mybash
-    ln -s ~/github/ohmy-linux/env    ~/.myenv
-    ln -s ~/github/ohmy-linux/func   ~/.myfunc
-    ln -s ~/github/ohmy-linux/nano   ~/.mynano
-    ln -s ~/github/ohmy-linux/nginx  ~/.mynginx
-    ln -s ~/github/ohmy-linux/tmux   ~/.mytmux
-    ln -s ~/github/ohmy-linux/venv   ~/.myvenv
-    ln -s ~/github/ohmy-linux/zsh    ~/.myzsh
-
+function backup_old_conf(){
     # take a backup of old configs
     mkdir -p ~/.mybkp
 
@@ -226,27 +236,7 @@ function create_myconf_links(){
     cp ~/.zshrc ~/.mybkp/.zshrc_$(date +%y%m%d)-old
 
     rm -f  ~/.zshenv ~/.zshrc ~/.bashrc ~/.tmux.conf ~/.nanorc
-
-    # create links to tools configs
-    ln -s ~/.mybash/.bashrc  ~/.bashrc
-    ln -s ~/.mynano/.nanorc  ~/.nanorc
-    ln -s ~/.mytmux/.tmux.conf ~/.tmux.conf
-    ln -s ~/.myzsh/.zshenv ~/.zshenv
-
-    # zsh theme - power10k or power9k based on zsh version
-    mkdir -p ~/kroot
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/powerlevel10k
-    git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/powerlevel9k
-    git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/tmux-powerline 
-    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/zsh-syntax-highlighting
-    
-    cp ~/.mytmux/tmux-powerline-theme.sh ~/kroot/tmux-powerline/themes
-    # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
-    pip install --user powerline-status
-    ln -s ~/github/ohmy-linux/font/ ~/.local/share/fonts
-    fc-cache -vf ~/.local/share/fonts
-    ln -s ~/github/ohmy-linux/font/conf.d ~/.fonts.conf.d 
-    ln -s ~/github/ohmy-linux/font/conf.d ~/.config/fontconfig/conf.d 
+   
 }
 
 function validate_kroot(){

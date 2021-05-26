@@ -9,15 +9,13 @@
 
 export ZDOTDIR=~/kroot/myws/zsh
 
-source $HOME/.myenv/path.bash
-
 ##### When to Use
 # Note: This file is sourced on all invocations of the shell - for both interactive & non-interacttive
 # Right place for setting command search path and other improtnat env variables
 #####
 
 if [ -d ~/kroot/myws/env ]; then
-  for efile in ~/kroot/myws/env*sh
+  for efile in ~/kroot/myws/env/*sh
   do
     source $efile
   done

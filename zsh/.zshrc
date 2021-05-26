@@ -319,15 +319,15 @@ setopt PROMPT_SUBST
 
 # To customize prompt, run `p10k configure` or edit ~/.myzsh/.p10k.zsh.
 autoload -Uz is-at-least
-is-at-least 5.1 && [[ -f ~/.myzsh/.p10k.zsh ]] && source ~/.myzsh/.p10k.zsh
-is-at-least 5.1 && [[ -f ~/kroot/powerlevel10k/powerlevel10k.zsh-theme ]] && source ~/kroot/powerlevel10k/powerlevel10k.zsh-theme
+is-at-least 5.1 && [[ -f ~/kroot/myws/zsh/.p10k.zsh ]] && source ~/kroot/myws/zsh/.p10k.zsh 
+is-at-least 5.1 && [[ -f ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme ]] && source ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme
 
 # to support old zsh version
-[[ $ZSH_VERSION == '5.0.2' && -f ~/kroot/powerlevel9k/powerlevel9k.zsh-theme ]] && source ~/kroot/powerlevel9k/powerlevel9k.zsh-theme
-[[ $ZSH_VERSION == '5.0.2' &&  -f ~/.myzsh/.p9k.zsh ]] && source ~/.myzsh/.p9k.zsh
+[[ $ZSH_VERSION == '5.0.2' && -f ~/kroot/style/powerlevel9k/powerlevel9k.zsh-theme ]] && source ~/kroot/style/powerlevel9k/powerlevel9k.zsh-theme
+[[ $ZSH_VERSION == '5.0.2' &&  -f ~/kroot/style/myws/zsh/.p9k.zsh ]] && source ~/kroot/style/myws/zsh/.p9k.zsh
 
 # enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing
-[[ ! -f ~/kroot/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/kroot/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ ! -f ~/kroot/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/kroot/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # todo:
 #   - More exploration on tips & tricks

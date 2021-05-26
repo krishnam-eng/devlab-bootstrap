@@ -4,6 +4,7 @@
 # description: Build portable dev environment anywhere
 # author     : krishnam
 #
+#   Step 0: build_file_hierarchy_structure()
 #   Step 1: Build workspace core with battle tested and fine tunned pre-configurations 
 #              `build_my_workspace_core()`
 #   Step 2: Install required packages - use kroot hack if you do not have root access to the devenv
@@ -14,9 +15,6 @@
 #############################################################################################
 
 function build_my_workspace_core(){
-    # create _k_rishnam config _root_
-    mkdir -p ~/kroot
-    
     if [[ ! -d ~/kroot/myws ]] 
     then
         # * myws: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
@@ -55,6 +53,22 @@ function build_my_workspace_core(){
     # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
 }
 
+function build_file_hierarchy_structure(){
+    # create _k_rishnam config _root_
+    mkdir -p ~/kroot
+    mkdir -p ~/kroot/myws
+    mkdir -p ~/kroot/style
+    mkdir -p ~/kroot/bin
+    mkdir -p ~/kroot/etc
+    mkdir -p ~/kroot/lib
+    mkdir -p ~/kroot/tmp
+    mkdir -p ~/kroot/var
+    mkdir -p ~/kroot/var/log
+    
+    mkdir -p ~/proj
+    mkdir -p ~/proj/gh  # github
+    mkdir -p ~/proj/bb  # bitbucket
+}
 
 function install_in_ubuntu_env(){
     # start with venv setup

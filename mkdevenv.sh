@@ -236,6 +236,8 @@ function create_myconf_links(){
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/powerlevel10k
     git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/powerlevel9k
     git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/tmux-powerline 
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/zsh-syntax-highlighting
+    
     cp ~/.mytmux/tmux-powerline-theme.sh ~/kroot/tmux-powerline/themes
     # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
     pip install --user powerline-status
@@ -245,6 +247,9 @@ function create_myconf_links(){
     ln -s ~/github/ohmy-linux/font/conf.d ~/.config/fontconfig/conf.d 
 }
 
+function validate_kroot(){
+    # todo
+}
 function othersetup(){
     # set default shell to zsh [echo $SHELL]
     chsh -s $(which zsh)

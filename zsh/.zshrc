@@ -19,10 +19,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # load prompt config here instead in zshenv to make sure nothing else overrides my prompt
-source ~/.myenv/interactice-shell/prompt.bash
+source ~/kroot/myws/env/interactice-shell/prompt.bash
 
 # load venv extention config to work with python projects
-source ~/.myvenv/virtualenvwrapper.sh
+source ~/kroot/myws/venv/virtualenvwrapper.sh
 
 ################
 #                Expansions

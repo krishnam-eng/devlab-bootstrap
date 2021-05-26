@@ -98,8 +98,8 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
 ##############
 
 # load all alias files with `source filename` or `. filename` (. is posix std way)
-if [[ -d ~/.myalias ]]; then
-  for afile in ~/.myalias/*sh
+if [[ -d ~/kroot/myws/alias ]]; then
+  for afile in ~/kroot/myws/alias/*sh
   do
     # echo $LOG_TS"Sourcing ${afile} ..."
     source $afile
@@ -108,8 +108,8 @@ if [[ -d ~/.myalias ]]; then
 fi
 
 # todo: make them as lazy load using auto load capability or set it in fpath
-if [ -d ~/.myfunc ]; then
-  for ffile in ~/.myfunc/*sh
+if [ -d ~/kroot/myws/func ]; then
+  for ffile in ~/kroot/myws/func/*sh
   do
     # echo $LOG_TS"Sourcing ${ffile} ..."
     source $ffile

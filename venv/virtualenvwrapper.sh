@@ -63,16 +63,14 @@ mkdir -p ~/tmp
 if [ -e $HOME/kroot/bin/virtualenvwrapper.sh ]
 then
   export VIRTUALENVWRAPPER_SCRIPT=$HOME/kroot/bin/virtualenvwrapper.sh
-else
+elif [ -e /usr/local/bin/virtualenvwrapper.sh ]
   export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
 fi
-
-export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
 
 if [ -e $HOME/kroot/bin/virtualenvwrapper_lazy.sh ]
 then
   source $HOME/kroot/bin/virtualenvwrapper_lazy.sh
-else
+elif [ -e /usr/local/bin/virtualenvwrapper_lazy.sh ]
   source /usr/local/bin/virtualenvwrapper_lazy.sh
 fi
 

@@ -150,6 +150,8 @@ function install_vscode(){
     rm code-stable-x64-1620838810.tar.gz
     # make sure this is added to path via rc file
     PATH="$HOME/kroot/vscode/bin:$PATH"
+    
+    cp ~olxrp/vscode/*.json ~/.config/Code/User
 }
 
 function install_rust(){

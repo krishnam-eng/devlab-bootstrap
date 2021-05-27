@@ -143,9 +143,9 @@ fi
 ################
 
 # up or down to navigate history or use CTR+R to search history
-HISTFILE=~/kroot/hist/.zhistfile
+HISTFILE=~/kroot/history/shell/.zhistfile
 HISTSIZE=100000
-SAVEHIST=100000 # hist won't be saved with out this
+SAVEHIST=100000 # hist won't be _saved_ with out this conf
 
 # To save unexecuted cmd to history, make the command as comment by prefixing # and executing
 setopt interactivecomments

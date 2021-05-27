@@ -49,31 +49,35 @@ function build_my_workspace_core(){
 function build_file_hierarchy_structure(){
     # create _k_rishnam config _root_
     
-    # mkdir ~/kroot
-    mkdir -p ~/kroot/myws
-    mkdir -p ~/kroot/style
-    mkdir -p ~/kroot/bin
-    mkdir -p ~/kroot/etc
-    mkdir -p ~/kroot/lib
-    mkdir -p ~/kroot/tmp
+    #l1
+    mkdir ~/kroot
+    mkdir ~/proj
+    mkdir ~/bkp
+    mkdir ~/log 
+    mkdir ~/tmp
     
-    # mkdir ~/kroot/var
-    mkdir -p ~/kroot/var/log
+    #l2
+    mkdir ~/kroot/myws
+    mkdir ~/kroot/style
+    mkdir ~/kroot/bin
+    mkdir ~/kroot/etc
+    mkdir ~/kroot/lib
+    mkdir ~/kroot/var
+    mkdir ~/kroot/plugins
+    mkdir ~/kroot/history
+    mkdir ~/kroot/resurrect/
     
-    # mkdir ~/kroot/plugins
-    # mkdir ~/kroot/plugins/tmux
-    mkdir -p ~/kroot/plugins/tmux/tpm
+    mkdir ~/proj/gh  # github
+    mkdir ~/proj/bb  # bitbucket
 
-    # mkdir ~/kroot/history
-    mkdir -p ~/kroot/history/shell
-    mkdir -p ~/kroot/history/tmux
+    #l3
+    mkdir ~/kroot/plugins/tmux
+    mkdir ~/kroot/history/shell
+    mkdir ~/kroot/history/tmux
+    mkdir ~/kroot/resurrect/tmux
     
-    # mkdir ~/kroot/resurrect/
-    mkdir -p ~/kroot/resurrect/tmux
-    
-    # mkdir ~/proj
-    mkdir -p ~/proj/gh  # github
-    mkdir -p ~/proj/bb  # bitbucket
+    #l4
+    mkdir ~/kroot/plugins/tmux/tpm    
 }
 
 function install_in_ubuntu_env(){

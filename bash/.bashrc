@@ -60,6 +60,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 ######## 
 # History 
 ########
+HISTFILE=~/kroot/history/shell/.bash_history
 
 # Don't put duplicate lines in the history and do not add lines that start with a space
 HISTCONTROL=ignoreboth
@@ -107,7 +108,6 @@ export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow
 if [ -d ~/kroot/myws/alias ]; then
     for afile in ~/kroot/myws/alias/*.bash
     do
-        #[ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${afile} ..."
         source $afile
     done
     unset afile
@@ -116,7 +116,6 @@ fi
 if [ -d ~/kroot/myws/func ]; then
     for ffile in ~/kroot/myws/func/*.bash
     do
-        #[ $tracing_enabled -eq 1 ] && echo $LOG_TS"Sourcing ${ffile} ..."
         source $ffile
     done
     unset ffile

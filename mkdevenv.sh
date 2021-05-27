@@ -15,57 +15,56 @@
 #############################################################################################
 
 function build_my_workspace_core(){
-    if [[ ! -d ~/kroot/myws ]] 
-    then
-        # * myws: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
-        git clone https://github.com/krishnam-eng/ohmy-linux ~/kroot/myws 
 
-        # TMUX plugin manager
-        mkdir -p ~/kroot/myws/tmux/plugins/tpm
-        git clone https://github.com/tmux-plugins/tpm ~/kroot/myws/tmux/plugins/tpm
-        # next: reload tmux conf , and press <prefix> Shift+R to install plugins
-    fi
-    
+    # * myws: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
+    git clone --depth=1 https://github.com/krishnam-eng/ohmy-linux ~/kroot/myws 
+    # todo: tar.gz the font dir to reduce this repo size (7MiB) or make font install as idependent step
+
     # create links to tools run configs
     ln -s ~/kroot/myws/bash/.bashrc  ~/.bashrc
     ln -s ~/kroot/myws/nano/.nanorc  ~/.nanorc
     ln -s ~/kroot/myws/tmux/.tmux.conf ~/.tmux.conf
     ln -s ~/kroot/myws/zsh/.zshenv ~/.zshenv
-
+    
+    # TMUX plugin manager
+    git clone --depth=1 https://github.com/tmux-plugins/tpm ~/kroot/plugins/tmux/tpm
+    # next: reload tmux conf , and press <prefix> Shift+R to install plugins
+        
     # zsh style - theme & font to boost dev productivity
-    if [[ ! -d ~kroot/style ]] 
-    then    
-        mkdir -p ~kroot/style
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/style/zsh-syntax-highlighting  
 
-        git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/style/zsh-syntax-highlighting  
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/style/powerlevel10k
+    git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/style/powerlevel9k
 
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/style/powerlevel10k
-        git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/style/powerlevel9k
+    git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/style/tmux-powerline 
+    cp -f ~/kroot/myws/tmux/tmux-powerline-theme.sh ~/kroot/style/tmux-powerline/themes/default.sh
 
-        git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/style/tmux-powerline 
-        cp -f ~/kroot/myws/tmux/tmux-powerline-theme.sh ~/kroot/style/tmux-powerline/themes/default.sh
-
-        # font
-        pip install --user powerline-status
-        fc-cache -vf ~/kroot/myws/font
-        fc-list    
-    fi
+    # font
+    pip install --user powerline-status
+    fc-cache -vf ~/kroot/myws/font
+    fc-list
     # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
 }
 
 function build_file_hierarchy_structure(){
     # create _k_rishnam config _root_
-    mkdir -p ~/kroot
+    
+    # mkdir ~/kroot
     mkdir -p ~/kroot/myws
     mkdir -p ~/kroot/style
     mkdir -p ~/kroot/bin
     mkdir -p ~/kroot/etc
     mkdir -p ~/kroot/lib
     mkdir -p ~/kroot/tmp
-    mkdir -p ~/kroot/var
+    
+    # mkdir ~/kroot/var
     mkdir -p ~/kroot/var/log
     
-    mkdir -p ~/proj
+    # mkdir ~/kroot/plugins
+    # mkdir ~/kroot/plugins/tmux
+    mkdir -p ~/kroot/plugins/tmux/tpm
+
+    # mkdir ~/proj
     mkdir -p ~/proj/gh  # github
     mkdir -p ~/proj/bb  # bitbucket
 }

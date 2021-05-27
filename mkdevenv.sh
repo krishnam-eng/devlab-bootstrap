@@ -44,6 +44,12 @@ function build_my_workspace_core(){
 
     # font
     pip install --user powerline-status
+    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+    wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+    mv PowerlineSymbols.otf ~/.local/share/fonts/
+    fc-cache -vf ~/.local/share/fonts/
+    mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
+    
     fc-list
     # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
 }

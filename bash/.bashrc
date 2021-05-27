@@ -92,7 +92,11 @@ fi
 
 [ -z "$TMUX" ] && export TERM=xterm-256color
 
-# use this for log prefix
+
+#####
+# set env variables
+#####
+ZDOTDIR=~/kroot/myws/zsh
 
 if [ -d ~/kroot/myws/env ]; then
   # Recipe: Running All Scripts in a Directory
@@ -121,5 +125,3 @@ if [ -d ~/kroot/myws/func ]; then
     unset ffile
 fi
 
-# this is for rust
-# . "$HOME/.cargo/env"

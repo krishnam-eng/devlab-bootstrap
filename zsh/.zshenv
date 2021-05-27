@@ -14,6 +14,10 @@ export ZDOTDIR=~/kroot/myws/zsh
 # Right place for setting command search path and other improtnat env variables
 #####
 
+if [ -f ~/kroot/private/path.bash ]; then
+  source ~/kroot/private/path.bash
+fi
+
 if [ -d ~/kroot/myws/env ]; then
   for efile in ~/kroot/myws/env/*.(bash|zsh)
   do

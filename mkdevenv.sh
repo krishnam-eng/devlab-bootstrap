@@ -64,6 +64,13 @@ function build_file_hierarchy_structure(){
     # mkdir ~/kroot/plugins/tmux
     mkdir -p ~/kroot/plugins/tmux/tpm
 
+    # mkdir ~/kroot/history
+    mkdir -p ~/kroot/history/shell
+    mkdir -p ~/kroot/history/tmux
+    
+    # mkdir ~/kroot/resurrect/
+    mkdir -p ~/kroot/resurrect/tmux
+    
     # mkdir ~/proj
     mkdir -p ~/proj/gh  # github
     mkdir -p ~/proj/bb  # bitbucket

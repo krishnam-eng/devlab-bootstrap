@@ -323,6 +323,8 @@ is-at-least 5.1 && [[ -f ~/kroot/myws/zsh/.p10k.zsh ]] && source ~/kroot/myws/zs
 is-at-least 5.1 && [[ -f ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme ]] && source ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme
 
 # to support old zsh version
+ZSH_VERSION=${ZSH_VERSION=$(zsh --version | awk '{print $2}')}
+
 [[ $ZSH_VERSION == '5.0.2' && -f ~/kroot/style/powerlevel9k/powerlevel9k.zsh-theme ]] && source ~/kroot/style/powerlevel9k/powerlevel9k.zsh-theme
 [[ $ZSH_VERSION == '5.0.2' &&  -f ~/kroot/style/myws/zsh/.p9k.zsh ]] && source ~/kroot/myws/zsh/.p9k.zsh
 

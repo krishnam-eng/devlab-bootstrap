@@ -79,6 +79,7 @@ function build_file_hierarchy_structure(){
     mkdir ~/kroot/lib
     mkdir ~/kroot/var
     mkdir ~/kroot/plugins
+    mkdir ~/kroot/private
     mkdir ~/kroot/history
     mkdir ~/kroot/resurrect
     mkdir ~/kroot/virtualenvs

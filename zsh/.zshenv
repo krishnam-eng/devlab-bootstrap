@@ -15,7 +15,7 @@ export ZDOTDIR=~/kroot/myws/zsh
 #####
 
 if [ -d ~/kroot/myws/env ]; then
-  for efile in ~/kroot/myws/env/*sh
+  for efile in ~/kroot/myws/env/*.(bash|zsh)
   do
     source $efile
   done

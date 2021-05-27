@@ -1,0 +1,15 @@
+[user]
+	email = krishnam.balamurugan.eng@gmail.com
+	name = krishnam
+[pull]
+	rebase = false
+[core]
+	editor = nano
+	autocrlf = input
+	excludesfile = ~/kroot/myws/git/.gitignore_global
+[rebase]
+	autosquash = true
+[diff]
+	tool = kdiff3
+[merge]
+	tool = kdiff3

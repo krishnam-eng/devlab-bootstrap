@@ -20,11 +20,12 @@ function build_my_workspace_core(){
     git clone --depth=1 https://github.com/krishnam-eng/ohmy-linux ~/kroot/myws 
     # todo: tar.gz the font dir to reduce this repo size (7MiB) or make font install as idependent step
 
-    # create links to tools run configs
+    # create links to tools run configs (or copy and further customize if you want to be disconnected from repo)
     ln -s ~/kroot/myws/bash/.bashrc  ~/.bashrc
     ln -s ~/kroot/myws/nano/.nanorc  ~/.nanorc
     ln -s ~/kroot/myws/tmux/.tmux.conf ~/.tmux.conf
     ln -s ~/kroot/myws/zsh/.zshenv ~/.zshenv
+    ln -s ~/kroot/myws/git/.gitconfig ~/.gitconfig
     
     # TMUX plugin manager
     git clone --depth=1 https://github.com/tmux-plugins/tpm ~/kroot/plugins/tmux/tpm
@@ -65,7 +66,8 @@ function build_file_hierarchy_structure(){
     mkdir ~/kroot/var
     mkdir ~/kroot/plugins
     mkdir ~/kroot/history
-    mkdir ~/kroot/resurrect/
+    mkdir ~/kroot/resurrect
+    mkdir ~/kroot/virtualenvs
     
     mkdir ~/proj/gh  # github
     mkdir ~/proj/bb  # bitbucket

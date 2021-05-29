@@ -18,8 +18,9 @@ function build_my_workspace_core(){
 
     # * myws: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
     git clone --depth=1 https://github.com/krishnam-eng/ohmy-linux ~/kroot/myws 
-    # todo: tar.gz the font dir to reduce this repo size (7MiB) or make font install as idependent step
-
+    
+    # for home pc: git remote set-url origin git@github.com:krishnam-eng/ohmy-linux
+    
     # create links to tools run configs (or copy and further customize if you want to be disconnected from repo)
     ln -s ~/kroot/myws/bash/.bashrc  ~/.bashrc
     ln -s ~/kroot/myws/nano/.nanorc  ~/.nanorc

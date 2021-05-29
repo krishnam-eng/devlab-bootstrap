@@ -187,6 +187,7 @@ setopt SHARE_HISTORY
 #       alias            [ str<Tab>
 #       function         [ str<Tab>
 #       expanding cmd    [ echo `which zsh`<Tab> => echo /usr/bin/zsh
+#       kill             [ menu to select process id
 #
 #   you can see where this is going
 #
@@ -329,8 +330,12 @@ ZSH_VERSION=$(zsh --version | awk '{print $2}')
 
 [[ $ZSH_VERSION == '5.0.2' && -f ~/kroot/myws/zsh/.p9k.zsh ]] && source ~/kroot/myws/zsh/.p9k.zsh
 
+#### like Fish Shell
 # enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing
 [[ ! -f ~/kroot/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/kroot/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Fish-like fast/unobtrusive autosuggestions for zsh.
+[[ ! -f ~/kroot/style/zsh-autosuggestions/zsh-autosuggestions.zsh ]] || source ~/kroot/style/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 
 # todo:
 #   - More exploration on tips & tricks

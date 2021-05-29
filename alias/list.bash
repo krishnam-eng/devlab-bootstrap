@@ -71,4 +71,5 @@ alias elt2="exa --tree --level=2 --long"
 alias elt3="exa --tree --level=3 --long"
 alias elt4="exa --tree --level=4 --long"
 
-##########=======-----LS END-----======##########
+
+

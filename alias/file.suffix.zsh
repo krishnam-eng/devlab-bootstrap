@@ -17,5 +17,7 @@ alias -s py=code
 alias -s {zshrc,nanorc,bashrc}=nano
 
 # config files
-alias -s config=nano
+alias -s {config,conf}=nano
 
+# valina text
+alias -s {txt}=nano

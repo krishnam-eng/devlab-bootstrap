@@ -3,8 +3,8 @@
 # source all envs, aliases, & functions
 function szsh {
 
-  if [ -d ~/.myenv ]; then
-    for efile in ~/.myenv/*sh
+  if [ -d ~/kroot/myws/env ]; then
+    for efile in ~/kroot/myws/env/*sh
     do
       echo $LOG_TS"Sourcing ${efile} ..."
       source $efile
@@ -12,8 +12,8 @@ function szsh {
     unset efile
   fi
 
-  if [ -d ~/.myalias ]; then
-    for afile in ~/.myalias/*sh
+  if [ -d ~/kroot/myws/alias ]; then
+    for afile in ~/kroot/myws/alias/*sh
     do
       echo $LOG_TS"Sourcing ${afile} ..."
       source $afile
@@ -21,8 +21,8 @@ function szsh {
     unset afile
   fi
 
-  if [ -d ~/.myfunc ]; then
-    for ffile in ~/.myfunc/*sh
+  if [ -d ~/kroot/myws/func ]; then
+    for ffile in ~/kroot/myws/func/*sh
     do
       echo $LOG_TS"Sourcing ${ffile} ..."
       source $ffile

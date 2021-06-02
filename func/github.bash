@@ -2,11 +2,13 @@ function ghclone(){
   repo=$1
   gitusr=${2="krishnam-eng"}
 
+  mkdir -p ~/proj/github
   echo "${LOG_TS} Cloning repo from ${CS_bcyan}github.com:${gitusr}${CS_reset}..."
-  git clone git@github.com:krishnam-eng/$repo ~/github/$repo
+  git clone git@github.com:krishnam-eng/$repo ~/proj/github/$repo
 
   echo "${LOG_TS} Configuring git repo ${CS_bcyan}$repo${CS_reset}..."
-  cd ~/github/$repo
+
+  cd ~/proj/github/$repo
   git config --local user.email "krishnam.balamurugan.eng@gmail.com"
 
   # todo: set all global based on if the git is used for first time or not
@@ -15,13 +17,7 @@ function ghclone(){
   git config --global core.editor nano
   git config --global core.autocrlf input # if file got CRLF, change it to LF when git add
 
-  if [ ! -f ~/.mygit/.gitignore_global ]
-  then
-    mkdir -p ~/.mygit
-    echo '*~' > ~/.mygit/.gitignore_global
-    echo '.*.swp' >> ~/.mygit/.gitignore_global
-  fi
-  git config --global core.excludesfile ~/.mygit/.gitignore_global
+  git config --global core.excludesfile ~/kroot/myws/git/.gitignore_global
 
   git config --global rebase.autosquash true
 

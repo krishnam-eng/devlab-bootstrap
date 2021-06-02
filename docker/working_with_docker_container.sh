@@ -114,3 +114,14 @@ docker container run -d --label stability=dev ubuntu bin/bash -c "while [ true ]
 docker container run -d --label stability=dev ubuntu bin/bash -c "while [ true ]; do date; sleep 1; done"
 docker container run -d --label stability=prod ubuntu bin/bash -c "while [ true ]; do date; sleep 1; done"
 docker container list --filter label=stability=dev
+
+# Reaping a zombie inside a container
+#
+#  When a process exits, all the resources associated are released except its entry in the process table
+#  This entry in the process table is kept until the parent process reads the entry to learn about the exit status of its child. This transient state of a process is called a zombie
+# As soon as the parent process reads the entry, the zombie process is removed from the process table, and this is called reaping.
+# If the parent process exits before the child process, the init/systemd process (PID 1) adopts the child process
+
+# you need init process to reap the zombie
+docker container run --init alpine 
+

@@ -25,6 +25,10 @@ alias lo='ls -1FSsh'
 # ls for machince read (all files and full timestamp
 alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"
 
+########## List <Context> ##################
+# list all process in tree
+alias lsps="pstree -p"
+
 # List all env
 alias lsenv="declare -p" # or use 'export -p' or 'env' to see all exported variables
 
@@ -71,5 +75,7 @@ alias elt2="exa --tree --level=2 --long"
 alias elt3="exa --tree --level=3 --long"
 alias elt4="exa --tree --level=4 --long"
 
+
+alias lsps
 
 

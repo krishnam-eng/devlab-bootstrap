@@ -6,7 +6,7 @@
 [core]
 	editor = nano
 	autocrlf = input
-	excludesfile = ~/kroot/myws/git/.gitignore_global
+	excludesfile = /home/krishnam/kroot/myws/git/.gitignore_global
 [rebase]
 	autosquash = true
 [diff]

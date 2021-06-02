@@ -13,6 +13,7 @@ hash -d proj=~/proj
 hash -d log=~/log
 hash -d tmp=~/tmp
 hash -d bkp=~/bkp
+hash -d shared=~/shared
 
 # quick access to core FHS dir @ L2
 hash -d myws=~/kroot/myws

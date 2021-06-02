@@ -62,5 +62,55 @@ docker container stop $(docker ps -q)
 # Remove it permanently
 ID=$(docker container run -d ubuntu bin/bash -c "while [ true ]; do date; sleep 1; done")
 docker container stop $ID
-docker container rm $ID   # use -f to avoid intermediate stop step
+docker container rm $ID     # use -f to avoid intermediate stop step
 
+# remove all stopped containers
+docker container prune -f
+
+
+# restart policy
+#   no
+#   always
+#   on-failure if it failes with a nonzero exit code
+docker container run --restart=always -d -it ubuntu /bin/bash
+
+# privileged access  (_priv_ate _leg_is<law>)
+#   linux divides privileges associated with superuser into distinct units
+#   a.k.a capabilities `man capabilities`
+#
+# docker starts container with limited capabilities. and the more can be given.
+docker container run -it ubuntu
+mount --bind /home/ /mnt/ # permission denied
+
+docker container run --privileged -i -t ubuntu /bin/bash
+# now you can mount
+# ! this mode causes security risks container can get root level access on the docker host
+# use cap-drop for remove access
+docker container run --cap-drop=CHOWN ubuntu /bin/bash
+
+# accessing host device inside a container
+
+#  <Host Device>:<Container Device>
+#   sdc* - SCSI disk -> Small Computer System Interface Disk
+#   xvd* - Xen Virtual Block Device Disk ->
+docker container run --device=/dev/sdc:/dev/xvdc
+
+
+# injecting new process inside container
+#   exec comd enters the namespace and executes it
+ID=$(docker container run -d ubuntu)
+docker container exec -it $ID /bin/bash
+
+
+# Reading container's metadata while doing debugging, automation and so on.
+#   present it in json format
+docker container inspect $ID
+# use Go Style to access json
+docker container inspect $ID --format='{{.Id}}'
+
+# Labeling & Filtering
+#   labels are key-value pairs and that can be used in filter
+docker container run -d --label stability=dev ubuntu bin/bash -c "while [ true ]; do date; sleep 1; done"
+docker container run -d --label stability=dev ubuntu bin/bash -c "while [ true ]; do date; sleep 1; done"
+docker container run -d --label stability=prod ubuntu bin/bash -c "while [ true ]; do date; sleep 1; done"
+docker container list --filter label=stability=dev

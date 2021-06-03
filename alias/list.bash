@@ -76,6 +76,4 @@ alias elt3="exa --tree --level=3 --long"
 alias elt4="exa --tree --level=4 --long"
 
 
-alias lsps
-
 

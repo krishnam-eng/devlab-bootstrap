@@ -28,6 +28,9 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] 
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 
+
+###### Pulling image and running container
+
 # Verify that Docker Engine is installed correctly by running the hello-world image.
 sudo docker run hello-world
 
@@ -43,7 +46,9 @@ sudo groupadd docker
 sudo useradd dockertester
 sudo usermod -aG docker dockertester
 
-#####
+##### Finding Help at various level
 man docker
-
+docker --help
+docker container --help
+docker container list --help
 

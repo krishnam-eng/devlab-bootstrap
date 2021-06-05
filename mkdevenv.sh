@@ -99,6 +99,9 @@ function build_file_hierarchy_structure(){
 }
 
 function install_in_ubuntu_env(){
+    # to get the latest version, it is preferable to use ppa - personal package archive repo over default ubuntu repo
+
+
     # start with venv setup
     sudo apt install python3.9       # python latest
     sudo apt install python3-pip     # package management - Pip Installs Packages
@@ -106,8 +109,12 @@ function install_in_ubuntu_env(){
     sudo apt install virtualenv      # provides virtual environment - has its own Python binary and independent set of Python packages
 
     # workspace
-    sudo apt install zsh             # powerful sh 
+    sudo apt install zsh             # powerful sh
+    sudo apt install fish            # firendly interactive shell - using it for default shell in guack
     sudo apt install tmux            # terminal multiplexer
+    sudo apt install gnome-tweaks    # useful to change capslock key binding
+    sudo apt install guake           # drop down terminal emulator - # ! use x (x11 or xarg) display server since keybinding doesn't work well in wyaland server
+    sudo ln -s /usr/share/applications/guake.desktop /etc/xdg/autostart/ # add it to auto start
     sudo apt install nano            # feature-rich CLI text editor for power users
     sudo apt install vim             # open-source clone of vi text editor developed to be customizable and able to work with any type of text
 
@@ -143,12 +150,6 @@ function install_in_ubuntu_env(){
     # use this repo to get latest gradle version
     sudo add-apt-repository ppa:cwchien/gradle
     sudo apt install gradle
-
-    # Display
-    sudo apt install gnome-tweaks    # useful to change capslock key binding
-    sudo apt install guake           # drop down terminal emulator
-    sudo ln -s /usr/share/applications/guake.desktop /etc/xdg/autostart/ # add it to auto start
-    # ! use x (x11 or xarg) display server since keybinding doesn't work well in wyaland server
 
     # general tools
     sudo apt install watch

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ################
-#description  : bash functions to override or provide addtional details based on basic commands 
+#description  : bash functions to override or provide addtional details based on basic commands
 #bash_version : 5.1.4(1)-release
 #author	      : krishnam
 ################

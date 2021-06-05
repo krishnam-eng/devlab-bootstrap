@@ -24,7 +24,7 @@ Keyboard sequences, configuration, and command line actions all boil down to the
 
 # Session
 ```
- $ tmux                 # Launch tmux with defalut session    
+ $ tmux                 # Launch tmux with defalut session
  $ tmux rename-session  # Rename a session
  $ tmux new-session –s  # Launch tmux with a named session:
  $ tmux attach-session -t {session-name} # Start tmux and attach a session by name
@@ -86,7 +86,7 @@ Keyboard sequences, configuration, and command line actions all boil down to the
  <prefix> x      Closing Window
 
  Break a pane into its own window: break-pane –s {session}: {window}.{pane}
- Join the current pane to a target window: join-pane -t {session}:{window}   
+ Join the current pane to a target window: join-pane -t {session}:{window}
 ```
 
 ### Default Layouts
@@ -127,7 +127,7 @@ Keyboard sequences, configuration, and command line actions all boil down to the
  <prefix> [     Enter Copy Mode
  <prefix> ]     Paste current buffer
  <prefix> =     (show-buffer) List all buffers and choose one from which to paste
- <prefix> C-b   Choose a buffer and paste the contents   
+ <prefix> C-b   Choose a buffer and paste the contents
 
  <space>        (in copy mode) Start selection
  <enter>        (in copy mode) Exit copy mode, copy selection to buffer

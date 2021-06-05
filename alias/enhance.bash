@@ -1,9 +1,9 @@
 ######
-# Enhance existing commands and builtins 
-#   
+# Enhance existing commands and builtins
+#
 #   by setting default preferable options
 #
-###### 
+######
 
 ##########===========----------------
 # enhanced dir cmds (make,copy...) with built-in
@@ -28,7 +28,7 @@ alias rmd="\rm -rf"
 alias e="nano"
 
 # Quick access to the .zshrc file
-alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc' 
+alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc'
 
 # smart grep with default exclution filter
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git} '
@@ -79,7 +79,7 @@ alias u.....="cd ../../../../.."
 #######################
 
 # Determining if You Are Running Interactively
-# $- is a string listing of all the current shell option flags 
+# $- is a string listing of all the current shell option flags
 # is_interactive ; echo $!
 is_interactive(){
     case "$-" in
@@ -91,7 +91,7 @@ is_interactive(){
 alias rcat="lolcat"
 
 ###########
-# Others 
+# Others
 #############
 
 alias ewatch="watch -d"

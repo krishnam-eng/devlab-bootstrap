@@ -90,17 +90,17 @@ check `../alias/webserver.bash` for more details
 ## Structure
 ```
 http {
-    # Server content 
+    # Server content
     server {
         listen ...;
         server_name
-        
+
         location / {
             root ...;
             index ....;
         }
     }
-    # or, include path to server / vhost config 
+    # or, include path to server / vhost config
     include site-enabled/
 }
 ```
@@ -119,13 +119,13 @@ It boils down to two school of thoughts on how to mamange vhost configs
   - why
   -   single nginx can run multiple sites
   -   `.conf` helps nginx auto-identify the vhost config
-- Set root path basedir as same as vhost config file name without file extention 
+- Set root path basedir as same as vhost config file name without file extention
 ```bash
 *.conf: server{... root ~/github/ohmy-linux/nginx/var-www/perftestsite.local}
 mkdir ~nginx/var-www/perftestsite.local
 echo '<h1>Under Construction</h1>' > ~nginx/var-www/perftestsite.local/index.html
 ```
-- VC the config under nginx/site-available and symlink to enabled 
+- VC the config under nginx/site-available and symlink to enabled
 
 ```bash
 rm /etc/nginx/sites-enabled/default
@@ -142,9 +142,9 @@ sudo ln -s ~nginx/sites-available/perftestsite.lht.conf /etc/nginx/sites-enabled
 - Wrong root dir or File permission Issue
   - chmod 755 rootdir
   - chmod 644 files
-  - change owner to nginx user 
+  - change owner to nginx user
 ```bash
->ngusr 
+>ngusr
 www-data
 >sudo chown -R www-data:www-data  ~nginx/var-www/perftestsite.lht
 sudo chmod 755 ~nginx/var-www/perftestsite.lht
@@ -164,7 +164,7 @@ find ~nginx/var-www/perftestsite.lht/ -type d -exec chmod 755 {} \;
 
 ### Troubleshoot NGINX
 
-- nginx test config `` 
+- nginx test config ``
 - nginx status ``
 - nginx reload ``
 - verify ports `lsof -P -n -i :80 -i :433 | grep LISTEN`
@@ -186,7 +186,7 @@ location /sensitivedatadir  {
 }
 ```
 
-- setup username & password 
+- setup username & password
 
 ```bash
 sudo htpasswd -c /etc/nginx/passwords admin
@@ -216,12 +216,12 @@ add ssl directives and set permanent redirect for http port. check perftextsite 
 
 ```
 
-## Reverse Proxy 
+## Reverse Proxy
 
 - Client request comes to reverse-proxy and it communicate with **one** server (load balancer connects to multiple servers)
   - caching can be done
 
-`upstream` directive comes in http context 
+`upstream` directive comes in http context
 
 ```
 (global context)
@@ -233,7 +233,7 @@ http{
 }
 ```
 
-## Load balancer 
+## Load balancer
 - client request comes to load-balancer and it communicate with multiple servers
   - session persistence can be done
 - Methods: Round Robin (--), Least Connections (least_ conn), IP Hash (ip_hash) - based on client ip addr, (weight) can use more weight for high resource server

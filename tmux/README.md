@@ -53,11 +53,11 @@ This flow is how tmux-using developers' day looks like. First things first, one 
 - **Step 1:** You can start just by invoking ```$ tmux```. However, I suggest that you always begin by creating a session with a name; it is better than a default session name. The name could be the project or a theme you are working on, so it will be easy to recognize and switch between them.
 
 ```
- $ tmux                 # Launch tmux with defalut session    
+ $ tmux                 # Launch tmux with defalut session
  $ tmux new-session –s  # Launch tmux with a named session
 *[prefix] X            Closing Session
 
-# By default, all key bindings will require a "prefix" key before they are active. It is like a <leader> key in vim. The default is Ctrl-b; I changed to Ctrl-a. 
+# By default, all key bindings will require a "prefix" key before they are active. It is like a <leader> key in vim. The default is Ctrl-b; I changed to Ctrl-a.
 
 * this is a custom key-binding
 ```
@@ -127,7 +127,7 @@ Sporadic Use:
  [prefix] !      Breaking Window Panes If you have too many panes in a single window.
 
  $ move-window  –t {target session}         # Move the window from one session to another
- $ link-window –t {target session}          # Link a window between two sessions         
+ $ link-window –t {target session}          # Link a window between two sessions
  $ unlink-window                            # Unlink the window from the current session
  $ join-pane -t {session}:{window}          # Join the current pane to a target window
 ```
@@ -157,7 +157,7 @@ $ tmux attach-session -t {session-name}   # Start tmux and attach a _t_arget ses
 ```
 
 ## Beyond Basics: Personalizing Environments & Scripting tmux
-With the basics under our belt, let's explore a custom configuration and automation of developer workspace. It will wrap up with valuable tricks you can use with tmux to improve your day-to-day development. 
+With the basics under our belt, let's explore a custom configuration and automation of developer workspace. It will wrap up with valuable tricks you can use with tmux to improve your day-to-day development.
 
 ![tools](https://user-images.githubusercontent.com/82016952/115446579-0c676080-a235-11eb-9943-39de3b7c2355.png)
 
@@ -237,7 +237,7 @@ Ok, Let's make tmux a human for a bit,
 ```
 set-option -g base-index 1                # window index will start with 1
 set-window-option -g pane-base-index 1    # pane index will start with 1
-set-option -g renumber-windows on         
+set-option -g renumber-windows on
 ```
 #### 6. Kill it with X-Force !
 
@@ -289,7 +289,7 @@ set-window-option -g word-separators ' @"=()[]'  # default => ‘ -_@’.
 set-option -s escape-time 0
 
 # Command Prompt Movements:  within the tmux command prompt and the command prompt is accessed using <P>: (in the status line)
-set-option -g status-keys vi                 
+set-option -g status-keys vi
 ```
 
 #### 9. Resizing Panes
@@ -375,7 +375,7 @@ set-window-option -g message-style fg=black,bold,bg=colour11
 
 #### 12. Dress Up the Status Line
 
-This is how you tailor up the dress for your status line  
+This is how you tailor up the dress for your status line
 - Status bar colour and window indicator colour
 - What do you want to see on the left side & right side
 - Setup soft activity alerts
@@ -391,7 +391,7 @@ set-window-option -g window-status-last-style fg=black,bold,bg=colour011
 set-window-option -g window-status-separator |
 
 # Left Side
-# Show my active session, window, pane name or id  
+# Show my active session, window, pane name or id
 set-option -g status-left-length 50   # default 10
 set-option -g status-left "[#[fg=white]S: #S, #[fg=colour11]W #I-#W, #[fg=colour3]P: #P #[fg=white]]"
 # set-option -g status-left-style
@@ -411,7 +411,7 @@ There are many tmux [plugins](https://github.com/tmux-plugins?q=&type=&language=
 - This plugin restores the tmux environment after system restart. This plugin goes to great lengths to save and restore all the details from your tmux environment. See [doc](https://github.com/tmux-plugins/tmux-resurrect)
 - If you setup resurrect, then the next logical thing to do is set up 'continuum' to make the saving and restoring as an automatic step
 
-Here is the step to setup tmux plugin management; 
+Here is the step to setup tmux plugin management;
 ```
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'
@@ -419,10 +419,10 @@ set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'
 
 # Last saved environment is automatically restored when tmux is started.
-set -g @continuum-boot 'on'  
+set -g @continuum-boot 'on'
 
 # terminal window will go fullscreen
-set -g @continuum-boot-options 'fullscreen' 
+set -g @continuum-boot-options 'fullscreen'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 # run-shell "mkdir -p ~/.tmux/plugins/"
@@ -431,11 +431,11 @@ set -g @continuum-boot-options 'fullscreen'
 run '~/.tmux/plugins/tpm/tpm'
 
 # Hit prefix + I to install plugins for the first time. It takes few seconds. So, wait before panic.
-# 
+#
 # resurrect key bindings:
 #   prefix + Ctrl-s - save
 #   prefix + Ctrl-r - restore
-# 
+#
 ```
 _Note: All of these tweaks are tested and working in Ubuntu.20.10 and tmux3.1b_
 

@@ -6,17 +6,17 @@ alias name logic
 ```
          who-abbrev{1,2} 'ng'
 
-       + what-abbrev{1,2} 'e -edit, v -view, cd, sp - stop'                                                 
+       + what-abbrev{1,2} 'e -edit, v -view, cd, sp - stop'
 
-       + where-abbrev{2,3} 'log, cf - config'                                                               
-```                                                                            
-abbrev logic                                                                                        
+       + where-abbrev{2,3} 'log, cf - config'
 ```
-         =^(.) + (.)$ if the word is [ middle && what && length >2 ]                                 
+abbrev logic
+```
+         =^(.) + (.)$ if the word is [ middle && what && length >2 ]
          =word if the word is [ (middle || last) && length <=2 ]
-         =^(.) + (.)$ if the word is [ last && what && length >3 ]                                 
-         =^(.) + (.)$ if the word is [ last && where && length >3 ]                                 
-        +=^(.) for word in compound-word                                                             
+         =^(.) + (.)$ if the word is [ last && what && length >3 ]
+         =^(.) + (.)$ if the word is [ last && where && length >3 ]
+        +=^(.) for word in compound-word
 ```
 
 #### Abbrev Conventions

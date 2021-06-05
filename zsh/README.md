@@ -29,7 +29,7 @@ zsh has a list of files it will execute at shell startup. The list of possible f
 |/etc/zlogout    |    J      |           |      |
 +----------------+-----------+-----------+------+
 ```
-`bash --login --noprofile` => to skip reading from profile 
+`bash --login --noprofile` => to skip reading from profile
 `--norc` = > to skip rc file
 
 
@@ -38,7 +38,7 @@ The files in /etc/ will be launched (when present) for all users. The .z* files 
 
 - zsh will start with /etc/zshenv, then the user’s .zshenv. The zshenv files are always used when they exist, even for scripts with the #!/bin/zsh shebang. Since changes applied in the zshenv will affect zsh behavior in all contexts, you should you should be very cautious about changes applied here.
 - Next, when the shell is a login shell, zsh will run /etc/zprofile and .zprofile. Then for interactive shells (and login shells) /etc/zshrc and .zshrc. Then, again, for login shells /etc/zlogin and .zlogin. Why are there two files for login shells? The zprofile exists as an analog for bash’s and sh’s profile files, and zlogin as an analog for ksh login files.
-- Finally, there are zlogout files that can be used for cleanup, when a login shell exits. In this case, the user level .zlogout is read first, then the central /etc/zlogout. 
+- Finally, there are zlogout files that can be used for cleanup, when a login shell exits. In this case, the user level .zlogout is read first, then the central /etc/zlogout.
 
 #### Can I Change the Config Path?
 By default, zsh will look in the root of the home directory for the user .z* files, but this behavior can be changed by setting the ZDOTDIR environment variable to another directory (e.g. ~/.myzsh/) where you can then group all user zsh configuration in one place.

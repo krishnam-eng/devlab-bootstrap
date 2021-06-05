@@ -1,5 +1,5 @@
 {
     "python.pythonPath": "/usr/bin/python3",
-    "python.linting.enabled": true, // Needed for Quick Fix 
-    "python.jediEnabled": false // Needed for Quick Fix 
+    "python.linting.enabled": true, // Needed for Quick Fix
+    "python.jediEnabled": false // Needed for Quick Fix
 }

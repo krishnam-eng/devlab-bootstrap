@@ -10,8 +10,8 @@
 
 ### Get VBox & Guest OS
 
-**Download Virtual Box** 
-```powershell 
+**Download Virtual Box**
+```powershell
 Invoke-WebRequest -Uri https://download.virtualbox.org/virtualbox/6.1.20/VirtualBox-6.1.20-143896-Win.exe -UseBasicParsing -Outfile VirtualBox-6.1.20-143896-Win.exe
 .\VirtualBox-6.1.20-143896-Win.exe
 ```
@@ -24,10 +24,10 @@ Invoke-WebRequest -Uri https://releases.ubuntu.com/21.04/ubuntu-21.04-desktop-am
 ### Create Virtual Machince
 
 Tips:
-- Use SSD Drive 
+- Use SSD Drive
 - Setup RAM Size: Do not forget that  your host computer will use only the remaining available RAM)
 - Setup Harddisk Size: Choose Dynamically Grow Option
-  
+
 <img src="https://user-images.githubusercontent.com/82016952/115802609-d96fc900-a3fc-11eb-8a64-8834279eee0f.png" width="550">
 
 <img src="https://user-images.githubusercontent.com/82016952/115802695-002dff80-a3fd-11eb-809d-48868b0a5f62.png" width="550">
@@ -54,7 +54,7 @@ Tips:
 
 ![image](https://user-images.githubusercontent.com/82016952/115804110-ea6e0980-a3ff-11eb-87b1-0cca9c4f862e.png)
 
-#### Setup Graphics 
+#### Setup Graphics
 
 ![image](https://user-images.githubusercontent.com/82016952/115804323-66685180-a400-11eb-8d28-fb9fb68f85c1.png)
 
@@ -77,13 +77,13 @@ Tips:
 ![image](https://user-images.githubusercontent.com/82016952/115805806-51d98880-a403-11eb-9a50-b1f53d920274.png)
 
 ```
-$ \rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos 
+$ \rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos
 ```
 #### Mount Shared Folder
 1. Open VirtualBox
 1. Right-click your VM, then click Settings
 1. Go to Shared Folders section
-1. Add a new shared folder. Select the Folder Path in your host that you want to be accessible inside your VM. (e.g C:/vbox_shared/) 
+1. Add a new shared folder. Select the Folder Path in your host that you want to be accessible inside your VM. (e.g C:/vbox_shared/)
 1. Uncheck Read-only and Auto-mount, and check Make Permanent and set mount point (e.g win_shared)
 1. Start your VM
 

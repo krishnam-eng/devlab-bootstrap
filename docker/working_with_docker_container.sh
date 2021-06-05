@@ -123,5 +123,5 @@ docker container list --filter label=stability=dev
 # If the parent process exits before the child process, the init/systemd process (PID 1) adopts the child process
 
 # you need init process to reap the zombie
-docker container run --init alpine 
+docker container run --init alpine
 

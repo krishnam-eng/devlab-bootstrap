@@ -17,7 +17,7 @@ alias grep="grep --color"
 # set color with LS_COLOR for tree
 alias tree="tree -C"
 
-# 
+#
 alias ps="ps -ef"
 
 # run in quite mode

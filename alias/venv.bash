@@ -3,7 +3,7 @@
 ############
 
 # create virtual env with py3
-alias venv="virtualenv --python python3 " # --with-traceback true 
+alias venv="virtualenv --python python3 " # --with-traceback true
 
 # activate venv
 #   to ensure that commands from within the python virtual environment take priority over your system paths

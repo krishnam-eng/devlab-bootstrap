@@ -144,21 +144,28 @@ function install_in_ubuntu_env(){
     sudo add-apt-repository ppa:cwchien/gradle
     sudo apt install gradle
 
+    # Display
+    sudo apt install gnome-tweaks    # useful to change capslock key binding
+    sudo apt install guake           # drop down terminal emulator
+    sudo ln -s /usr/share/applications/guake.desktop /etc/xdg/autostart/ # add it to auto start
+    # ! use x (x11 or xarg) display server since keybinding doesn't work well in wyaland server
+
     # general tools
     sudo apt install watch
-    sudo apt install curl            # 
+    sudo apt install curl            #
     sudo apt install tree            # list dir in tree form
     sudo spt install gawk            # GNU awk
     # sudo apt install ranger        # console file manager with vi key bindings (npm error: Not compatible with your version of node/npm)
     sudo apt install xclip           # clipboard management
-    sudo apt install rsync           # utility tool for performing swift incremental file transfers 
+    sudo apt install rsync           # utility tool for performing swift incremental file transfers
     sudo apt install jq              # lightweight and flexible command-line JSON processor. It is like sed for JSON data. use it to slice and filter and map and transform structured data
-    sudo apt install zip             # default in > ubuntu21.04 
+    sudo apt install zip             # default in > ubuntu21.04
     sudo apt install unzip           # default in > ubuntu21.04
     sudo apt install rar             # archive utilities
     sudo apt install unrar           # archive utilities
-    sudo apt install gnome-tweaks    # useful to change capslock key binding
-    sudo npm install -g tldr         # TooLongDidntRead: tldr pages are a community effort to simplify the beloved man pages with practical examples
+
+    sudo npm install -g tldr # TooLongDidntRead: tldr pages are a community effort to simplify the
+    beloved man pages with practical examples
 
     # system utilities
     sudo apt install exa             # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18' not found]

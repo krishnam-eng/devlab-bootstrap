@@ -5,73 +5,74 @@
 # author     : krishnam
 #
 #   Step 0: build_file_hierarchy_structure()
-#   Step 1: Build workspace core with battle tested and fine tunned pre-configurations 
+#   Step 1: Build workspace core with battle tested and fine tunned pre-configurations
 #              `build_my_workspace_core()`
 #   Step 2: Install required packages - use kroot hack if you do not have root access to the devenv
 #               install_in_ubuntu_env()
 #               or install_in_virtual_env()
-#   Step 3: Setup runcommand configs for various dev tools 
+#   Step 3: Setup runcommand configs for various dev tools
 #               `create_myconf_links()`
 #############################################################################################
 
 function build_my_workspace_core(){
 
     # * myws: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
-    git clone --depth=1 https://github.com/krishnam-eng/ohmy-linux ~/kroot/myws 
-    
+    git clone --depth=1 https://github.com/krishnam-eng/ohmy-linux ~/kroot/myws
+
     # for home pc: git remote set-url origin git@github.com:krishnam-eng/ohmy-linux
-    
+
     # create links to tools run configs (or copy and further customize if you want to be disconnected from repo)
     ln -s ~/kroot/myws/bash/.bashrc  ~/.bashrc
     ln -s ~/kroot/myws/nano/.nanorc  ~/.nanorc
     ln -s ~/kroot/myws/tmux/.tmux.conf ~/.tmux.conf
     ln -s ~/kroot/myws/zsh/.zshenv ~/.zshenv
     ln -s ~/kroot/myws/git/.gitconfig ~/.gitconfig
-    
+    ln -s ~/kroot/myws/fish/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
+
     # TMUX plugin manager
     git clone --depth=1 https://github.com/tmux-plugins/tpm ~/kroot/plugins/tmux/tpm
     # next: reload tmux conf , and press <prefix> Shift+R to install plugins
-        
+
     # zsh style - theme & font to boost dev productivity
-    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/style/zsh-syntax-highlighting  
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/style/zsh-syntax-highlighting
 
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/style/powerlevel10k
-    
+
     git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/style/powerlevel9k
     cp ~/kroot/myws/zsh/powerlevel9k.zsh-theme ~/kroot/style/powerlevel9k/  # fix for old zsh compatability issue
 
-    git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/style/tmux-powerline 
+    git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/style/tmux-powerline
     cp ~/kroot/myws/tmux/tmux-powerline-theme.sh ~/kroot/style/tmux-powerline/themes/default.sh
 
     # font
     pip install --user powerline-status
-    
+
     wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
     mv PowerlineSymbols.otf ~/.local/share/fonts/
-    
+
     git clone https://github.com/powerline/fonts.git --depth=1  ~/kroot/style/powerline-fonts
     cd ~/kroot/style/powerline-fonts
     ./install.sh
-    
+
     fc-cache -vf ~/.local/share/fonts/
-    
+
     wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
     mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
-    
+
     fc-list
     # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
 }
 
 function build_file_hierarchy_structure(){
     # create _k_rishnam config _root_
-    
+
     #l1
     mkdir ~/kroot
     mkdir ~/proj
     mkdir ~/bkp
-    mkdir ~/log 
+    mkdir ~/log
     mkdir ~/tmp
-    
+
     #l2
     mkdir ~/kroot/myws
     mkdir ~/kroot/style
@@ -84,7 +85,7 @@ function build_file_hierarchy_structure(){
     mkdir ~/kroot/history
     mkdir ~/kroot/resurrect
     mkdir ~/kroot/virtualenvs
-    
+
     mkdir ~/proj/gh  # github
     mkdir ~/proj/bb  # bitbucket
 
@@ -93,9 +94,9 @@ function build_file_hierarchy_structure(){
     mkdir ~/kroot/history/shell
     mkdir ~/kroot/history/tmux
     mkdir ~/kroot/resurrect/tmux
-    
+
     #l4
-    mkdir ~/kroot/plugins/tmux/tpm    
+    mkdir ~/kroot/plugins/tmux/tpm
 }
 
 function install_in_ubuntu_env(){
@@ -123,10 +124,10 @@ function install_in_ubuntu_env(){
     sudo apt install kdiff3          # compares and merges two or three input files or directories
     sudo apt install code            # VS Code IDE
 
-    pip install autopep8            # vscode needs this for auto formatting 
+    pip install autopep8            # vscode needs this for auto formatting
     pip install virtualenvwrapper   # provides a set of commands that extend Python virtual environments for more control and better manageability. It places all your virtual environments in one directory
     pip install locust              # open source load testing tool, define user behaviour with Python code
-    pip install rope                # python refactoring library - used in vscode 
+    pip install rope                # python refactoring library - used in vscode
 
 
     sudo apt install docker-ce
@@ -171,9 +172,9 @@ function install_in_ubuntu_env(){
     # system utilities
     sudo apt install exa             # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18' not found]
     sudo apt install fd-find         # fdfind: a program to find entries in your filesytem. It is a simple, fast and user-friendly alternative to find
-    sudo apt install ncdu            # NCurses Disk Usage: to view and analyse disk space usage. It can drill down into directories and report space used by individual directories. 
+    sudo apt install ncdu            # NCurses Disk Usage: to view and analyse disk space usage. It can drill down into directories and report space used by individual directories.
     sudo apt install htop            # interactive process viewer similar to top but that provides a nicer user experience out of the box
-    sudo pip install glances         # system monitoring tool 
+    sudo pip install glances         # system monitoring tool
     sudo apt install ctop            # top-like interface for container metrics
 
     sudo apt install sysstat         # iostat - cpu usage
@@ -183,11 +184,11 @@ function install_in_ubuntu_env(){
     sudo apt install cowsay [cowthink] # An ASCII cow in terminal that will say what ever you want
     sudo apt install figlet            # utility for creating ASCII text banners or large letters out of ordinary text
     sudo apt install cmatrix           # shows a scrolling ‘Matrix‘ like screen in a Linux terminal [Not in venv setup]
-    sudo apt install lolcat            # [Not in venv setup] 
+    sudo apt install lolcat            # [Not in venv setup]
 }
 
 function install_in_virtual_env(){
-    python --version  
+    python --version
     virtualenv --version
 
     virtualenv --python=python3 kroot
@@ -195,23 +196,23 @@ function install_in_virtual_env(){
     source bin/activate
 
     pip install virtualenvwrapper
-    
-    # to redo 
-    pip freeze | xargs pip uninstall -y 
+
+    # to redo
+    pip freeze | xargs pip uninstall -y
 
     # let's use the power of node package manager
     install_node()
     node --version
-    
+
     whatdoihave() # if anything throws cmd not found, install that too
-    npm install -g fd-find 
+    npm install -g fd-find
     npm install -g ncdu
     npm install -g cowsay
     npm install -g figlet-cli
-    npm install -g lolcat    
+    npm install -g lolcat
     npm install -g tar
     npm install -g untar
-        
+
     # Other installs
     install_vscode()
     wget https://services.gradle.org/distributions/gradle-7.0.2-bin.zip
@@ -240,7 +241,7 @@ function install_vscode(){
     rm code-stable-x64-1620838810.tar.gz
     # make sure this is added to path via rc file
     PATH="$HOME/kroot/vscode/bin:$PATH"
-    
+
     cp ~olxrp/vscode/*.json ~/.config/Code/User
 }
 
@@ -251,13 +252,13 @@ function install_rust(){
 
 function install_pipx(){
     # pipx setup (https://pipxproject.github.io/pipx/)
-    # pip install pipx 
+    # pip install pipx
     # now use pipx to install needed tools for effective dev env
     # mkdir ~/kroot/local/bin
     # mkdir ~/kroot/local/pipx
     # export PIPX_BIN_DIR=~/kroot/local/bin
     # export PIPX_HOME=~/kroot/local/pipx
-    # pipx install lolcat # install anything which will trigger shared libraries creation 
+    # pipx install lolcat # install anything which will trigger shared libraries creation
     # watch -d -n 5 "du -ckh /u/krishnam/kroot/local/pipx/"
     # ERROR: maximum recursion depth exceeded while calling a Python object
 }
@@ -267,14 +268,14 @@ function whatdoihave(){
     python3 --version
     virtualenv --version
 
-    zsh --version  
-    tmux -V        
-    nano -V        
-    vim --version  
+    zsh --version
+    tmux -V
+    nano -V
+    vim --version
 
-    git --version   
+    git --version
     kdiff3 -version
-    
+
     curl --version
     tree --version
     gawk --version
@@ -285,7 +286,7 @@ function whatdoihave(){
 
     htop --version
     glances --version
-    
+
     iostat -V
 }
 
@@ -301,7 +302,7 @@ function backup_old_conf(){
     cp ~/.zshrc ~/.mybkp/.zshrc_$(date +%y%m%d)-old
 
     rm -f  ~/.zshenv ~/.zshrc ~/.bashrc ~/.tmux.conf ~/.nanorc
-   
+
 }
 
 function validate_kroot(){

@@ -206,6 +206,10 @@ function install_in_virtual_env(){
         
     # Other installs
     install_vscode()
+    wget https://services.gradle.org/distributions/gradle-7.0.2-bin.zip
+    unzip gradle-7.0.2-bin.zip
+    export GRADLE_HOME=~/kroot/tools/gradle-7.0.2
+    export PATH=${GRADLE_HOME}/bin:${PATH}
 }
 
 function install_node(){

@@ -121,6 +121,13 @@ function install_in_ubuntu_env(){
     pip install locust              # open source load testing tool, define user behaviour with Python code
     pip install rope                # python refactoring library - used in vscode 
 
+
+    sudo apt install docker-ce
+    sudo apt install docker-ce-cli
+    sudo apt install containerd.io
+    sudo apt install docker-compose
+    sudo apt install bridge-utils    # brctr - ethernet brdige admin cmd
+
     # on-demand
     sudo apt install default-jdk     # open jdk
     sudo apt install tomcat9         # servlet container
@@ -131,8 +138,12 @@ function install_in_ubuntu_env(){
     sudo apt install nginx           # web server
     sudo apt install apache2-utils   # ab: apache bench for cli single page load test, htpassword : create pwd
     sudo apt install openssl         # to create ssl certificates
-    sudo apt install ruby            # need for ruby gems 
-    
+    sudo apt install ruby            # need for ruby gems
+
+    # use this repo to get latest gradle version
+    sudo add-apt-repository ppa:cwchien/gradle
+    sudo apt install gradle
+
     # general tools
     sudo apt install watch
     sudo apt install curl            # 
@@ -143,13 +154,13 @@ function install_in_ubuntu_env(){
     sudo apt install rsync           # utility tool for performing swift incremental file transfers 
     sudo apt install jq              # lightweight and flexible command-line JSON processor. It is like sed for JSON data. use it to slice and filter and map and transform structured data
     sudo apt install zip             # default in > ubuntu21.04 
-    sudo apt install unzip           # default in > ubuntu21.04 
-    sudo apt install rar             # archive utilities 
-    sudo apt install unrar           # archive utilities 
+    sudo apt install unzip           # default in > ubuntu21.04
+    sudo apt install rar             # archive utilities
+    sudo apt install unrar           # archive utilities
     sudo apt install gnome-tweaks    # useful to change capslock key binding
     sudo npm install -g tldr         # TooLongDidntRead: tldr pages are a community effort to simplify the beloved man pages with practical examples
-    
-    # alternatice utilities
+
+    # system utilities
     sudo apt install exa             # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18' not found]
     sudo apt install fd-find         # fdfind: a program to find entries in your filesytem. It is a simple, fast and user-friendly alternative to find
     sudo apt install ncdu            # NCurses Disk Usage: to view and analyse disk space usage. It can drill down into directories and report space used by individual directories. 

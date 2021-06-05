@@ -52,11 +52,11 @@ pattern[{action}]
 BEGIN{ # BEGIN rule run this block before reading any input. Executed Once per one awk program execution
 
 }
-BEGINFILE{ # BEGIN rule run this block before reading any input. Executed for each input file 
+BEGINFILE{ # BEGIN rule run this block before reading any input. Executed for each input file
 
 }
 /regex pattern/{ # run this block for each records that matchs the given regex pattern
-    statement1; 
+    statement1;
     statement2..n; # ';' used to seperate statements or rules if rules are on the same line
 }
 experssion pattern{ # run this block for each records that matchs the given exp pattern - boolean exp are allowed || && ...
@@ -77,18 +77,18 @@ END{ # END rule run this block at the end of reading all inputs
 
 ```
 
-Action consist of statements enclosed in curly braces; statemenmts are build from the below 
+Action consist of statements enclosed in curly braces; statemenmts are build from the below
 
 #### Statements
   - Experssion `(assignment , compute,...)`
-  - Control Statements `if while for switch` - C style 
-    - Decision Making 
+  - Control Statements `if while for switch` - C style
+    - Decision Making
       - `if (condition) {then-body} [else else-body]`
       - `switch (experssion) { case value: compound statements; default: statements}`
-      - `break, continue` - lets you exit the loop early or start the next iteration of a loop 
+      - `break, continue` - lets you exit the loop early or start the next iteration of a loop
       - `next, nextfile` - lets you read the next record or file file
       - `exit [exit code]` - terminates the program
-    - Loop 
+    - Loop
       - `while (condition) {do-body}`
       - `do {do-body} while (condition)`
       - `for (initialization; condition; increment) {loop-body}`
@@ -106,10 +106,10 @@ Action consist of statements enclosed in curly braces; statemenmts are build fro
 
 #### Operations
 - `()` group
-- `$` Field reference 
+- `$` Field reference
 - Increment & Decrement `++, --`
   - pre, post
-- Arithmetic operators `^ ** - + * / %  + - ` 
+- Arithmetic operators `^ ** - + * / %  + - `
   - unary first, then, binary opt in precedence
 - String concat
 - Relational Operators `< <= > >= == != ~ !~ in`
@@ -130,7 +130,7 @@ Action consist of statements enclosed in curly braces; statemenmts are build fro
   - use .awk suffix for keeping housekeeping easier
   - if the file name does not have / then awk searches a list of dirs (searchpath)
     - use `AWKPATH` to define search path. If file not found, the path is searched agin with .awk suffix
-- Executable awk program 
+- Executable awk program
 - use headerline `#!/usr/bin/awk -f` file advice to give which interpreter to run
   - chmod +x prog-file
   - Add prog dir to $PATH
@@ -163,7 +163,7 @@ _most frequently used options _
 
 - _records_ : input is split into records and rules acts on record
   - default: one line `RS="\n"`
-  - `RS` -> _record separator_ 
+  - `RS` -> _record separator_
   - `RS=""` -> empty string means records are seperated by one or more blank lines
   - `RS="\0"` -> whole file becomes one record
   - `RT` -> when RS is regex, RT will be set to actual matched text by gawk
@@ -174,9 +174,9 @@ _most frequently used options _
   - `FS="\n"` -> making full line as a single field
   - `NF` -> number of fields in the current record
   - `$n` -> dollar sign refers to field
-  - `$0` -> the full record 
+  - `$0` -> the full record
   - `$any_numeric_var` or `$(some num exp 2+3)` -> non constant number field
-  - `$n=` -> changing the contents of the field with '=' ; $0 will be recalculated if any change 
+  - `$n=` -> changing the contents of the field with '=' ; $0 will be recalculated if any change
   - Fixed-Width Data: `FIELDWIDTHS="3 3 5 10"` (gawk)
 - Separator
   - can be single char
@@ -193,27 +193,27 @@ _Dark Corner_
 ## Printing Output: Formatting, Records and Fields
 
 - _print_
-  - `print item1, item2` separated by single space 
-  - string, number, field , var or any awk exp 
+  - `print item1, item2` separated by single space
+  - string, number, field , var or any awk exp
   - no args means $0
   - can be used only in action part - not pattern part
 - _printf format, item1, item2_
   - format-specifier => % + (modifer)? + format-control-letter
     - `%` format specifier starts with
-    - `d D e E f g G o s x X %` format-control letter 
+    - `d D e E f g G o s x X %` format-control letter
       - decimal, integer, float, scientific, scientific or float, octal, string, hex
     - `n .n n$ - + # 0 '` modifier
       - width, precision, positional specifier, left-justify, , padding with zero, only int part
 - Output Separator
   - `OFS` output field separator
-  - `ORS` o/p record separator 
-  - `OFMT` o/p format while doing number to string before printing e.g. `OFMT="%3.2f"` 
+  - `ORS` o/p record separator
+  - `OFMT` o/p format while doing number to string before printing e.g. `OFMT="%3.2f"`
   - BEGIN pattern's action can be used to set custom values
 - Redirect Output
   - print xyz > file
   - print xyz >> file
-  - print | command 
-  - close() close open file in the END's action 
+  - print | command
+  - close() close open file in the END's action
 
 ## Regular Expressions
 
@@ -229,7 +229,7 @@ _Regex: describes sets of strings to be matched_
 
 - RegEx Operators provide grouping, alternation, and repetition
 - Bracket Experssion give you a shorthand for specifying sets of chars
-- Escape sequence let you represent nonprintable chars 
+- Escape sequence let you represent nonprintable chars
 
 _Regular Expression Operators_
 

@@ -1,29 +1,29 @@
 #!/usr/bin/env bash
 
-##### Conditional statements with the if keywords 
+##### Conditional statements with the if keywords
 declare -i a=3
 
 if [[ $a -gt 4 ]]
 then
 	echo "true"
-else 
+else
 	echo "false"
-fi 
+fi
 
 if [[ $a -gt 4 ]];then
 	echo "true"
-else 
+else
 	echo "false"
-fi 
+fi
 
 
 if [[ $a -gt 4 ]];then
 	echo ">4"
-elif [[ $a -gt 1  ]];then 
+elif [[ $a -gt 1  ]];then
 	echo ">1"
-fi 
+fi
 
-######## workign with while and untill loops 
+######## workign with while and untill loops
 
 echo "While Loop"
 
@@ -34,18 +34,18 @@ do
 	echo "n: ${n}"
 	((n++))   # not $n - bzc that would be lile 0++ variable expanstion is not needed here
 
-done 
+done
 
 echo "Until Loop"
 
 declare -i m=0
 
-until (( m == 10 )) # break condition 
+until (( m == 10 )) # break condition
 do
 	echo "m: ${m}"
 	((m++))   # not $n - bzc that would be lile 0++ variable expanstion is not needed here
 	#sleep 1
-done 
+done
 
 echo "For Loop"
 
@@ -67,7 +67,7 @@ declare -a fruits=("apple" "banana" "cherry")
 for i in ${fruits[@]}
 do
 	echo "Taking $i out from Fruit Basket "
-done 
+done
 
 
 for i in $(ls)
@@ -80,7 +80,7 @@ echo "selecting behavior using case"
 animal="dog"
 
 case $animal in
-	cat) echo "rose";; # one for ; is for what we execute and one ; is for telling i am done with action 
+	cat) echo "rose";; # one for ; is for what we execute and one ; is for telling i am done with action
 	dog|puppy) echo "K";;
 	*) echo "";;
 esac
@@ -91,7 +91,7 @@ greet(){
 
 }
 
-# call function 
+# call function
 greet
 greet "Bala"
 
@@ -100,8 +100,8 @@ echo "======= FUN Variable========="
 greetall(){
 	for i in $@   #$* also gives params
 	do
-		echo "arg: $i for $FUNCNAME"  # $0 is reserved for function's name 
-	done 
+		echo "arg: $i for $FUNCNAME"  # $0 is reserved for function's name
+	done
 }
 
 greetall "B" "A" "C"
@@ -114,7 +114,7 @@ echo "=========== local var ========"
 var1="I'm global"
 
 myfun(){
-	var2="I'm inside fun" # it is also global . 
+	var2="I'm inside fun" # it is also global .
 	local var3="I'm var with local"
 }
 

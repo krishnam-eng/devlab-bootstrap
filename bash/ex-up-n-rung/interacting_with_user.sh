@@ -36,7 +36,7 @@ echo ======get i/ps while executing========
 echo "what is your name?"
 read name
 echo "what is the pwd?"
-# -s read silent 
+# -s read silent
 read -s pwd
 echo "pwd: $pwd"
 
@@ -67,11 +67,11 @@ do
 	break
 done
 
-echo ===========Ensure response 
+echo ===========Ensure response
 
 echo ==what if user skip inout by enter =========
 
-# e read line interpreter 
+# e read line interpreter
 read -ep "Fav color? " -i "blue" favcolor
 echo $favcolor
 
@@ -94,7 +94,7 @@ do
 	read -p "Fav color? " fav
 done
 
-echo === show default 
+echo === show default
 read -p "Fav color? [blue]" fav
 if [[ -z $fav ]]
 then

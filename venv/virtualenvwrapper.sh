@@ -30,7 +30,7 @@
 # export VIRTUALENVWRAPPER_PYTHON=~/kdev/bin/python3
 # source kdev/bin/activate
 # source kdev/bin/virtualenvwrapper.sh
-# --now, all the wrapper commands will work in kdev venv :) 
+# --now, all the wrapper commands will work in kdev venv :)
 # include this ~/kdev/bin to the PATH and install any tool you need using this hack
 
 # wrapper loads bin based on path, to be certain which gets picked, let's define it here

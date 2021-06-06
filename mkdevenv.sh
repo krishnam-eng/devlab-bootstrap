@@ -136,7 +136,13 @@ function install_in_ubuntu_env(){
     sudo apt install docker-ce
     sudo apt install docker-ce-cli
     sudo apt install containerd.io
-    sudo apt install docker-compose
+
+    # this will give latest version
+    VERSION=$(curl --silent https://api.github.com/repos/docker/compose/releases/latest | jq .name -r
+    DESTINATION=/usr/local/bin/docker-compose
+    sudo curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION
+    sudo chmod 755 $DESTINATION
+
     sudo apt install bridge-utils    # brctr - ethernet brdige admin cmd
 
     # on-demand
@@ -169,8 +175,7 @@ function install_in_ubuntu_env(){
     sudo apt install rar             # archive utilities
     sudo apt install unrar           # archive utilities
 
-    sudo npm install -g tldr # TooLongDidntRead: tldr pages are a community effort to simplify the
-    beloved man pages with practical examples
+    sudo npm install -g tldr # TooLongDidntRead: tldr pages are a community effort to simplify the beloved man pages with practical examples
 
     # system utilities
     sudo apt install exa             # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18' not found]

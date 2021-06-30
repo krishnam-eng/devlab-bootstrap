@@ -125,7 +125,8 @@ function install_in_ubuntu_env(){
     # coder
     sudo apt install git             # version control
     sudo apt install kdiff3          # compares and merges two or three input files or directories
-    sudo apt install code            # VS Code IDE
+    sudo apt install code            # IDE for light weight project (python, scripts)
+    sudo snap install intellij-idea-community --classic # IDE for JVM
 
     pip install autopep8            # vscode needs this for auto formatting
     pip install virtualenvwrapper   # provides a set of commands that extend Python virtual environments for more control and better manageability. It places all your virtual environments in one directory

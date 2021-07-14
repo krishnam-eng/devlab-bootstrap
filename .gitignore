@@ -22,3 +22,7 @@ tmux/resurrect
 tmux/screenshots/*.screenshot
 tmux/plugins/tmux-mem-cpu-load
 
+# private config
+alias/private.bash
+alias/private.zsh
+

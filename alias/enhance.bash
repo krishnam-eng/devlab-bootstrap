@@ -96,3 +96,5 @@ alias rcat="lolcat"
 
 alias ewatch="watch -d"
 
+alias utc="date -u"
+

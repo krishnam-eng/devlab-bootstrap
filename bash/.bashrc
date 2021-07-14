@@ -125,3 +125,6 @@ if [ -d ~/kroot/myws/func ]; then
     unset ffile
 fi
 
+export PATH=/proj/arcesium/bin/:$PATH;
+alias docker="docker.yolo"
+alias docker-compose="docker-compose.yolo"

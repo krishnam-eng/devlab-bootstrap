@@ -5,7 +5,7 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
   context
   dir_writable
   vcs
-  newline
+  # newline
 )
 
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(

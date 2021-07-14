@@ -21,6 +21,7 @@ hash -d style=~/kroot/style
 hash -d bin=~/kroot/bin
 hash -d etc=~/kroot/etc
 hash -d lib=~/kroot/lib
+hash -d tools=~/kroot/tools
 hash -d var=~/kroot/var
 hash -d plugins=~/kroot/plugins
 hash -d resurrect=~/kroot/resurrect

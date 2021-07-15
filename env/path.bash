@@ -25,7 +25,14 @@ if [ -d "$HOME/kroot/bin" ]
 then
   PATH="$PATH:$HOME/kroot/bin"
 fi
-
+# build tools
+if [ -d "$HOME/kroot/build/gradle-7.1.1" ]
+then
+  export GRADLE_HOME=~/kroot/build/gradle-7.1.1
+  PATH=${GRADLE_HOME}/bin:${PATH}
+fi
+    
+    
 # IDE Path
 if [ -d "$HOME/kroot/vscode/bin" ]
 then

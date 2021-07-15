@@ -32,6 +32,12 @@ then
   PATH="$PATH:$HOME/kroot/vscode/bin"
 fi
 
+if [ -d "$HOME/kroot/ide/idea-2021/bin" ]
+then
+  PATH="$PATH:$HOME/kroot/ide/idea-2021/bin"
+fi
+
+
 if [ -d "$HOME/kroot/node/bin" ]
 then
   PATH="$PATH:$HOME/kroot/node/bin"

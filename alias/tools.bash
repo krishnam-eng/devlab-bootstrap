@@ -1,1 +1,1 @@
-alias idea="/u/krishnam/kroot/idea/idea-2021/bin/idea.sh &"
+alias idea="$HOME/kroot/ide/idea-2021/bin/idea.sh &"

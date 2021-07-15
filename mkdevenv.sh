@@ -242,8 +242,10 @@ function install_node(){
     #todo: ~/.npmrc setup
 }
 
-function install_vscode(){
+function install_ides(){
     cd ~/kroot
+    
+    #### VS Code
     # download from firefox https://code.visualstudio.com/download
     tar -xvf code-stable-x64-1620838810.tar.gz
     mv VSCode-linux-x64 vscode
@@ -252,6 +254,13 @@ function install_vscode(){
     PATH="$HOME/kroot/vscode/bin:$PATH"
 
     cp ~olxrp/vscode/*.json ~/.config/Code/User
+    
+    #### IDEA 
+    mkdir -p ~/kroot/ide
+    wget https://download.jetbrains.com/idea/ideaIC-2021.1.3.tar.gz
+    tar -xf ideaIC-2021.1.3.tar.gz
+    mv ideaIC-2021.1.3 idea-2021
+    
 }
 
 function install_rust(){

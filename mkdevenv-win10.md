@@ -13,5 +13,5 @@
 1. Download and unzip gradle binary
 C:\home\gradle\gradle-7.1.1
 
-2. Set Path
-* Win+S -> type 'env' -> 'SystemProperty.Advance.Environments' -> Path.Edit -> Browse to C:\home\gradle\gradle-7.1.1\**bin**
+2. To create gradle project 
+* Run `C:\home\gradle\gradle-7.1.1\bin\gradle init` in the project root dir

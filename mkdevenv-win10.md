@@ -15,3 +15,4 @@ C:\home\gradle\gradle-7.1.1
 
 2. To create gradle project 
 * Run `C:\home\gradle\gradle-7.1.1\bin\gradle init` in the project root dir
+

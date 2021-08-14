@@ -1,3 +1,5 @@
+[internal notes]
+ 
 [X] Install Win Home 10 using ESD PenDrive
   [X] Install in SSD
   [X] Cleanup win.old files using "Drive R-> Disk Cleanup" Option
@@ -13,9 +15,9 @@
   [X] Login Link with outlook
   [X] Login Linked
   [X] Setup OneDrive
-  [X] Setup GoogleDrive (Mounted as a Win Drive)
+  [X] Setup GoogleDrive (Mounted as a Win Drive) 
     [X] Ent: Ent, Eng, Gtd, Kids
-    [X] Edu: Edu, Prof
+    [X] Edu: Edu, Prof, Ea, Fit
   [X] Chrome Browser
     [X] link with gmail
   [X] Edge Browser 

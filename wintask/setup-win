@@ -6,23 +6,27 @@
   [X] Admin
   [X] Education
   [X] Entertainment
-  
-[X] Admin Profile Setup (...admin@outlook.com  & ...admin@gmail.com )
+
+[X] Foreach Profile
+  [X] Login Link with outlook
   [X] Login Linked
   [X] Setup OneDrive
   [X] Setup GoogleDrive (Mounted as a Win Drive)
-  [X] Create Dirs in Home Drive
-    [X] "Programs"
-    [X] "Proj"
-    [X] "Virtual VMs"
-
-[X] Foreach Profile
   [X] Chrome Browser
     [X] link with gmail
   [X] Edge Browser 
     [X] link with outlook
+    
+[X] Admin Profile Setup (...admin@outlook.com , ...admin@gmail.com)
+[X] Education Profile (...edu@outlook.com, ...edu..eng..@gmail.com)
+[X] Entertainment Profile (...ent@outlook.com, ...ent...@gmail.com)
 
-[X] Programs:
+[X] Admin: Create Dirs in Home Drive
+  [X] "Programs"
+  [X] "Proj"
+  [X] "Virtual VMs"
+
+[X] Admin: Programs
   [X] Git        - https://git-scm.com/download/win
   [X] Gradle     - https://gradle.org/install/#manually
   [X] Java       - https://jdk.java.net/java-se-ri/11, https://jdk.java.net/java-se-ri/8-MR3
@@ -33,7 +37,7 @@
   [X] Python     - https://www.python.org/downloads/
   [X] VirtualBox - https://www.virtualbox.org/wiki/Downloads, https://ubuntu.com/download/desktop
 
-[X] Default Path:
+[X] Admin: Default Path
   [X] Adobe Reader
   [X] Atom - https://flight-manual.atom.io/getting-started/sections/installing-atom/
   [X] JetBrains Toolbox - https://www.jetbrains.com/toolbox-app/
@@ -41,7 +45,13 @@
     [X] Ultimate
     [X] PyCharm
     
-  [X] Other Fav Tools 
+[X] Chrome: Fav Tools 
     [X] https://darkreader.org/
     [X] 
+
+[X] Edu: Build Local Repositroy for Build Tools (Maven, Gradle)
+  [X] Create Maven & Gradle Projects with Spring Boot Initializer
+    [X] Spring Web, Spring Dev Tool, Lombok, Spring JPA, JDBC, MyBatis, H2, ....
+  [X] Load both projects in IDEA and let it build index (quick scan for later use from build file)
+
   

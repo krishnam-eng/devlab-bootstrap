@@ -96,7 +96,7 @@ function build_my_workspace_core(){
     # {atomic-op:start
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/style/powerlevel10k
         # install fonts for powerline 
-        install_font_for_powerline()
+        install_and_enable_for_powertheme()
         reboot
     # atomic-op:end}
     
@@ -191,7 +191,11 @@ function install_in_ubuntu_env(){
     sudo apt update; sudo apt upgrade ; sudo apt autoremove
 }
 
-function install_font_for_powerline(){
+function install_and_enable_for_powertheme(){
+    
+    # zsh rc is updated to use this as a flag to enable or disable power theme
+    touch ~/kroot/ctrflags/enablepowertheme
+
     # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
     pip install --user powerline-status
     pip install --user git+git://github.com/powerline/powerline
@@ -207,9 +211,16 @@ function install_font_for_powerline(){
     
     fc-list
     
+    # If custom symbols cannot be seen then try closing all instances of the terminal emulator. X server may need to be restarted for the changes to take effect.
+    # If custom symbols still can’t be seen then double-check that the font have been installed to a valid X font path.
+    # OR, try the below approach
+    
     git clone https://github.com/powerline/fonts.git --depth=1  ~/kroot/style/powerline-fonts
     cd ~/kroot/style/powerline-fonts
     ./install.sh    
+    
+    # Still not working, It is ok. Just Disable power theme for now
+    rm ~/kroot/ctrflags/enablepowertheme
 }
 
 function other_misc_steps(){

@@ -14,6 +14,8 @@
   [X] Login Linked
   [X] Setup OneDrive
   [X] Setup GoogleDrive (Mounted as a Win Drive)
+    [X] Ent: Ent, Eng, Gtd, Kids
+    [X] Edu: Edu, Prof
   [X] Chrome Browser
     [X] link with gmail
   [X] Edge Browser 

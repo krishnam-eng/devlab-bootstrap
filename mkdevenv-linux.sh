@@ -92,6 +92,7 @@ function build_my_workspace_core(){
 
     # zsh style - theme & font to boost dev productivity
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/style/zsh-syntax-highlighting
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/kroot/style/zsh-autosuggestions
     
     # {atomic-op:start
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/style/powerlevel10k

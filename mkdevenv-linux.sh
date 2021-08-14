@@ -12,8 +12,6 @@
 #               install_in_ubuntu_env()
 #    Step 4: Any Misc Steps
 #               `other_misc_steps()`
-#  No Root:
-#    To setup without root priveledge, use steps from "on demand session"
 #############################################################################################################
 
 ################################## START: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################

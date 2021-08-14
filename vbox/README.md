@@ -35,17 +35,21 @@ _While Installing_
 - Choose "Minimal Installation" & "Download Updates Option" - This is best optimized way of installing for dev box
 - Login: Choose "Log in Automatically" and Machine Name "ubuntu-vm" (This is better than the fancy name that you will create after spending 15 mins thinking about the name. Trust me. 
 - Estimated Install Time: while installing, please make sure win doesn't run any resource intense operation (network, disk, cpu)
-    - 12mins: install ubuntu 21.04 version 
+    - 12 mins: install ubuntu 21.04 version 
     - eject install iso and hit enter while the first time auto-restart
 
 
 _After Install_
 from vbox -> menu -> Devices
-- Make VBOX Window Flexible Size: Install Guest Addon CD from Devices menu of the vbox app (pic is attached)
-- Run Update and upgrade commands
+- Make VBOX Window Flexible Size: Install Guest Addon CD from Devices menu of the vbox app (pic is attached) (4 mins)
+    - Do a gracefull restart once it is done. Now the "Auto Re Size Guest OS" will be enabled
+- Run Update and upgrade commands (5 mins)
+    - sudo apt upgrade ; sudo apt update;
+    - Do a graceful restart & take a snapshot from vbox (name: Adam or Eve)
 - Configure Shared Folder, Shared Clipboard, Drag and Drop Options to create communication channel between host and gues os
 - Finally, Use make script 
 
+Estimated Time: 9am
 
 ### Create Virtual Machince
 

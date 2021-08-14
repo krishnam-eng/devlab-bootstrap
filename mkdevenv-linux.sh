@@ -166,7 +166,8 @@ function install_in_ubuntu_env(){
     pip install rope                 # [optional] python refactoring library - used in vscode
     sudo snap install --classic code # IDE for light weight project (python, scripts)
     
-    # Container: Check latest instructions from - https://docs.docker.com/engine/install/ubuntu/
+    # Container: Check latest instructions from
+    # https://docs.docker.com/engine/install/ubuntu/
     # Step 1: Set up the repository
     sudo apt-get update
     sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-releasesudo apt install docker-ce
@@ -177,11 +178,11 @@ function install_in_ubuntu_env(){
     sudo apt-get install docker-ce docker-ce-cli containerd.io
     # Step3: Check
     sudo docker run hello-world
-    # [optional] this will give latest version
-    VERSION=$(curl --silent https://api.github.com/repos/docker/compose/releases/latest | jq .name -r
-    DESTINATION=/usr/local/bin/docker-compose
-    sudo curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION
-    sudo chmod 755 $DESTINATION
+    # Docker Compose
+    # https://docs.docker.com/compose/install/
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    docker-compose --version
 
     # just for fun
     sudo apt install cowsay            # An ASCII cow in terminal that will say what ever you want

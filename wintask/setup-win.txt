@@ -51,8 +51,9 @@
     [X] Ultimate
     [X] PyCharm
     
-[X] CHROME: Fav Tools 
-    [X] https://darkreader.org/
+[X] CHROME: Extentions for Developer 
+    [X] Dark Reader
+    [X] JSON Viewer
 
 [X] EDU: Build Local Repositroy for Build Tools (Maven, Gradle)
   [X] Create Maven & Gradle Projects with Spring Boot Initializer

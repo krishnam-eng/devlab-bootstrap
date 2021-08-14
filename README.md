@@ -4,11 +4,12 @@ To create an efficient portable Linux developer environment; To quickly setup de
 
 ## How To (Use for Full Setup)
 Look at these for more details and how to get started (Building Home Dev Lab)
- - Step 1: Build New DEV Box/Lab
-  - Vbox - https://github.com/krishnam-eng/ohmy-linux/tree/main/vbox
 
- - Step 2: Bootstrap the new box to power up with effectice config and dev env automate (Made for Java / Python Developers)
-  - https://github.com/krishnam-eng/ohmy-linux/blob/main/mkdevenv-linux.sh 
+_Step 1: Build New DEV Box/Lab_
+- Vbox - https://github.com/krishnam-eng/ohmy-linux/tree/main/vbox
+
+_Step 2: Bootstrap the new box to power up with effectice config and dev env automate (Made for Java / Python Developers)_
+- https://github.com/krishnam-eng/ohmy-linux/blob/main/mkdevenv-linux.sh 
 
 
 ## Tools Level Power Tweaks (Use for Selective Tips)

@@ -92,12 +92,14 @@ function build_my_workspace_core(){
 
     # zsh style - theme & font to boost dev productivity
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/style/zsh-syntax-highlighting
-
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/style/powerlevel10k
-
-    #git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/style/powerlevel9k
-    #cp ~/kroot/myws/zsh/powerlevel9k.zsh-theme ~/kroot/style/powerlevel9k/  # fix for old zsh compatability issue
-
+    
+    # {atomic-op:start
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/style/powerlevel10k
+        # install fonts for powerline 
+        install_font_for_powerline()
+        reboot
+    # atomic-op:end}
+    
     git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/style/tmux-powerline
     cp ~/kroot/myws/tmux/tmux-powerline-theme.sh ~/kroot/style/tmux-powerline/themes/default.sh
 
@@ -110,8 +112,6 @@ function install_in_ubuntu_env(){
     # Install Optional items later when needed
 
     # basic tools to start with
-    sudo apt install guake           # drop down terminal emulator - # ! use x (x11 or xarg) display server since keybinding doesn't work well in wyaland server
-    sudo ln -s /usr/share/applications/guake.desktop /etc/xdg/autostart/
     sudo apt install vim             # open-source clone of vi text editor developed to be customizable and able to work with any type of text
     sudo apt install watch           # 
     sudo apt install curl            #
@@ -121,6 +121,10 @@ function install_in_ubuntu_env(){
     sudo apt install zip unzip      # [default in version > ubuntu21.04]
     sudo apt install xclip           # [default in version > ubuntu21.04] clipboard management
     sudo apt install rsync           # [default in version > ubuntu21.04] utility tool for performing swift incremental file transfers
+    sudo apt install guake           # drop down terminal emulator - # ! use x (x11 or xarg) display server since keybinding doesn't work well in wyaland server
+    # todo: Keymapping for F12 needs to be resolved manually for the below step
+    # sudo ln -s /usr/share/applications/guake.desktop /etc/xdg/autostart/ 
+    
     
     # system utilities
     sudo apt install exa             # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18 not found]
@@ -184,6 +188,27 @@ function install_in_ubuntu_env(){
     sudo apt install lolcat            # [Not in venv setup]
 }
 
+function install_font_for_powerline(){
+    # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
+    pip install --user powerline-status
+    pip install --user git+git://github.com/powerline/powerline
+    
+    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+    mkdir -p ~/.local/share/fonts/
+    mv PowerlineSymbols.otf ~/.local/share/fonts/
+    fc-cache -vf ~/.local/share/fonts/
+    
+    wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+    mkdir -p ~/.config/fontconfig/conf.d/
+    mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
+    
+    fc-list
+    
+    git clone https://github.com/powerline/fonts.git --depth=1  ~/kroot/style/powerline-fonts
+    cd ~/kroot/style/powerline-fonts
+    ./install.sh    
+}
+
 function other_misc_steps(){
     # set default shell to zsh [echo $SHELL]
     chsh -s $(which zsh)
@@ -238,28 +263,14 @@ function on_demand_dev_env{
     
 }
 
-function install_fonts_unstable_do_it_last_after_snapshot(){
-    # font
-    pip install --user powerline-status
-
-    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
-    mv PowerlineSymbols.otf ~/.local/share/fonts/
-
-    git clone https://github.com/powerline/fonts.git --depth=1  ~/kroot/style/powerline-fonts
-    cd ~/kroot/style/powerline-fonts
-    ./install.sh
-
-    fc-cache -vf ~/.local/share/fonts/
-
-    wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
-    mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
-
-    fc-list
-    # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
+function on_old_machine{
+    #git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/style/powerlevel9k
+    #cp ~/kroot/myws/zsh/powerlevel9k.zsh-theme ~/kroot/style/powerlevel9k/  # fix for old zsh compatability issue
 }
 
 # install using venv if you are not the admin
 function install_in_virtual_env(){
+
     python --version
     virtualenv --version
 

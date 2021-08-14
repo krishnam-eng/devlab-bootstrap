@@ -320,15 +320,15 @@ setopt PROMPT_SUBST
 
 # To customize prompt, run `p10k configure` or edit ~/.myzsh/.p10k.zsh.
 autoload -Uz is-at-least
-is-at-least 5.1 && [[ -f ~/kroot/myws/zsh/.p10k.zsh ]] && source ~/kroot/myws/zsh/.p10k.zsh 
-is-at-least 5.1 && [[ -f ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme ]] && source ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme
+is-at-least 5.1 && [[ -f ~/kroot/myws/zsh/.p10k.zsh ]] && [[ -f ~/kroot/ctrflags/enablepowertheme ]] && source ~/kroot/myws/zsh/.p10k.zsh
+is-at-least 5.1 && [[ -f ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme ]] && [[ -f ~/kroot/ctrflags/enablepowertheme ]] && source ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme
 
 # to support old zsh version
 ZSH_VERSION=$(zsh --version | awk '{print $2}')
 
-[[ $ZSH_VERSION == '5.0.2' && -f ~/kroot/style/powerlevel9k/powerlevel9k.zsh-theme ]] && source ~/kroot/style/powerlevel9k/powerlevel9k.zsh-theme
+[[ -f ~/kroot/ctrflags/enablepowertheme && $ZSH_VERSION == '5.0.2' && -f ~/kroot/style/powerlevel9k/powerlevel9k.zsh-theme ]] && source ~/kroot/style/powerlevel9k/powerlevel9k.zsh-theme
 
-[[ $ZSH_VERSION == '5.0.2' && -f ~/kroot/myws/zsh/.p9k.zsh ]] && source ~/kroot/myws/zsh/.p9k.zsh
+[[ -f ~/kroot/ctrflags/enablepowertheme && $ZSH_VERSION == '5.0.2' && -f ~/kroot/myws/zsh/.p9k.zsh ]] && source ~/kroot/myws/zsh/.p9k.zsh
 
 #### like Fish Shell
 # enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing

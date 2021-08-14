@@ -28,6 +28,7 @@ function build_file_hierarchy_structure(){
 
     #l2
     mkdir ~/kroot/myws
+    mkdir ~/kroot/ctrflags/  # change tools (zsh) default behaviours by flags
     mkdir ~/kroot/style
     mkdir ~/kroot/bin
     mkdir ~/kroot/etc

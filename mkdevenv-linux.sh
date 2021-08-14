@@ -186,6 +186,9 @@ function install_in_ubuntu_env(){
     sudo apt install figlet            # utility for creating ASCII text banners or large letters out of ordinary text
     sudo apt install cmatrix           # shows a scrolling ‘Matrix‘ like screen in a Linux terminal [Not in venv setup]
     sudo apt install lolcat            # [Not in venv setup]
+    
+    # clean if any package is no longer needed
+    sudo apt update; sudo apt upgrade ; sudo apt autoremove
 }
 
 function install_font_for_powerline(){

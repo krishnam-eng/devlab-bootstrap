@@ -52,6 +52,9 @@ _After Install_
     - `\rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos`
     - Take snapshot from Vbox (name: ohmylinux-bootstrap)
 
+![Annotation 2021-08-14 092221](https://user-images.githubusercontent.com/82016952/129433234-819f6bce-f75a-4512-a04d-56a0883021a8.png)
+
+
 Estimated Time: 9am
 
 ### Create Virtual Machince

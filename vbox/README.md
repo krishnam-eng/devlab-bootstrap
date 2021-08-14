@@ -22,15 +22,29 @@ Invoke-WebRequest -Uri https://releases.ubuntu.com/21.04/ubuntu-21.04-desktop-am
 ```
 
 **Lesson Leared in Hard Way**
+
+_Pre Install_
 - Always Download New Version or at least the version that is used for building this repo (21.04); Changing version within Ubuntu is painfull compare to start with new version and select update option while installing
 - Use 4GiB RAM and 40GiB for Disk (min expected for unbuntu21.04 is 4GiBMem-25GiBDisk)
     - Use SSD Drive
     - Setup Harddisk Size: Choose Dynamically Grow Option
     - Setup RAM Size: Do not forget that  your host computer will use only the remaining available RAM)
+
+_While Installing_
 - Don't even try to do two things at a time while VBOX is loaded with Ubuntu (It freezes a lot and will end up redoing all again). Do one by one and do clean restart. Then, start using it.
 - Choose "Minimal Installation" & "Download Updates Option" - This is best optimized way of installing for dev box
 - Login: Choose "Log in Automatically" and Machine Name "ubuntu-vm" (This is better than the fancy name that you will create after spending 15 mins thinking about the name. Trust me. 
-- Estimated Install Time: 8:45krishna (while installing, please make sure win doesn't run any resource intense operation (network, disk, cpu)
+- Estimated Install Time: while installing, please make sure win doesn't run any resource intense operation (network, disk, cpu)
+    - 12mins: install ubuntu 21.04 version 
+    - eject install iso and hit enter while the first time auto-restart
+
+
+_After Install_
+from vbox -> menu -> Devices
+- Make VBOX Window Flexible Size: Install Guest Addon CD from Devices menu of the vbox app (pic is attached)
+- Run Update and upgrade commands
+- Configure Shared Folder, Shared Clipboard, Drag and Drop Options to create communication channel between host and gues os
+- Finally, Use make script 
 
 
 ### Create Virtual Machince

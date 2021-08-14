@@ -1,6 +1,8 @@
 [X] Install Win Home 10 using ESD PenDrive
+  [X] Install in SSD
   [X] Cleanup win.old files using "Drive R-> Disk Cleanup" Option
-  [X] Install in SSD (state: 188 GB free of 222 GB)
+
+(state: 188 GB free of 222 GB)
 
 [X] Three Win Profile 
   [X] Admin
@@ -59,3 +61,5 @@
   
 [X] EDU: Bootstrap Ubuntu Virtual Machine with ohmy-linux strategy
   [X] steps are in - ../makedevenv-ubuntu.sh
+
+(state: 150 GB free of 222 GB)

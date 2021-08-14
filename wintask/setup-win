@@ -21,12 +21,12 @@
 [X] Education Profile (...edu@outlook.com, ...edu..eng..@gmail.com)
 [X] Entertainment Profile (...ent@outlook.com, ...ent...@gmail.com)
 
-[X] Admin: Create Dirs in Home Drive
+[X] ADMIN: Create Dirs in Home Drive
   [X] "Programs"
   [X] "Proj"
   [X] "Virtual VMs"
 
-[X] Admin: Programs
+[X] ADMIN: Programs
   [X] Git        - https://git-scm.com/download/win
   [X] Gradle     - https://gradle.org/install/#manually
   [X] Java       - https://jdk.java.net/java-se-ri/11, https://jdk.java.net/java-se-ri/8-MR3
@@ -35,9 +35,9 @@
   [X] Notepad++  - https://notepad-plus-plus.org/downloads/
   [X] PostgreSQL
   [X] Python     - https://www.python.org/downloads/
-  [X] VirtualBox - https://www.virtualbox.org/wiki/Downloads, https://ubuntu.com/download/desktop
+  [X] VirtualBox - https://www.virtualbox.org/wiki/Downloads, 
 
-[X] Admin: Default Path
+[X] ADMIN: Default Path
   [X] Adobe Reader
   [X] Atom - https://flight-manual.atom.io/getting-started/sections/installing-atom/
   [X] JetBrains Toolbox - https://www.jetbrains.com/toolbox-app/
@@ -45,13 +45,17 @@
     [X] Ultimate
     [X] PyCharm
     
-[X] Chrome: Fav Tools 
+[X] CHROME: Fav Tools 
     [X] https://darkreader.org/
-    [X] 
 
-[X] Edu: Build Local Repositroy for Build Tools (Maven, Gradle)
+[X] EDU: Build Local Repositroy for Build Tools (Maven, Gradle)
   [X] Create Maven & Gradle Projects with Spring Boot Initializer
     [X] Spring Web, Spring Dev Tool, Lombok, Spring JPA, JDBC, MyBatis, H2, ....
   [X] Load both projects in IDEA and let it build index (quick scan for later use from build file)
 
+[X] EDU: Setup Ubuntu Virtual Machine 
+  [X] Ubuntu - https://ubuntu.com/download/desktop
+  [X] steps are in - ../vbox/*.md 
   
+[X] EDU: Bootstrap Ubuntu Virtual Machine with ohmy-linux strategy
+  [X] steps are in - ../makedevenv-ubuntu.sh

@@ -20,17 +20,20 @@ Invoke-WebRequest -Uri https://download.virtualbox.org/virtualbox/6.1.20/Virtual
 ```powershell
 Invoke-WebRequest -Uri https://releases.ubuntu.com/21.04/ubuntu-21.04-desktop-amd64.iso -Outfile ubuntu-21.04-desktop-amd64.iso
 ```
-Lesson Leared in Hard Way
+
+**Lesson Leared in Hard Way**
 - Always Download New Version or at least the version that is used for building this repo (21.04); Changing version within Ubuntu is painfull compare to start with new version and select update option while installing
-- Use 4GiB RAM and 40GiB for Disk (min expected for unbuntu21.04 is 4GiBMem-25GiBDisk)  
+- Use 4GiB RAM and 40GiB for Disk (min expected for unbuntu21.04 is 4GiBMem-25GiBDisk)
+    - Use SSD Drive
+    - Setup Harddisk Size: Choose Dynamically Grow Option
+    - Setup RAM Size: Do not forget that  your host computer will use only the remaining available RAM)
 - Don't even try to do two things at a time while VBOX is loaded with Ubuntu (It freezes a lot and will end up redoing all again). Do one by one and do clean restart. Then, start using it.
+- Choose "Minimal Installation" & "Download Updates Option" - This is best optimized way of installing for dev box
+- Login: Choose "Log in Automatically" and Machine Name "ubuntu-vm" (This is better than the fancy name that you will create after spending 15 mins thinking about the name. Trust me. 
+- Estimated Install Time: 8:45krishna (while installing, please make sure win doesn't run any resource intense operation (network, disk, cpu)
+
 
 ### Create Virtual Machince
-
-Tips:
-- Use SSD Drive
-- Setup RAM Size: Do not forget that  your host computer will use only the remaining available RAM)
-- Setup Harddisk Size: Choose Dynamically Grow Option
 
 <img src="https://user-images.githubusercontent.com/82016952/115802609-d96fc900-a3fc-11eb-8a64-8834279eee0f.png" width="550">
 

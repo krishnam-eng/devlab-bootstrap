@@ -52,6 +52,20 @@ _After Install_
     - `\rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos`
     - Take snapshot from Vbox (name: ohmylinux-bootstrap)
 
+_After Bootstrap_
+
+- Settings Config
+    - Appearance: Small Icons, Dark Mode     
+    - Notification: Do Not Disturb
+    - Application: Notofications - OFF
+        - Guake Terminal Notification - OFF
+        - Software Updater & Updates - OFF
+        - VS Code
+    - Zero Online Account
+    - Power: Blank Screen 5 to 15 Mins (max)
+    - Removable Media: Do nothing
+
+
 Estimated Time: 9am
 
 ### Create Virtual Machince

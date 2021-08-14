@@ -33,13 +33,13 @@
   [X] "Virtual VMs"
 
 [X] ADMIN: Programs
+  [X] Draw.io    - https://github.com/jgraph/drawio-desktop/releases/
   [X] Git        - https://git-scm.com/download/win
   [X] Gradle     - https://gradle.org/install/#manually
   [X] Java       - https://jdk.java.net/java-se-ri/11, https://jdk.java.net/java-se-ri/8-MR3
   [X] Maven      - https://maven.apache.org/download.cgi
   [X] VS Code    - https://code.visualstudio.com/docs/setup/windows
   [X] Notepad++  - https://notepad-plus-plus.org/downloads/
-  [X] PostgreSQL
   [X] Python     - https://www.python.org/downloads/
   [X] VirtualBox - https://www.virtualbox.org/wiki/Downloads, 
 

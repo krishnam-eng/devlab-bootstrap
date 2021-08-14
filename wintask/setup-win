@@ -1,0 +1,47 @@
+[X] Install Win Home 10 using ESD PenDrive
+  [X] Cleanup win.old files using "Drive R-> Disk Cleanup" Option
+  [X] Install in SSD (state: 188 GB free of 222 GB)
+
+[X] Three Win Profile 
+  [X] Admin
+  [X] Education
+  [X] Entertainment
+  
+[X] Admin Profile Setup (...admin@outlook.com  & ...admin@gmail.com )
+  [X] Login Linked
+  [X] Setup OneDrive
+  [X] Setup GoogleDrive (Mounted as a Win Drive)
+  [X] Create Dirs in Home Drive
+    [X] "Programs"
+    [X] "Proj"
+    [X] "Virtual VMs"
+
+[X] Foreach Profile
+  [X] Chrome Browser
+    [X] link with gmail
+  [X] Edge Browser 
+    [X] link with outlook
+
+[X] Programs:
+  [X] Git        - https://git-scm.com/download/win
+  [X] Gradle     - https://gradle.org/install/#manually
+  [X] Java       - https://jdk.java.net/java-se-ri/11, https://jdk.java.net/java-se-ri/8-MR3
+  [X] Maven      - https://maven.apache.org/download.cgi
+  [X] VS Code    - https://code.visualstudio.com/docs/setup/windows
+  [X] Notepad++  - https://notepad-plus-plus.org/downloads/
+  [X] PostgreSQL
+  [X] Python     - https://www.python.org/downloads/
+  [X] VirtualBox - https://www.virtualbox.org/wiki/Downloads, https://ubuntu.com/download/desktop
+
+[X] Default Path:
+  [X] Adobe Reader
+  [X] Atom - https://flight-manual.atom.io/getting-started/sections/installing-atom/
+  [X] JetBrains Toolbox - https://www.jetbrains.com/toolbox-app/
+    [X] Community
+    [X] Ultimate
+    [X] PyCharm
+    
+  [X] Other Fav Tools 
+    [X] https://darkreader.org/
+    [X] 
+  

@@ -20,6 +20,8 @@ Invoke-WebRequest -Uri https://download.virtualbox.org/virtualbox/6.1.20/Virtual
 ```powershell
 Invoke-WebRequest -Uri https://releases.ubuntu.com/21.04/ubuntu-21.04-desktop-amd64.iso -Outfile ubuntu-21.04-desktop-amd64.iso
 ```
+- Always Download New Version or at least the version that is used for building this repo (21.04); Changing version within Ubuntu is painfull compare to start with new version and select update option while installing
+- 
 
 ### Create Virtual Machince
 

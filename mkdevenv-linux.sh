@@ -227,8 +227,20 @@ function install_and_enable_for_powertheme(){
 }
 
 function other_misc_steps(){
+    # Switching remote URLs from HTTPS to SSH
+    ssh-keygen -t ed25519 -C "username@email.com"
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_ed25519
+    xclip -selection clipboard < ~/.ssh/id_ed25519.pub
+    # Add the key to github account
+    cd ~myws
+    git remote set-url origin git@github.com:krishnam-eng/ohmy-linux.git
+    git remote -v
+    
     # set default shell to zsh [echo $SHELL]
     chsh -s $(which zsh)
+
+
 
     # mount shared folder from host os (for vbox)
     mkdir -p ~/shared

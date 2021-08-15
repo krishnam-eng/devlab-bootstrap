@@ -50,7 +50,15 @@
     [X] Community
     [X] Ultimate
     [X] PyCharm
-    
+
+Navigation
+----------
+-> User (Login) {persona}
+  -> Desktop         (WIN+Tab)           {active, quickreference, backgroud, system}
+    -> App           (ALT+Tab) [WIN+0-9] {taskbar: pinned most frequently used apps}
+      -> Chrome Tab  (CTR+Tab) [CTR+0-9] {*}
+
+
 [X] CHROME: Extentions for Developer 
     [X] Dark Reader
     [X] JSON Viewer
@@ -61,7 +69,7 @@
   [X] Load both projects in IDEA and let it build index (quick scan for later use from build file)
 
 [X] EDU: Setup Ubuntu Virtual Machine 
-  [X] Ubuntu - https://ubuntu.com/download/desktop
+  [X] Ubuntu - https://ubuntu.com/download/desktop  
   [X] steps are in - ../vbox/*.md 
   
 [X] EDU: Bootstrap Ubuntu Virtual Machine with ohmy-linux strategy

@@ -15,4 +15,4 @@ This page is a collection of my Most Frequently Used features/tips list
 **Always version your projects**
 
 - Share newly created projects in github *(private mode)*
-
+- todo: Sync IDEA settings with IDEA Account or Private Repo

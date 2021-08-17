@@ -35,21 +35,28 @@
 [X] ADMIN: Programs
   [X] Draw.io    - https://github.com/jgraph/drawio-desktop/releases/
   [X] Git        - https://git-scm.com/download/win
-  [X] Gradle     - https://gradle.org/install/#manually
-  [X] Java       - https://jdk.java.net/java-se-ri/11, https://jdk.java.net/java-se-ri/8-MR3
+  [X] Java       - https://devwithus.com/install-java-windows-10 (needs login), https://jdk.java.net/java-se-ri/11, https://jdk.java.net/java-se-ri/8-MR3
+    [X] JAVA_HOME should point to a JDK folder not JRE (e.g C:\Program Files\Java\jdk-16.0.1)
+    [X] PATH - %JAVA_HOME%\bin  
   [X] Maven      - https://maven.apache.org/download.cgi
+    [X] MAVEN_HOME (e.g C:\Programs\Maven\apache-maven-3.8.1)
+    [X] PATH - %MAVEN_HOME%\bin    
+  [X] Gradle     - https://gradle.org/install/#manually
   [X] VS Code    - https://code.visualstudio.com/docs/setup/windows
-  [X] Notepad++  - https://notepad-plus-plus.org/downloads/
+  [X] Notepad++  - https://notepad-plus-plus.org/downloads/  (Alternative: Atom is not lightweight, Sublime keeps asking for license)
+    [X] Plugins: Autosave2,combine,ComparePlugin,DarkTheme,disabled,DSpellCheck,Explorer,linesort,mimeTools,NavigateTo,NPPJSONViewer,NppMarkdownPanel,RegexTrainer,Remove Duplicate Lines,SpellChecker,TopMost,XBrackets
   [X] Python     - https://www.python.org/downloads/
   [X] VirtualBox - https://www.virtualbox.org/wiki/Downloads, 
+  [X] OneNote    - Win App Store (very responsive in live sync between ipad & win app compare to desktop app)
+
 
 [X] ADMIN: Default Path
   [X] Adobe Reader
-  [X] Atom - https://flight-manual.atom.io/getting-started/sections/installing-atom/
   [X] JetBrains Toolbox - https://www.jetbrains.com/toolbox-app/
     [X] Community
     [X] Ultimate
     [X] PyCharm
+
 
 Navigation
 ----------

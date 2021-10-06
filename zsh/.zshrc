@@ -10,7 +10,9 @@
 # init
 #   some people so adament to be first in the line
 ###############
+# echo 'zsh run config...'
 
+# todo: move out pwoerline specific config into different file
 # Enable Powerlevel10k instant prompt. Should stay close to the top of .zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -22,7 +24,7 @@ fi
 source ~/kroot/myws/env/interactice-shell/prompt.bash
 
 # load venv extention config to work with python projects
-source ~/kroot/myws/venv/virtualenvwrapper.sh
+# source ~/kroot/myws/venv/virtualenvwrapper.sh
 
 ################
 #                Expansions
@@ -69,6 +71,7 @@ source ~/kroot/myws/venv/virtualenvwrapper.sh
 # File Size Qualifier
 #     (L[kmg][+-]size) kb, mb, gb, larger than, smaller than
 ###############
+# echo 'Globbing...'
 
 # do not show "no matches found:..."
 setopt null_glob
@@ -96,16 +99,17 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
 #     Suffix: alias -s         -  open file based on suffix
 #     Hash  : hash -d namedir=/path/to/dir
 ##############
+# echo 'Load Aliases and Functions...'
 
 # load all alias files with `source filename` or `. filename` (. is posix std way)
-if [[ -d ~/kroot/myws/alias ]]; then
+ if [[ -d ~/kroot/myws/alias ]]; then
   for afile in ~/kroot/myws/alias/*sh
   do
     # echo $LOG_TS"Sourcing ${afile} ..."
     source $afile
   done
   unset afile
-fi
+ fi
 
 # todo: make them as lazy load using auto load capability or set it in fpath
 if [ -d ~/kroot/myws/func ]; then
@@ -141,6 +145,7 @@ fi
 #  Substitution
 #     ^history-entry^word-replacement
 ################
+# echo 'History Configuration...'
 
 # up or down to navigate history or use CTR+R to search history
 HISTFILE=~/kroot/history/shell/.zhistfile
@@ -192,6 +197,7 @@ setopt SHARE_HISTORY
 #   you can see where this is going
 #
 ##############
+# echo 'Auto Completion & Some More Magic Setup...'
 
 # Load auto completion feature
 autoload -Uz compinit
@@ -323,24 +329,9 @@ autoload -Uz is-at-least
 is-at-least 5.1 && [[ -f ~/kroot/myws/zsh/.p10k.zsh ]] && [[ -f ~/kroot/ctrflags/enablepowertheme ]] && source ~/kroot/myws/zsh/.p10k.zsh
 is-at-least 5.1 && [[ -f ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme ]] && [[ -f ~/kroot/ctrflags/enablepowertheme ]] && source ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme
 
-# to support old zsh version
-ZSH_VERSION=$(zsh --version | awk '{print $2}')
-
-[[ -f ~/kroot/ctrflags/enablepowertheme && $ZSH_VERSION == '5.0.2' && -f ~/kroot/style/powerlevel9k/powerlevel9k.zsh-theme ]] && source ~/kroot/style/powerlevel9k/powerlevel9k.zsh-theme
-
-[[ -f ~/kroot/ctrflags/enablepowertheme && $ZSH_VERSION == '5.0.2' && -f ~/kroot/myws/zsh/.p9k.zsh ]] && source ~/kroot/myws/zsh/.p9k.zsh
-
 #### like Fish Shell
 # enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing
 [[ ! -f ~/kroot/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/kroot/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Fish-like fast/unobtrusive autosuggestions for zsh.
 [[ ! -f ~/kroot/style/zsh-autosuggestions/zsh-autosuggestions.zsh ]] || source ~/kroot/style/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-
-# todo:
-#   - More exploration on tips & tricks
-#   - don't load everything ! rather learn to choose
-#
-# https://grml.org/zsh/zsh-lovers.html
-# https://github.com/zsh-users
-# selective tricks from - oh-my-zsh or Prezto

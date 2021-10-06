@@ -1,43 +1,77 @@
-#!/usr/bin/env bash
-#####################
-# description: Overridding default command behaviors
-#               - change the default option of frequently used commands
-#               - make sensible feature as default behavior
-#               - use "command " as prefix to execute the actual command
-# author       : krishnam
-# sh version   : works with both bash and zsh
-#####################
+##########===========----------------
+# enhanced ls with built-in
+##########===========----------------
 
-# ls - set color option
-# (ubunut) alias ls="ls --color=always --width=120"
+# Dot: Showing All Hidden (Dot) Files in the Current Directory
+# add -l for long list
+alias l.='ls -d .*'
 
-# set colro to grep
-alias grep="grep --color"
+# All: long list,show almost all,show type,human readable (with dot files)
+# alias la="ls -lABXFh --block-size=K" # ubuntu
+alias la="ls -lABFh" # mac
 
-# set color with LS_COLOR for tree
-alias tree="tree -C"
+# Recursive: sorted by date,recursive,show type,human readable
+alias lr='ls -tRFh'
 
-#
-alias ps="ps -ef"
+# Tree: use tree like ls , -a => all , -prune => no empty dir , -L 2 => 2 level
+alias lt="tree "
+alias lt1="tree -L 1"
+alias lt2="tree -L 2"
+alias lt3="tree -L 3"
+alias lt4="tree -L 4"
 
-# run in quite mode
-#   - it ignores warning messages from nanorc file. it can happen If you are using older version of nano with new version options
-# (ubuntu) alias nano="nano -q"
+# Order: with Size and Sorted
+alias lo='ls -1FSsh'
 
-# enable unicode (utf-8) char by default
-#   - needed for powerline
-alias tmux="tmux -u"
+# ls for machince read (all files and full timestamp
+alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"
 
-# create missing parents
-alias mkdir="mkdir -p"
+########## List <Context> ##################
+# list all process in tree
+alias lsps="pstree -p"
 
-# launch visual studio in bg
-alias code="code . &"
+# List all env
+alias lsenv="declare -p" # or use 'export -p' or 'env' to see all exported variables
 
-#
-# usual alias expansion will be suppressed with -U option and -z seems to be to avoid Ksh-isms
-#
-#   from Doc: A function can be marked as undefined using the autoload builtin (or functions -u or typeset -fu). Such a function has no body. When the function is first executed, the shell searches for its definition using the elements of the fpath variable. [...]
-#
-#   in Nutshell: autoload allows for functions to be specified without a body which then get automatically loaded when used. Source however takes as argument a script which is then executed in the environment of the current session. This feature is beneficial when having lots of utilities in functions. It allows for faster startup.
-alias autoload="autoload -Uz"
+# List all variables
+alias lsvar="set"
+
+# List all gh
+alias lsgh="lt1 ~/github/"
+
+# List node installed packages
+alias lsnd="lt1 ~/kroot/node/bin"
+
+# List all my dir
+alias lsmy="lt1 ~/.my*"
+
+# list shells & you can change shell chsh -s /path
+alias lssh="cat /etc/shells"
+
+# Other useful options
+# -1 => print in one column
+
+##########===========----------------
+# enhanced ls with exa
+##########===========----------------
+
+alias els="exa"
+
+alias eld="exa -ld .*"
+
+alias ela="exa --long"
+
+alias elo="exa -l --header -s"
+
+alias elr="exa --recurse"
+
+alias elg="exa --long --header --git"
+
+alias elm="exa --long --extended"
+
+alias elt="exa --tree --long"
+
+alias elt1="exa --tree --long --level=2"
+alias elt2="exa --tree --level=2 --long"
+alias elt3="exa --tree --level=3 --long"
+alias elt4="exa --tree --level=4 --long"

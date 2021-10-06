@@ -26,3 +26,8 @@ tmux/plugins/tmux-mem-cpu-load
 alias/private.bash
 alias/private.zsh
 
+
+# 
+.DS_Store
+*/.DS_Store
+zsh/.zsh_sessions/**

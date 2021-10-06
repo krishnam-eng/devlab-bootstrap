@@ -9,7 +9,7 @@
 #####################
 
 # ls - set color option
-alias ls="ls --color=always --width=120"
+# alias ls="ls --color=always --width=120"
 
 # set colro to grep
 alias grep="grep --color"
@@ -22,7 +22,7 @@ alias ps="ps -ef"
 
 # run in quite mode
 #   - it ignores warning messages from nanorc file. it can happen If you are using older version of nano with new version options
-alias nano="nano -q"
+# alias nano="nano -q"
 
 # enable unicode (utf-8) char by default
 #   - needed for powerline

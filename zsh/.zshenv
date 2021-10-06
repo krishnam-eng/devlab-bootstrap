@@ -18,13 +18,15 @@ if [ -f ~/kroot/private/path.bash ]; then
   source ~/kroot/private/path.bash
 fi
 
-if [ -d ~/kroot/myws/env ]; then
+ if [ -d ~/kroot/myws/env ]; then
   for efile in ~/kroot/myws/env/*.(bash|zsh)
   do
-    source $efile
+   source $efile
   done
   unset efile
-fi
+ fi
 
 # use this for log prefix
-export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
+# (bug: breaks in mac) export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
+export LOG_TS="${CS_byellow}[${CS_yellow}$(date -u)${CS_byellow}] ${CS_reset}"
+

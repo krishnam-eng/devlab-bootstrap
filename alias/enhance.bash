@@ -10,10 +10,10 @@
 ##########===========----------------
 
 # creat the intermediate parent directories if needed
-alias emkdir="mkdir --parents"
+alias emkdir="mkdir -p"
 
 # creat the intermediate parent directories if needed
-alias ecp="cp -rv --parents"
+alias ecp="cp -rv -p"
 
 # copy "d"ir recursively with verbose mode
 alias cpd="cp -rv"
@@ -37,7 +37,8 @@ alias tf='tail -f'
 
 # clear dump files using cmd substitution
 # The earlier shell syntax was to use backquotes (``) instead of $() for enclosing the sub-command. The $() syntax is preferred over the older `` syntax because it is easier to nest and arguably easier to read
-alias cdump="rm $(find . -name "*dump")"
+# (bug: breaks in mac zsh - 5.8) alias cdump="rm $(find . -name "*dump")"
+
 alias sdump='find . -name "*dump"'
 
 #alias dud='du -d 1 -h'
@@ -77,7 +78,6 @@ alias u.....="cd ../../../../.."
 #######################
 ## Func
 #######################
-
 # Determining if You Are Running Interactively
 # $- is a string listing of all the current shell option flags
 # is_interactive ; echo $!
@@ -87,7 +87,6 @@ is_interactive(){
         *) return 0;;
     esac
 }
-
 alias rcat="lolcat"
 
 ###########
@@ -97,4 +96,3 @@ alias rcat="lolcat"
 alias ewatch="watch -d"
 
 alias utc="date -u"
-

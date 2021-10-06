@@ -35,9 +35,9 @@ then
   PATH=${GRADLE_HOME}/bin:${PATH}
 fi
 
-if [ -d "$HOME/kroot/build/gradle-7.1.1" ]
+if [ -d "$HOME/kroot/build/apache-maven-3.6.3" ]
 then
-  export M2_HOME="~/kroot/build/apache-maven-3.6.3"
+  export M2_HOME="$HOME/kroot/build/apache-maven-3.6.3"
   PATH="${M2_HOME}/bin:${PATH}"
 fi
     

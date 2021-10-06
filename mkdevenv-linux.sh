@@ -29,6 +29,7 @@ function build_file_hierarchy_structure(){
     mkdir ~/kroot/ctrflags/  # change tools (zsh) default behaviours by flags
     mkdir ~/kroot/style
     mkdir ~/kroot/bin
+    mkdir ~/kroot/build
     mkdir ~/kroot/etc
     mkdir ~/kroot/lib
     mkdir ~/kroot/var

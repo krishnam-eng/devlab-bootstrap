@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-if [ -d "$HOME/bin" ] ; then
+if [ -d "$HOME/bin" ] ; 
+then
   PATH="$PATH:$HOME/bin"
 fi
 
-if [ -d "$HOME/.local/bin" ] ; then
+if [ -d "$HOME/.local/bin" ] ; 
+then
   PATH="$PATH:$HOME/.local/bin"
 fi
 
@@ -25,13 +27,19 @@ if [ -d "$HOME/kroot/bin" ]
 then
   PATH="$PATH:$HOME/kroot/bin"
 fi
-# build tools
+
+# Build tools
 if [ -d "$HOME/kroot/build/gradle-7.1.1" ]
 then
-  export GRADLE_HOME=~/kroot/build/gradle-7.1.1
+  export GRADLE_HOME="~/kroot/build/gradle-7.1.1"
   PATH=${GRADLE_HOME}/bin:${PATH}
 fi
-    
+
+if [ -d "$HOME/kroot/build/gradle-7.1.1" ]
+then
+  export M2_HOME="~/kroot/build/apache-maven-3.6.3"
+  PATH="${M2_HOME}/bin:${PATH}"
+fi
     
 # IDE Path
 if [ -d "$HOME/kroot/vscode/bin" ]

@@ -7,7 +7,8 @@
 alias l.='ls -d .*'
 
 # All: long list,show almost all,show type,human readable (with dot files)
-alias la="ls -lABFXh --block-size=K"
+# alias la="ls -lABXFh --block-size=K" # ubuntu
+alias la="ls -lABFh" # mac
 
 # Recursive: sorted by date,recursive,show type,human readable
 alias lr='ls -tRFh'
@@ -74,6 +75,3 @@ alias elt1="exa --tree --long --level=2"
 alias elt2="exa --tree --level=2 --long"
 alias elt3="exa --tree --level=3 --long"
 alias elt4="exa --tree --level=4 --long"
-
-
-

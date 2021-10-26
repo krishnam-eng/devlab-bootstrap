@@ -1,3 +1,7 @@
+function gpall(){
+  for git_repo_dir in */.git; do ( echo $git_repo_dir; cd $git_repo_dir/..; git pull; ); done
+}
+
 function ghclone(){
   repo=$1
   gitusr=${2="krishnam-eng"}
@@ -31,3 +35,4 @@ function ghclone(){
   echo "${LOG_TS} List config for ${CS_green}local${CS_reset} scope..."
   git config --local --list
 }
+

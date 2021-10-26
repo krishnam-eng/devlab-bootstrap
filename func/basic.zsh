@@ -20,8 +20,13 @@ function szsh {
     done
     unset afile
   fi
-
-  if [ -d ~/kroot/myws/func ]; then
+  
+ if [ -f ~/kroot/private/alias.zsh ]; then
+  echo $LOG_TS"Sourcing aliases from private dir ..." 
+  source ~/kroot/private/alias.zsh
+ fi
+  
+ if [ -d ~/kroot/myws/func ]; then
     for ffile in ~/kroot/myws/func/*sh
     do
       echo $LOG_TS"Sourcing ${ffile} ..."

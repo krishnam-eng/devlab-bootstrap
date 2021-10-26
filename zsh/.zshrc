@@ -111,6 +111,10 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
   unset afile
  fi
 
+ if [[ -f ~/kroot/private/alias.zsh ]]; then
+   source ~/kroot/private/alias.zsh
+ fi
+
 # todo: make them as lazy load using auto load capability or set it in fpath
 if [ -d ~/kroot/myws/func ]; then
   for ffile in ~/kroot/myws/func/*sh
@@ -201,7 +205,7 @@ setopt SHARE_HISTORY
 
 # Load auto completion feature
 autoload -Uz compinit
-compinit
+# compinit
 
 # add more flair to your auto complete sugesstions, by grouping them by type
 zstyle ':completion:*' group-name ''

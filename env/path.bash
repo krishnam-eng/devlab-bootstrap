@@ -35,9 +35,18 @@ then
   PATH=${GRADLE_HOME}/bin:${PATH}
 fi
 
-if [ -d "$HOME/kroot/build/apache-maven-3.8.3" ]
+
+# mac /usr/libexec/java_home -v gives the jre path (after big sur update) 
+# So, set it to jdk for mvn to work
+if [ -d /Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home ]
 then
-  export M2_HOME="$HOME/kroot/build/apache-maven-3.8.3"
+  export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home"
+  PATH="${JAVA_HOME}/bin:${PATH}"
+fi
+
+if [ -d "$HOME/kroot/build/apache-maven-3.6.3" ]
+then
+  export M2_HOME="$HOME/kroot/build/apache-maven-3.6.3"
   PATH="${M2_HOME}/bin:${PATH}"
 fi
     

@@ -9,7 +9,7 @@
 #####################
 
 # ls - set color option
-# alias ls="ls --color=always --width=120"
+alias ls="ls -G"
 
 # set colro to grep
 alias grep="grep --color"

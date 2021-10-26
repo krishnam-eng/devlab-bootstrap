@@ -249,4 +249,10 @@ function other_misc_steps(){
 function validate_kroot(){
     # todo
 }
+
+function install_devtools(){
+    curl https://dlcdn.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz --output ~/tmp/apache-maven-3.6.3-bin.tar.gz
+    cd ~/tmp/ ; tar -xvf apache-maven-3.6.3-bin.tar.gz
+    mv apache-maven-3.6.3 ~kroot/build
+}
 ################################## END: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################

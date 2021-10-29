@@ -68,8 +68,10 @@ function build_my_workspace_core(){
     
     # * myws: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
     git clone --depth=1 https://github.com/krishnam-eng/ohmy-linux ~/kroot/myws
-
-    # for home pc: git remote set-url origin git@github.com:krishnam-eng/ohmy-linux
+        
+    # git remote set-url origin git@github.com:krishnam-eng/ohmy-linux
+    # or, the below to set other git configs also
+    cp ~/kroot/myws/git/.git_config ~/kroot/myws/.git/config
 
     # create links to tools run configs (or copy and further customize if you want to be disconnected from repo)
     cp ~/.bashrc ~/.mybkp/.bashrc_$(date +%y%m%d)-old
@@ -84,7 +86,6 @@ function build_my_workspace_core(){
     ln -s ~/kroot/myws/nano/.nanorc  ~/.nanorc
     ln -s ~/kroot/myws/tmux/.tmux.conf ~/.tmux.conf
     ln -s ~/kroot/myws/zsh/.zshenv ~/.zshenv
-    ln -s ~/kroot/myws/git/.gitconfig ~/.gitconfig
 
     # TMUX plugin manager
     git clone --depth=1 https://github.com/tmux-plugins/tpm ~/kroot/plugins/tmux/tpm

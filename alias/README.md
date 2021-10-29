@@ -21,14 +21,20 @@ abbrev logic
 
 #### Abbrev Conventions
 
+##### who
+
 |abbrev|who|
 |----:|---|
 |g|git|
+|m|mvn|
+
 
 |abbrev|who|
 |----:|---|
 |tm|tmux|
 |ng|nginx|
+
+##### what 
 
 |abbrev|what|
 |----:|---|
@@ -48,6 +54,8 @@ abbrev logic
 |rl|reload|
 |qt|quit|
 |ss|status|
+
+##### where
 
 |abbrev|where|
 |----:|---|

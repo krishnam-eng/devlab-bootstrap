@@ -1,0 +1,29 @@
+[user]
+	email = krishnam.balamurugan.eng@gmail.com
+	name = bala
+[pull]
+	rebase = false
+[core]
+	editor = nano
+	autocrlf = input
+	excludesfile = ~/kroot/myws/git/.gitignore_global
+  repositoryformatversion = 0                                                                    
+  filemode = true                                                                                
+  bare = false                                                                                   
+  logallrefupdates = true                                                                        
+  ignorecase = true                                                                              
+  precomposeunicode = true                                                                       
+[remote "origin"]                                                                                
+  url = git@github.com:krishnam-eng/ohmy-linux                                                   
+  fetch = +refs/heads/main:refs/remotes/origin/main                                              
+[branch "main"]                                                                                  
+  remote = origin                                                                                
+  merge = refs/heads/main                                                                        
+[rebase]
+	autosquash = true
+[diff]
+	tool = kdiff3
+[merge]
+	tool = kdiff3
+
+

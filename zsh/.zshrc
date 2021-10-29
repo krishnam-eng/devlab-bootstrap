@@ -16,15 +16,23 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of .zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
 #  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# fi
 
 # load prompt config here instead in zshenv to make sure nothing else overrides my prompt
 source ~/kroot/myws/env/interactice-shell/prompt.bash
 
 # load venv extention config to work with python projects
 # source ~/kroot/myws/venv/virtualenvwrapper.sh
+
+###############
+# pre-launch cmds to get you ready to rock
+###############
+
+# add private keys (from default location ~/.ssh/) to ssh agent (Please note it works only if the passphrase is not set). I know it is not pretty! Tip: keep private key with passphrase in non default location so that it won't prompt you to give passphrase. 
+
+ssh-add &>/dev/null
 
 ################
 #                Expansions
@@ -129,6 +137,7 @@ fi
 #
 # test and enable the below
 # fpath=(~/.myfunc $fpath)
+
 
 ################
 # Working with History

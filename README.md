@@ -1,6 +1,6 @@
 ## Building Home Dev Lab
 
-To create an efficient portable Linux developer environment; To quickly setup devenv where ever we want - with many micro automation for increasing dev productivity, it installs and configure required development tools & env - tmux, venv, zsh, nano, nginx and many more.
+To create an efficient portable Linux developer environment; To quickly setup devenv where ever we want - with many micro automation for increasing dev productivity, it installs and configure required development tools & env to use them to their full potential- tmux, venv, zsh, nano, nginx and many more.
 
 ## How To (Use for Full Setup)
 Look at these for more details and how to get started (Building Home Dev Lab)

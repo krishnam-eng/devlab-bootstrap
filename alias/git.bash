@@ -8,7 +8,7 @@
 ### Frequently Used alias
 alias ga='git add'
 alias gaa='git add --all --verbose'
-alias gaf5="git add --refersh"
+alias gaf5="git add --refresh"
 
 alias gc='git commit -v'
 
@@ -20,6 +20,10 @@ alias gst='git status'
 alias gss='git status -s'
 alias gsb='git status -sb'
 
+alias gcf='git config'
+alias gcfl='git config --list'
+alias gcfg='git config --global'
+alias gcfgl='git config --global --list'
 
 ### Others
 alias g='git'
@@ -53,7 +57,6 @@ alias gcans!='git commit -v -a -s --no-edit --amend'
 alias gcam='git commit -a -m'   # iuse
 alias gcsm='git commit -s -m'
 alias gcb='git checkout -b'
-alias gcf='git config --list'
 alias gcl='git clone --recurse-submodules'
 alias gclean='git clean -id'
 alias gpristine='git reset --hard && git clean -dffx'

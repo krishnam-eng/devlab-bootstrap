@@ -16,7 +16,9 @@ hash -d bkp=~/bkp
 hash -d shared=~/shared
 
 # quick access to core FHS dir @ L2
-hash -d myws=~/kroot/myws
+hash -d kws=~/kroot/myws
+hash -d kproj=~/kroot/proj
+
 hash -d style=~/kroot/style
 hash -d bin=~/kroot/bin
 hash -d etc=~/kroot/etc
@@ -27,8 +29,7 @@ hash -d plugins=~/kroot/plugins
 hash -d resurrect=~/kroot/resurrect
 hash -d virtualenvs=~/kroot/virtualenvs
 
-hash -d gh=~/proj/github    # github
-hash -d bb=~/proj/bitbucket # bit bucket
+hash -d gh=~/kroot/proj/github   # github
 
 # quick access to config files or custom setting @L3
 hash -d alias=~/kroot/myws/alias
@@ -56,5 +57,5 @@ hash -d nginx=~/kroot/myws/nginx  # ~nginx
 hash -d hltrp=~/github/howdoi-loadtest
 hash -d ppnrp=~/github/practice-python
 hash -d pfkrp=~/github/practice-flask
-
+hash -d dddrp=~gh/domain-driven-design
 

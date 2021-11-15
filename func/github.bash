@@ -12,7 +12,7 @@ function ghclone(){
 
   echo "${LOG_TS} Configuring git repo ${CS_bcyan}$repo${CS_reset}..."
 
-  cd ~/proj/github/$repo
+  cd ~/kroot/proj/github/$repo
   git config --local user.email "krishnam.balamurugan.eng@gmail.com"
 
   # todo: set all global based on if the git is used for first time or not

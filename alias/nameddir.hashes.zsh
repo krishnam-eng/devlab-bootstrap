@@ -29,8 +29,6 @@ hash -d plugins=~/kroot/plugins
 hash -d resurrect=~/kroot/resurrect
 hash -d virtualenvs=~/kroot/virtualenvs
 
-hash -d gh=~/kroot/proj/github   # github
-
 # quick access to config files or custom setting @L3
 hash -d alias=~/kroot/myws/alias
 hash -d awk=~/kroot/myws/awk
@@ -54,8 +52,9 @@ hash -d nginx=~/kroot/myws/nginx  # ~nginx
 
 # quick access to all checkout repos
 # convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")
-hash -d hltrp=~/github/howdoi-loadtest
-hash -d ppnrp=~/github/practice-python
-hash -d pfkrp=~/github/practice-flask
+hash -d gh=~/kroot/proj/github
+hash -d hltrp=~gh/howdoi-loadtest
+hash -d ppnrp=~gh/practice-python
+hash -d pfkrp=~gh/practice-flask
 hash -d dddrp=~gh/domain-driven-design
-
+hash -d hdarp=~gh/homelab-docker-apps

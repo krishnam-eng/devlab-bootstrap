@@ -44,6 +44,11 @@ then
   PATH="${JAVA_HOME}/bin:${PATH}"
 fi
 
+# ES 1.7 expects ES JAVA HOME 
+export ES_JAVA_HOME=$JAVA_HOME
+export ES_HOME=$HOME/kroot/server/elasticsearch-7.15.2
+
+
 if [ -d "$HOME/kroot/build/apache-maven-3.6.3" ]
 then
   export M2_HOME="$HOME/kroot/build/apache-maven-3.6.3"

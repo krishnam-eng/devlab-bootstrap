@@ -1,115 +1,15 @@
 #!/usr/bin/env bash
-#############################################################################################################
-# name       : Make My Dev Environment
-# description: Build portable dev environment anywhere
-# author     : krishnam
-#
-#  Bootstrap new Box:
-#    Step 1: build_file_hierarchy_structure()
-#    Step 2: Build workspace core with battle tested and fine tunned pre-configurations (runcommand configs for various dev tools)
-#              `build_my_workspace_core()`
-#    Step 3: Install required packages
-#               install_in_ubuntu_env()
-#    Step 4: Any Misc Steps
-#               `other_misc_steps()`
-#############################################################################################################
 
-################################## START: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################
-function build_file_hierarchy_structure(){
-    #l1
-    mkdir ~/kroot      # create _k_rishnam config _root_
-    mkdir ~/proj
-    mkdir ~/bkp        # long live
-    mkdir ~/.mybkp     # temp 
-    mkdir ~/log
-    mkdir ~/tmp
+# NOTE: check the mkdevenv-base.sh script
 
-    #l2
-    mkdir ~/kroot/myws
-    mkdir ~/kroot/ctrflags/  # change tools (zsh) default behaviours by flags
-    mkdir ~/kroot/style
-    mkdir ~/kroot/bin
-    mkdir ~/kroot/build
-    mkdir ~/kroot/etc
-    mkdir ~/kroot/lib
-    mkdir ~/kroot/var
-    mkdir ~/kroot/plugins
-    mkdir ~/kroot/private
-    mkdir ~/kroot/history
-    mkdir ~/kroot/resurrect
-    mkdir ~/kroot/virtualenvs
-
-    mkdir ~/proj/gh  # github
-    mkdir ~/proj/bb  # bitbucket
-
-    #l3
-    mkdir ~/kroot/plugins/tmux
-    mkdir ~/kroot/history/shell
-    mkdir ~/kroot/history/tmux
-    mkdir ~/kroot/resurrect/tmux
-
-    #l4
-    mkdir ~/kroot/plugins/tmux/tpm
-
-    # this is a workspace, remove all default desktop dirs and enter into zen mode
-    \rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos
-    
-    # Check
-    sudo apt install tree
-    tree
-}
-
-function build_my_workspace_core(){
+function install_core_packages{
     # core install (might be already installed)
+    sudo apt install tree
     sudo apt install git 
     sudo apt install nano            # feature-rich CLI text editor for power users 
     sudo apt install tmux            # terminal multiplexer
     sudo apt install zsh             # powerful sh
-    
-    # * myws: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
-    git clone --depth=1 https://github.com/krishnam-eng/ohmy-linux ~/kroot/myws
-        
-    # git remote set-url origin git@github.com:krishnam-eng/ohmy-linux
-    # or, the below to set other git configs also
-    cp ~/kroot/myws/git/.git_config ~/kroot/myws/.git/config
 
-    # create links to tools run configs (or copy and further customize if you want to be disconnected from repo)
-    cp ~/.bashrc ~/.mybkp/.bashrc_$(date +%y%m%d)-old
-    cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old
-    cp ~/.tmux.conf ~/.mybkp/.tmux.conf_$(date +%y%m%d)-old
-    cp ~/.zshenv ~/.mybkp/.zshenv_$(date +%y%m%d)-old
-    cp ~/.zshrc ~/.mybkp/.zshrc_$(date +%y%m%d)-old
-
-    rm -f  ~/.zshenv ~/.zshrc ~/.bashrc ~/.tmux.conf ~/.nanorc
-    
-    ln -s ~/kroot/myws/bash/.bashrc  ~/.bashrc
-    ln -s ~/kroot/myws/nano/.nanorc  ~/.nanorc
-    ln -s ~/kroot/myws/tmux/.tmux.conf ~/.tmux.conf
-    ln -s ~/kroot/myws/zsh/.zshenv ~/.zshenv
-
-    # TMUX plugin manager
-    git clone --depth=1 https://github.com/tmux-plugins/tpm ~/kroot/plugins/tmux/tpm
-    # next: reload tmux conf , and press <prefix> Shift+R to install plugins
-
-    # zsh style - theme & font to boost dev productivity
-    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/style/zsh-syntax-highlighting
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/kroot/style/zsh-autosuggestions
-    
-    # {atomic-op:start
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/style/powerlevel10k
-        # install fonts for powerline 
-        install_and_enable_for_powertheme()
-        reboot
-    # atomic-op:end}
-    
-    git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/style/tmux-powerline
-    cp ~/kroot/myws/tmux/tmux-powerline-theme.sh ~/kroot/style/tmux-powerline/themes/default.sh
-
-    # nano editor
-    sudo ln -s ~/kroot/myws/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
-}
-
-function install_in_ubuntu_env(){
     # to get the latest version, it is preferable to use ppa - personal package archive repo over default ubuntu repo
     # Install Optional items later when needed
 
@@ -127,7 +27,6 @@ function install_in_ubuntu_env(){
     # todo: Keymapping for F12 needs to be resolved manually for the below step
     # sudo ln -s /usr/share/applications/guake.desktop /etc/xdg/autostart/ 
     
-    
     # system utilities
     sudo apt install exa             # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18 not found]
     sudo apt install ranger          # console file manager with vi key bindings (npm error: Not compatible with your version of node/npm)    
@@ -138,7 +37,10 @@ function install_in_ubuntu_env(){
     sudo apt install ctop            # top-like interface for container metrics
     sudo apt install sysstat         # iostat - cpu usage
     sudo apt install bridge-utils    # brctr - ethernet brdige admin cmd
-    
+}
+
+
+function install_dev_tools(){
     # Java Dev: Basic Development Tools & Others
     sudo apt install openjdk-11-jre-headless
     sudo apt install openjdk-8-jre-headless
@@ -193,67 +95,3 @@ function install_in_ubuntu_env(){
     # clean if any package is no longer needed
     sudo apt update; sudo apt upgrade ; sudo apt autoremove
 }
-
-function install_and_enable_for_powertheme(){
-    
-    # zsh rc is updated to use this as a flag to enable or disable power theme
-    touch ~/kroot/ctrflags/enablepowertheme
-
-    # check https://powerline.readthedocs.io/en/latest/installation/linux.html#fonts-installation
-    pip install --user powerline-status
-    pip install --user git+git://github.com/powerline/powerline
-    
-    wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
-    mkdir -p ~/.local/share/fonts/
-    mv PowerlineSymbols.otf ~/.local/share/fonts/
-    fc-cache -vf ~/.local/share/fonts/
-    
-    wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
-    mkdir -p ~/.config/fontconfig/conf.d/
-    mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
-    
-    fc-list
-    
-    # If custom symbols cannot be seen then try closing all instances of the terminal emulator. X server may need to be restarted for the changes to take effect.
-    # If custom symbols still can’t be seen then double-check that the font have been installed to a valid X font path.
-    # OR, try the below approach
-    
-    git clone https://github.com/powerline/fonts.git --depth=1  ~/kroot/style/powerline-fonts
-    cd ~/kroot/style/powerline-fonts
-    ./install.sh    
-    
-    # Still not working, It is ok. Just Disable power theme for now
-    rm ~/kroot/ctrflags/enablepowertheme
-}
-
-function other_misc_steps(){
-    # Switching remote URLs from HTTPS to SSH
-    ssh-keygen -t ed25519 -C "username@email.com"
-    eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/id_ed25519
-    xclip -selection clipboard < ~/.ssh/id_ed25519.pub
-    # Add the key to github account
-    cd ~myws
-    git remote set-url origin git@github.com:krishnam-eng/ohmy-linux.git
-    git remote -v
-    
-    # set default shell to zsh [echo $SHELL]
-    chsh -s $(which zsh)
-
-
-
-    # mount shared folder from host os (for vbox)
-    mkdir -p ~/shared
-    sudo mount -t vboxsf  vbox_shared  ~/shared
-}
-
-function validate_kroot(){
-    # todo
-}
-
-function install_devtools(){
-    curl https://dlcdn.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz --output ~/tmp/apache-maven-3.6.3-bin.tar.gz
-    cd ~/tmp/ ; tar -xvf apache-maven-3.6.3-bin.tar.gz
-    mv apache-maven-3.6.3 ~kroot/build
-}
-################################## END: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################

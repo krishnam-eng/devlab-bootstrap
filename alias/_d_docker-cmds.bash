@@ -42,6 +42,7 @@ alias dclsq="docker container ls --quiet"
 
 # image cmds
 alias dil="docker image pull"
+alias dib="docker image build"
 alias dils="docker image ls"
 
 

@@ -48,15 +48,16 @@ function install_core_packages{
 
 
 function install_dev_tools(){
-    
     #
     brew install python
     brew install node
 
-    # 
     brew install elasticsearch 
     
-    # Docker & K8S
+    # Docker
+    # https://docs.docker.com/desktop/mac/install/
+
+    # K8S
     brew install minikube
 }
 

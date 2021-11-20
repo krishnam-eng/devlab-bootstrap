@@ -3,11 +3,9 @@
 alias d="docker"
 
 #--------------------------------------------------
-# Docker Aliases
+# docker Aliases
 # (grouped by usage and then sorted alphabetically)
 #--------------------------------------------------
-
-
 
 alias dc="docker container"
 alias di="docker image"

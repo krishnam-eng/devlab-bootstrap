@@ -1,3 +1,4 @@
+##### DOCKER #####
 #### Verify Docker Requirements
 
 # not supported in 32-bit architecture
@@ -13,6 +14,7 @@ grep -i cgroups /boot/config-5.11.0-17-generic
 
 #### Installing
 
+## Ubuntu 
 # Update the apt package index and install packages to allow apt to use a repository over HTTPS
 sudo apt-get upgrade
 
@@ -28,6 +30,9 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] 
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 
+## OSX
+# Install Docker Desktop 
+# Note: installing via Docker Desktop works with non admin account also compare to binary install
 
 ###### Pulling image and running container
 
@@ -52,3 +57,14 @@ docker --help
 docker container --help
 docker container list --help
 
+##### K8S #####
+
+#on mac 
+brew install minikube
+
+
+minikube start
+kubectl cluster-info
+#message": "forbidden: User \"system:anonymous\" cannot get path \"/\"", 
+# Enable Proxy
+kubectl proxy

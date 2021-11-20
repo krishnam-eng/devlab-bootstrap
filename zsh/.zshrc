@@ -214,7 +214,12 @@ setopt SHARE_HISTORY
 
 # Load auto completion feature
 autoload -Uz compinit
-# compinit
+compinit -u # https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories
+
+# Enable auto complete for kubectl
+if [[ -f /usr/local/bin/kubectl ]];then
+  source <(kubectl completion zsh)
+fi
 
 # add more flair to your auto complete sugesstions, by grouping them by type
 zstyle ':completion:*' group-name ''

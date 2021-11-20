@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 
+alias g='git'
+
 #--------------------------------------------------
 # Git Aliases
 # (grouped by usage and then sorted alphabetically)
 #--------------------------------------------------
+
+
+
 
 ### Frequently Used alias
 alias ga='git add'
@@ -26,7 +31,7 @@ alias gcfg='git config --global'
 alias gcfgl='git config --global --list'
 
 ### Others
-alias g='git'
+
 
 alias gapa='git add --patch'
 alias gau='git add --update'

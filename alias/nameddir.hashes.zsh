@@ -46,15 +46,16 @@ hash -d venv=~/kroot/myws/venv
 hash -d vscode=~/kroot/myws/vscode
 hash -d zsh=~/kroot/myws/zsh
 
-
-
 hash -d nginx=~/kroot/myws/nginx  # ~nginx
 
 # quick access to all checkout repos
 # convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")
 hash -d gh=~/kroot/proj/github
-hash -d hltrp=~gh/howdoi-loadtest
-hash -d ppnrp=~gh/practice-python
-hash -d pfkrp=~gh/practice-flask
-hash -d dddrp=~gh/domain-driven-design
-hash -d hdarp=~gh/homelab-docker-apps
+
+hash -d rphda=~gh/homelab-dkrapps
+hash -d rpddd=~gh/domain-driven-design
+
+hash -d rphlt=~gh/howdoi-loadtest
+hash -d rpppn=~gh/practice-python
+hash -d rppfk=~gh/practice-flask
+

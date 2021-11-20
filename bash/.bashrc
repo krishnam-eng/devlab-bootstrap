@@ -1,3 +1,5 @@
+# NOTE: Setup zsh run config [zsh is much better choice than bash. Most of my power tweaks are round zsh usage] 
+
 ################=============================----------------------------
 #description  : This script will be executed by bash 
 #bash_version : 5.1.4(1)-release
@@ -124,7 +126,3 @@ if [ -d ~/kroot/myws/func ]; then
     done
     unset ffile
 fi
-
-export PATH=/proj/arcesium/bin/:$PATH;
-alias docker="docker.yolo"
-alias docker-compose="docker-compose.yolo"

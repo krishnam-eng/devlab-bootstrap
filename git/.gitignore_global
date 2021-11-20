@@ -1,2 +1,22 @@
+
+# temp file convention
+*.ignore
+
+# temp files 
 *~
 *.swp
+*.save
+*.save.*
+
+# zsh 
+.histfile
+.zhistfile
+.zcompdump
+
+# private config
+private.bash
+private.zsh
+
+#
+.DS_Store
+*/.DS_Store

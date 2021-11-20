@@ -14,16 +14,12 @@
   ignorecase = true                                                                              
   precomposeunicode = true                                                                       
 [remote "origin"]                                                                                
-  url = git@github.com:krishnam-eng/ohmy-linux                                                   
+  url = git@github.com:krishnam-eng/homelab-devenv                                      
   fetch = +refs/heads/main:refs/remotes/origin/main                                              
 [branch "main"]                                                                                  
   remote = origin                                                                                
   merge = refs/heads/main                                                                        
 [rebase]
 	autosquash = true
-[diff]
-	tool = kdiff3
-[merge]
-	tool = kdiff3
 
 

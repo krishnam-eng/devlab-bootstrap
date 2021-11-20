@@ -12,7 +12,7 @@ alias g='git'
 
 ### Frequently Used alias
 alias ga='git add'
-alias gaa='git add --all --verbose'
+alias gaall='git add --all --verbose'
 alias gaf5="git add --refresh"
 
 alias gc='git commit -v'

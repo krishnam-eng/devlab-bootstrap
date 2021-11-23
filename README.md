@@ -1,5 +1,8 @@
 ## Building Home Dev Lab
 
+Goal: "**Build powerful dev environment with numerous micro automation**"
+
+
 To create an efficient portable Linux developer environment; To quickly setup devenv where ever we want - with many micro automation for increasing dev productivity, it installs and configure required development tools & env to use them to their full potential- tmux, venv, zsh, nano, nginx, docker, k8s and many more.
 
 ## How To (Use for Full Setup)

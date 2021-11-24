@@ -21,10 +21,10 @@
 # fi
 
 # load prompt config here instead in zshenv to make sure nothing else overrides my prompt
-source ~/hrt/myws/env/interactice-shell/prompt.bash
+source ~/hrt/hldr/env/interactice-shell/prompt.bash
 
 # load venv extention config to work with python projects
-# source ~/hrt/myws/venv/virtualenvwrapper.sh
+# source ~/hrt/hldr/venv/virtualenvwrapper.sh
 
 ###############
 # pre-launch cmds to get you ready to rock
@@ -110,8 +110,8 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
 # echo 'Load Aliases and Functions...'
 
 # load all alias files with `source filename` or `. filename` (. is posix std way)
- if [[ -d ~/hrt/myws/alias ]]; then
-  for afile in ~/hrt/myws/alias/*sh
+ if [[ -d ~/hrt/hldr/alias ]]; then
+  for afile in ~/hrt/hldr/alias/*sh
   do
     # echo $LOG_TS"Sourcing ${afile} ..."
     source $afile
@@ -124,8 +124,8 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
  fi
 
 # todo: make them as lazy load using auto load capability or set it in fpath
-if [ -d ~/hrt/myws/func ]; then
-  for ffile in ~/hrt/myws/func/*sh
+if [ -d ~/hrt/hldr/func ]; then
+  for ffile in ~/hrt/hldr/func/*sh
   do
     # echo $LOG_TS"Sourcing ${ffile} ..."
     source $ffile
@@ -344,7 +344,7 @@ setopt PROMPT_SUBST
 
 # To customize prompt, run `p10k configure` or edit ~/.myzsh/.p10k.zsh.
 autoload -Uz is-at-least
-is-at-least 5.1 && [[ -f ~/hrt/myws/zsh/.p10k.zsh ]] && [[ -f ~/hrt/ctrflags/enablepowertheme ]] && source ~/hrt/myws/zsh/.p10k.zsh
+is-at-least 5.1 && [[ -f ~/hrt/hldr/zsh/.p10k.zsh ]] && [[ -f ~/hrt/ctrflags/enablepowertheme ]] && source ~/hrt/hldr/zsh/.p10k.zsh
 is-at-least 5.1 && [[ -f ~/hrt/style/powerlevel10k/powerlevel10k.zsh-theme ]] && [[ -f ~/hrt/ctrflags/enablepowertheme ]] && source ~/hrt/style/powerlevel10k/powerlevel10k.zsh-theme
 
 #### like Fish Shell

@@ -6,7 +6,7 @@
 [core]
 	editor = nano
 	autocrlf = input
-	excludesfile = ~/hrt/myws/git/.gitignore_global
+	excludesfile = ~/hrt/hldr/git/.gitignore_global
   repositoryformatversion = 0                                                                    
   filemode = true                                                                                
   bare = false                                                                                   

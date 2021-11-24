@@ -43,6 +43,7 @@ function build_file_hierarchy_structure(){
     mkdir ~/hrt/virtualenvs
 
     #l3
+    mkdir ~/hrt/style/fonts
     mkdir ~/hrt/proj/github
     mkdir ~/hrt/plugins/tmux
     mkdir ~/hrt/history/shell
@@ -81,37 +82,40 @@ function configure_mydevbox_with_homelab_source(){
     ln -s ~/hrt/hldr/bash/.bashrc  ~/.bashrc
     ln -s ~/hrt/hldr/zsh/.zshenv ~/.zshenv
     
-    # Configure: Tmux
-    # 
-    # [copy and further customize if you want to be disconnected from repo]
-    cp ~/.tmux.conf ~/.mybkp/.tmux.conf_$(date +%y%m%d)-old
-    rm -f ~/.tmux.conf ~/.nanorc
-    ln -s ~/hrt/hldr/tmux/.tmux.conf ~/.tmux.conf
-
-    cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old
-    rm -f ~/.nanorc
-    ln -s ~/hrt/hldr/nano/.nanorc  ~/.nanorc
-
-    # TMUX plugin manager
-    git clone --depth=1 https://github.com/tmux-plugins/tpm ~/hrt/plugins/tmux/tpm
-    # next: reload tmux conf , and press <prefix> Shift+R to install plugins
 
     # zsh style - theme & font to boost dev productivity
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/hrt/style/zsh-syntax-highlighting
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/hrt/style/zsh-autosuggestions
     
-    # {atomic-op:start
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/hrt/style/powerlevel10k
-        # install fonts for powerline 
-        install_and_enable_for_powertheme()
-        reboot
-    # atomic-op:end}
-    
+    # zsh powerline promt setup
+    git clone --depth=1 https://github.com/powerline/fonts.git ~/hrt/style/fonts
+    sh ~/hrt/style/fonts/install.sh
+    git clone
+    sh ..'JetBrainsMono'
+
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/hrt/style/powerlevel10k
+    p10k configure
+    touch ~/hrt/ctrflags/enablepowertheme
+    # reboot
+
+    # nano editor
+    cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old
+    rm -f ~/.nanorc
+    ln -s ~/hrt/hldr/nano/.nanorc  ~/.nanorc
+    sudo ln -s ~/hrt/hldr/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
+
+    # Configure: Tmux
+    #
+    # [copy and further customize if you want to be disconnected from repo]
+    cp ~/.tmux.conf ~/.mybkp/.tmux.conf_$(date +%y%m%d)-old
+    rm -f ~/.tmux.conf ~/.nanorc
+    ln -s ~/hrt/hldr/tmux/.tmux.conf ~/.tmux.conf
+
+    # TMUX plugin manager
+    git clone --depth=1 https://github.com/tmux-plugins/tpm ~/hrt/plugins/tmux/tpm
+    # next: reload tmux conf , and press <prefix> Shift+R to install plugins
     git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/hrt/style/tmux-powerline
     cp ~/hrt/hldr/tmux/tmux-powerline-theme.sh ~/hrt/style/tmux-powerline/themes/default.sh
 
-    # nano editor
-    sudo ln -s ~/hrt/hldr/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
 }
-
 ################################## END: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################

@@ -16,8 +16,8 @@ hash -d bkp=~/bkp
 hash -d shared=~/shared
 
 # quick access to core FHS dir @ L2
-hash -d kws=~/hrt/hldr
-hash -d kproj=~/hrt/proj
+hash -d hldr=~/hrt/hldr
+hash -d hproj=~/hrt/proj
 
 hash -d style=~/hrt/style
 hash -d bin=~/hrt/bin

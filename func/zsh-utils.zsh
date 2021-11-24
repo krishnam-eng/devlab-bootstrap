@@ -3,8 +3,8 @@
 # source all envs, aliases, & functions
 function szsh {
 
-  if [ -d ~/kroot/myws/env ]; then
-    for efile in ~/kroot/myws/env/*sh
+  if [ -d ~/hrt/myws/env ]; then
+    for efile in ~/hrt/myws/env/*sh
     do
       echo $LOG_TS"Sourcing ${efile} ..."
       source $efile
@@ -12,8 +12,8 @@ function szsh {
     unset efile
   fi
 
-  if [ -d ~/kroot/myws/alias ]; then
-    for afile in ~/kroot/myws/alias/*sh
+  if [ -d ~/hrt/myws/alias ]; then
+    for afile in ~/hrt/myws/alias/*sh
     do
       echo $LOG_TS"Sourcing ${afile} ..."
       source $afile
@@ -21,13 +21,13 @@ function szsh {
     unset afile
   fi
   
- if [ -f ~/kroot/private/alias.zsh ]; then
+ if [ -f ~/hrt/private/alias.zsh ]; then
   echo $LOG_TS"Sourcing aliases from private dir ..." 
-  source ~/kroot/private/alias.zsh
+  source ~/hrt/private/alias.zsh
  fi
   
- if [ -d ~/kroot/myws/func ]; then
-    for ffile in ~/kroot/myws/func/*sh
+ if [ -d ~/hrt/myws/func ]; then
+    for ffile in ~/hrt/myws/func/*sh
     do
       echo $LOG_TS"Sourcing ${ffile} ..."
       source $ffile

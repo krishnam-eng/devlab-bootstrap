@@ -53,5 +53,5 @@ set wordbounds
 # color.
 
 # custom syntax highlighter
-include "~kroot/myws/nano/syntax-highlight/nginx.nanorc"
-include "~kroot/myws/nano/syntax-highlight/yaml.nanorc"
+include "~hrt/myws/nano/syntax-highlight/nginx.nanorc"
+include "~hrt/myws/nano/syntax-highlight/yaml.nanorc"

@@ -40,7 +40,7 @@ alias lsvar="set"
 alias lsgh="lt1 ~/github/"
 
 # List node installed packages
-alias lsnd="lt1 ~/kroot/node/bin"
+alias lsnd="lt1 ~/hrt/node/bin"
 
 # List all my dir
 alias lsmy="lt1 ~/.my*"

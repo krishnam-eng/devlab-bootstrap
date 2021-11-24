@@ -1,13 +1,13 @@
 # Build tools
-if [ -d "$HOME/kroot/build/apache-maven-3.6.3" ]
+if [ -d "$HOME/hrt/build/apache-maven-3.6.3" ]
 then
-  export M2_HOME="$HOME/kroot/build/apache-maven-3.6.3"
+  export M2_HOME="$HOME/hrt/build/apache-maven-3.6.3"
   PATH="${M2_HOME}/bin:${PATH}"
 fi
 
-if [ -d "$HOME/kroot/build/gradle-7.1.1" ]
+if [ -d "$HOME/hrt/build/gradle-7.1.1" ]
 then
-  export GRADLE_HOME="~/kroot/build/gradle-7.1.1"
+  export GRADLE_HOME="~/hrt/build/gradle-7.1.1"
   PATH=${GRADLE_HOME}/bin:${PATH}
 fi
 
@@ -20,19 +20,19 @@ then
 fi
 
 # IDE Path
-if [ -d "$HOME/kroot/vscode/bin" ]
+if [ -d "$HOME/hrt/vscode/bin" ]
 then
-  PATH="$PATH:$HOME/kroot/vscode/bin"
+  PATH="$PATH:$HOME/hrt/vscode/bin"
 fi
 
-if [ -d "$HOME/kroot/ide/idea-2021/bin" ]
+if [ -d "$HOME/hrt/ide/idea-2021/bin" ]
 then
-  PATH="$PATH:$HOME/kroot/ide/idea-2021/bin"
+  PATH="$PATH:$HOME/hrt/ide/idea-2021/bin"
 fi
 
-if [ -d "$HOME/kroot/node/bin" ]
+if [ -d "$HOME/hrt/node/bin" ]
 then
-  PATH="$PATH:$HOME/kroot/node/bin"
+  PATH="$PATH:$HOME/hrt/node/bin"
 fi
 
 # use development mode as default for python flask project development
@@ -43,4 +43,4 @@ export FLASK_APP=app.py
 
 # ES 1.7 expects ES JAVA HOME 
 export ES_JAVA_HOME=$JAVA_HOME
-export ES_HOME=$HOME/kroot/server/elasticsearch-7.15.2
+export ES_HOME=$HOME/hrt/server/elasticsearch-7.15.2

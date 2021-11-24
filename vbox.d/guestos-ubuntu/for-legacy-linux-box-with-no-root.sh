@@ -32,15 +32,15 @@ function on_demand_dev_env{
     sudo apt install lm-sensors      # [optional] cpu temp (unable to use it in vbox)
     sudo apt install kdiff3          # [optional] compares and merges two or three input files or directories      
     sudo apt install fish            # [optional] firendly interactive shell - using it for default shell in guack
-    ln -s ~/kroot/myws/fish/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
+    ln -s ~/hrt/myws/fish/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
     sudo apt install gnome-tweaks    # [optional] useful to change capslock key binding    
     sudo npm install -g tldr         # TooLongDidntRead: tldr pages are a community effort to simplify the beloved man pages with practical examples
     
 }
 
 function on_old_machine{
-    #git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/kroot/style/powerlevel9k
-    #cp ~/kroot/myws/zsh/powerlevel9k.zsh-theme ~/kroot/style/powerlevel9k/  # fix for old zsh compatability issue
+    #git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/hrt/style/powerlevel9k
+    #cp ~/hrt/myws/zsh/powerlevel9k.zsh-theme ~/hrt/style/powerlevel9k/  # fix for old zsh compatability issue
 }
 
 # install using venv if you are not the admin
@@ -49,8 +49,8 @@ function install_in_virtual_env(){
     python --version
     virtualenv --version
 
-    virtualenv --python=python3 kroot
-    cd kroot/
+    virtualenv --python=python3 hrt
+    cd hrt/
     source bin/activate
 
     pip install virtualenvwrapper
@@ -75,24 +75,24 @@ function install_in_virtual_env(){
     install_vscode()
     wget https://services.gradle.org/distributions/gradle-7.1.1-bin.zip
     unzip gradle-7.0.2-bin.zip
-    export GRADLE_HOME=~/kroot/build/gradle-7.1.1
+    export GRADLE_HOME=~/hrt/build/gradle-7.1.1
     export PATH=${GRADLE_HOME}/bin:${PATH}
 }
 
 function install_node(){
-    cd ~/kroot
+    cd ~/hrt
     # download from https://nodejs.org/en/
     wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-x64.tar.xz
     tar -xf node-v14.17.0-linux-x64.tar.xz
     mv node-v14.17.0-linux-x64 node
     rm node-v14.17.0-linux-x64.tar.xz
     # make sure this is added to path via rc file
-    PATH="$HOME/kroot/node/bin:$PATH"
+    PATH="$HOME/hrt/node/bin:$PATH"
     #todo: ~/.npmrc setup
 }
 
 function install_ides(){
-    cd ~/kroot
+    cd ~/hrt
     
     #### VS Code
     # download from firefox https://code.visualstudio.com/download
@@ -100,12 +100,12 @@ function install_ides(){
     mv VSCode-linux-x64 vscode
     rm code-stable-x64-1620838810.tar.gz
     # make sure this is added to path via rc file
-    PATH="$HOME/kroot/vscode/bin:$PATH"
+    PATH="$HOME/hrt/vscode/bin:$PATH"
 
     cp ~olxrp/vscode/*.json ~/.config/Code/User
     
     #### IDEA 
-    mkdir -p ~/kroot/ide
+    mkdir -p ~/hrt/ide
     wget https://download.jetbrains.com/idea/ideaIC-2021.1.3.tar.gz
     tar -xf ideaIC-2021.1.3.tar.gz
     mv ideaIC-2021.1.3 idea-2021
@@ -121,12 +121,12 @@ function install_pipx(){
     # pipx setup (https://pipxproject.github.io/pipx/)
     # pip install pipx
     # now use pipx to install needed tools for effective dev env
-    # mkdir ~/kroot/local/bin
-    # mkdir ~/kroot/local/pipx
-    # export PIPX_BIN_DIR=~/kroot/local/bin
-    # export PIPX_HOME=~/kroot/local/pipx
+    # mkdir ~/hrt/local/bin
+    # mkdir ~/hrt/local/pipx
+    # export PIPX_BIN_DIR=~/hrt/local/bin
+    # export PIPX_HOME=~/hrt/local/pipx
     # pipx install lolcat # install anything which will trigger shared libraries creation
-    # watch -d -n 5 "du -ckh /u/krishnam/kroot/local/pipx/"
+    # watch -d -n 5 "du -ckh /u/krishnam/hrt/local/pipx/"
     # ERROR: maximum recursion depth exceeded while calling a Python object
 }
 ################################## END: ON DEMAND OR OPTIONAL SETUP #####################################

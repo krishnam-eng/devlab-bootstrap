@@ -35,9 +35,9 @@
 
 # wrapper loads bin based on path, to be certain which gets picked, let's define it here
 # check if virtualenvwrapper has been installed for VIRTUALENVWRAPPER_PYTHON if `source bin/virtualenvwrapper.sh` fails
-if [ -d $HOME/kroot/bin/python3 ]
+if [ -d $HOME/hrt/bin/python3 ]
 then
-  export VIRTUALENVWRAPPER_PYTHON=$HOME/kroot/bin/python3
+  export VIRTUALENVWRAPPER_PYTHON=$HOME/hrt/bin/python3
 else
   export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 fi
@@ -60,9 +60,9 @@ mkdir -p ~/log
 mkdir -p ~/tmp
 
 # lazy loading
-if [ -e $HOME/kroot/bin/virtualenvwrapper.sh ]
+if [ -e $HOME/hrt/bin/virtualenvwrapper.sh ]
 then
-  export VIRTUALENVWRAPPER_SCRIPT=$HOME/kroot/bin/virtualenvwrapper.sh
+  export VIRTUALENVWRAPPER_SCRIPT=$HOME/hrt/bin/virtualenvwrapper.sh
 elif [ -e /usr/local/bin/virtualenvwrapper.sh ]
 then
   export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
@@ -70,9 +70,9 @@ else
   export VIRTUALENVWRAPPER_SCRIPT=
 fi
 
-if [ -e $HOME/kroot/bin/virtualenvwrapper_lazy.sh ]
+if [ -e $HOME/hrt/bin/virtualenvwrapper_lazy.sh ]
 then
-  source $HOME/kroot/bin/virtualenvwrapper_lazy.sh
+  source $HOME/hrt/bin/virtualenvwrapper_lazy.sh
 elif [ -e /usr/local/bin/virtualenvwrapper_lazy.sh ]
 then
   source /usr/local/bin/virtualenvwrapper_lazy.sh

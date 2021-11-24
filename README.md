@@ -1,15 +1,18 @@
 ## Building Home Dev Lab
 
+Goal: "**Build powerful dev environment with numerous micro automation**"
+
+
 To create an efficient portable Linux developer environment; To quickly setup devenv where ever we want - with many micro automation for increasing dev productivity, it installs and configure required development tools & env to use them to their full potential- tmux, venv, zsh, nano, nginx, docker, k8s and many more.
 
 ## How To (Use for Full Setup)
 Look at these for more details and how to get started (Building Home Dev Lab)
 
-_Step 1: Build New DEV Box/Lab_
+_Step 1: Build New DEV Box/Lab in VirtualBox_
 - Vbox - https://github.com/krishnam-eng/ohmy-linux/tree/main/vbox
 
 _Step 2: Bootstrap the new box to power up with effectice config and dev env automate (Made for Java / Python Developers)_
-- https://github.com/krishnam-eng/ohmy-linux/blob/main/mkdevenv-linux.sh 
+- https://github.com/krishnam-eng/homelab-devbox/blob/main/mkdevenv-base.sh 
 
 
 ## Tools Level Power Tweaks (Use for Selective Tips)

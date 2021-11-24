@@ -63,12 +63,8 @@ function configure_mydevbox_with_homelab_source(){
     #
     # * hldr: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
     git clone --depth=1 https://github.com/krishnam-eng/homelab-devbox ~/hrt/hldr
-
-    # Configure: Git Remote & Other Configs to stay connected with homelab-devbox
-    #    
-    # git remote set-url origin git@github.com:krishnam-eng/homelab-devbox
-    # or, the below to set other git configs also
-    cp ~/hrt/hldr/git/.git_config ~/hrt/hldr/.git/config
+    git remote -v
+    git remote set-url origin git@github.com:krishnam-eng/homelab-devbox.git
 
     # Configure: Shell - Bash & Zsh
     # 
@@ -87,11 +83,9 @@ function configure_mydevbox_with_homelab_source(){
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/hrt/style/zsh-syntax-highlighting
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/hrt/style/zsh-autosuggestions
     
-    # zsh powerline promt setup
-    git clone --depth=1 https://github.com/powerline/fonts.git ~/hrt/style/fonts
-    sh ~/hrt/style/fonts/install.sh
-    git clone
-    sh ..'JetBrainsMono'
+    # Font to support more nerdy icons
+    git clone --depth=1  git@github.com:ryanoasis/nerd-fonts ~/hrt/style/nerd-fonts
+    sh ~/hrt/style/nerd-fonts/install.sh 'JetBrainsMono'
 
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/hrt/style/powerlevel10k
     p10k configure

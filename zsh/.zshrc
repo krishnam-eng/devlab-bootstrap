@@ -12,13 +12,12 @@
 ###############
 # echo 'zsh run config...'
 
-# todo: move out pwoerline specific config into different file
-# Enable Powerlevel10k instant prompt. Should stay close to the top of .zshrc.
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/hrt/hldr/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 # load prompt config here instead in zshenv to make sure nothing else overrides my prompt
 source ~/hrt/hldr/env/interactice-shell/prompt.bash
@@ -160,8 +159,10 @@ fi
 ################
 # echo 'History Configuration...'
 
-# up or down to navigate history or use CTR+R to search history
-HISTFILE=~/hrt/history/shell/.zhistfile
+if [[ -f ~/hrt/history/shell/ ]]; then
+    mkdir -p ~/hrt/history/shell/
+fi
+HISTFILE=~/hrt/history/shell/.zhistfile # up or down to navigate history or use CTR+R to search history
 HISTSIZE=100000
 SAVEHIST=100000 # hist won't be _saved_ with out this conf
 
@@ -352,4 +353,3 @@ is-at-least 5.1 && [[ -f ~/hrt/style/powerlevel10k/powerlevel10k.zsh-theme ]] &&
 [[ ! -f ~/hrt/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/hrt/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Fish-like fast/unobtrusive autosuggestions for zsh.
 [[ ! -f ~/hrt/style/zsh-autosuggestions/zsh-autosuggestions.zsh ]] || source ~/hrt/style/zsh-autosuggestions/zsh-autosuggestions.zsh
-

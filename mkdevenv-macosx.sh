@@ -62,6 +62,6 @@ function install_dev_tools(){
 }
 
 function devbox_status{
-    tree ~/kroot
+    tree ~/hrt
     brew list
 }

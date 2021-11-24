@@ -20,37 +20,37 @@
 ################################## START: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################
 function build_file_hierarchy_structure(){
     #l1
-    mkdir ~/kroot      # create _k_rishnam config _root_
+    mkdir ~/hrt      # create Homelab RooT (HRT). ~/hrt will be the heart of the devbox
     mkdir ~/proj
     mkdir ~/bkp        # long live
     mkdir ~/log
     mkdir ~/tmp
 
     #l2
-    mkdir ~/kroot/myws
-    mkdir ~/kroot/ctrflags/  # change tools (zsh) default behaviours by flags
-    mkdir ~/kroot/style
-    mkdir ~/kroot/bin
-    mkdir ~/kroot/build
-    mkdir ~/kroot/etc
-    mkdir ~/kroot/lib
-    mkdir ~/kroot/var
-    mkdir ~/kroot/plugins
-    mkdir ~/kroot/proj
-    mkdir ~/kroot/private
-    mkdir ~/kroot/history
-    mkdir ~/kroot/resurrect
-    mkdir ~/kroot/virtualenvs
+    mkdir ~/hrt/myws
+    mkdir ~/hrt/ctrflags/  # change tools (zsh) default behaviours by flags
+    mkdir ~/hrt/style
+    mkdir ~/hrt/bin
+    mkdir ~/hrt/build
+    mkdir ~/hrt/etc
+    mkdir ~/hrt/lib
+    mkdir ~/hrt/var
+    mkdir ~/hrt/plugins
+    mkdir ~/hrt/proj
+    mkdir ~/hrt/private
+    mkdir ~/hrt/history
+    mkdir ~/hrt/resurrect
+    mkdir ~/hrt/virtualenvs
 
     #l3
-    mkdir ~/kroot/proj/github
-    mkdir ~/kroot/plugins/tmux
-    mkdir ~/kroot/history/shell
-    mkdir ~/kroot/history/tmux
-    mkdir ~/kroot/resurrect/tmux
+    mkdir ~/hrt/proj/github
+    mkdir ~/hrt/plugins/tmux
+    mkdir ~/hrt/history/shell
+    mkdir ~/hrt/history/tmux
+    mkdir ~/hrt/resurrect/tmux
 
     #l4
-    mkdir ~/kroot/plugins/tmux/tpm
+    mkdir ~/hrt/plugins/tmux/tpm
     
     # Check
     tree
@@ -61,13 +61,13 @@ function configure_mydevbox_with_homelab_source(){
     # Checkout HomeLab source to configure DevBox 
     #
     # * myws: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
-    git clone --depth=1 https://github.com/krishnam-eng/homelab-devbox ~/kroot/myws
+    git clone --depth=1 https://github.com/krishnam-eng/homelab-devbox ~/hrt/myws
 
     # Configure: Git Remote & Other Configs to stay connected with homelab-devbox
     #    
     # git remote set-url origin git@github.com:krishnam-eng/homelab-devbox
     # or, the below to set other git configs also
-    cp ~/kroot/myws/git/.git_config ~/kroot/myws/.git/config
+    cp ~/hrt/myws/git/.git_config ~/hrt/myws/.git/config
 
     # Configure: Shell - Bash & Zsh
     # 
@@ -78,40 +78,40 @@ function configure_mydevbox_with_homelab_source(){
 
     rm -f  ~/.zshenv ~/.zshrc ~/.bashrc 
     
-    ln -s ~/kroot/myws/bash/.bashrc  ~/.bashrc
-    ln -s ~/kroot/myws/zsh/.zshenv ~/.zshenv
+    ln -s ~/hrt/myws/bash/.bashrc  ~/.bashrc
+    ln -s ~/hrt/myws/zsh/.zshenv ~/.zshenv
     
     # Configure: Tmux
     # 
     # [copy and further customize if you want to be disconnected from repo]
     cp ~/.tmux.conf ~/.mybkp/.tmux.conf_$(date +%y%m%d)-old
     rm -f ~/.tmux.conf ~/.nanorc
-    ln -s ~/kroot/myws/tmux/.tmux.conf ~/.tmux.conf
+    ln -s ~/hrt/myws/tmux/.tmux.conf ~/.tmux.conf
 
     cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old
     rm -f ~/.nanorc
-    ln -s ~/kroot/myws/nano/.nanorc  ~/.nanorc
+    ln -s ~/hrt/myws/nano/.nanorc  ~/.nanorc
 
     # TMUX plugin manager
-    git clone --depth=1 https://github.com/tmux-plugins/tpm ~/kroot/plugins/tmux/tpm
+    git clone --depth=1 https://github.com/tmux-plugins/tpm ~/hrt/plugins/tmux/tpm
     # next: reload tmux conf , and press <prefix> Shift+R to install plugins
 
     # zsh style - theme & font to boost dev productivity
-    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/kroot/style/zsh-syntax-highlighting
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/kroot/style/zsh-autosuggestions
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/hrt/style/zsh-syntax-highlighting
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/hrt/style/zsh-autosuggestions
     
     # {atomic-op:start
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/kroot/style/powerlevel10k
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/hrt/style/powerlevel10k
         # install fonts for powerline 
         install_and_enable_for_powertheme()
         reboot
     # atomic-op:end}
     
-    git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/kroot/style/tmux-powerline
-    cp ~/kroot/myws/tmux/tmux-powerline-theme.sh ~/kroot/style/tmux-powerline/themes/default.sh
+    git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/hrt/style/tmux-powerline
+    cp ~/hrt/myws/tmux/tmux-powerline-theme.sh ~/hrt/style/tmux-powerline/themes/default.sh
 
     # nano editor
-    sudo ln -s ~/kroot/myws/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
+    sudo ln -s ~/hrt/myws/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
 }
 
 ################################## END: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################

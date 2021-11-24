@@ -62,7 +62,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 ######## 
 # History 
 ########
-HISTFILE=~/kroot/history/shell/.bash_history
+HISTFILE=~/hrt/history/shell/.bash_history
 
 # Don't put duplicate lines in the history and do not add lines that start with a space
 HISTCONTROL=ignoreboth
@@ -98,11 +98,11 @@ fi
 #####
 # set env variables
 #####
-ZDOTDIR=~/kroot/myws/zsh
+ZDOTDIR=~/hrt/myws/zsh
 
-if [ -d ~/kroot/myws/env ]; then
+if [ -d ~/hrt/myws/env ]; then
   # Recipe: Running All Scripts in a Directory
-  for efile in ~/kroot/myws/env/*.bash
+  for efile in ~/hrt/myws/env/*.bash
   do
     source $efile
   done
@@ -111,16 +111,16 @@ fi
 
 export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
 
-if [ -d ~/kroot/myws/alias ]; then
-    for afile in ~/kroot/myws/alias/*.bash
+if [ -d ~/hrt/myws/alias ]; then
+    for afile in ~/hrt/myws/alias/*.bash
     do
         source $afile
     done
     unset afile
 fi
 
-if [ -d ~/kroot/myws/func ]; then
-    for ffile in ~/kroot/myws/func/*.bash
+if [ -d ~/hrt/myws/func ]; then
+    for ffile in ~/hrt/myws/func/*.bash
     do
         source $ffile
     done

@@ -21,10 +21,10 @@
 # fi
 
 # load prompt config here instead in zshenv to make sure nothing else overrides my prompt
-source ~/kroot/myws/env/interactice-shell/prompt.bash
+source ~/hrt/myws/env/interactice-shell/prompt.bash
 
 # load venv extention config to work with python projects
-# source ~/kroot/myws/venv/virtualenvwrapper.sh
+# source ~/hrt/myws/venv/virtualenvwrapper.sh
 
 ###############
 # pre-launch cmds to get you ready to rock
@@ -110,8 +110,8 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
 # echo 'Load Aliases and Functions...'
 
 # load all alias files with `source filename` or `. filename` (. is posix std way)
- if [[ -d ~/kroot/myws/alias ]]; then
-  for afile in ~/kroot/myws/alias/*sh
+ if [[ -d ~/hrt/myws/alias ]]; then
+  for afile in ~/hrt/myws/alias/*sh
   do
     # echo $LOG_TS"Sourcing ${afile} ..."
     source $afile
@@ -119,13 +119,13 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
   unset afile
  fi
 
- if [[ -f ~/kroot/private/alias.zsh ]]; then
-   source ~/kroot/private/alias.zsh
+ if [[ -f ~/hrt/private/alias.zsh ]]; then
+   source ~/hrt/private/alias.zsh
  fi
 
 # todo: make them as lazy load using auto load capability or set it in fpath
-if [ -d ~/kroot/myws/func ]; then
-  for ffile in ~/kroot/myws/func/*sh
+if [ -d ~/hrt/myws/func ]; then
+  for ffile in ~/hrt/myws/func/*sh
   do
     # echo $LOG_TS"Sourcing ${ffile} ..."
     source $ffile
@@ -161,7 +161,7 @@ fi
 # echo 'History Configuration...'
 
 # up or down to navigate history or use CTR+R to search history
-HISTFILE=~/kroot/history/shell/.zhistfile
+HISTFILE=~/hrt/history/shell/.zhistfile
 HISTSIZE=100000
 SAVEHIST=100000 # hist won't be _saved_ with out this conf
 
@@ -344,12 +344,12 @@ setopt PROMPT_SUBST
 
 # To customize prompt, run `p10k configure` or edit ~/.myzsh/.p10k.zsh.
 autoload -Uz is-at-least
-is-at-least 5.1 && [[ -f ~/kroot/myws/zsh/.p10k.zsh ]] && [[ -f ~/kroot/ctrflags/enablepowertheme ]] && source ~/kroot/myws/zsh/.p10k.zsh
-is-at-least 5.1 && [[ -f ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme ]] && [[ -f ~/kroot/ctrflags/enablepowertheme ]] && source ~/kroot/style/powerlevel10k/powerlevel10k.zsh-theme
+is-at-least 5.1 && [[ -f ~/hrt/myws/zsh/.p10k.zsh ]] && [[ -f ~/hrt/ctrflags/enablepowertheme ]] && source ~/hrt/myws/zsh/.p10k.zsh
+is-at-least 5.1 && [[ -f ~/hrt/style/powerlevel10k/powerlevel10k.zsh-theme ]] && [[ -f ~/hrt/ctrflags/enablepowertheme ]] && source ~/hrt/style/powerlevel10k/powerlevel10k.zsh-theme
 
 #### like Fish Shell
 # enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing
-[[ ! -f ~/kroot/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/kroot/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ ! -f ~/hrt/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/hrt/style/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Fish-like fast/unobtrusive autosuggestions for zsh.
-[[ ! -f ~/kroot/style/zsh-autosuggestions/zsh-autosuggestions.zsh ]] || source ~/kroot/style/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ ! -f ~/hrt/style/zsh-autosuggestions/zsh-autosuggestions.zsh ]] || source ~/hrt/style/zsh-autosuggestions/zsh-autosuggestions.zsh
 

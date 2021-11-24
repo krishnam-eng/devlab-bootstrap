@@ -20,14 +20,14 @@
 ################################## START: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################
 function build_file_hierarchy_structure(){
     #l1
-    mkdir ~/hrt      # create Homelab RooT (HRT). ~/hrt will be the heart of the devbox
+    mkdir ~/hrt       # create Homelab RooT (HRT). ~/hrt will be the heart of the devbox
     mkdir ~/proj
-    mkdir ~/bkp        # long live
+    mkdir ~/bkp
     mkdir ~/log
     mkdir ~/tmp
 
     #l2
-    mkdir ~/hrt/myws
+    mkdir ~/hrt/hldr       # HomeLab-Devbox Repo (HLDR) is the dir for local copy of this repo and (this HLDR holds the heart HRT functioning like SA Node)
     mkdir ~/hrt/ctrflags/  # change tools (zsh) default behaviours by flags
     mkdir ~/hrt/style
     mkdir ~/hrt/bin
@@ -60,14 +60,14 @@ function configure_mydevbox_with_homelab_source(){
     
     # Checkout HomeLab source to configure DevBox 
     #
-    # * myws: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
-    git clone --depth=1 https://github.com/krishnam-eng/homelab-devbox ~/hrt/myws
+    # * hldr: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
+    git clone --depth=1 https://github.com/krishnam-eng/homelab-devbox ~/hrt/hldr
 
     # Configure: Git Remote & Other Configs to stay connected with homelab-devbox
     #    
     # git remote set-url origin git@github.com:krishnam-eng/homelab-devbox
     # or, the below to set other git configs also
-    cp ~/hrt/myws/git/.git_config ~/hrt/myws/.git/config
+    cp ~/hrt/hldr/git/.git_config ~/hrt/hldr/.git/config
 
     # Configure: Shell - Bash & Zsh
     # 
@@ -78,19 +78,19 @@ function configure_mydevbox_with_homelab_source(){
 
     rm -f  ~/.zshenv ~/.zshrc ~/.bashrc 
     
-    ln -s ~/hrt/myws/bash/.bashrc  ~/.bashrc
-    ln -s ~/hrt/myws/zsh/.zshenv ~/.zshenv
+    ln -s ~/hrt/hldr/bash/.bashrc  ~/.bashrc
+    ln -s ~/hrt/hldr/zsh/.zshenv ~/.zshenv
     
     # Configure: Tmux
     # 
     # [copy and further customize if you want to be disconnected from repo]
     cp ~/.tmux.conf ~/.mybkp/.tmux.conf_$(date +%y%m%d)-old
     rm -f ~/.tmux.conf ~/.nanorc
-    ln -s ~/hrt/myws/tmux/.tmux.conf ~/.tmux.conf
+    ln -s ~/hrt/hldr/tmux/.tmux.conf ~/.tmux.conf
 
     cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old
     rm -f ~/.nanorc
-    ln -s ~/hrt/myws/nano/.nanorc  ~/.nanorc
+    ln -s ~/hrt/hldr/nano/.nanorc  ~/.nanorc
 
     # TMUX plugin manager
     git clone --depth=1 https://github.com/tmux-plugins/tpm ~/hrt/plugins/tmux/tpm
@@ -108,10 +108,10 @@ function configure_mydevbox_with_homelab_source(){
     # atomic-op:end}
     
     git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/hrt/style/tmux-powerline
-    cp ~/hrt/myws/tmux/tmux-powerline-theme.sh ~/hrt/style/tmux-powerline/themes/default.sh
+    cp ~/hrt/hldr/tmux/tmux-powerline-theme.sh ~/hrt/style/tmux-powerline/themes/default.sh
 
     # nano editor
-    sudo ln -s ~/hrt/myws/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
+    sudo ln -s ~/hrt/hldr/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
 }
 
 ################################## END: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################

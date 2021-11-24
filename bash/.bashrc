@@ -98,11 +98,11 @@ fi
 #####
 # set env variables
 #####
-ZDOTDIR=~/hrt/myws/zsh
+ZDOTDIR=~/hrt/hldr/zsh
 
-if [ -d ~/hrt/myws/env ]; then
+if [ -d ~/hrt/hldr/env ]; then
   # Recipe: Running All Scripts in a Directory
-  for efile in ~/hrt/myws/env/*.bash
+  for efile in ~/hrt/hldr/env/*.bash
   do
     source $efile
   done
@@ -111,16 +111,16 @@ fi
 
 export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
 
-if [ -d ~/hrt/myws/alias ]; then
-    for afile in ~/hrt/myws/alias/*.bash
+if [ -d ~/hrt/hldr/alias ]; then
+    for afile in ~/hrt/hldr/alias/*.bash
     do
         source $afile
     done
     unset afile
 fi
 
-if [ -d ~/hrt/myws/func ]; then
-    for ffile in ~/hrt/myws/func/*.bash
+if [ -d ~/hrt/hldr/func ]; then
+    for ffile in ~/hrt/hldr/func/*.bash
     do
         source $ffile
     done

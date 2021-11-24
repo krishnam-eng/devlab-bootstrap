@@ -21,7 +21,7 @@ function ghclone(){
   git config --global core.editor nano
   git config --global core.autocrlf input # if file got CRLF, change it to LF when git add
 
-  git config --global core.excludesfile ~/hrt/myws/git/.gitignore_global
+  git config --global core.excludesfile ~/hrt/hldr/git/.gitignore_global
 
   git config --global rebase.autosquash true
 

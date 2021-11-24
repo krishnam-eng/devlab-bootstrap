@@ -32,7 +32,7 @@ function on_demand_dev_env{
     sudo apt install lm-sensors      # [optional] cpu temp (unable to use it in vbox)
     sudo apt install kdiff3          # [optional] compares and merges two or three input files or directories      
     sudo apt install fish            # [optional] firendly interactive shell - using it for default shell in guack
-    ln -s ~/hrt/myws/fish/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
+    ln -s ~/hrt/hldr/fish/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
     sudo apt install gnome-tweaks    # [optional] useful to change capslock key binding    
     sudo npm install -g tldr         # TooLongDidntRead: tldr pages are a community effort to simplify the beloved man pages with practical examples
     
@@ -40,7 +40,7 @@ function on_demand_dev_env{
 
 function on_old_machine{
     #git clone --depth=1 https://github.com/bhilburn/powerlevel9k.git ~/hrt/style/powerlevel9k
-    #cp ~/hrt/myws/zsh/powerlevel9k.zsh-theme ~/hrt/style/powerlevel9k/  # fix for old zsh compatability issue
+    #cp ~/hrt/hldr/zsh/powerlevel9k.zsh-theme ~/hrt/style/powerlevel9k/  # fix for old zsh compatability issue
 }
 
 # install using venv if you are not the admin

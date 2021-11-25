@@ -168,9 +168,6 @@ fi
 ################
 # echo 'History Configuration...'
 
-if [[ -f ~/hrt/state/shell/ ]]; then
-    mkdir -p ~/hrt/state/shell/
-fi
 HISTFILE=~/hrt/state/shell/.zhistfile # up or down to navigate history or use CTR+R to search history
 HISTSIZE=100000
 SAVEHIST=100000 # hist won't be _saved_ with out this conf

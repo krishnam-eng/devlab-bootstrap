@@ -41,20 +41,42 @@ function install_core_packages(){
 
 
 function install_dev_tools(){
-    #
     brew install python
     brew install node
-
     brew install elasticsearch 
     
-    # Docker
+    # Docker - install docker desktop
     # https://docs.docker.com/desktop/mac/install/
 
     # K8S
     brew install minikube
 }
 
-function devbox_status{
-    tree ~/hrt
-    brew list
+# For testers and developers responsible for API testing, Postman is a popular and free solution
+# Postman says: Automated API testing is far superior to automated UI testing
+function setup_postman_api_testenv(){
+    # node is needed for postman cli runner - newman
+    node --version
+
+    # if you have node and not have npm, it is a indication that node version is old. Action: Upgrade node.
+    npm --version
+
+    # install if not exist
+    brew install node
+
+    # Java SDK is required
+    java -version
+
+    # Install if not available
+    # https://docs.oracle.com/en/java/javase/15/install/installation-jdk-macos.html
+
+    # Install newman in global mode (it installs as a global package)
+    npm install -g newman
+    newman --version
+
+    # Run collection tests
+    newman run ${collection_name}.json -e ${env_name}
+
+    # For Desktop, download postman (not the agent) app from https://www.postman.com/downloads/
+    # Unzip and move it to $User-Home/Applications dir
 }

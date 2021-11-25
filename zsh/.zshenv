@@ -14,17 +14,13 @@ export ZDOTDIR=~/hrt/boot/zsh
 # Right place for setting command search path and other improtnat env variables
 #####
 
-if [ -f ~/hrt/private/path.bash ]; then
-  source ~/hrt/private/path.bash
-fi
-
- if [ -d ~/hrt/boot/env ]; then
+if [ -d ~/hrt/boot/env ]; then
   for efile in ~/hrt/boot/env/*.(bash|zsh)
   do
    source $efile
   done
   unset efile
- fi
+fi
 
 # use this for log prefix
 # (bug: breaks in mac) export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"

@@ -30,7 +30,7 @@ alias dclog="docker container logs"
 alias dci="docker container inspect"
 
 alias dcsp="docker container stop"
-alias dcspall="docker container stop $(docker ps -q)"
+alias dcspall='docker container stop $(docker ps -q)'
 
 alias dcrm="docker container rm"
 alias dcrmall="docker container prune -f"

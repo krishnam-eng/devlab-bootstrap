@@ -11,7 +11,8 @@
 .histfile
 .zhistfile
 .zcompdump
-zsh/.zsh_history
+zsh/.zsh_history/
+zsh/.zcompcache/
 
 # tmux
 tmux/plugins/tpm

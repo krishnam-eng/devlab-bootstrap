@@ -122,8 +122,14 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
   unset afile
  fi
 
- if [[ -f ~/hrt/private/alias.zsh ]]; then
-   source ~/hrt/private/alias.zsh
+# load all alias / func / env files from private dir
+ if [[ -d ~/hrt/pvt ]]; then
+  for pfile in ~/hrt/pvt/*sh
+  do
+    # echo $LOG_TS"Sourcing ${pfile} ..."
+    source $pfile
+  done
+  unset pfile
  fi
 
 # todo: make them as lazy load using auto load capability or set it in fpath
@@ -162,10 +168,10 @@ fi
 ################
 # echo 'History Configuration...'
 
-if [[ -f ~/hrt/history/shell/ ]]; then
-    mkdir -p ~/hrt/history/shell/
+if [[ -f ~/hrt/state/shell/ ]]; then
+    mkdir -p ~/hrt/state/shell/
 fi
-HISTFILE=~/hrt/history/shell/.zhistfile # up or down to navigate history or use CTR+R to search history
+HISTFILE=~/hrt/state/shell/.zhistfile # up or down to navigate history or use CTR+R to search history
 HISTSIZE=100000
 SAVEHIST=100000 # hist won't be _saved_ with out this conf
 
@@ -346,13 +352,13 @@ setopt PROMPT_SUBST
 # use below for enabling custom promt
 # source ~/.myenv/interactive_shell/prompt.zsh
 
-# To customize prompt, run `p10k configure` or edit ~/.myzsh/.p10k.zsh.
+# To customize prompt, run `p10k configure` or edit .p10k.zsh.
 autoload -Uz is-at-least
 is-at-least 5.1 && [[ -f ~/hrt/boot/zsh/.p10k.zsh ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/boot/zsh/.p10k.zsh
-is-at-least 5.1 && [[ -f ~/hrt/opt/powerlevel10k/powerlevel10k.zsh-theme ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/opt/powerlevel10k/powerlevel10k.zsh-theme
+is-at-least 5.1 && [[ -f ~/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme
 
 #### like Fish Shell
 # enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing
-[[ ! -f ~/hrt/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/hrt/opt/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ ! -f ~/hrt/ext/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/hrt/ext/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Fish-like fast/unobtrusive autosuggestions for zsh.
-[[ ! -f ~/hrt/opt/zsh-autosuggestions/zsh-autosuggestions.zsh ]] || source ~/hrt/opt/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ ! -f ~/hrt/ext/zsh-autosuggestions/zsh-autosuggestions.zsh ]] || source ~/hrt/ext/zsh-autosuggestions/zsh-autosuggestions.zsh

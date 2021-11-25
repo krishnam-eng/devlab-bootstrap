@@ -12,7 +12,7 @@ hash -d hrt=~/hrt
 hash -d proj=~/proj
 hash -d log=~/log
 hash -d tmp=~/tmp
-hash -d bkp=~/bkp
+hash -d bkp=~/hrt/ver
 hash -d shared=~/shared
 
 # quick access to core FHS dir @ L2

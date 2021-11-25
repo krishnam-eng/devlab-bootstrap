@@ -7,7 +7,7 @@
 # It is easy to create one sym link to conf gitrepo instead of creating for all files
 ##########
 
-export ZDOTDIR=~/hrt/hldr/zsh
+export ZDOTDIR=~/hrt/boot/zsh
 
 ##### When to Use
 # Note: This file is sourced on all invocations of the shell - for both interactive & non-interacttive
@@ -18,8 +18,8 @@ if [ -f ~/hrt/private/path.bash ]; then
   source ~/hrt/private/path.bash
 fi
 
- if [ -d ~/hrt/hldr/env ]; then
-  for efile in ~/hrt/hldr/env/*.(bash|zsh)
+ if [ -d ~/hrt/boot/env ]; then
+  for efile in ~/hrt/boot/env/*.(bash|zsh)
   do
    source $efile
   done

@@ -32,7 +32,7 @@ function install_core_packages(){
      brew install glances         # system monitoring tool
      brew install ctop            # top-like interface for container metrics
 
-    # just for fun
+    # have a little fun
      brew install cowsay            # An ASCII cow in terminal that will say what ever you want
      brew install figlet            # utility for creating ASCII text banners or large letters out of ordinary text
      brew install cmatrix           # shows a scrolling ‘Matrix‘ like screen in a Linux terminal [Not in venv setup]
@@ -43,13 +43,18 @@ function install_core_packages(){
 function install_dev_tools(){
     brew install python
     brew install node
-    brew install elasticsearch 
-    
+    brew install elasticsearch
+}
+
+function setup_container(){
     # Docker - install docker desktop
     # https://docs.docker.com/desktop/mac/install/
 
     # K8S
     brew install minikube
+
+    # check out https://github.com/krishnam-eng/homelab-dkrapps
+    # for setting up various tech stack needed for your R&D
 }
 
 # For testers and developers responsible for API testing, Postman is a popular and free solution

@@ -30,11 +30,11 @@ function build_file_hierarchy_structure(){
     mkdir ~/hrt/bin        #
     mkdir ~/hrt/boot       # HomeLab-Devbox Repo is the dir for local copy of this repo and it boots the hrt.
     mkdir ~/hrt/lib
-    mkdir ~/hrt/style
+    mkdir ~/hrt/opt
     mkdir ~/hrt/etc
 
     mkdir ~/hrt/history
-    mkdir ~/hrt/ctrflags/  # change tools (zsh) default behaviours by flags
+    mkdir ~/hrt/etc/ctrflags/  # change tools (zsh) default behaviours by flags
 
     mkdir ~/hrt/var
     mkdir ~/hrt/plugins
@@ -44,7 +44,7 @@ function build_file_hierarchy_structure(){
     mkdir ~/hrt/virtualenvs
 
     #l3
-    mkdir ~/hrt/style/fonts
+    mkdir ~/hrt/opt/fonts
     mkdir ~/hrt/proj/github
     mkdir ~/hrt/plugins/tmux
     mkdir ~/hrt/history/shell
@@ -62,8 +62,8 @@ function configure_mydevbox_with_homelab_source(){
     
     # Checkout HomeLab source to configure DevBox 
     #
-    # * hldr: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
-    git clone --depth=1 https://github.com/krishnam-eng/homelab-devbox ~/hrt/hldr
+    # * boot: intend is to make the config root name fixed irrespective of the github repo name. config root name will be refered in many micro automation
+    git clone --depth=1 https://github.com/krishnam-eng/homelab-devbox ~/hrt/boot
     git remote -v
     git remote set-url origin git@github.com:krishnam-eng/homelab-devbox.git
 
@@ -76,41 +76,41 @@ function configure_mydevbox_with_homelab_source(){
 
     rm -f  ~/.zshenv ~/.zshrc ~/.bashrc 
     
-    ln -s ~/hrt/hldr/bash/.bashrc  ~/.bashrc
-    ln -s ~/hrt/hldr/zsh/.zshenv ~/.zshenv
+    ln -s ~/hrt/boot/bash/.bashrc  ~/.bashrc
+    ln -s ~/hrt/boot/zsh/.zshenv ~/.zshenv
     
 
     # zsh style - theme & font to boost dev productivity
-    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/hrt/style/zsh-syntax-highlighting
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/hrt/style/zsh-autosuggestions
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/hrt/opt/zsh-syntax-highlighting
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/hrt/opt/zsh-autosuggestions
     
     # Font to support more nerdy icons
-    git clone --depth=1  git@github.com:ryanoasis/nerd-fonts ~/hrt/style/nerd-fonts
-    sh ~/hrt/style/nerd-fonts/install.sh 'JetBrainsMono'
+    git clone --depth=1  git@github.com:ryanoasis/nerd-fonts ~/hrt/opt/nerd-fonts
+    sh ~/hrt/opt/nerd-fonts/install.sh 'JetBrainsMono'
 
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/hrt/style/powerlevel10k
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/hrt/opt/powerlevel10k
     p10k configure
-    touch ~/hrt/ctrflags/enablepowertheme
+    touch ~/hrt/etc/ctrflags/enablepowertheme
     # reboot
 
     # nano editor
     cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old
     rm -f ~/.nanorc
-    ln -s ~/hrt/hldr/nano/.nanorc  ~/.nanorc
-    sudo ln -s ~/hrt/hldr/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
+    ln -s ~/hrt/boot/nano/.nanorc  ~/.nanorc
+    sudo ln -s ~/hrt/boot/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
 
     # Configure: Tmux
     #
     # [copy and further customize if you want to be disconnected from repo]
     cp ~/.tmux.conf ~/.mybkp/.tmux.conf_$(date +%y%m%d)-old
     rm -f ~/.tmux.conf ~/.nanorc
-    ln -s ~/hrt/hldr/tmux/.tmux.conf ~/.tmux.conf
+    ln -s ~/hrt/boot/tmux/.tmux.conf ~/.tmux.conf
 
     # TMUX plugin manager
     git clone --depth=1 https://github.com/tmux-plugins/tpm ~/hrt/plugins/tmux/tpm
     # next: reload tmux conf , and press <prefix> Shift+R to install plugins
-    git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/hrt/style/tmux-powerline
-    cp ~/hrt/hldr/tmux/tmux-powerline-theme.sh ~/hrt/style/tmux-powerline/themes/default.sh
+    git clone --depth=1 https://github.com/erikw/tmux-powerline.git  ~/hrt/opt/tmux-powerline
+    cp ~/hrt/boot/tmux/tmux-powerline-theme.sh ~/hrt/opt/tmux-powerline/themes/default.sh
 
 }
 ################################## END: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################

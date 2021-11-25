@@ -10,7 +10,7 @@
 	logallrefupdates = true
 	ignorecase = true
 	precomposeunicode = true
-	excludesfile = ~/hrt/hldr/git/.gitignore_global
+	excludesfile = ~/hrt/boot/git/.gitignore_global
 [remote "origin"]
 	url = git@github.com:krishnam-eng/homelab-devbox.git
 	fetch = +refs/heads/main:refs/remotes/origin/main

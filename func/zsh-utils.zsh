@@ -3,8 +3,8 @@
 # source all envs, aliases, & functions
 function szsh {
 
-  if [ -d ~/hrt/hldr/env ]; then
-    for efile in ~/hrt/hldr/env/*sh
+  if [ -d ~/hrt/boot/env ]; then
+    for efile in ~/hrt/boot/env/*sh
     do
       echo $LOG_TS"Sourcing ${efile} ..."
       source $efile
@@ -12,8 +12,8 @@ function szsh {
     unset efile
   fi
 
-  if [ -d ~/hrt/hldr/alias ]; then
-    for afile in ~/hrt/hldr/alias/*sh
+  if [ -d ~/hrt/boot/alias ]; then
+    for afile in ~/hrt/boot/alias/*sh
     do
       echo $LOG_TS"Sourcing ${afile} ..."
       source $afile
@@ -26,8 +26,8 @@ function szsh {
   source ~/hrt/private/alias.zsh
  fi
   
- if [ -d ~/hrt/hldr/func ]; then
-    for ffile in ~/hrt/hldr/func/*sh
+ if [ -d ~/hrt/boot/func ]; then
+    for ffile in ~/hrt/boot/func/*sh
     do
       echo $LOG_TS"Sourcing ${ffile} ..."
       source $ffile

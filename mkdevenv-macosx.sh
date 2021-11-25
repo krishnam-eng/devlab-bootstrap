@@ -2,7 +2,7 @@
 
 # NOTE: check the mkdevenv-base.sh script first and come back here
 
-function install_core_packages{
+function install_core_packages(){
     # Install Package Manager - Homebrew
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 

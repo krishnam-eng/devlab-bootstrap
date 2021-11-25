@@ -8,7 +8,7 @@
 
 ###############
 # init
-#   some people so adament to be first in the line
+#   some people so adament to be first in the line. And Powerlevel10k is such one.
 ###############
 # echo 'zsh run config...'
 
@@ -18,6 +18,10 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# When using Powerlevel10k with instant prompt, console output during zsh initialization may indicate issues.
+# Suppress this warning either by running p10k configure or by manually defining the following parameter:
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 # load prompt config here instead in zshenv to make sure nothing else overrides my prompt
 source ~/hrt/hldr/env/interactice-shell/prompt.bash
@@ -136,7 +140,6 @@ fi
 #
 # test and enable the below
 # fpath=(~/.myfunc $fpath)
-
 
 ################
 # Working with History

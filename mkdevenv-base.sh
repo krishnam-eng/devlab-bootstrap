@@ -27,18 +27,19 @@ function build_file_hierarchy_structure(){
     mkdir ~/tmp
 
     #l2
-    mkdir ~/hrt/hldr       # HomeLab-Devbox Repo (HLDR) is the dir for local copy of this repo and (this HLDR holds the heart HRT functioning like SA Node)
-    mkdir ~/hrt/ctrflags/  # change tools (zsh) default behaviours by flags
-    mkdir ~/hrt/style
-    mkdir ~/hrt/bin
-    mkdir ~/hrt/build
-    mkdir ~/hrt/etc
+    mkdir ~/hrt/bin        #
+    mkdir ~/hrt/boot       # HomeLab-Devbox Repo is the dir for local copy of this repo and it boots the hrt.
     mkdir ~/hrt/lib
+    mkdir ~/hrt/style
+    mkdir ~/hrt/etc
+
+    mkdir ~/hrt/history
+    mkdir ~/hrt/ctrflags/  # change tools (zsh) default behaviours by flags
+
     mkdir ~/hrt/var
     mkdir ~/hrt/plugins
     mkdir ~/hrt/proj
     mkdir ~/hrt/private
-    mkdir ~/hrt/history
     mkdir ~/hrt/resurrect
     mkdir ~/hrt/virtualenvs
 

@@ -75,7 +75,7 @@ function install_in_virtual_env(){
     install_vscode()
     wget https://services.gradle.org/distributions/gradle-7.1.1-bin.zip
     unzip gradle-7.0.2-bin.zip
-    export GRADLE_HOME=~/hrt/build/gradle-7.1.1
+    export GRADLE_HOME=~/hrt/lib/gradle-7.1.1
     export PATH=${GRADLE_HOME}/bin:${PATH}
 }
 

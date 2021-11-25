@@ -62,7 +62,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 ######## 
 # History 
 ########
-HISTFILE=~/hrt/history/shell/.bash_history
+HISTFILE=~/hrt/state/shell/.bash_history
 
 # Don't put duplicate lines in the history and do not add lines that start with a space
 HISTCONTROL=ignoreboth

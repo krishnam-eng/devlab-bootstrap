@@ -31,8 +31,7 @@ function build_file_hierarchy_structure(){
     mkdir ~/hrt/etc            # Contains system-wide configuration files. backronym - "Editable Text Configuration"
     mkdir ~/hrt/etc/ctrflags/  # change tools (zsh) default behaviours by flags
 
-    mkdir ~/hrt/ext        # Extensions to zsh like theme, plugins
-    mkdir ~/hrt/ext/fonts
+    mkdir ~/hrt/ext        # Extensions to zsh like theme, plugins, fonts
 
     mkdir ~/hrt/lib        # Libraries essential for the binaries in /bin.
 
@@ -85,18 +84,20 @@ function configure_mydevbox_with_homelab_source(){
     ln -s ~/hrt/boot/zsh/.zshenv ~/.zshenv
     
 
-    # zsh style - theme & font to boost dev productivity
+    # Extending zsh
+    #
+    # Install Font and Configure Font before p10k configuration
+    # Update Terminal font from terminal Profile edit
+    git clone --depth=1  git@github.com:ryanoasis/nerd-fonts ~/hrt/ext/nerd-fonts #! repo clone takes more than a min (took 4m with ~8Mibs download speed)
+    sh ~/hrt/ext/nerd-fonts/install.sh 'JetBrainsMono' # do not give name if you want to install all nerdy fonts
+
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/hrt/ext/zsh-syntax-highlighting
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/hrt/ext/zsh-autosuggestions
-    
-    # Font to support more nerdy icons
-    git clone --depth=1  git@github.com:ryanoasis/nerd-fonts ~/hrt/ext/fonts/nerd-fonts
-    sh ~/hrt/ext/fonts/nerd-fonts/install.sh 'JetBrainsMono'
-
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/hrt/ext/powerlevel10k
+
     p10k configure
-    touch ~/hrt/etc/ctrflags/enablepowertheme
-    # reboot
+    touch ~/hrt/etc/ctrflags/enablepowertheme # delete this file if you want to switch off the powertheme
+
 
     # nano editor
     cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old

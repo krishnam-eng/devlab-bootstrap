@@ -228,9 +228,19 @@ autoload -Uz compinit
 compinit -u # https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories
 
 # Enable auto complete for kubectl
-if [[ -f /usr/local/bin/kubectl ]];then
+if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
 fi
+
+# Enable auto complete for helm
+if [ $commands[helm] ]; then
+  source <(helm completion zsh)
+fi
+
+# By default, the completion doesn't allow option-stacking, meaning if you try to complete docker run -it <TAB>
+# it won't work, because you're stacking the -i and -t options.
+zstyle ':completion:*:*:docker:*' option-stacking yes
+zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
 # add more flair to your auto complete sugesstions, by grouping them by type
 zstyle ':completion:*' group-name ''

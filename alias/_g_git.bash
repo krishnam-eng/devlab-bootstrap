@@ -2,14 +2,6 @@
 
 alias g='git'
 
-#--------------------------------------------------
-# Git Aliases
-# (grouped by usage and then sorted alphabetically)
-#--------------------------------------------------
-
-
-
-
 ### Frequently Used alias
 alias ga='git add'
 alias gaall='git add --all --verbose'

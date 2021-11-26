@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-#--------------------------------------------------
-# Maven Aliases
-# (grouped by usage and then sorted alphabetically)
-#--------------------------------------------------
-
 ### Frequently Used alias
 alias m='mvn'
 

@@ -3,6 +3,11 @@
 ### Frequently Used alias
 alias m='mvn'
 
+# Cool Tricks
+
+# Run mvn against the pom found in a project's root directory (assumes a git repo)
+alias 'mvn!'='mvn -f $(git rev-parse --show-toplevel 2>/dev/null || echo ".")/pom.xml'
+
 # Default Life Cycle 
 alias mvd='mvn validate'	# Validates that the project is correct and all necessary information is available. This also makes sure the dependencies are downloaded.
 alias mc='mvn compile'	# Compiles the source code of the project.
@@ -35,3 +40,8 @@ alias mdbc='mvn dependency:build-classpath'	# Prints out the classpath needed to
 
 alias mdcp='mvn dependency:copy-dependencies'	# Copies dependencies from remote Maven repositories to your local Maven repository.
 
+
+# Others
+alias mvnag='mvn archetype:generate'
+alias mvnboot='mvn spring-boot:run'
+alias mvn-updates='mvn versions:display-dependency-updates'

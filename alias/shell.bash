@@ -6,7 +6,7 @@
 ######
 
 # Load zsh rc
-alias zshlrc="exec zsh -l"
+alias zshl="exec zsh -l"
 
 # copy current dir name
 alias cpdir=" echo $PWD | pbcopy"

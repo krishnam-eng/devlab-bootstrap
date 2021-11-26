@@ -53,6 +53,9 @@ function setup_container(){
     # K8S
     brew install minikube
 
+    # Package manager for k8s
+    brew install helm
+
     # check out https://github.com/krishnam-eng/homelab-dkrapps
     # for setting up various tech stack needed for your R&D
 }
@@ -84,4 +87,10 @@ function setup_postman_api_testenv(){
 
     # For Desktop, download postman (not the agent) app from https://www.postman.com/downloads/
     # Unzip and move it to $User-Home/Applications dir
+}
+
+function setup_build_tools(){
+  # maven
+
+  # gradle
 }

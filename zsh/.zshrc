@@ -219,6 +219,10 @@ setopt SHARE_HISTORY
 ##############
 # echo 'Auto Completion & Some More Magic Setup...'
 
+# Load the completion script placed in ~hrt/ext/completion
+
+fpath=(~/hrt/ext/completion $fpath) 
+
 # Load auto completion feature
 autoload -Uz compinit
 compinit -u # https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories

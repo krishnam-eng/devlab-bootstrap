@@ -99,8 +99,10 @@ function configure_mydevbox_with_homelab_source(){
     p10k configure
     touch ~/hrt/etc/ctrflags/enablepowertheme # delete this file if you want to switch off the powertheme
 
+    # auto completion
     curl -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/zsh/_docker-compose -o ~/hrt/ext/completion/_docker-compose
-    #
+    # brew: With the release of Homebrew 1.0, they decided to bundle the zsh completion as part of the brew installation
+    # kubectl: auto completion is enable in zshrc
 
     # nano editor
     cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old

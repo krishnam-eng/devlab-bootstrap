@@ -31,7 +31,8 @@ function build_file_hierarchy_structure(){
     mkdir ~/hrt/etc            # Contains system-wide configuration files. backronym - "Editable Text Configuration"
     mkdir ~/hrt/etc/ctrflags/  # change tools (zsh) default behaviours by flags
 
-    mkdir ~/hrt/ext        # Extensions to zsh like theme, plugins, fonts
+    mkdir ~/hrt/ext        # Extensions to zsh like theme, plugins, fonts, auto completes
+    mkdir ~/hrt/ext/completion
 
     mkdir ~/hrt/lib        # Libraries essential for the binaries in /bin.
 
@@ -93,11 +94,13 @@ function configure_mydevbox_with_homelab_source(){
 
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/hrt/ext/zsh-syntax-highlighting
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/hrt/ext/zsh-autosuggestions
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/hrt/ext/powerlevel10k
 
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/hrt/ext/powerlevel10k
     p10k configure
     touch ~/hrt/etc/ctrflags/enablepowertheme # delete this file if you want to switch off the powertheme
 
+    curl -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/zsh/_docker-compose -o ~/hrt/ext/completion/_docker-compose
+    #
 
     # nano editor
     cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old

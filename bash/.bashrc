@@ -82,14 +82,14 @@ HISTFILESIZE=20000
 PS1='\[\033[01;32m\]\u\[\033[01;33m\]@\[\033[01;36m\]\h\[\033[01;3$((1 + $RANDOM % 7))m\]$ \[\033[0m\]'
 
 ######## 
-# Alias definitions 
+# Alias definitions
 ########
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
 # source command is a bash built-in, if you want to be compatable with posix, use "." here.
-# source, at present support only one file at a time, Let's iterate over our alias dir to load all. 
+# source, at present support only one file at a time, Let's iterate over our alias dir to load all.
 # I have named all bash compatable alias files with .bash suffix to keep zsh specific alias syntax seperately
 
 [ -z "$TMUX" ] && export TERM=xterm-256color

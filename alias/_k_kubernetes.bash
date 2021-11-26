@@ -2,11 +2,6 @@
 
 alias k="kubectl"
 
-#--------------------------------------------------
-# Kubernetes Aliases
-# (grouped by usage and then sorted alphabetically)
-#--------------------------------------------------
-
 ###### Viewing, finding resources
 
 alias kg="kubectl get"

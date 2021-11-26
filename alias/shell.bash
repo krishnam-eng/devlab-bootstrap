@@ -5,6 +5,12 @@
 #
 ######
 
+# Load zsh rc
+alias zshlrc="exec zsh -l"
+
+# copy current dir name
+alias cpdir=" echo $PWD | pbcopy"
+
 ##########===========----------------
 # enhanced dir cmds (make,copy...) with built-in
 ##########===========----------------

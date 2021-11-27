@@ -348,7 +348,6 @@ setopt NO_BEEP
 ################
 #   Prompt Style & Theme
 #
-#       better be the last bencher
 ################
 
 # Load prompt module
@@ -360,16 +359,22 @@ promptinit
 # treat $PROMPT just as if it were vanilla shell variable - will be checked against for command substitution, parameters and arithmetic expanstion
 setopt PROMPT_SUBST
 
-# use below for enabling custom promt
-# source ~/.myenv/interactive_shell/prompt.zsh
-
 # To customize prompt, run `p10k configure` or edit .p10k.zsh.
 autoload -Uz is-at-least
 is-at-least 5.1 && [[ -f ~/hrt/boot/zsh/.p10k.zsh ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/boot/zsh/.p10k.zsh
 is-at-least 5.1 && [[ -f ~/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme
 
 #### like Fish Shell
-# enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing
+# Enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing
 [[ ! -f ~/hrt/ext/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/hrt/ext/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# Fish-like fast/unobtrusive autosuggestions for zsh.
+
+# Implementation of the Fish-like fast/unobtrusive autosuggestions for zsh from history
 [[ ! -f ~/hrt/ext/zsh-autosuggestions/zsh-autosuggestions.zsh ]] || source ~/hrt/ext/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Implementation of the Fish shell's history search feature, where you can type in any part of any command from history and then press chosen keys, such as the UP and DOWN arrows, to cycle through matches.
+if [[ -f ~/hrt/ext/zsh-history-substring-search/zsh-history-substring-search.zsh ]]; then
+    source ~/hrt/ext/zsh-history-substring-search/zsh-history-substring-search.zsh
+    # enable key binding for up and down
+    bindkey '^[[A' history-substring-search-up
+    bindkey '^[[B' history-substring-search-down
+fi

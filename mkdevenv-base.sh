@@ -120,8 +120,8 @@ function configure_mydevbox_with_homelab_source(){
     # Configure: Tmux
     #
     # [copy and further customize if you want to be disconnected from repo]
-    cp ~/.tmux.conf ~/.mybkp/.tmux.conf_$(date +%y%m%d)-old
-    rm -f ~/.tmux.conf ~/.nanorc
+    cp ~/.tmux.conf ~/hrt/ver/.tmux.conf_$(date +%y%m%d)-old > /dev/null
+    rm -f ~/.tmux.conf
     ln -s ~/hrt/boot/tmux/.tmux.conf ~/.tmux.conf
 
     # TMUX plugin manager

@@ -29,7 +29,8 @@ alias/private.bash
 alias/private.zsh
 
 
-# 
+#
+.idea
 .DS_Store
 */.DS_Store
 zsh/.zsh_sessions/**

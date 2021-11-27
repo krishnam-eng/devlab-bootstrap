@@ -1,11 +1,11 @@
-## Building Home Dev Lab
+## What is This Repo
 
-Goal: "**Build powerful dev environment with numerous micro automation**"
+This is a framework for managing your home dev lab configuration and comes bundled with thousands of helpful functions, helpers, powerful configs for most used dev tools.
 
+To create an efficient portable Linux/Macox developer environment; To quickly setup devenv where ever we want - with many micro automation for increasing dev productivity, it installs and configure required development tools & env to use them to their full potential- tmux, venv, zsh, nano, nginx, docker, k8s and many more.
 
-To create an efficient portable Linux developer environment; To quickly setup devenv where ever we want - with many micro automation for increasing dev productivity, it installs and configure required development tools & env to use them to their full potential- tmux, venv, zsh, nano, nginx, docker, k8s and many more.
-
-## How To (Use for Full Setup)
+## How To 
+### For Full Setup
 Look at these for more details and how to get started (Building Home Dev Lab)
 
 _Step 1: Build New DEV Box/Lab in VirtualBox_
@@ -15,7 +15,7 @@ _Step 2: Bootstrap the new box to power up with effectice config and dev env aut
 - https://github.com/krishnam-eng/homelab-devbox/blob/main/mkdevenv-base.sh 
 
 
-## Tools Level Power Tweaks (Use for Selective Tips)
+### For Selective Setup
 
 Each config is build over the time and detailed comments and organized struture can act as a notes for quick learning the power the below tools.
 
@@ -45,5 +45,3 @@ _Essential Tools_
   - Tmux: https://github.com/krishnam-eng/ohmy-linux/tree/main/tmux
   - Nginx: https://github.com/krishnam-eng/ohmy-linux/tree/main/nginx
   - Docker:  https://github.com/krishnam-eng/ohmy-linux/tree/main/docker
-
-

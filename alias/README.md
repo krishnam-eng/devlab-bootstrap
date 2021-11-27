@@ -1,6 +1,17 @@
 Having convention makes it easy for autocomplete to suggest relevent available cmds and also easy for me to remember. I use this convention for any custom func or alias I create
 
-## Abbrev Conventions
+## Alias Conventions
+
+### General Pattern
+
+alias name logic
+```
+         who-abbrev{1,2} 'ng'
+
+       + what-abbrev{1,2} 'e -edit, v -view, cd, sp - stop'
+
+       + where-abbrev{1} 'A - all, G - global'
+```
 
 ### Who
 
@@ -20,6 +31,7 @@ Having convention makes it easy for autocomplete to suggest relevent available c
 
 |Abbrev|WHAT / ACTION|
 |----:|---|
+|c|create, clean, clear, commit|
 |rm|remove|
 |ls|list|
 |st|start, stash|
@@ -38,12 +50,13 @@ Having convention makes it easy for autocomplete to suggest relevent available c
 |cf|config|
 |cl|clone|
 |co|checkout|
+|s|search|
+|si|search case insensitive|
 
 |Abbrev|WHAT / ACTION|
 |----:|---|
 |a|add|
 |b|build, branch|
-|c|create, clean, clear, commit|
 |e|edit, execute|
 |f|fetch|
 |u|update|
@@ -54,7 +67,6 @@ Having convention makes it easy for autocomplete to suggest relevent available c
 |v|view|
 
 
-
 |Abbrev|WHAT / ACTION|
 |----:|---|
 |prstn|pristine|
@@ -62,7 +74,7 @@ Having convention makes it easy for autocomplete to suggest relevent available c
 
 ##### Where
 
-|Suffix|WHERE / CONTEXT|
+|Suffix|WHERE / CONTEXT or HOW|
 |----:|---|
 |A|all|
 |G|global|
@@ -70,24 +82,13 @@ Having convention makes it easy for autocomplete to suggest relevent available c
 |S|staged|
 |D|detached|
 |V|verbose|
+|R|recursively|
 |H|help|
 
+### Shell CMDs Alias
 
-#### Pattern
+|Suffix|WHERE / CONTEXT|
+|----:|---|
+|h|history|
 
-alias name logic
-```
-         who-abbrev{1,2} 'ng'
 
-       + what-abbrev{1,2} 'e -edit, v -view, cd, sp - stop'
-
-       + where-abbrev{2,3} 'log, cf - config'
-```
-abbrev logic
-```
-         =^(.) + (.)$ if the word is [ middle && what && length >2 ]
-         =word if the word is [ (middle || last) && length <=2 ]
-         =^(.) + (.)$ if the word is [ last && what && length >3 ]
-         =^(.) + (.)$ if the word is [ last && where && length >3 ]
-        +=^(.) for word in compound-word
-```

@@ -8,33 +8,46 @@
 # Load zsh rc
 alias zshl="exec zsh -l"
 
-# copy current dir name
-alias cpdir=" echo $PWD | pbcopy"
-
-##########===========----------------
-# enhanced dir cmds (make,copy...) with built-in
-##########===========----------------
-
-# creat the intermediate parent directories if needed
-alias emkdir="mkdir -p"
-
-# creat the intermediate parent directories if needed
-alias ecp="cp -rv -p"
+#########
+#     Directory Level Actions
+#########
+# make dir and create the intermediate parent directories if needed
+alias mkd="mkdir -p"
 
 # copy "d"ir recursively with verbose mode
 alias cpd="cp -rv"
 
-# copy after dereferencing "l"inks
-alias cpl="cp -L"
-
-# remove "d"ir recursively
+# remove "d"ir
 alias rmd="\rm -rf"
 
-# use default edit as nano & frquent edit files
-alias e="nano"
+# navigate dir - go up one to five steps
+alias u.="cd .."
+alias u..="cd ../.."
+alias u...="cd ../../.."
+alias u....="cd ../../../.."
+alias u.....="cd ../../../../.."
+
+#########
+#      Default Options
+#########
+alias watch="watch -d"
+alias history="history"
+
+# history
+alias h='history'
+alias hA='history 1' # show all history starting index 1
+alias hs='history | grep'
+alias hsi='history | grep -i'
+
+# copy current dir name
+alias cpname=" echo $PWD | pbcopy"
 
 # Quick access to the .zshrc file
 alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc'
+
+# copy after dereferencing "l"inks
+alias cpl="cp -L"
+
 
 # smart grep with default exclution filter
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git} '
@@ -53,52 +66,11 @@ alias sdump='find . -name "*dump"'
 # find file
 alias ffl='find . -type f -name'
 
-alias h='history'
-#alias hgrep="fc -El 0 | grep"
-alias help='man'
-#alias sortnr='sort -n -r'
-#alias unexport='unset'
 
-#########################
-# Replacing Builtins and External Commands
-#
-# enable -a will list all builtins and their enabled or disabled status.
-########################
-
-#######################
-# Change Dir
-######################
-ecd () {
-    builtin cd "$@"
-    echo "${LOG_TS} ${CS_yellow}$OLDPWD${CS_reset} --> ${CS_bcyan}$PWD${CS_reset}"
-    gitvenv
-}
-
-# go up one to five steps
-alias u.="cd .."
-alias u..="cd ../.."
-alias u...="cd ../../.."
-alias u....="cd ../../../.."
-alias u.....="cd ../../../../.."
-
-#######################
-## Func
-#######################
-# Determining if You Are Running Interactively
-# $- is a string listing of all the current shell option flags
-# is_interactive ; echo $!
-is_interactive(){
-    case "$-" in
-        *i*) return 1;;
-        *) return 0;;
-    esac
-}
-alias rcat="lolcat"
-
-###########
-# Others
-#############
-
-alias ewatch="watch -d"
 
 alias utc="date -u"
+
+###########
+#        Handy Utils
+###########
+alias myip="curl http://ipecho.net/plain; echo"

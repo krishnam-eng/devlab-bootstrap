@@ -2,43 +2,85 @@
 
 alias g='git'
 
-### Frequently Used alias
-alias ga='git add'
-alias gaall='git add --all --verbose'
-alias gaf5="git add --refresh"
+# list all alias in this context
+alias galias="alias | awk '/^g/{print}' | lolcat"
 
-alias gc='git commit -v'
-
-alias grs='git restore'
-alias grst='git restore --staged'
-alias grss='git restore --source'
-
-alias gst='git status'
-alias gss='git status -s'
-alias gsb='git status -sb'
+################# Frequently Used CMDs
+alias gcl='git clone'
+alias gcld1='git clone --depth=1'
 
 alias gcf='git config'
-alias gcfl='git config --list'
-alias gcfg='git config --global'
-alias gcfgl='git config --global --list'
+alias gcfG='git config --global'
+alias gcfL='git config --local'
 
-### Others
+alias gcfls='git config --list'
+alias gcflsG='git config --global --list'
+alias gcflsL='git config --local --list'
 
+alias gb='git branch'
+alias gbA='git branch -a'
 
+alias gco='git checkout'
+alias gcob='git checkout -b'
+alias gcom='git checkout $(git_main_branch)'
+alias gcod='git checkout develop'
+
+alias gss='git status -s'
+alias gssV='git status'
+alias gsb='git status -sb'
+
+alias grs='git restore'
+alias grsS='git restore --staged'
+alias grss='git restore --source'
+
+alias gd='git diff'
+alias gdS='git diff --staged'
+
+alias ga='git add'
+alias gaA='git add --all --verbose'
+alias gaf5="git add --refresh"
+
+alias gc='git commit -m'
+alias gcA='git commit -a -m'   # iuse
+
+alias gf='git fetch'
+alias gfo='git fetch origin'
+
+alias gst='git stash'
+alias gstap='git stash apply'
+alias gstc='git stash clear'
+alias gstd='git stash drop'
+alias gstls='git stash list'
+alias gstp='git stash pop'
+
+alias gl='git pull'
+
+alias gp='git push'
+
+alias glg='git log --stat'
+
+alias gH='git help'
+
+# Special cmds
+alias gprstn='git reset --hard && git clean -dffx'
+
+################# Others: to explore
 alias gapa='git add --patch'
 alias gau='git add --update'
-alias gav='git add --verbose'
+alias gaV='git add --verbose'
+
 alias gap='git apply'
 alias gapt='git apply --3way'
 
-alias gb='git branch'
-alias gba='git branch -a'
 alias gbd='git branch -d'
 alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*($(git_main_branch)|development|develop|devel|dev)\s*$)" | command xargs -n 1 git branch -d'
 alias gbD='git branch -D'
-alias gbl='git blame -b -w'
+
 alias gbnm='git branch --no-merged'
 alias gbr='git branch --remote'
+
+alias gbl='git blame -b -w'
+
 alias gbs='git bisect'
 alias gbsb='git bisect bad'
 alias gbsg='git bisect good'
@@ -51,40 +93,27 @@ alias gca='git commit -v -a'
 alias gca!='git commit -v -a --amend'
 alias gcan!='git commit -v -a --no-edit --amend'
 alias gcans!='git commit -v -a -s --no-edit --amend'
-alias gcam='git commit -a -m'   # iuse
 alias gcsm='git commit -s -m'
-alias gcb='git checkout -b'
-alias gcl='git clone --recurse-submodules'
+
 alias gclean='git clean -id'
-alias gpristine='git reset --hard && git clean -dffx'
-alias gcm='git checkout $(git_main_branch)'
-alias gcd='git checkout develop'
-alias gcmsg='git commit -m'
-alias gco='git checkout'
+
 alias gcount='git shortlog -sn'
 alias gcp='git cherry-pick'
 alias gcpa='git cherry-pick --abort'
 alias gcpc='git cherry-pick --continue'
 alias gcs='git commit -S'
 
-alias gd='git diff'
 alias gdca='git diff --cached'
 alias gdcw='git diff --cached --word-diff'
 alias gdct='git describe --tags $(git rev-list --tags --max-count=1)'
-alias gds='git diff --staged'
+
 alias gdt='git diff-tree --no-commit-id --name-only -r'
 alias gdw='git diff --word-diff'
-
-alias gf='git fetch'
-
-alias gfo='git fetch origin'
 
 alias gfg='git ls-files | grep'
 
 alias gg='git gui citool'
 alias gga='git gui citool --amend'
-
-alias ghh='git help'
 
 alias gignore='git update-index --assume-unchanged'
 alias gignored='git ls-files -v | grep "^[[:lower:]]"'
@@ -93,9 +122,6 @@ alias git-svn-dcommit-push='git svn dcommit && git push github $(git_main_branch
 alias gk='\gitk --all --branches'
 alias gke='\gitk --all $(git log -g --pretty=%h)'
 
-#imu
-alias gl='git pull'
-alias glg='git log --stat'
 alias glgp='git log --stat -p'
 alias glgg='git log --graph'
 alias glgga='git log --graph --decorate --all'
@@ -117,14 +143,12 @@ alias gmtvim='git mergetool --no-prompt --tool=vimdiff'
 alias gmum='git merge upstream/$(git_main_branch)'
 alias gma='git merge --abort'
 
-#imu
-alias gp='git push'
 alias gpd='git push --dry-run'
 alias gpf='git push --force-with-lease'
 alias gpf!='git push --force'
 alias gpoat='git push origin --all && git push origin --tags'
 alias gpu='git push upstream'
-alias gpv='git push -v'
+alias gpV='git push -v'
 
 alias gr='git remote'
 alias gra='git remote add'
@@ -157,12 +181,6 @@ alias gsi='git submodule init'
 alias gsps='git show --pretty=short --show-signature'
 alias gsr='git svn rebase'
 
-
-alias gstaa='git stash apply'
-alias gstc='git stash clear'
-alias gstd='git stash drop'
-alias gstl='git stash list'
-alias gstp='git stash pop'
 alias gsts='git stash show --text'
 alias gstu='gsta --include-untracked'
 alias gstall='git stash --all'
@@ -172,7 +190,6 @@ alias gswc='git switch -c'
 
 alias gts='git tag -s'
 alias gtv='git tag | sort -V'
-alias gtl='gtl(){ git tag --sort=-v:refname -n -l "${1}*" }; noglob gtl'
 
 alias gunignore='git update-index --no-assume-unchanged'
 alias gunwip='git log -n 1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1'
@@ -190,6 +207,4 @@ alias gamc='git am --continue'
 alias gams='git am --skip'
 alias gama='git am --abort'
 alias gamscp='git am --show-current-patch'
-
-#tag - imu => i'm using it
 

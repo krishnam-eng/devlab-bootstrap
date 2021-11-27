@@ -1,11 +1,16 @@
+alias b='brew'
+
+# list all alias in this context
+alias balias="alias | awk '/^b/{print}' | lolcat"
+
 # Pin a specified formula so that it's not upgraded.
-alias brewp='brew pin'
+alias bp='brew pin'
 
 # List installed formulae or the installed files for a given formula.
-alias brews='brew list -1'
+alias bls='brew list -1'
 
 # List pinned formulae, or show the version of a given formula.
-alias brewsp='brew list --pinned'
+alias blsp='brew list --pinned'
 
 # Update Homebrew data, then list outdated formulae and casks.
 alias bubo='brew update && brew outdated'

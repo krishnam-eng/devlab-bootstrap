@@ -22,7 +22,7 @@ alias dcst="docker container start"
 alias dcsta="docker container start -a"
 
 alias dcr="docker container run"
-alias dcrd="docker container run -d"
+alias dcrD="docker container run -d"
 alias dca="docker container attach"
 alias dcri="docker container run -it"
 alias dcrr="docker container run --rm"

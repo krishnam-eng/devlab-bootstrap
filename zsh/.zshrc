@@ -1,14 +1,12 @@
 #!/usr/bin/env zsh
-
 ################
-# description : This script (known as _startup file_) will be executed by zsh and all my zsh preferences goes here
+# description : This script (known as _startup file_) will be executed by zsh and all zsh preferences goes here
 # zsh_version : 5.8 (zsh --version)
 # author	    : krishnam
 ################
 
 ###############
 # init
-#   some people so adament to be first in the line. And Powerlevel10k is such one.
 ###############
 # echo 'zsh run config...'
 

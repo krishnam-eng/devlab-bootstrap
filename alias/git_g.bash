@@ -7,6 +7,7 @@ alias galias="alias | awk '/^g/{print}' | lolcat"
 
 ################# Frequently Used CMDs
 alias gcl='git clone'
+alias gclQ='git clone -q'
 alias gcld1='git clone --depth=1'
 
 alias gcf='git config'

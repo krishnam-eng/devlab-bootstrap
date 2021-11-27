@@ -199,7 +199,7 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 ##############
-#  Auto Completion & Some More Magic
+#  Auto Completion & Some More Magic (File Navigation)
 #
 #     Tab to start the auto-complete, tab-again to cycle-through
 #

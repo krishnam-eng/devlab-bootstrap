@@ -84,6 +84,8 @@ alias name logic
 |V|verbose|
 |R|recursively|
 |H|help|
+|!|Force|
+
 
 ### Shell CMDs Alias
 

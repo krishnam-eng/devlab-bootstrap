@@ -76,15 +76,17 @@ alias name logic
 
 |Suffix|WHERE / CONTEXT or HOW|
 |----:|---|
-|A|all|
-|G|global|
-|L|local|
-|S|staged|
-|D|detached|
-|V|verbose|
-|R|recursively|
-|H|help|
+|A|All|
+|G|Global|
+|L|Local|
+|S|Staged|
+|D|Detached, Deamon|
+|V|Verbose|
+|Q|Quite|
+|R|Recursively|
 |!|Force|
+|H|Help|
+
 
 
 ### Shell CMDs Alias

@@ -2,7 +2,7 @@
 # arg 1 : repo name
 # arg 2 : username . default points to krishnam-eng
 # arg 3 : email . default points to krishnam.balamurugan.eng@gmail.com
-function ghclone(){
+function ghcl(){
   repo=$1
   gitusr=${2="krishnam-eng"}
   email=${3="krishnam.balamurugan.eng@gmail.com"}

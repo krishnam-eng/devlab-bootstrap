@@ -94,6 +94,7 @@ function configure_mydevbox_with_homelab_source(){
 
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/hrt/ext/zsh-syntax-highlighting
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  ~/hrt/ext/zsh-autosuggestions
+    git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search  ~/hrt/ext/zsh-history-substring-search
 
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/hrt/ext/powerlevel10k
     p10k configure

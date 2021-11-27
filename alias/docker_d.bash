@@ -29,7 +29,7 @@ alias dcrr="docker container run --rm"
 
 alias dcexe="docker container exec -it"
 
-alias dclog="docker container logs"
+alias dclg="docker container logs"
 alias dci="docker container inspect"
 
 alias dcsp="docker container stop"
@@ -39,6 +39,7 @@ alias dcrm="docker container rm"
 alias dcrmall="docker container prune -f"
 
 alias dcls="docker container ls"
+alias dclsA="docker container ls --all"
 alias dclsl="docker container ls --latest"
 alias dclss="docker container ls --size"
 alias dclsq="docker container ls --quiet"

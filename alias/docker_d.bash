@@ -2,10 +2,18 @@
 
 alias d="docker"
 
+# list all alias in this context
+alias dalias="alias | awk '/^d/{print}' | lolcat"
+
 alias dc="docker container"
 alias di="docker image"
 
 alias dps="docker ps"
+
+# list all alias in this context
+alias dalias="alias | awk '/^d/{print}' | lolcat"
+alias dcalias="alias | awk '/^dc/{print}' | lolcat"
+alias dialias="alias | awk '/^di/{print}' | lolcat"
 
 # container cmds
 alias dcc="docker container create"
@@ -25,7 +33,7 @@ alias dclog="docker container logs"
 alias dci="docker container inspect"
 
 alias dcsp="docker container stop"
-alias dcspall='docker container stop $(docker ps -q)'
+alias dcspA='docker container stop $(docker ps -q)'
 
 alias dcrm="docker container rm"
 alias dcrmall="docker container prune -f"

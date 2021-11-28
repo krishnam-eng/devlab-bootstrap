@@ -50,18 +50,18 @@ alias name logic
 |cf|config|
 |cl|clone|
 |co|checkout|
-|s|search|
 |si|search case insensitive|
 
 |Abbrev|WHAT / ACTION|
 |----:|---|
 |a|add|
-|b|build, branch|
-|e|edit, execute|
-|f|fetch|
 |u|update|
+|b|build, branch|
 |p|push|
+|f|fetch|
 |l|pull|
+|s|search|
+|e|edit, execute|
 |r|run|
 |k|kill|
 |v|view|
@@ -84,6 +84,8 @@ alias name logic
 |V|Verbose|
 |Q|Quite|
 |R|Recursively|
+|rp|repository|
+|hb|hub|
 |!|Force|
 |H|Help|
 

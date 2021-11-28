@@ -13,8 +13,11 @@ alias hri='helm repo index'   # generate an index file given a directory contain
 
 # Search and Find the Chart
 alias hs='helm search'
-alias hsh='helm search hub'   # search for charts in the Artifact Hub or your own hub instance
+alias hshb='helm search hub'   # search for charts in the Artifact Hub or your own hub instance
 alias hsrp='helm search repo' # search repositories for a keyword in charts
 
-alias hshbV='helm search hub --max-col-width=0'   # Show repo link and description w/o chart limit
+alias hshbV='helm search hub --max-col-width=0'   # Verbose: Show repo link and description w/o chart limit
 alias hsrpV='helm search repo --max-col-width=0' #
+
+alias hshbY='helm search hub --output yaml'   # Yaml: Show repo link and description as yaml out
+alias hsrpY='helm search repo --output yaml'  #

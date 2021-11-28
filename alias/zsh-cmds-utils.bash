@@ -65,3 +65,25 @@ alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git} '
 alias tf='tail -f'
 
 alias sdump='find . -name "*dump"'
+
+
+
+# Recipe: Telling Whether a Command Succeeded or Not
+#   Command Execution Exist STatus: The exit status of a command is kept in the shell variable referenced with $?. Its value can range from 0 to 255. Script can set exit status like `exit 2`
+alias est="echo $?"
+
+# Getting user input
+#   -p => print a prompt string before reading the input, -t => sets a timeout, e prfix indicates enchance convention
+# Recipe: Prompting for a Password
+#   -s => silent mode
+alias eread="read -t 5 -p"
+
+# Recipe: Running a Command Only if Another Command Succeed
+#   use1: cmd1 && cmd2
+#   use2: set -e; cd mytemp;rm* => Running a Command Only if Another Command Succeed
+
+# Recipe: Running Long Jobs Unattended
+#   use: & to run in the background
+
+# shows the number of files that a user can have opened per login session
+alias filelimit="cat /proc/sys/fs/file-max"

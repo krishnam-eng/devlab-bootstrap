@@ -15,5 +15,5 @@ alias du='du -ch'
 #      Lazy to Type
 ########
 alias c="clear"
-alias h='history'
+alias hist='history'
 

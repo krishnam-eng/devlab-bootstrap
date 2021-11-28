@@ -46,18 +46,16 @@ function install_dev_tools(){
     brew install elasticsearch
 }
 
-function setup_container(){
-    # Docker - install docker desktop
+function setup_container_ecosystem(){
+    # Docker - Made it easy to use the Linux Container
+    # Install Docker Desktop (preferable over package install and manual configuration)
     # https://docs.docker.com/desktop/mac/install/
 
-    # K8S
+    # K8S - Like a Operating System for Data-Center
     brew install minikube
 
-    # Package manager for k8s
+    # Like a Package Manager for k8s Operating System
     brew install helm
-
-    # check out https://github.com/krishnam-eng/homelab-dkrapps
-    # for setting up various tech stack needed for your R&D
 }
 
 # For testers and developers responsible for API testing, Postman is a popular and free solution

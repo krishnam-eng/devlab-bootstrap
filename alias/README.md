@@ -22,6 +22,9 @@ alias name logic
 |di|docker image|
 |dc|docker container|
 |dco|docker-compose|
+|h|helm|
+|k|kubectl|
+|mk|minikube|
 |g|git|
 |m|mvn|
 |tm|tmux|
@@ -31,7 +34,6 @@ alias name logic
 
 |Abbrev|WHAT / ACTION|
 |----:|---|
-|c|create, clean, clear, commit|
 |rm|remove|
 |ls|list|
 |st|start, stash|
@@ -51,9 +53,13 @@ alias name logic
 |cl|clone|
 |co|checkout|
 |si|search case insensitive|
+|del|delete|
+|sh|show|
+|vw|view|
 
 |Abbrev|WHAT / ACTION|
 |----:|---|
+|c|create, clean, clear, commit|
 |a|add|
 |u|update|
 |b|build, branch|
@@ -64,7 +70,9 @@ alias name logic
 |e|edit, execute|
 |r|run|
 |k|kill|
-|v|view|
+
+|s|set|
+|g|get|
 
 
 |Abbrev|WHAT / ACTION|

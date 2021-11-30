@@ -54,3 +54,6 @@ alias hgm='helm get manifest'
 alias hgn='helm get notes'
 alias hgv='helm get values'
 alias hgA='helm get all'
+
+# package chart
+alias hpk='helm package'

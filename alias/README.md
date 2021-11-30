@@ -47,6 +47,7 @@ alias name logic
 |lf|log follow e.g, log -f |
 |ld|load|
 |rl|reload|
+|pk|package|
 |qt|quit|
 |ap|apply|
 |cf|config|

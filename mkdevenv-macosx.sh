@@ -88,7 +88,33 @@ function setup_postman_api_testenv(){
 }
 
 function setup_build_tools(){
+  # change working dir to lib
+  cd ~/hrt/lib
+
   # maven
+  curl https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.tar.gz --output apache-maven-3.6.1.tar.gz
+  curl https://dlcdn.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz --output apache-maven-3.8.4.tar.gz
+
+  tar -xvzf apache-maven-3.6.1.tar.gz
+  tar -xvzf apache-maven-3.8.4.tar.gz
+
+  # symlink to your preferred default
+  ln -s apache-maven-3.6.1 maven
+  ln -s ~/hrt/lib/maven/bin/mvn ~/hrt/bin/mvn
+
+  # set the below in run-config (rc file). e,g - env/dev.bash
+  if [ -d "$HOME/hrt/lib/maven" ]
+  then
+    # maven is a link to a specific version of maven .e.g, apache-maven-3.6.1
+    export M2_HOME="$HOME/hrt/lib/maven"
+    PATH="${M2_HOME}/bin:${PATH}"
+  fi
+
+  # optional: e.g, env/path.bash file
+  if [ -d "$HOME/hrt/bin" ]
+  then
+    PATH="$PATH:$HOME/hrt/bin"
+  fi
 
   # gradle
 }

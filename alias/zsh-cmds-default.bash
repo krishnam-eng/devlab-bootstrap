@@ -17,3 +17,5 @@ alias du='du -ch'
 alias c="clear"
 alias hist='history'
 
+alias untar='tar -xvzf'
+

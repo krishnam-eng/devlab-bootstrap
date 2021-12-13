@@ -43,10 +43,9 @@ function install_core_packages(){
 function install_dev_tools(){
     brew install python
     brew install node
-    brew install elasticsearch
 }
 
-function setup_container_ecosystem(){
+function install_infra_tools(){
     # Docker - Made it easy to use the Linux Container
     # Install Docker Desktop (preferable over package install and manual configuration)
     # https://docs.docker.com/desktop/mac/install/
@@ -56,6 +55,12 @@ function setup_container_ecosystem(){
 
     # Like a Package Manager for k8s Operating System
     brew install helm
+    
+    # Serverless - OpenWhisk
+    brew install wsk 
+
+    # Search Engine & Data Store
+    brew install elasticsearch
 }
 
 # For testers and developers responsible for API testing, Postman is a popular and free solution

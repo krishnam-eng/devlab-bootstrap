@@ -42,7 +42,7 @@ alias hshv='helm show values'
 alias hshA='helm show all'
 
 # Install the chart
-
+# e.g helm install owdev openwhisk/openwhisk -n openwhisk --create-namespace -f ~hrt/proj/github/homelab-dkrapps/helm/openwhisk/owcluster.yaml
 
 # Inspecting your release
 alias hls='helm list --all-namespaces'

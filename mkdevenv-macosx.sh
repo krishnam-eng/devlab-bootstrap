@@ -122,4 +122,10 @@ function setup_build_tools(){
   fi
 
   # gradle
+  wget https://services.gradle.org/distributions/gradle-7.3.2-bin.zip
+  cp gradle-7.3.2-bin.zip ~hrt/lib/
+  unzip gradle-7.3.2-bin.zip
+  ln -s gradle-7.3.2 gradle
+  rm gradle-7.3.2-bin.zip
+  ln -s ~/hrt/lib/gradle/bin/gradle ~/hrt/bin/gradle
 }

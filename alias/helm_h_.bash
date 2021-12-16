@@ -45,7 +45,7 @@ alias hshA='helm show all'
 
 
 # Inspecting your release
-alias hls='helm list'
+alias hls='helm list --all-namespaces'
 
 # Get details for a named release
 alias hg='helm get'

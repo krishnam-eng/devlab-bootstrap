@@ -10,7 +10,7 @@ fi
 
 if [ -d "$HOME/hrt/lib/gradle-7.1.1" ]
 then
-  export GRADLE_HOME="~/hrt/lib/gradle-7.1.1"
+  export GRADLE_HOME="~/hrt/lib/gradle"
   PATH=${GRADLE_HOME}/bin:${PATH}
 fi
 

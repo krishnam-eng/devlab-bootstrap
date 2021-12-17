@@ -51,6 +51,7 @@ alias name logic
 |qt|quit|
 |ap|apply|
 |cf|config|
+|pt|property|
 |cl|clone|
 |co|checkout|
 |si|search case insensitive|

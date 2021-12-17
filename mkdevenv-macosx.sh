@@ -56,10 +56,16 @@ function install_infra_tools(){
     # Like a Package Manager for k8s Operating System
     brew install helm
     
-    # Serverless - OpenWhisk
+    #### Serverless - OpenWhisk
+    # wsk interacts with openwhisk platform
     brew install wsk 
 
-    # Search Engine & Data Store
+    # wskdeploy helps manage deploy configs - action, packages, namespace
+    wget https://github.com/apache/openwhisk-wskdeploy/releases/download/1.2.0/openwhisk_wskdeploy-1.2.0-mac-amd64.zip
+    unzip ../openwhisk_wskdeploy-1.2.0-mac-amd64.zip
+    mv wskdeploy ~hrt/bin/    # hrt/bin is set as PATH
+
+    #### Search Engine & Data Store - or use docker compose / k8s helm to setup ES
     brew install elasticsearch
 }
 

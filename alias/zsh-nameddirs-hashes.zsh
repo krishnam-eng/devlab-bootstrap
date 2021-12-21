@@ -53,10 +53,10 @@ hash -d nginx=~/hrt/boot/nginx  # ~nginx
 # convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")
 hash -d gh=~/hrt/proj/github
 
-hash -d rphda=~gh/homelab-dkrapps
-hash -d rpddd=~gh/domain-driven-design
+hash -d rp-hlda=~gh/homelab-dkrapps
+hash -d rp-ddd=~gh/domain-driven-design
 
-hash -d rphlt=~gh/howdoi-loadtest
-hash -d rpppn=~gh/practice-python
-hash -d rppfk=~gh/practice-flask
-
+hash -d rp-hlt=~gh/howdoi-loadtest
+hash -d rp-ppn=~gh/practice-python
+hash -d rp-pfk=~gh/practice-flask
+hash -d rp-hus=~gh/handy-utilities

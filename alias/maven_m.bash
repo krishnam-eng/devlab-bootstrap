@@ -3,6 +3,9 @@
 ### Frequently Used alias
 alias m='mvn'
 
+# in case if you want to use different settings for mvn - customized
+alias cmvn='mvn --global-settings ~hrt/pvt/maven/settings.xml'
+
 # Cool Tricks
 
 # Run mvn against the pom found in a project's root directory (assumes a git repo)

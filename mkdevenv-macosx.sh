@@ -69,6 +69,21 @@ function install_infra_tools(){
     brew install elasticsearch
 }
 
+function install_db_dev_tools {
+ # Install MySQL: Server, Shell, Workbench
+ https://dev.mysql.com/downloads/mysql/
+ https://dev.mysql.com/downloads/shell/
+ https://dev.mysql.com/downloads/workbench/ 
+ 
+ # Install PostgreSQL
+ https://postgresapp.com/
+ https://postgresapp.com/downloads.html
+ https://www.postgresql.org/ftp/pgadmin/pgadmin4/v6.3/macos/
+ 
+ 
+ # NOTE: Choose the right CPU - arm64 or x86_64 
+
+}
 # For testers and developers responsible for API testing, Postman is a popular and free solution
 # Postman says: Automated API testing is far superior to automated UI testing
 function setup_postman_api_testenv(){

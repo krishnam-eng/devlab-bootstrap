@@ -54,6 +54,9 @@ function build_file_hierarchy_structure(){
     mkdir ~/hrt/ver        # For taking backup version of config before overwriting
     mkdir ~/hrt/vol        # For persistence volume to attach to container
 
+    mkdir ~/hrt/var        # var canonical with complete user access
+    mkdir ~/hrt/var/pgsql  # pgdata env base
+
     mkdir ~/hrt/virtualenvs
 
     # Check

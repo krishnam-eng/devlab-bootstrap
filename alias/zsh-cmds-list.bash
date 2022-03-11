@@ -77,3 +77,8 @@ alias lshrt="lt1 ~/hrt"
 
 # list shells & you can change shell chsh -s /path
 alias lssh="cat /etc/shells"
+
+#################### better for view / copy 
+
+# removes number from history display
+alias lhist="history | awk '{ \$1=\"\"; print \$0 }'"

@@ -21,8 +21,7 @@ hash -d bin=~/hrt/bin
 hash -d lib=~/hrt/lib
 hash -d var=~/hrt/var
 hash -d etc=~/hrt/etc
-hash -d src=~/hrt/src
-
+hash -d pvt=~/hrt/pvt
 hash -d style=~/hrt/opt
 hash -d tools=~/hrt/tools
 
@@ -53,6 +52,7 @@ hash -d nginx=~/hrt/boot/nginx  # ~nginx
 # convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")
 hash -d gh=~/hrt/proj/github
 
+hash -d rp-ujl=~gh/useful-java-libraries
 hash -d rp-hlda=~gh/homelab-dkrapps
 hash -d rp-ddd=~gh/domain-driven-design
 

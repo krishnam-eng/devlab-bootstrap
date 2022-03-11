@@ -79,7 +79,10 @@ function install_db_dev_tools {
  https://postgresapp.com/
  https://postgresapp.com/downloads.html
  https://www.postgresql.org/ftp/pgadmin/pgadmin4/v6.3/macos/
- 
+ # Configure your $PATH & PGDATA - check env/dev.sh
+ initdb # to initialize a data directory
+ psql --version
+ psql # default db name is $USER
  
  # NOTE: Choose the right CPU - arm64 or x86_64 
 

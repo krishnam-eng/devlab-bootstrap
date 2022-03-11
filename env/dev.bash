@@ -47,3 +47,16 @@ export FLASK_APP=app.py
 # ES 1.7 expects ES JAVA HOME
 export ES_JAVA_HOME=$JAVA_HOME
 export ES_HOME=$HOME/hrt/server/elasticsearch-7.15.2
+
+# MySQL - to access mysqladmin from cli
+if [ -d "/usr/local/mysql/bin" ]
+then
+  PATH="$PATH:/usr/local/mysql/bin"
+fi
+
+# Postgres - to access psql form cli
+if [ -d "/Applications/Postgres.app/Contents/Versions/latest/bin" ]
+then
+  PATH="$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin"
+  export PGDATA=~/hrt/var/pgsql/data
+fi

@@ -31,6 +31,7 @@ alias/private.zsh
 
 #
 .idea
+*.iml
 .DS_Store
 */.DS_Store
 zsh/.zsh_sessions/**

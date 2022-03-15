@@ -6,7 +6,7 @@
 alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc'
 
 # Load zsh rc
-alias zshl="exec zsh -l"
+alias lzsh="exec zsh -l"
 
 #########
 #     Directory Level Actions

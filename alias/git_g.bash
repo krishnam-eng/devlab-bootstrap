@@ -47,6 +47,9 @@ alias gcA='git commit -a -m'   # iuse
 alias gf='git fetch'
 alias gfo='git fetch origin'
 
+alias gm='git merge'
+alias gmom='git merge origin/master'
+
 alias gst='git stash'
 alias gstap='git stash apply'
 alias gstc='git stash clear'
@@ -137,8 +140,6 @@ alias glog='git log --oneline --decorate --graph'
 alias gloga='git log --oneline --decorate --graph --all'
 alias glp="_git_log_prettily"
 
-alias gm='git merge'
-alias gmom='git merge origin/$(git_main_branch)'
 alias gmt='git mergetool --no-prompt'
 alias gmtvim='git mergetool --no-prompt --tool=vimdiff'
 alias gmum='git merge upstream/$(git_main_branch)'

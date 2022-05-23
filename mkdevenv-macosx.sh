@@ -31,6 +31,7 @@ function install_core_packages(){
      brew install htop            # interactive process viewer similar to top but that provides a nicer user experience out of the box
      brew install glances         # system monitoring tool
      brew install ctop            # top-like interface for container metrics
+     brew install telnet          # Telnet is an old network protocol that is used to connect to remote systems over a TCP/IP network.  data sent over the protocol is unencrypted.
 
     # have a little fun
      brew install cowsay            # An ASCII cow in terminal that will say what ever you want
@@ -67,6 +68,10 @@ function install_infra_tools(){
 
     #### Search Engine & Data Store - or use docker compose / k8s helm to setup ES
     brew install elasticsearch
+
+    #### Hashsicorp Vault: Manage secrets and protect sensitive data. 
+    brew tap hashicorp/tap
+    brew install hashicorp/tap/vault
 }
 
 function install_db_dev_tools {
@@ -131,7 +136,7 @@ function setup_build_tools(){
   ln -s apache-maven-3.6.1 maven
   ln -s ~/hrt/lib/maven/bin/mvn ~/hrt/bin/mvn
 
-  # set the below in run-config (rc file). e,g - env/dev.bash
+  # set the below in run-config (rc file). e,g - env/dev-path.bash
   if [ -d "$HOME/hrt/lib/maven" ]
   then
     # maven is a link to a specific version of maven .e.g, apache-maven-3.6.1

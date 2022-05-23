@@ -19,3 +19,5 @@ alias hist='history'
 
 alias untar='tar -xvzf'
 
+# default editor
+alias e='nano'

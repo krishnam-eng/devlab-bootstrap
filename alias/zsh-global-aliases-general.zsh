@@ -19,9 +19,6 @@ alias -g ET='|& tail'
 alias -g EG='|& egrep'
 alias -g EL='|& less'
 
-# output format
-alias -g OY='--output yaml'
-
 # Sending output and error messages to the same file
 alias -g OE=">&"
 alias -g OE=">& | more"

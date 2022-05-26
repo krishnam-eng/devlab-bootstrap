@@ -33,6 +33,7 @@ alias kar='kubectl api-resources'
 #####
 
 # View the nodes in the cluster
+alias kg='kubectl get'
 alias kgn='kubectl get nodes'
 alias kgnV='kubectl get nodes -o wide' #verbose
 
@@ -118,26 +119,67 @@ alias ksd='kubectl scale deployment' # –replicas=2
 # Updating and Deleting Applications
 #####
 # 2.2.1 Releasing a new application version
+# update image version to deploy a new application version
+alias ksi='kubectl set image deployment'
+
+# Apply a YML file - e.g, deployment creation, service creation
+alias kaf='kubectl apply -f'
+
+alias krs='kubectl rollout status'
+alias krsd='kubectl rollout status deployment'
+
 # 2.2.2 Rolling back an application release
+# Rollout management.
+alias krh='kubectl rollout history'
+alias kru='kubectl rollout undo'
+alias krud='kubectl rollout undo deployment'
+
 # 2.2.3 Assigning an application to a specific node (node affinity)
+# affinity:
+#   nodeAffinity:
+
 # 2.2.4 Scheduling application replicas to different nodes (pod affinity)
+# affinity:
+#   podAntiAffinity:
+
 # 2.2.5 Exposing an application to the internet
+# update service.yaml with
+# spec:
+#   type: LoadBalancer
+# The LoadBalancer capability is dependent on the vendor integration.
+# So, If you run locally with Minikube or Kind, you will never really get an external IP.
+
 # 2.2.6 Deleting an application
+alias kdeld='kubectl delete deployment'
+alias kdels='kubectl delete svc'
 
+##### 2.3
+# Debugging an Application
+#####
+# 2.3.1 Describing a pod & Look for Events
+alias kdp='kubectl describe pods'
 
-###unmapped
-alias kcv='kubectl config view'
-
-alias kg='kubectl get'
-
+# When kubectl describe pod does not show any information about an error, we can use another kubectl command, that is, logs.
+# 2.3.2 Checking pod logs
+# Logs
 alias kl='kubectl logs'
+alias klp='kubectl logs -p'              # print the logs for the previous instance
+alias kl1h='kubectl logs --since 1h'
+alias kl1m='kubectl logs --since 1m'
+alias kl1s='kubectl logs --since 1s'
+alias klf='kubectl logs -f'              # follow the log realtime
+alias klf1h='kubectl logs --since 1h -f'
+alias klf1m='kubectl logs --since 1m -f'
+alias klf1s='kubectl logs --since 1s -f'
 
-alias kexe='kubectl exec -it' # Drop into an interactive terminal on a container
+# 2.3.3 Executing a command in a running container
+alias kexec='kubectl exec -it' # -- bash.
 
 #####
 # Kubectl context and configuration
 #####
 alias kc='kubectl config'
+alias kcv='kubectl config view'
 
 alias kcss='kubectl config set-cluster'     # Set cluster with server url & certificate-authority-data
 alias kcsu='kubectl config set-credentials' #  add a new user to your kubeconf
@@ -150,23 +192,17 @@ alias kccc='kubectl config current-context'
 alias kcuc='kubectl config use-context'    # Manage configuration quickly to switch contexts between local, dev ad staging.
 alias kcuc-local='kubectl config use-context docker-desktop'
 
-
 #####
-#
+#  Others
 #####
 
 # Execute a kubectl command against all namespaces
 alias kca='_kca(){ kubectl "$@" --all-namespaces;  unset -f _kca; }; _kca'
 
-# Apply a YML file - e.g, deployment creation, service creation
-alias kaf='kubectl apply -f'
-
 # General aliases
 alias kdel='kubectl delete'
 alias kdelf='kubectl delete -f'
 alias kdelns='kubectl delete namespace' # delete all resources in a namespace
-
-
 
 # get pod by label: kgpl "app=myapp" -n myns
 alias kgpl='kgp -l'
@@ -174,11 +210,9 @@ alias kgpl='kgp -l'
 # get pod by namespace: kgpn kube-system"
 alias kgpn='kgp -n'
 
-
-
 # Ingress management
 alias kgi='kubectl get ingress'
-alias kgia='kubectl get ingress --all-namespaces'
+alias kgiA='kubectl get ingress --all-namespaces'
 alias kei='kubectl edit ingress'
 alias kdi='kubectl describe ingress'
 alias kdeli='kubectl delete ingress'
@@ -192,32 +226,22 @@ alias kcn='kubectl config set-context --current --namespace'
 
 # ConfigMap management
 alias kgcm='kubectl get configmaps'
-alias kgcma='kubectl get configmaps --all-namespaces'
+alias kgcmA='kubectl get configmaps --all-namespaces'
 alias kecm='kubectl edit configmap'
 alias kdcm='kubectl describe configmap'
 alias kdelcm='kubectl delete configmap'
 
 # Secret management
 alias kgsec='kubectl get secret'
-alias kgseca='kubectl get secret --all-namespaces'
+alias kgsecA='kubectl get secret --all-namespaces'
 alias kdsec='kubectl describe secret'
 alias kdelsec='kubectl delete secret'
 
-
-kres(){
-    kubectl set env $@ REFRESHED_AT=$(date +%Y%m%d%H%M%S)
-}
-
-# Rollout management.
-alias kgrs='kubectl get rs'
-alias krh='kubectl rollout history'
-alias kru='kubectl rollout undo'
-
 # Statefulset management.
 alias kgss='kubectl get statefulset'
-alias kgssa='kubectl get statefulset --all-namespaces'
-alias kgssw='kgss --watch'
-alias kgsswide='kgss -o wide'
+alias kgssA='kubectl get statefulset --all-namespaces'
+alias kgssW='kgss --watch'
+alias kgssV='kgss -o wide'
 alias kess='kubectl edit statefulset'
 alias kdss='kubectl describe statefulset'
 alias kdelss='kubectl delete statefulset'
@@ -228,17 +252,8 @@ alias krsss='kubectl rollout status statefulset'
 alias kpf="kubectl port-forward"
 
 # Tools for accessing all information
-alias kga='kubectl get all'
-alias kgaa='kubectl get all --all-namespaces'
-
-# Logs
-alias kl1h='kubectl logs --since 1h'
-alias kl1m='kubectl logs --since 1m'
-alias kl1s='kubectl logs --since 1s'
-alias klf='kubectl logs -f'
-alias klf1h='kubectl logs --since 1h -f'
-alias klf1m='kubectl logs --since 1m -f'
-alias klf1s='kubectl logs --since 1s -f'
+alias kgA='kubectl get all'
+alias kgAA='kubectl get all --all-namespaces'
 
 # File copy
 alias kcp='kubectl cp'
@@ -279,6 +294,7 @@ if (( ${+_comps[kubectl]} )); then
   compdef ky=kubectl
 fi
 
-# Global aliases
+kres(){
+    kubectl set env $@ REFRESHED_AT=$(date +%Y%m%d%H%M%S)
+}
 
-# https://kubernetes.io/docs/reference/kubectl/cheatsheet/

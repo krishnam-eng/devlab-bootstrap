@@ -44,5 +44,10 @@ minikube addons list
 # These two needed for elasticsearch chart release
 minikube addons enable storage-provisioner
 minikube addons enable default-storageclass
+
+
+# To view node resources like >kubectl top nodes 
+minikube addons enable metrics-server
+
 ```
 

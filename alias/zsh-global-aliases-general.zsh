@@ -11,6 +11,8 @@ alias -g M='| more'
 alias -g L='| less'
 alias -g R='| lolcat'
 alias -g G='| egrep'
+alias -g GW='| egrep -w' # grep for a word (not partial match)
+
 
 alias -g EH='|& head'
 alias -g ET='|& tail'

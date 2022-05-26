@@ -1,23 +1,51 @@
 # This command is used a LOT both below and in daily life
 alias k=kubectl
 
+#####
+# Getting Information about a Cluster
+#####
+
+# Info: Kubectl is the client and Kubernetes API Server of the Kubernetes Cluster is the server. Kubernetes Cluster can be installed on variety of operating systems on local machines or remote systems or edge devices. Regardless of where you install it kubectl is the client tool to interact with the Kubernetes API Server.
+# Warning: The kubectl version can be a more recent one; it does not really have to match the server version, as the latest version is usually backward compatible. However, it is not recommended to use an older kubectl version with a more recent server version.
+alias kv='kubectl version --short'
+
+# check the cluster server information
+alias kci='kubectl cluster-info'
+alias kr='kubectl api-resources'
+alias kcv='kubectl config view'
+
+alias kg='kubectl get'
+alias kd='kubectl describe'
+alias kl='kubectl logs'
+
+alias kexe='kubectl exec -it' # Drop into an interactive terminal on a container
+
+#####
+# Kubectl context and configuration
+#####
+alias kc='kubectl config'
+
+alias kcss='kubectl config set-cluster'     # Set cluster with server url & certificate-authority-data
+alias kcsu='kubectl config set-credentials' #  add a new user to your kubeconf
+
+alias kcsc='kubectl config set-context'     # Tip: you can permanently save the namespace for all subsequent kubectl commands in that context using --namespace=
+alias kcgc='kubectl config get-contexts'
+alias kcdc='kubectl config delete-context'
+alias kccc='kubectl config current-context'
+
+alias kcuc='kubectl config use-context'    # Manage configuration quickly to switch contexts between local, dev ad staging.
+alias kcuc-local='kubectl config use-context docker-desktop'
+
+
+#####
+#
+#####
+
 # Execute a kubectl command against all namespaces
 alias kca='_kca(){ kubectl "$@" --all-namespaces;  unset -f _kca; }; _kca'
 
 # Apply a YML file
 alias kaf='kubectl apply -f'
-
-# Drop into an interactive terminal on a container
-alias keti='kubectl exec -ti'
-
-# Manage configuration quickly to switch contexts between local, dev ad staging.
-alias kcuc='kubectl config use-context'
-alias kcsc='kubectl config set-context'
-alias kcdc='kubectl config delete-context'
-alias kccc='kubectl config current-context'
-
-# List all contexts
-alias kcgc='kubectl config get-contexts'
 
 # General aliases
 alias kdel='kubectl delete'
@@ -114,7 +142,6 @@ alias kga='kubectl get all'
 alias kgaa='kubectl get all --all-namespaces'
 
 # Logs
-alias kl='kubectl logs'
 alias kl1h='kubectl logs --since 1h'
 alias kl1m='kubectl logs --since 1m'
 alias kl1s='kubectl logs --since 1s'
@@ -125,12 +152,6 @@ alias klf1s='kubectl logs --since 1s -f'
 
 # File copy
 alias kcp='kubectl cp'
-
-# Node Management
-alias kgno='kubectl get nodes'
-alias keno='kubectl edit node'
-alias kdno='kubectl describe node'
-alias kdelno='kubectl delete node'
 
 # PVC management.
 alias kgpvc='kubectl get pvc'
@@ -167,3 +188,7 @@ if (( ${+_comps[kubectl]} )); then
   compdef kjx=kubectl
   compdef ky=kubectl
 fi
+
+# Global aliases
+
+# https://kubernetes.io/docs/reference/kubectl/cheatsheet/

@@ -92,6 +92,7 @@ alias name logic
 |S|Staged|
 |D|Detached, Deamon|
 |V|Verbose|
+|W|Watch|
 |Q|Quite|
 |R|Recursively|
 |rp|repository|

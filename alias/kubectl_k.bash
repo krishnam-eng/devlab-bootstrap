@@ -1,21 +1,135 @@
 # This command is used a LOT both below and in daily life
 alias k=kubectl
 
-#####
+##################################### Kubernetes Cluster and Node Management ###########################################
+##### 1.1
 # Getting Information about a Cluster
+#   - get information about a Kubernetes cluster, the available APIs, and the API resources in a cluster.
+#
 #####
 
 # Info: Kubectl is the client and Kubernetes API Server of the Kubernetes Cluster is the server. Kubernetes Cluster can be installed on variety of operating systems on local machines or remote systems or edge devices. Regardless of where you install it kubectl is the client tool to interact with the Kubernetes API Server.
 # Warning: The kubectl version can be a more recent one; it does not really have to match the server version, as the latest version is usually backward compatible. However, it is not recommended to use an older kubectl version with a more recent server version.
-alias kv='kubectl version --short'
+alias kV='kubectl version --short'
 
-# check the cluster server information
+# Cluster: check the cluster server information
 alias kci='kubectl cluster-info'
-alias kr='kubectl api-resources'
+
+# Cluster: check the available cluster API versions because each new Kubernetes version usually brings with it new API versions and deprecates/removes some old ones.
+alias kav='kubectl api-versions'
+
+# Cluster: shows the available resources, their short names (to use with kubectl), the API group a resource belongs to, whether a resource is namespaced or not, and the KIND type
+alias kar='kubectl api-resources'
+
+##### 1.2
+# Working with Nodes
+#   - cluster workload runs in nodes, where all Kubernetes pods get scheduled, deployed, redeployed, and destroyed
+#   - Kubernetes runs the workload by placing containers into pods and then schedules them to run on nodes
+#   - Each node has the services necessary to run pods
+#     - kubelet: An agent that registers/deregisters the node with the Kubernetes API
+#     - Container runtime: This runs containers
+#     - kube-proxy: Network proxy.
+#   - Kubernetes cluster supports nodes autoscaling, then nodes can come and go as specified by the autoscaling rules: by setting min and max node counts
+#####
+
+# View the nodes in the cluster
+alias kgn='kubectl get nodes'
+alias kgnV='kubectl get nodes -o wide' #verbose
+
+# Shows the assigned Labels (which can be used to organize and select subsets of objects) and Annotations (extra information about the node is stored there)
+# Shows the assigned internal and external IPs, the internal DNS name, and the hostname
+# Shows the running pods on the node
+# Shows the allocated resources
+alias kdn='kubectl describe no'
+
+# Displaying node resource usage
+alias ktn='kubectl top nodes'
+
+# kubectl has a command called cordon/uncordon, which allows us to make a node unschedulable
+# e.g, suppose we are going to run an app's load test and we want to keep a node away from the load test
+# kubectl cordon -h
+
+# Draining nodes: e.g, You might want to remove/evict all pods from a node that is going to be deleted, upgraded, or rebooted, for example
+# --ignore-daemonsets and –force.
+# kubectl drain –help
+
+# Removing nodes after draining nodes
+alias kdeln='kubectl delete node'
+
+##################################### Application Management ###########################################
+
+##### 2.1
+# Creating and Deploying Applications
+#   - Kubernetes supports a few container runtimes - Docker, containerd,..
+#   - Pod: A pod is a collocated group of application containers with shared volumes.
+#     - Pods are the smallest deployable units that can be created, scheduled, and managed with Kubernetes.
+#     - pods do not have a managed life cycle, if they die, they will not be recreated. For that reason, it is recommended that you use a deployment even if you are creating a single pod
+#     - Apps in a pod all use the same network namespace, IP address, and port space. They can find and communicate with each other using localhost
+#   - Deployment: deployment provides updates for ReplicaSets - ReplicaSet will try to keep three pods running all the time.
+#   - Service: services provide a single stable name and address for a set of pods.
+#     - By setting the service, we get an internal Kubernetes DNS name
+#     - service acts as an in-cluster load balancer when you have more than one ReplicaSet
+#####
+
+### Pod management.
+alias kgp='kubectl get pods'
+alias kgpA='kubectl get pods --all-namespaces'
+alias kgpwW'kgp --watch'
+alias kgpV='kgp -o wide'
+alias kdp='kubectl describe pods'
+
+alias kep='kubectl edit pods'
+alias kdelp='kubectl delete pods'
+alias kgpAV='kubectl get pods --all-namespaces -o wide'
+
+
+## Deployment management.
+# 2.1.1 Creating a deployment
+alias kcd='kubectl create deployment'
+
+alias kgd='kubectl get deployment'
+alias kgdA='kubectl get deployment --all-namespaces'
+alias kgdW='kgd --watch'
+alias kgdV='kgd -o wide'
+
+alias kdd='kubectl describe deployment'
+
+alias ked='kubectl edit deployment'
+alias kdeld='kubectl delete deployment'
+
+alias krsd='kubectl rollout status deployment'
+
+### Service management.
+# 2.1.2 Creating a service
+# kubectl expose deployment nginx --port=80 --targetport=80
+alias kgs='kubectl get svc'
+alias kgsA='kubectl get svc --all-namespaces'
+alias kgsW='kgs --watch'
+alias kgsV='kgs -o wide'
+alias kds='kubectl describe svc'
+
+alias kes='kubectl edit svc'
+alias kdels='kubectl delete svc'
+
+# 2.1.3 Scaling up an application
+alias ksd='kubectl scale deployment' # –replicas=2
+
+##### 2.2
+# Updating and Deleting Applications
+#####
+# 2.2.1 Releasing a new application version
+# 2.2.2 Rolling back an application release
+# 2.2.3 Assigning an application to a specific node (node affinity)
+# 2.2.4 Scheduling application replicas to different nodes (pod affinity)
+# 2.2.5 Exposing an application to the internet
+# 2.2.6 Deleting an application
+
+
+###unmapped
 alias kcv='kubectl config view'
 
 alias kg='kubectl get'
-alias kd='kubectl describe'
+
 alias kl='kubectl logs'
 
 alias kexe='kubectl exec -it' # Drop into an interactive terminal on a container
@@ -44,7 +158,7 @@ alias kcuc-local='kubectl config use-context docker-desktop'
 # Execute a kubectl command against all namespaces
 alias kca='_kca(){ kubectl "$@" --all-namespaces;  unset -f _kca; }; _kca'
 
-# Apply a YML file
+# Apply a YML file - e.g, deployment creation, service creation
 alias kaf='kubectl apply -f'
 
 # General aliases
@@ -52,15 +166,7 @@ alias kdel='kubectl delete'
 alias kdelf='kubectl delete -f'
 alias kdelns='kubectl delete namespace' # delete all resources in a namespace
 
-# Pod management.
-alias kgp='kubectl get pods'
-alias kgpa='kubectl get pods --all-namespaces'
-alias kgpw='kgp --watch'
-alias kgpwide='kgp -o wide'
-alias kep='kubectl edit pods'
-alias kdp='kubectl describe pods'
-alias kdelp='kubectl delete pods'
-alias kgpall='kubectl get pods --all-namespaces -o wide'
+
 
 # get pod by label: kgpl "app=myapp" -n myns
 alias kgpl='kgp -l'
@@ -68,14 +174,7 @@ alias kgpl='kgp -l'
 # get pod by namespace: kgpn kube-system"
 alias kgpn='kgp -n'
 
-# Service management.
-alias kgs='kubectl get svc'
-alias kgsa='kubectl get svc --all-namespaces'
-alias kgsw='kgs --watch'
-alias kgswide='kgs -o wide'
-alias kes='kubectl edit svc'
-alias kds='kubectl describe svc'
-alias kdels='kubectl delete svc'
+
 
 # Ingress management
 alias kgi='kubectl get ingress'
@@ -104,16 +203,7 @@ alias kgseca='kubectl get secret --all-namespaces'
 alias kdsec='kubectl describe secret'
 alias kdelsec='kubectl delete secret'
 
-# Deployment management.
-alias kgd='kubectl get deployment'
-alias kgda='kubectl get deployment --all-namespaces'
-alias kgdw='kgd --watch'
-alias kgdwide='kgd -o wide'
-alias ked='kubectl edit deployment'
-alias kdd='kubectl describe deployment'
-alias kdeld='kubectl delete deployment'
-alias ksd='kubectl scale deployment'
-alias krsd='kubectl rollout status deployment'
+
 kres(){
     kubectl set env $@ REFRESHED_AT=$(date +%Y%m%d%H%M%S)
 }

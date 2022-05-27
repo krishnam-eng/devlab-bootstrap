@@ -61,6 +61,11 @@ alias hpu='helm plugin update'
 # package chart
 alias hpk='helm package'
 
+
+# With Helm's helm template command, you can check the output of the chart in fully
+# rendered Kubernetes resource templates
+alias htpl='helm template'
+
 # release
 alias hi='helm install' # <RELEASE NAME> <CHART NAME>
 alias hui='helm uninstall'

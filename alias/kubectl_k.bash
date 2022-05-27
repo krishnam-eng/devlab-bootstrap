@@ -175,6 +175,24 @@ alias klf1s='kubectl logs --since 1s -f'
 # 2.3.3 Executing a command in a running container
 alias kexec='kubectl exec -it' # -- bash.
 
+##### 3
+# Extending kubectl
+#####
+# 3.1 Working with kubectl Plugins
+alias kctx='kubectl ctx'
+alias kns='kubectl ns'
+alias kva='kubectl view-allocations'
+
+# it is not very difficult to create a kubectl plugin
+# just create bash file with kubectl command and move the file under /bin/xplugin
+# now, call kubectl xplugin
+
+# 3.2 Kustomize for Kubernetes
+# Kustomize allows us to patch Kubernetes templates without changing the application's original templates
+alias kak='kubectl apply -k ' # <kustomization_directory>
+
+# 3.3 Helm - Helm is the de facto Kubernetes package manager
+
 #####
 # Kubectl context and configuration
 #####

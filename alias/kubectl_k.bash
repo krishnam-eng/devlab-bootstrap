@@ -21,6 +21,10 @@ alias kav='kubectl api-versions'
 # Cluster: shows the available resources, their short names (to use with kubectl), the API group a resource belongs to, whether a resource is namespaced or not, and the KIND type
 alias kar='kubectl api-resources'
 
+#
+alias kgA='kubectl get all'
+alias krgA='kubectl get all -A'  # really get all from all namespaces
+
 ##### 1.2
 # Working with Nodes
 #   - cluster workload runs in nodes, where all Kubernetes pods get scheduled, deployed, redeployed, and destroyed
@@ -82,6 +86,9 @@ alias kdp='kubectl describe pods'
 alias kep='kubectl edit pods'
 alias kdelp='kubectl delete pods'
 alias kgpAV='kubectl get pods --all-namespaces -o wide'
+
+# Displaying node resource usage
+alias ktp='kubectl top pods'
 
 
 ## Deployment management.
@@ -179,7 +186,7 @@ alias kexec='kubectl exec -it' # -- bash.
 # Extending kubectl
 #####
 # 3.1 Working with kubectl Plugins
-alias kctx='kubectl ctx'
+alias kcx='kubectl ctx'
 alias kns='kubectl ns'
 alias kva='kubectl view-allocations'
 

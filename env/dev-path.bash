@@ -14,6 +14,12 @@ then
   PATH=${GRADLE_HOME}/bin:${PATH}
 fi
 
+# package manager for kubectl plugins
+if [ -d "${HOME}/.krew/" ]
+then
+  PATH="${PATH}:${HOME}/.krew/bin"
+fi
+
 # mac /usr/libexec/java_home -v gives the jre path (after big sur update)
 # So, set it to jdk for mvn to work
 if [ -d /Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home ]

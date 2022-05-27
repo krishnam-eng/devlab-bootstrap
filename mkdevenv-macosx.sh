@@ -58,6 +58,14 @@ function install_infra_tools(){
     # K8S - Like a Operating System for Data-Center
     brew install minikube
 
+    # Package manager for kubectl plugins
+    brew install krew
+    kubectl krew ctx
+    kubectl krew ns
+    kubectl krew view-allocations
+    kubectl krew config-cleanup
+    kubectl krew whoami
+
     # Like a Package Manager for k8s Operating System
     brew install helm
     

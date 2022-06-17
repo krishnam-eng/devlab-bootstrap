@@ -44,6 +44,9 @@ alias gaf5="git add --refresh"
 alias gc='git commit -m'
 alias gcA='git commit -a -m'   # iuse
 
+alias guc1='git reset --soft HEAD~1'
+alias guc2='git reset --soft HEAD~2'
+
 alias gf='git fetch'
 alias gfo='git fetch origin'
 

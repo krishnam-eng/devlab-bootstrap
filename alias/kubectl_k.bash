@@ -21,9 +21,13 @@ alias kav='kubectl api-versions'
 # Cluster: shows the available resources, their short names (to use with kubectl), the API group a resource belongs to, whether a resource is namespaced or not, and the KIND type
 alias kar='kubectl api-resources'
 
-#
-alias kgA='kubectl get all'
-alias krgA='kubectl get all -A'  # really get all from all namespaces
+# Namespace management
+alias kgns='kubectl get namespaces'
+alias kens='kubectl edit namespace'
+alias kdns='kubectl describe namespace'
+alias kdelns='kubectl delete namespace'
+alias kcn='kubectl config set-context --current --namespace'
+
 
 ##### 1.2
 # Working with Nodes
@@ -45,6 +49,7 @@ alias kgnV='kubectl get nodes -o wide' #verbose
 # Shows the assigned internal and external IPs, the internal DNS name, and the hostname
 # Shows the running pods on the node
 # Shows the allocated resources
+alias kd='kubectl describe'
 alias kdn='kubectl describe no'
 
 # Displaying node resource usage
@@ -90,7 +95,6 @@ alias kgpAV='kubectl get pods --all-namespaces -o wide'
 # Displaying node resource usage
 alias ktp='kubectl top pods'
 
-
 ## Deployment management.
 # 2.1.1 Creating a deployment
 alias kcd='kubectl create deployment'
@@ -105,8 +109,6 @@ alias kdd='kubectl describe deployment'
 alias ked='kubectl edit deployment'
 alias kdeld='kubectl delete deployment'
 
-alias krsd='kubectl rollout status deployment'
-
 ### Service management.
 # 2.1.2 Creating a service
 # kubectl expose deployment nginx --port=80 --targetport=80
@@ -119,6 +121,14 @@ alias kds='kubectl describe svc'
 alias kes='kubectl edit svc'
 alias kdels='kubectl delete svc'
 
+# To access service from minikube cluster...
+# create ssh tunnel
+alias mks='minikube service' # hello-svc --url
+# minikube service hello-minikube1 --url runs as a process, creating a tunnel to the cluster. The command exposes the service directly to any program running on the host operating system.
+# get tunnel port - service tunnel and use that for curl
+alias kst='ps -ef | grep docker@127.0.0.1'
+# id_rsa -L 50262:10.101.125.63:8080,
+
 # 2.1.3 Scaling up an application
 alias ksd='kubectl scale deployment' # –replicas=2
 
@@ -130,16 +140,18 @@ alias ksd='kubectl scale deployment' # –replicas=2
 alias ksi='kubectl set image deployment'
 
 # Apply a YML file - e.g, deployment creation, service creation
+# use --record to track so that it can be undone with rollout undo
 alias kaf='kubectl apply -f'
 
-alias krs='kubectl rollout status'
-alias krsd='kubectl rollout status deployment'
+alias kro='kubectl rollout'
+alias kros='kubectl rollout status'
+alias krosd='kubectl rollout status deployment'
 
 # 2.2.2 Rolling back an application release
 # Rollout management.
-alias krh='kubectl rollout history'
-alias kru='kubectl rollout undo'
-alias krud='kubectl rollout undo deployment'
+alias kroh='kubectl rollout history'
+alias krou='kubectl rollout undo'
+alias kroud='kubectl rollout undo deployment' # --to-version=1
 
 # 2.2.3 Assigning an application to a specific node (node affinity)
 # affinity:
@@ -218,36 +230,8 @@ alias kcuc='kubectl config use-context'    # Manage configuration quickly to swi
 alias kcuc-local='kubectl config use-context docker-desktop'
 
 #####
-#  Others
+#  Other Frequently Used Resources
 #####
-
-# Execute a kubectl command against all namespaces
-alias kca='_kca(){ kubectl "$@" --all-namespaces;  unset -f _kca; }; _kca'
-
-# General aliases
-alias kdel='kubectl delete'
-alias kdelf='kubectl delete -f'
-alias kdelns='kubectl delete namespace' # delete all resources in a namespace
-
-# get pod by label: kgpl "app=myapp" -n myns
-alias kgpl='kgp -l'
-
-# get pod by namespace: kgpn kube-system"
-alias kgpn='kgp -n'
-
-# Ingress management
-alias kgi='kubectl get ingress'
-alias kgiA='kubectl get ingress --all-namespaces'
-alias kei='kubectl edit ingress'
-alias kdi='kubectl describe ingress'
-alias kdeli='kubectl delete ingress'
-
-# Namespace management
-alias kgns='kubectl get namespaces'
-alias kens='kubectl edit namespace'
-alias kdns='kubectl describe namespace'
-alias kdelns='kubectl delete namespace'
-alias kcn='kubectl config set-context --current --namespace'
 
 # ConfigMap management
 alias kgcm='kubectl get configmaps'
@@ -262,6 +246,13 @@ alias kgsecA='kubectl get secret --all-namespaces'
 alias kdsec='kubectl describe secret'
 alias kdelsec='kubectl delete secret'
 
+# Ingress management
+alias kgi='kubectl get ingress'
+alias kgiA='kubectl get ingress --all-namespaces'
+alias kei='kubectl edit ingress'
+alias kdi='kubectl describe ingress'
+alias kdeli='kubectl delete ingress'
+
 # Statefulset management.
 alias kgss='kubectl get statefulset'
 alias kgssA='kubectl get statefulset --all-namespaces'
@@ -272,16 +263,6 @@ alias kdss='kubectl describe statefulset'
 alias kdelss='kubectl delete statefulset'
 alias ksss='kubectl scale statefulset'
 alias krsss='kubectl rollout status statefulset'
-
-# Port forwarding
-alias kpf="kubectl port-forward"
-
-# Tools for accessing all information
-alias kgA='kubectl get all'
-alias kgAA='kubectl get all --all-namespaces'
-
-# File copy
-alias kcp='kubectl cp'
 
 # PVC management.
 alias kgpvc='kubectl get pvc'
@@ -307,6 +288,40 @@ alias kgcj='kubectl get cronjob'
 alias kecj='kubectl edit cronjob'
 alias kdcj='kubectl describe cronjob'
 alias kdelcj='kubectl delete cronjob'
+
+#####
+#    ALL context
+#####
+
+# Tools for accessing all information
+alias kga='kubectl get all'
+alias kgA='kubectl get all --all-namespaces'
+alias kdelA='kubectl delete --all'
+
+
+
+# Execute a kubectl command against all namespaces
+alias kca='_kca(){ kubectl "$@" --all-namespaces;  unset -f _kca; }; _kca'
+
+# General aliases
+alias kdel='kubectl delete'
+alias kdelf='kubectl delete -f'
+alias kdelns='kubectl delete namespace' # delete all resources in a namespace
+
+# get pod by label: kgpl "app=myapp" -n myns
+alias kgpl='kgp -l'
+
+# get pod by namespace: kgpn kube-system"
+alias kgpn='kgp -n'
+
+
+# Port forwarding
+alias kpf="kubectl port-forward"
+
+# File copy
+alias kcp='kubectl cp'
+
+
 
 # Only run if the user actually has kubectl installed
 if (( ${+_comps[kubectl]} )); then

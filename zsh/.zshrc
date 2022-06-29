@@ -121,8 +121,8 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
  fi
 
 # load all alias / func / env files from private dir
- if [[ -d ~/hrt/pvt ]]; then
-  for pfile in ~/hrt/pvt/*zsh
+ if [[ -d ~/hrt/vault/zsh ]]; then
+  for pfile in ~/hrt/vault/zsh/*zsh
   do
     # echo $LOG_TS"Sourcing ${pfile} ..."
     source $pfile

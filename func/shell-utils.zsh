@@ -12,6 +12,10 @@ function take {
   mkdir -p $1 && cd $1
 }
 
+# command comes handy in moving things back and forth in short time
+function rmv {
+  mv $2 $1 
+}
 
 ################################## PRINT START ##############################
 # Showing Where You Are - show working directory

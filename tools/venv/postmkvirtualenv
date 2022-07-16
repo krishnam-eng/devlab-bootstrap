@@ -1,0 +1,26 @@
+#!/usr/bin/zsh
+# This hook is sourced after a new virtualenv is activated.
+
+
+# Hack 1: try to guess the project dir from venv name
+#
+#   change dir to the proj location
+#   Adds the specified directories to the Python path for the currently-active virtualenv.
+
+venv_name=$(basename $VIRTUAL_ENV)
+
+proj_name=$venv_name
+
+case $venv_name in
+  "hlt") proj_name="howdoi-loadtest";;
+  "ppy") proj_name="practice-python";;
+esac
+
+proj_fullpath="$PROJECT_HOME/$proj_name"
+
+if [ -e $proj_fullpath ]
+then
+  echo "Identified Project: ${proj_fullpath}"
+  add2virtualenv $proj_fullpath
+  cd $proj_fullpath
+fi

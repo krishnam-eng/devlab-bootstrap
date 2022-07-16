@@ -1,0 +1,19 @@
+{
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ],
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "workbench.sideBar.location": "right",
+    "markdown.extension.italic.indicator": "_",
+    "explorer.confirmDragAndDrop": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "git.autofetch": true,
+    "kite.showWelcomeNotificationOnStartup": false,
+    "python.languageServer": "Pylance",
+    "python.defaultInterpreterPath": "/usr/bin/python3"
+}

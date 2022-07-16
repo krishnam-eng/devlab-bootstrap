@@ -22,16 +22,17 @@ fi
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 # load prompt config here instead in zshenv to make sure nothing else overrides my prompt
-source ~/hrt/boot/env/interactice-shell/prompt.bash
+source ~/hrt/boot/custom/env/interactice-shell/prompt.bash
 
 # load venv extention config to work with python projects
-# source ~/hrt/boot/venv/virtualenvwrapper.sh
+# source ~/hrt/boot/tools-runenv/venv/virtualenvwrapper.sh
 
 ###############
 # pre-launch cmds to get you ready to rock
 ###############
 
-# add private keys (from default location ~/.ssh/) to ssh agent (Please note it works only if the passphrase is not set). I know it is not pretty! Tip: keep private key with passphrase in non default location so that it won't prompt you to give passphrase. 
+# add private keys (from default location ~/.ssh/) to ssh agent (Please note it works only if the passphrase is not set). 
+# I know it is not pretty! Tip: keep private key with passphrase in non default location so that it won't prompt you to give passphrase. 
 
 ssh-add &>/dev/null
 
@@ -111,8 +112,8 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
 # echo 'Load Aliases and Functions...'
 
 # load all alias files with `source filename` or `. filename` (. is posix std way)
- if [[ -d ~/hrt/boot/alias ]]; then
-  for afile in ~/hrt/boot/alias/*sh
+ if [[ -d ~/hrt/boot/custom/alias ]]; then
+  for afile in ~/hrt/boot/custom/alias/*sh
   do
     # echo $LOG_TS"Sourcing ${afile} ..."
     source $afile
@@ -121,6 +122,7 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
  fi
 
 # load all alias / func / env files from private dir
+# vault dir is version with private repo
  if [[ -d ~/hrt/vault/zsh ]]; then
   for pfile in ~/hrt/vault/zsh/*zsh
   do
@@ -131,8 +133,8 @@ autoload -Uz zmv # e.g zmv '(*)_(*)' 'out_$2.$1', use -n option to do dry-run
  fi
 
 # todo: make them as lazy load using auto load capability or set it in fpath
-if [ -d ~/hrt/boot/func ]; then
-  for ffile in ~/hrt/boot/func/*sh
+if [ -d ~/hrt/boot/custom/func ]; then
+  for ffile in ~/hrt/boot/custom/func/*sh
   do
     # echo $LOG_TS"Sourcing ${ffile} ..."
     source $ffile
@@ -167,8 +169,8 @@ fi
 # echo 'History Configuration...'
 
 HISTFILE=~/hrt/state/shell/.zhistfile # up or down to navigate history or use CTR+R to search history
-HISTSIZE=100000
-SAVEHIST=100000 # hist won't be _saved_ with out this conf
+HISTSIZE=1000000
+SAVEHIST=1000000 # hist won't be _saved_ with out this conf
 
 # To save unexecuted cmd to history, make the command as comment by prefixing # and executing
 setopt interactivecomments
@@ -310,6 +312,7 @@ setopt multios
 #
 #   Esc + Backspace Deletes one word on the left of the cursor
 #   Esc + D Deletes one word on the right of the cursor
+#
 #   Ctrl + W Deletes the whole word backwards from the cursor location
 #
 #   Ctrl + D Deletes a character (moves forward) / lists completions / logs out
@@ -334,7 +337,7 @@ setopt multios
 #  use `bindkey -L` to list all current bindings
 #  todo: -L and find useful commands - take a print
 #  use `bindkey -l` to view avilable keymaps
-#
+# todo: Esc binding in mac !?
 ##################
 
 # By default zsh relies on $EDITOR & $VISUAL to guess the binding. Don't guess now.(use -v for vi mode
@@ -359,7 +362,7 @@ setopt PROMPT_SUBST
 
 # To customize prompt, run `p10k configure` or edit .p10k.zsh.
 autoload -Uz is-at-least
-is-at-least 5.1 && [[ -f ~/hrt/boot/zsh/.p10k.zsh ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/boot/zsh/.p10k.zsh
+is-at-least 5.1 && [[ -f ~/hrt/boot/shell/zsh/.p10k.zsh ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/boot/shell/zsh/.p10k.zsh
 is-at-least 5.1 && [[ -f ~/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme
 
 #### like Fish Shell

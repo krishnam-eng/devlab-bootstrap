@@ -89,6 +89,8 @@ def process_cmd_options():
 def after_all():
     mdprint.print_footnote("My brain hurts! Let's automate more !", counter)
 
+    print(f"Completed Execution in {time.perf_counter() - counter} seconds")
+
     print('But, Now !... [at least weekly once]')
     print('Export DBeaver Preferences        => [File -> Export]')
     print('Export IDE IDEA Preferences       => [File -> Manage IDE Settings -> Export]')

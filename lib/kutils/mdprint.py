@@ -1,4 +1,4 @@
-from datetime import time
+from datetime import time, datetime
 
 
 def print_h1(heading):
@@ -20,9 +20,7 @@ def print_around(subject, body):
     print('- - ' * 10)
 
 
-def print_footnote(note, counter):
+def print_footnote(note):
     print_h1("And finally…")
     print('{} \n'.format(note))
-    if counter is not None:
-        print(f"Completed Execution in {time.perf_counter() - counter} seconds")
 

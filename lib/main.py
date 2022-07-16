@@ -23,7 +23,8 @@ def sync_homelab(repo_path='~/hrt/boot/'):
             origin = repo.remote(name='origin')
             origin.pull()
 
-            source_dirs = ["lib", "custom", "shell", "tools", "os", "."]
+            # do not add "." to avoid untracked file commits
+            source_dirs = ["lib", "custom", "shell", "tools", "os"]
             for sd in source_dirs:
                 stage_and_commit(repo, sd)
 
@@ -41,19 +42,13 @@ def sync_homelab(repo_path='~/hrt/boot/'):
 def update_packages():
     state_key = 'brew'
     if is_stale(state_key):
-        print_h2('Brew: Packages Upgrade')
+        print_h2('Brew: Upgrade packages...')
         subprocess.run("brew update && brew outdated && brew upgrade && brew cleanup", shell=True)
 
         print_h2('Brew: Log Installed Packages...')
         subprocess.run("brew leaves | xargs -n1 brew desc > ~/hrt/boot/os/macosx/installed-packages.brew",
                                  shell=True)
 
-
-
-        stdout, stderr = pipe2.communicate()
-        set_state_today(state_key)
-
-        stdout, stderr = pipe1.communicate()
         with open('{}/hrt/boot/os/macosx/installed-packages.brew'.format(Path.home()), 'w+') as f:
             for line in f.readlines():
                 print(line)

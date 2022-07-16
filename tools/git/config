@@ -1,0 +1,19 @@
+[user]
+	email = krishnam.balamurugan.eng@gmail.com
+	name = bala
+[pull]
+	rebase = false
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+	excludesfile = ~/hrt/boot/git/.gitignore_global
+[remote "origin"]
+	url = git@github.com:krishnam-eng/homelab-devbox.git
+	fetch = +refs/heads/main:refs/remotes/origin/main
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main

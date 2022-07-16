@@ -87,7 +87,7 @@ def process_cmd_options():
 
 
 def after_all():
-    mdprint.print_footnote("My brain hurts! Let's automate more !", counter)
+    mdprint.print_footnote("My brain hurts! Let's automate more !")
 
     print(f"Completed Execution in {time.perf_counter() - counter} seconds")
 

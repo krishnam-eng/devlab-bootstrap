@@ -95,6 +95,7 @@ def after_all():
     print('Export DBeaver Preferences        => [File -> Export]')
     print('Export IDE IDEA Preferences       => [File -> Manage IDE Settings -> Export]')
     print('Export IDE VSCode Preferences     => [Code -> Preferences -> Settings Sync is On]')
+    print('Upgrade IDE VSCode Preferences     => [Code -> Preferences -> Settings Sync is On]')
 
 
 if __name__ == '__main__':

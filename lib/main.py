@@ -2,6 +2,8 @@ import subprocess
 import git
 import time
 from git import GitCommandError
+from datetime import date, datetime
+from pathlib import Path
 
 
 def backup_safari_bookmarks(source_file='~/Library/Safari/Bookmarks.plist',
@@ -37,10 +39,24 @@ def sync_homelab(repo_path='~/hrt/boot/'):
 
 
 def update_packages():
-    brew_cmds = ['update', 'outdated', 'upgrade', 'cleanup']
-    for bc in brew_cmds:
-        print_h2('Brew {}'.format(bc))
-        x = subprocess.run("brew {}".format(bc), shell=True)
+    state_key = 'brew'
+    if is_stale(state_key):
+        print_h2('Brew: Packages Upgrade')
+        subprocess.run("brew update && brew outdated && brew upgrade && brew cleanup", shell=True)
+
+        print_h2('Brew: Log Installed Packages...')
+        subprocess.run("brew leaves | xargs -n1 brew desc > ~/hrt/boot/os/macosx/installed-packages.brew",
+                                 shell=True)
+
+
+
+        stdout, stderr = pipe2.communicate()
+        set_state_today(state_key)
+
+        stdout, stderr = pipe1.communicate()
+        with open('{}/hrt/boot/os/macosx/installed-packages.brew'.format(Path.home()), 'w+') as f:
+            for line in f.readlines():
+                print(line)
 
 
 def is_any_changes(repo):
@@ -59,6 +75,28 @@ def out_of_sync(repo, path):
     changed = [item.a_path for item in repo.index.diff(None)]
     staged = [item.a_path for item in repo.index.diff('Head')]
     return any(s.startswith(path) for s in changed) or any(s.startswith(path) for s in staged)
+
+
+def is_stale(state_key):
+    with open('{}/hrt/state/sync/{}.state'.format(Path.home(), state_key), 'w+') as f:
+        state_value = f.readlines()
+
+    if state_value is None or len(state_value) == 0:
+        return True
+    else:
+        today = date.today()
+        last_synced_date = datetime.strptime(state_value[0], '%Y%m%d').date()
+        if last_synced_date != today:
+            set_state_today(state_key)
+            return True
+        else:
+            return False
+
+
+def set_state_today(state_key):
+    today = date.today().strftime('%Y%m%d')
+    with open('{}/hrt/state/sync/{}.state'.format(Path.home(), state_key), 'w+') as f:
+        f.writelines(today)
 
 
 def print_git_status(repo):

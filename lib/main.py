@@ -18,11 +18,13 @@ def sync_homelab(repo_path='~/hrt/boot/'):
         if is_any_changes(repo):
             print_git_status(repo)
 
+            origin = repo.remote(name='origin')
+            origin.pull()
+
             source_dirs = ["lib", "custom", "shell", "tools", "os", "."]
             for sd in source_dirs:
                 stage_and_commit(repo, sd)
 
-            origin = repo.remote(name='origin')
             origin.push()
 
             print_git_status(repo)

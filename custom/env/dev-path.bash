@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
-# Build tools
 
+# python install from brew
+# python@3.10 is keg-only, which means it was not symlinked into /usr/local,
+# because this is an alternate version of another formula.
+# If you need to have python@3.10 first in your PATH, run:
+export PATH="/usr/local/opt/python@3.10/bin:$PATH"
+
+# For compilers to find python@3.10 you may need to set:
+export LDFLAGS="-L/usr/local/opt/python@3.10/lib"
+
+# For pkg-config to find python@3.10 you may need to set:
+export PKG_CONFIG_PATH="/usr/local/opt/python@3.10/lib/pkgconfig"
+
+# Build tools
 if [ -d "$HOME/hrt/lib/maven" ]
 then
   # maven is a link to a specific version of maven .e.g, apache-maven-6.3.6

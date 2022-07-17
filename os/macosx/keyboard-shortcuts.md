@@ -1,3 +1,7 @@
+### Spotlight
+![image](https://user-images.githubusercontent.com/82016952/179382247-647daac9-a9ff-4c7f-8aa2-966bf9dff21d.png)
+
+
 ### Launchpad & Dock
 
 #### Default
@@ -17,7 +21,9 @@
 ### Keyboard
 #### Default
 <img width="644" alt="image" src="https://user-images.githubusercontent.com/82016952/179380941-c86fb43d-adfd-433f-90e6-52ccfd43a87d.png">
+
 #### Custom
+
 ![image](https://user-images.githubusercontent.com/82016952/179381227-27b0600c-950f-40a7-ac21-81a5c223f7ca.png)
 
 ### Screenshots
@@ -38,8 +44,8 @@
 * https://en.wikibooks.org/wiki/Unicode/List_of_useful_symbols
 
 ##### Some Fav
-U+2318 ⌘ (Place of Interest Sign)
-U+2325 ⌥ (Option Key)
+* U+2318 ⌘ (Place of Interest Sign)
+* U+2325 ⌥ (Option Key)
 
 ##### todo
 * create keyboard shortcuts for frequantly used symbols 

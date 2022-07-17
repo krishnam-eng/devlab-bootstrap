@@ -55,5 +55,13 @@ _(16^4 four hexchar) or (2^16 two-byte) = 65k codes possible_
 
 -  Avoid accidental screenshorts of full screen F3
 
-### Services: Files & Folders
+### Services & Accessibility 
+* Disabled 
+
+### App Shortcuts: Cutomization
+
+![image](https://user-images.githubusercontent.com/82016952/179386900-ed17a275-06c4-4430-b4f0-46a3e7755f92.png)
+
+* This is the place for adding custom keys
+
 

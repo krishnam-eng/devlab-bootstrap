@@ -25,11 +25,14 @@
 
 ![image](https://user-images.githubusercontent.com/82016952/179381654-2b259a5c-6d59-48b5-8a38-dd63e62d798d.png)
 
+* ⌃ ⌥ ␣ : Toggle Input Source
+* ⌃ ⌘ ␣ : Bring Up Emoji & Symbols 
+
 #### Emoji & Symbols 
 * Press ⌃ ⌘ ␣ to bring up the characters popover
 ![image](https://user-images.githubusercontent.com/82016952/179384075-eda0474a-dd31-4cac-892d-9ce349e2e279.png)
 
-#### Enable Unicode Hex Input
+#### Input Source: Enable Unicode Hex
 ![image](https://user-images.githubusercontent.com/82016952/179381675-80bada3c-99b2-40de-bee6-44b1a4cc27e0.png)
 * Usage: type Unicode Hex holding ⌥ 
 
@@ -39,12 +42,6 @@
 ##### Some Fav
 * U+2318 ⌘ (Place of Interest Sign)
 * U+2325 ⌥ (Option Key)
-
-##### todo
-* create keyboard shortcuts for frequantly used symbols 
-* https://en.wikibooks.org/wiki/Unicode/List_of_useful_symbols#Sets
-* https://en.wikibooks.org/wiki/Unicode/List_of_useful_symbols#Relationships
-
 
 _(16^4 four hexchar) or (2^16 two-byte) = 65k codes possible_
 

@@ -7,6 +7,7 @@ alias dalias="alias | awk '/^d/{print}' | lolcat"
 
 alias dc="docker container"
 alias di="docker image"
+alias ds="docker system"
 
 alias dps="docker ps"
 
@@ -36,7 +37,7 @@ alias dcsp="docker container stop"
 alias dcspA='docker container stop $(docker ps -q)'
 
 alias dcrm="docker container rm"
-alias dcrmall="docker container prune -f"
+alias dcrmA="docker container prune -f"
 
 alias dcls="docker container ls"
 alias dclsA="docker container ls --all"
@@ -48,5 +49,9 @@ alias dclsq="docker container ls --quiet"
 alias dil="docker image pull"
 alias dib="docker image build"
 alias dils="docker image ls"
+alias dirmA="docker image prune -f"
 
-
+# system utilities
+alias dsrmA="docker system prune -a"
+alias drmA="docker system prune && docker image prune && docker container prune && docker volume prune"
+alias dlsA="docker image list && docker container list && docker volume list"

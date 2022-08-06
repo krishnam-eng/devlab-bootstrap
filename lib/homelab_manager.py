@@ -78,7 +78,7 @@ def update_packages():
 def process_cmd_options():
     global is_force_run
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "f", ["force"])
+        opts, args = getopt.getopt(sys.argv[1:], "f", ["force", "rpath="])
         for opt, arg in opts:
             if opt in ("-f", "--force"):
                 is_force_run = True

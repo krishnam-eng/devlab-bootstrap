@@ -17,7 +17,8 @@ export PKG_CONFIG_PATH="/usr/local/opt/python@3.10/lib/pkgconfig"
 # Build tools
 if [ -d "$HOME/hrt/lib/maven" ]
 then
-  # maven is a link to a specific version of maven .e.g, apache-maven-6.3.6
+  # maven is a link to a specific version of maven .e.g, apache-maven-3.6.3 
+  # >ln -sfn apache-maven-3.6.3 maven
   export M2_HOME="$HOME/hrt/lib/maven"
   PATH="${M2_HOME}/bin:${PATH}"
 fi

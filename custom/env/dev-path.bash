@@ -21,6 +21,7 @@ then
   # >ln -sfn apache-maven-3.6.3 maven
   export M2_HOME="$HOME/hrt/lib/maven"
   PATH="${M2_HOME}/bin:${PATH}"
+  # export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED"
 fi
 
 if [ -d "$HOME/hrt/lib/gradle-7.1.1" ]

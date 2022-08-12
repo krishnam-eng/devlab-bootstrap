@@ -112,5 +112,5 @@ if __name__ == '__main__':
     sync_homelab(repo_path='~/hrt/boot/',
                  source_dirs=["scripts", "custom", "shell", "tools", "os"])
     sync_homelab(repo_path='~/hrt/vault/',
-                 source_dirs=["bookmarks", "dbeaver", "intellij", "mvn", "postman", "pipeline", "scripts", "settings", "springboot", "sublime", "zsh"])
+                 source_dirs=["bookmarks", "dbeaver", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"])
     after_all()

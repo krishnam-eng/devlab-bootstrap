@@ -25,6 +25,8 @@ def backup_safari_bookmarks(source_file='~/Library/Safari/Bookmarks.plist',
     else:
         print("Already ran today ! Skipping !")
 
+#! source_dirs: do not add "." to avoid untracked file commits
+
 
 def sync_homelab(repo_path, source_dirs):
     mdprint.print_h1(
@@ -39,8 +41,6 @@ def sync_homelab(repo_path, source_dirs):
             origin = repo.remote(name='origin')
             origin.pull()
 
-            # do not add "." to avoid untracked file commits
-            source_dirs = ["scripts", "custom", "shell", "tools", "os"]
             for sd in source_dirs:
                 gitw.stage_and_commit(repo, sd)
 

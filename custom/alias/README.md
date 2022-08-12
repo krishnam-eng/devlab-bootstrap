@@ -15,97 +15,104 @@ alias name logic
 
 ### Who
 
-|Prefix|WHO/SUBJECT|
-|----:|---|
-|b|brew|
-|d|docker|
-|di|docker image|
-|dc|docker container|
-|dco|docker-compose|
-|h|helm|
-|k|kubectl|
-|mk|minikube|
-|g|git|
-|m|mvn|
-|tm|tmux|
-|ng|nginx|
+| Prefix | WHO/SUBJECT      |
+| -----: | ---------------- |
+|      b | brew             |
+|      d | docker           |
+|     di | docker image     |
+|     dc | docker container |
+|    dco | docker-compose   |
+|      h | helm             |
+|      k | kubectl          |
+|     mk | minikube         |
+|      g | git              |
+|      m | mvn              |
+|     tm | tmux             |
+|     ng | nginx            |
+|     sh | shell script     |
 
 ##### What 
 
-|Abbrev|WHAT / ACTION|
-|----:|---|
-|rm|remove|
-|ls|list|
-|st|start, stash|
-|sp|stop|
-|rs|restart, restore|
-|up|up|
-|dn|down|
-|ps|process|
-|ss|status|
-|lg|logs|
-|lf|log follow e.g, log -f |
-|ld|load|
-|rl|reload|
-|pk|package|
-|qt|quit|
-|ap|apply|
-|cf|config|
-|pt|property|
-|cl|clone|
-|co|checkout|
-|si|search case insensitive|
-|del|delete|
-|sh|show|
-|vw|view|
+| Abbrev | WHAT / ACTION                |
+| -----: | ---------------------------- |
+|      c | create, clean, clear, commit |
+|      a | add                          |
+|      u | update                       |
+|      b | build, branch                |
+|      p | push                         |
+|      f | fetch                        |
+|      l | pull                         |
+|      s | search                       |
+|      e | edit, execute                |
+|      r | run                          |
+|      k | kill                         |
+|      s | set                          |
+|      g | get                          |
 
-|Abbrev|WHAT / ACTION|
-|----:|---|
-|c|create, clean, clear, commit|
-|a|add|
-|u|update|
-|b|build, branch|
-|p|push|
-|f|fetch|
-|l|pull|
-|s|search|
-|e|edit, execute|
-|r|run|
-|k|kill|
+| Abbrev | WHAT / ACTION           |
+| -----: | ----------------------- |
+|     rm | remove                  |
+|     ls | list                    |
+|     st | start, stash            |
+|     sp | stop                    |
+|     rs | restart, restore        |
+|     up | up                      |
+|     dn | down                    |
+|     ps | process                 |
+|     ss | status                  |
+|     lg | logs                    |
+|     lf | log follow e.g, log -f  |
+|     ld | load                    |
+|     rl | reload                  |
+|     pk | package                 |
+|     qt | quit                    |
+|     ap | apply                   |
+|     pt | property                |
+|     cl | clone                   |
+|     co | checkout                |
+|     si | search case insensitive |
+|    del | delete                  |
+|     sh | show                    |
+|     vw | view                    |
+|     bk | backup                  |
 
-|s|set|
-|g|get|
+| Abbrev | WHAT / ACTION |
+| -----: | ------------- |
+|  prstn | pristine      |
+|    prn | prune         |
 
-
-|Abbrev|WHAT / ACTION|
-|----:|---|
-|prstn|pristine|
-|prn|prune|
+##### Whom
+| Prefix | WHOM/OBJECT |
+| -----: | ----------- |
+|     ws | workspace   |
+|     hl | homelab     |
+|     rp | repo        |
+|     cf | config      |
 
 ##### Where
 
-|Suffix|WHERE / CONTEXT or HOW|
-|----:|---|
-|A|All|
-|G|Global|
-|L|Local|
-|S|Staged|
-|D|Detached, Deamon|
-|V|Verbose|
-|W|Watch|
-|Q|Quite|
-|R|Recursively|
-|rp|repository|
-|hb|hub|
-|!|Force|
-|H|Help|
+| Suffix | WHERE / CONTEXT or HOW |
+| -----: | ---------------------- |
+|      A | All                    |
+|      G | Global                 |
+|      L | Local                  |
+|      S | Staged                 |
+|      D | Detached, Deamon       |
+|      V | Verbose                |
+|      W | Watch                  |
+|      Q | Quite                  |
+|      R | Recursively            |
+|     rp | repository             |
+|     hb | hub                    |
+|      ! | Force                  |
+|      H | Help                   |
 
 
 
 ### Shell CMDs Alias
 
-|Suffix|WHERE / CONTEXT|
-|----:|---|
-|h|history|
+| Suffix | WHERE / CONTEXT |
+| -----: | --------------- |
+|      h | history         |
 
 

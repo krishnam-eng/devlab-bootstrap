@@ -1,16 +1,21 @@
+argocd: GitOps Continuous Delivery for Kubernetes
 ctop: Top-like interface for container metrics
 figlet: Banner-like program prints strings as ASCII art
+gh: GitHub command-line tool
 glances: Alternative to top/htop
 helm: Kubernetes package manager
 htop: Improved top (interactive process viewer)
+jansson: C library for encoding, decoding, and manipulating JSON
 jq: Lightweight and flexible command-line JSON processor
 krew: Package manager for kubectl plugins
 libssh2: C library implementing the SSH2 protocol
 lolcat: Rainbows and unicorns in your console!
+jwt-cli: Super fast CLI tool to decode and encode JWTs built in Rust
 minikube: Run a Kubernetes cluster locally
 nano: Free (GNU) replacement for the Pico text editor
 ncdu: NCurses Disk Usage
-node: Platform built on V8 to build network applications
+newman: Command-line collection runner for Postman
+openjdk: Development kit for the Java programming language
 openldap: Open source suite of directory software
 python@3.9: Interpreted, interactive, object-oriented programming language
 ranger: File browser

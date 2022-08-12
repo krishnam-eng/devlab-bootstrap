@@ -25,10 +25,11 @@ def backup_safari_bookmarks(source_file='~/Library/Safari/Bookmarks.plist',
     else:
         print("Already ran today ! Skipping !")
 
+
 #! source_dirs: do not add "." to avoid untracked file commits
 
 
-def sync_homelab(repo_path, source_dirs):
+def sync_gitrepo(repo_path, source_dirs):
     mdprint.print_h1(
         "GitHub: Sync Dev Workspace - HomeLab, Tools Settings [local -> remote]...")
 
@@ -96,6 +97,7 @@ def after_all():
     print(f"Completed Execution in {time.perf_counter() - counter} seconds \n")
 
     print('But, Now !... [at least weekly once]')
+    print('Run Repo Manager')
     print('Export DBeaver Preferences        => [File -> Export]')
     print(
         'Export IDE IDEA Preferences       => [File -> Manage IDE Settings -> Export]')
@@ -109,8 +111,8 @@ if __name__ == '__main__':
     process_cmd_options()
     backup_safari_bookmarks()
     update_packages()
-    sync_homelab(repo_path='~/hrt/boot/',
+    sync_gitrepo(repo_path='~/hrt/boot/',
                  source_dirs=["scripts", "custom", "shell", "tools", "os"])
-    sync_homelab(repo_path='~/hrt/vault/',
+    sync_gitrepo(repo_path='~/hrt/vault/',
                  source_dirs=["bookmarks", "dbeaver", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"])
     after_all()

@@ -26,7 +26,7 @@ def backup_safari_bookmarks(source_file='~/Library/Safari/Bookmarks.plist',
         print("Already ran today ! Skipping !")
 
 
-#! source_dirs: do not add "." to avoid untracked file commits
+# ! source_dirs: do not add "." to avoid untracked file commits
 
 
 def sync_gitrepo(repo_path, source_dirs):
@@ -56,9 +56,9 @@ def sync_gitrepo(repo_path, source_dirs):
         raise
 
 
-def update_packages():
-    mdprint.print_h1("HomeBrew: Update Taps (third-party repositories) and Bottles (binary packages)..."
-                     "[remote -> local]")
+def update_packages(out):
+    banner = "HomeBrew: Update Taps (third-party repositories) and Bottles (binary packages)...[remote -> local]"
+    mdprint.print_h1(banner)
     state_key = 'brew'
     if hrtstate.is_stale(state_key) or is_force_run:
         mdprint.print_h2('Brew: Upgrade packages...')
@@ -67,13 +67,11 @@ def update_packages():
 
         mdprint.print_h2('Brew: Log Installed Packages...')
         # with w+, create or reset the file - empty it.
-        f = open(
-            '{}/hrt/boot/os/macosx/installed-packages.brew'.format(Path.home()), 'w+')
+        f = open(out, 'w+')
         f.close()
-        subprocess.run("brew leaves | xargs -n1 brew desc >> ~/hrt/boot/os/macosx/installed-packages.brew",
-                       shell=True)
+        subprocess.run("brew leaves | xargs -n1 brew desc >> {}".format(out), shell=True)
         hrtstate.mark_updated(state_key)
-        with open('{}/hrt/boot/os/macosx/installed-packages.brew'.format(Path.home()), 'r') as f:
+        with open(out, 'r') as f:
             for line in f.readlines():
                 print(line)
     else:
@@ -110,9 +108,10 @@ def after_all():
 if __name__ == '__main__':
     process_cmd_options()
     backup_safari_bookmarks()
-    update_packages()
-    sync_gitrepo(repo_path='~/hrt/boot/',
-                 source_dirs=["scripts", "custom", "shell", "tools", "os"])
+    update_packages(out='{}/hrt/boot/desktop/macosx/installed-packages.brew'.format(Path.home()))
+
+    sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["scripts", "custom", "shell", "tools", "os"])
     sync_gitrepo(repo_path='~/hrt/vault/',
-                 source_dirs=["bookmarks", "db", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"])
+                 source_dirs=["bookmarks", "db", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot",
+                              "sublime", "zsh"])
     after_all()

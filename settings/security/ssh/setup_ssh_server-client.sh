@@ -12,7 +12,7 @@ sudo systemctl enable ssh
 sudo systemctl start  ssh
 sudo systemctl restart ssh.service
 
-# config ubuntu firewall
+# config debian firewall
 sudo ufw allow ssh
 sudo ufw enable
 sudo ufw status

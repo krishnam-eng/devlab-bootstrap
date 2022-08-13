@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ################
-#description    : Helper functions to work with ubuntu env
+#description    : Helper functions to work with debian env
 #ubuntu_version : 21.04
 #author	        : krishnam
 ################

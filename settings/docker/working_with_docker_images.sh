@@ -18,7 +18,7 @@ apt-get update && apt-get install apapche2
 
 # username: krishnam86
 # email: krishnam.balamurugan.eng@gmail.com
-# test repo created - krishnam86/ubuntu-apache
+# test repo created - krishnam86/debian-apache
 
 # [3] Logging in and out of a Docker image registry
 #
@@ -68,7 +68,7 @@ docker image ls
 # docker build images as prescribed as per build instruction file _Dockerfile_
 mkdircd sampleimg
 nano Dockerfile
-# FROM ubuntu
+# FROM debian
 # LABEL key=value
 # CMD date
 #

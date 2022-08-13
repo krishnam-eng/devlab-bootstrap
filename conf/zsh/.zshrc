@@ -362,7 +362,7 @@ setopt PROMPT_SUBST
 
 # To customize prompt, run `p10k configure` or edit .p10k.zsh.
 autoload -Uz is-at-least
-is-at-least 5.1 && [[ -f ~/hrt/boot/shell/zsh/.p10k.zsh ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/boot/shell/zsh/.p10k.zsh
+is-at-least 5.1 && [[ -f ~/hrt/boot/conf/zsh/.p10k.zsh ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/boot/conf/zsh/.p10k.zsh
 is-at-least 5.1 && [[ -f ~/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme ]] && [[ -f ~/hrt/etc/ctrflags/enablepowertheme ]] && source ~/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme
 
 #### like Fish Shell

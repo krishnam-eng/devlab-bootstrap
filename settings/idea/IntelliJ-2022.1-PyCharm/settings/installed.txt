@@ -1,5 +1,0 @@
-Key Promoter X
-String Manipulation
-com.tabnine.TabNine
-izhangzhihao.rainbow.brackets
-org.sonarlint.idea

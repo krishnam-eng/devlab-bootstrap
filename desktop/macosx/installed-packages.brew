@@ -1,5 +1,6 @@
 argocd: GitOps Continuous Delivery for Kubernetes
 ctop: Top-like interface for container metrics
+exa: Modern replacement for 'ls'
 figlet: Banner-like program prints strings as ASCII art
 gh: GitHub command-line tool
 glances: Alternative to top/htop

@@ -110,7 +110,7 @@ if __name__ == '__main__':
     backup_safari_bookmarks()
     update_packages(out='{}/hrt/boot/desktop/macosx/installed-packages.brew'.format(Path.home()))
 
-    sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["scripts", "custom", "shell", "tools", "os"])
+    sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "scripts", "settings"])
     sync_gitrepo(repo_path='~/hrt/vault/',
                  source_dirs=["bookmarks", "db", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot",
                               "sublime", "zsh"])

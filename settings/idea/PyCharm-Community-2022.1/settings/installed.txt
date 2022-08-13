@@ -1,0 +1,17 @@
+GrepConsole
+Key Promoter X
+String Manipulation
+awesome.console
+cn.jxzhang.plugin.json-formatter
+com.jetbrains.plugins.ini4idea
+com.mallowigi
+com.tabnine.TabNine
+indent-rainbow.indent-rainbow
+izhangzhihao.rainbow.brackets
+krasa.CpuUsageIndicator
+mobi.hsz.idea.gitignore
+net.seesharpsoft.intellij.plugins.csv
+org.igu.plugins.bettercomments
+org.sonarlint.idea
+ski.chrzanow.foldableprojectview
+zielu.gittoolbox

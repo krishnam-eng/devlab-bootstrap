@@ -1,0 +1,20 @@
+<application>
+  <component name="PyUserTypeRenderersSettings">
+    <RENDERER>
+      <option name="name" value="TextStringObject renderer" />
+      <option name="isEnabled" value="true" />
+      <option name="toType" value="PyPDF2.generic.TextStringObject" />
+      <option name="typeCanonicalImportPath" value="PyPDF2.generic.TextStringObject" />
+      <option name="typeQualifiedName" value="PyPDF2.generic.TextStringObject" />
+      <option name="typeSourceFile" value="" />
+      <VALUE_RENDERER>
+        <option name="isDefault" value="true" />
+        <option name="expression" value="" />
+      </VALUE_RENDERER>
+      <CHILDREN_RENDERER>
+        <option name="isDefault" value="true" />
+        <option name="appendDefaultChildren" value="false" />
+      </CHILDREN_RENDERER>
+    </RENDERER>
+  </component>
+</application>

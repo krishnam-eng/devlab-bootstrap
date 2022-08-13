@@ -1,0 +1,22 @@
+<application>
+  <component name="GitToolBoxAppSettings2">
+    <option name="decorationParts">
+      <list>
+        <DecorationPartConfig>
+          <option name="type" value="BRANCH" />
+        </DecorationPartConfig>
+        <DecorationPartConfig>
+          <option name="type" value="STATUS" />
+        </DecorationPartConfig>
+        <DecorationPartConfig>
+          <option name="type" value="TAGS_ON_HEAD" />
+        </DecorationPartConfig>
+        <DecorationPartConfig>
+          <option name="type" value="CHANGED_COUNT" />
+        </DecorationPartConfig>
+      </list>
+    </option>
+    <option name="showBlameWidget" value="false" />
+    <option name="showEditorInlineBlame" value="false" />
+  </component>
+</application>

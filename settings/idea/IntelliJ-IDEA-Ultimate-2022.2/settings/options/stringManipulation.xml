@@ -1,0 +1,18 @@
+<application>
+  <component name="StringManipulationState">
+    <option name="sortSettings">
+      <SortSettings>
+        <option name="collatorLanguageTag" value="en_IN" />
+      </SortSettings>
+    </option>
+    <option name="sortTokensModel">
+      <SortTokensModel>
+        <option name="sortSettings">
+          <SortSettings>
+            <option name="collatorLanguageTag" value="en_IN" />
+          </SortSettings>
+        </option>
+      </SortTokensModel>
+    </option>
+  </component>
+</application>

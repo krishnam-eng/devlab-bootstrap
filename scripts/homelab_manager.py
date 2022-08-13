@@ -112,6 +112,6 @@ if __name__ == '__main__':
 
     sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "scripts", "settings"])
     sync_gitrepo(repo_path='~/hrt/vault/',
-                 source_dirs=["bookmarks", "db", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot",
+                 source_dirs=["bookmarks", "dbeaver", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot",
                               "sublime", "zsh"])
     after_all()

@@ -7,7 +7,7 @@
 # It is easy to create one sym link to conf gitrepo instead of creating for all files
 ##########
 
-export ZDOTDIR=~/hrt/boot/shell/zsh
+export ZDOTDIR=~/hrt/boot/conf/zsh
 
 ##### When to Use
 # Note: This file is sourced on all invocations of the shell - for both interactive & non-interacttive

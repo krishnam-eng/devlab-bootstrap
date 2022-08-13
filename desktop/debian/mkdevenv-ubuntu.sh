@@ -10,7 +10,7 @@ function install_core_packages{
     sudo apt install tmux            # terminal multiplexer
     sudo apt install zsh             # powerful sh
 
-    # to get the latest version, it is preferable to use ppa - personal package archive repo over default ubuntu repo
+    # to get the latest version, it is preferable to use ppa - personal package archive repo over default debian repo
     # Install Optional items later when needed
 
     # basic tools to start with

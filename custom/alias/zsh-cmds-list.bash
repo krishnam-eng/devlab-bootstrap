@@ -7,9 +7,10 @@ alias ls="ls --color=auto"
 alias ld='ls -d .*'
 
 # All: long list,show almost all,show type,human readable (with dot files)
-# alias la="ls -lABXFh --block-size=K" # ubuntu
+# alias la="ls -lABXFh --block-size=K" # debian
 alias ll="ls -lBFh" # all dir w/o dot dir
 alias lA="ls -lABFh" # all dir w/ dot dir
+alias la="ls -lABFh" # duplicate alias for convenience
 
 # Recursive: sorted by date,recursive,show type,human readable
 alias lR='ls -tRFh'
@@ -23,6 +24,7 @@ alias lt1="tree -L 1"
 alias lt2="tree -L 2"
 alias lt3="tree -L 3"
 alias lt4="tree -L 4"
+alias lt5="tree -L 5"
 alias ltA="tree"
 
 # ls for machince read (all files and full timestamp
@@ -51,6 +53,7 @@ alias elt1="exa --tree --level=1 --long"
 alias elt2="exa --tree --level=2 --long"
 alias elt3="exa --tree --level=3 --long"
 alias elt4="exa --tree --level=4 --long"
+alias elt5="exa --tree --level=4 --long"
 alias eltA="exa --tree --long"
 
 # Other useful options

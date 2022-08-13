@@ -16,47 +16,35 @@ hash -d bkp=~/hrt/ver
 hash -d shared=~/shared
 
 # quick access to core FHS dir @ L2
-hash -d boot=~/hrt/boot
 hash -d bin=~/hrt/bin
-hash -d lib=~/hrt/lib
-hash -d var=~/hrt/var
+hash -d boot=~/hrt/boot
 hash -d etc=~/hrt/etc
-hash -d pvt=~/hrt/pvt
+hash -d ext=~/hrt/ext
+hash -d lib=~/hrt/lib
 hash -d style=~/hrt/opt
-hash -d tools=~/hrt/tools
-
-hash -d plugins=~/hrt/plugins
-hash -d resurrect=~/hrt/resurrect
-hash -d virtualenvs=~/hrt/virtualenvs
+hash -d hproj=~/hrt/proj
+hash -d pvt=~/hrt/pvt
+hash -d tmp=~/hrt/tmp
+hash -d state=~/hrt/state
+hash -d var=~/hrt/var
+hash -d vault=~/hrt/vault
+hash -d tools=~/hrt/vault
+hash -d ver=~/hrt/ver
+hash -d vol=~/hrt/vol
 
 # quick access to config files or custom setting @L3
-hash -d alias=~/hrt/boot/alias
-hash -d awk=~/hrt/boot/awk
-hash -d bash=~/hrt/boot/bash
-hash -d env=~/hrt/boot/env
-hash -d font=~/hrt/boot/font
-hash -d func=~/hrt/boot/func
-hash -d git=~/hrt/boot/git
-hash -d nano=~/hrt/boot/nano
-hash -d nginx=~/hrt/boot/nginx
-hash -d ssh=~/hrt/boot/ssh
-hash -d tmux=~/hrt/boot/tmux
-hash -d vbox=~/hrt/boot/vbox
-hash -d venv=~/hrt/boot/venv
-hash -d vscode=~/hrt/boot/vscode
-hash -d zsh=~/hrt/boot/zsh
-
-hash -d nginx=~/hrt/boot/nginx  # ~nginx
+hash -d alias=~/hrt/boot/custom/alias
+hash -d env=~/hrt/boot/custom/env
+hash -d func=~/hrt/boot/custom/func
+hash -d scripts=~/hrt/boot/scripts
+hash -d bash=~/hrt/boot/shell/bash
+hash -d zsh=~/hrt/boot/shell/sh
+hash -d tools=~/hrt/boot/tools
 
 # quick access to all checkout repos
 # convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")
 hash -d gh=~/hrt/proj/github
-
 hash -d rp-ujl=~gh/useful-java-libraries
-hash -d rp-hlda=~gh/homelab-dkrapps
+hash -d rp-cni=~gh/explore-cloud-native-infra
 hash -d rp-ddd=~gh/domain-driven-design
 
-hash -d rp-hlt=~gh/howdoi-loadtest
-hash -d rp-ppn=~gh/practice-python
-hash -d rp-pfk=~gh/practice-flask
-hash -d rp-hus=~gh/handy-utilities

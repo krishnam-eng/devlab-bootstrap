@@ -1,18 +1,9 @@
 <application>
   <component name="StringManipulationState">
-    <option name="sortSettings">
-      <SortSettings>
-        <option name="collatorLanguageTag" value="en_IN" />
-      </SortSettings>
-    </option>
-    <option name="sortTokensModel">
-      <SortTokensModel>
-        <option name="sortSettings">
-          <SortSettings>
-            <option name="collatorLanguageTag" value="en_IN" />
-          </SortSettings>
-        </option>
-      </SortTokensModel>
+    <option name="lastAction">
+      <UniversalActionModel>
+        <option name="actionClassName" value="osmedile.intellij.stringmanip.styles.ToSnakeCaseAction" />
+      </UniversalActionModel>
     </option>
   </component>
 </application>

@@ -1,9 +1,7 @@
 GrepConsole
 GsonFormatPlus
 Key Promoter X
-MavenRunHelper
 PlantUML integration
-SequenceDiagram
 String Manipulation
 awesome.console
 cn.jxzhang.plugin.json-formatter

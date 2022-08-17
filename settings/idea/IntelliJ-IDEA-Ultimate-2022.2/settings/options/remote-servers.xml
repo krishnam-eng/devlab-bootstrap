@@ -1,21 +1,10 @@
 <application>
   <component name="RemoteServers">
-    <remote-server name="Docker5" type="docker">
+    <remote-server name="Docker" type="docker">
       <configuration>
         <option name="apiUrl" value="unix:///var/run/docker.sock" />
         <option name="certificatesPath" />
-      </configuration>
-    </remote-server>
-    <remote-server name="Docker6" type="docker">
-      <configuration>
-        <option name="apiUrl" value="unix:///var/run/docker.sock" />
-        <option name="certificatesPath" />
-      </configuration>
-    </remote-server>
-    <remote-server name="Docker7" type="docker">
-      <configuration>
-        <option name="apiUrl" value="unix:///var/run/docker.sock" />
-        <option name="certificatesPath" />
+        <option name="customConfiguratorId" value="DockerDefaultConnectionConfigurator" />
       </configuration>
     </remote-server>
   </component>

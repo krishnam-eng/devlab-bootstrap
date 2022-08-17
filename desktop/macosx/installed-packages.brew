@@ -1,4 +1,5 @@
 argocd: GitOps Continuous Delivery for Kubernetes
+colordiff: Color-highlighted diff(1) output
 ctop: Top-like interface for container metrics
 exa: Modern replacement for 'ls'
 figlet: Banner-like program prints strings as ASCII art

@@ -56,7 +56,7 @@
                           <option name="bold" value="true" />
                           <option name="foregroundColor">
                             <GrepColor>
-                              <option name="color" value="-6595781" />
+                              <option name="color" value="-3331298" />
                               <option name="colorKey" value="GrepConsole.fatal.foreground" />
                               <option name="enabled" value="true" />
                             </GrepColor>
@@ -75,7 +75,7 @@
                           </option>
                           <option name="foregroundColor">
                             <GrepColor>
-                              <option name="color" value="-8243915" />
+                              <option name="color" value="-3331298" />
                               <option name="colorKey" value="GrepConsole.error.foreground" />
                               <option name="enabled" value="true" />
                             </GrepColor>
@@ -94,7 +94,7 @@
                           </option>
                           <option name="foregroundColor">
                             <GrepColor>
-                              <option name="color" value="-9886176" />
+                              <option name="color" value="-2576067" />
                               <option name="colorKey" value="GrepConsole.warn.foreground" />
                               <option name="enabled" value="true" />
                             </GrepColor>
@@ -103,18 +103,19 @@
                       </option>
                     </GrepExpressionItem>
                     <GrepExpressionItem>
-                      <option name="enabled" value="false" />
+                      <option name="continueMatching" value="true" />
                       <option name="grepExpression" value=".*INFO.*" />
+                      <option name="operationOnMatch" value="CONTINUE_MATCHING" />
                       <option name="style">
                         <GrepStyle>
                           <option name="backgroundColor">
                             <GrepColor>
                               <option name="colorKey" value="GrepConsole.info.background" />
-                              <option name="enabled" value="true" />
                             </GrepColor>
                           </option>
                           <option name="foregroundColor">
                             <GrepColor>
+                              <option name="color" value="-3289651" />
                               <option name="colorKey" value="GrepConsole.info.foreground" />
                               <option name="enabled" value="true" />
                             </GrepColor>
@@ -134,6 +135,7 @@
                           </option>
                           <option name="foregroundColor">
                             <GrepColor>
+                              <option name="color" value="-6579301" />
                               <option name="colorKey" value="GrepConsole.debug.foreground" />
                               <option name="enabled" value="true" />
                             </GrepColor>
@@ -153,6 +155,7 @@
                           </option>
                           <option name="foregroundColor">
                             <GrepColor>
+                              <option name="color" value="-9868951" />
                               <option name="colorKey" value="GrepConsole.trace.foreground" />
                               <option name="enabled" value="true" />
                             </GrepColor>
@@ -162,6 +165,7 @@
                     </GrepExpressionItem>
                   </list>
                 </option>
+                <option name="name" value="Log Levels" />
               </GrepExpressionGroup>
               <GrepExpressionGroup>
                 <option name="name" value="@Theme Name@" />
@@ -181,10 +185,9 @@
                               <option name="color" value="-16711681" />
                             </GrepColor>
                           </option>
-                          <option name="bold" value="true" />
                           <option name="foregroundColor">
                             <GrepColor>
-                              <option name="color" value="-11162006" />
+                              <option name="color" value="-9177013" />
                               <option name="enabled" value="true" />
                             </GrepColor>
                           </option>
@@ -203,10 +206,9 @@
                               <option name="color" value="-12156236" />
                             </GrepColor>
                           </option>
-                          <option name="bold" value="true" />
                           <option name="foregroundColor">
                             <GrepColor>
-                              <option name="color" value="-3890885" />
+                              <option name="color" value="-2385153" />
                               <option name="enabled" value="true" />
                             </GrepColor>
                           </option>
@@ -225,10 +227,9 @@
                               <option name="color" value="-4343957" />
                             </GrepColor>
                           </option>
-                          <option name="bold" value="true" />
                           <option name="foregroundColor">
                             <GrepColor>
-                              <option name="color" value="-11291149" />
+                              <option name="color" value="-8659459" />
                               <option name="enabled" value="true" />
                             </GrepColor>
                           </option>
@@ -247,10 +248,72 @@
                               <option name="color" value="-8355712" />
                             </GrepColor>
                           </option>
-                          <option name="bold" value="true" />
                           <option name="foregroundColor">
                             <GrepColor>
-                              <option name="color" value="-13258843" />
+                              <option name="color" value="-2186241" />
+                              <option name="enabled" value="true" />
+                            </GrepColor>
+                          </option>
+                        </GrepStyle>
+                      </option>
+                    </GrepExpressionItem>
+                    <GrepExpressionItem>
+                      <option name="continueMatching" value="true" />
+                      <option name="grepExpression" value="Tomcat started on port\(s\): \d+" />
+                      <option name="highlightOnlyMatchingText" value="true" />
+                      <option name="operationOnMatch" value="CONTINUE_MATCHING" />
+                      <option name="style">
+                        <GrepStyle>
+                          <option name="backgroundColor">
+                            <GrepColor>
+                              <option name="color" value="-8355712" />
+                            </GrepColor>
+                          </option>
+                          <option name="foregroundColor">
+                            <GrepColor>
+                              <option name="color" value="-9177013" />
+                              <option name="enabled" value="true" />
+                            </GrepColor>
+                          </option>
+                        </GrepStyle>
+                      </option>
+                    </GrepExpressionItem>
+                    <GrepExpressionItem>
+                      <option name="continueMatching" value="true" />
+                      <option name="grepExpression" value="log4j:.*" />
+                      <option name="highlightOnlyMatchingText" value="true" />
+                      <option name="operationOnMatch" value="CONTINUE_MATCHING" />
+                      <option name="style">
+                        <GrepStyle>
+                          <option name="backgroundColor">
+                            <GrepColor>
+                              <option name="color" value="-5103070" />
+                            </GrepColor>
+                          </option>
+                          <option name="foregroundColor">
+                            <GrepColor>
+                              <option name="color" value="-9868951" />
+                              <option name="enabled" value="true" />
+                            </GrepColor>
+                          </option>
+                        </GrepStyle>
+                      </option>
+                    </GrepExpressionItem>
+                    <GrepExpressionItem>
+                      <option name="continueMatching" value="true" />
+                      <option name="grepExpression" value="SLF4J:.*" />
+                      <option name="highlightOnlyMatchingText" value="true" />
+                      <option name="operationOnMatch" value="CONTINUE_MATCHING" />
+                      <option name="style">
+                        <GrepStyle>
+                          <option name="backgroundColor">
+                            <GrepColor>
+                              <option name="color" value="-8388608" />
+                            </GrepColor>
+                          </option>
+                          <option name="foregroundColor">
+                            <GrepColor>
+                              <option name="color" value="-9868951" />
                               <option name="enabled" value="true" />
                             </GrepColor>
                           </option>
@@ -260,6 +323,34 @@
                   </list>
                 </option>
                 <option name="name" value="Custom Highlights" />
+              </GrepExpressionGroup>
+              <GrepExpressionGroup>
+                <option name="grepExpressionItems">
+                  <list>
+                    <GrepExpressionItem>
+                      <option name="continueMatching" value="true" />
+                      <option name="grepExpression" value="\[[.\w]*\]" />
+                      <option name="highlightOnlyMatchingText" value="true" />
+                      <option name="operationOnMatch" value="CONTINUE_MATCHING" />
+                      <option name="style">
+                        <GrepStyle>
+                          <option name="backgroundColor">
+                            <GrepColor>
+                              <option name="color" value="-7650029" />
+                            </GrepColor>
+                          </option>
+                          <option name="foregroundColor">
+                            <GrepColor>
+                              <option name="color" value="-11499212" />
+                              <option name="enabled" value="true" />
+                            </GrepColor>
+                          </option>
+                        </GrepStyle>
+                      </option>
+                    </GrepExpressionItem>
+                  </list>
+                </option>
+                <option name="name" value="Grammer Highlights" />
               </GrepExpressionGroup>
             </list>
           </option>
@@ -307,29 +398,9 @@
                     </GrepExpressionItem>
                     <GrepExpressionItem>
                       <option name="action" value="REMOVE" />
-                      <option name="grepExpression" value="INFO:.*" />
-                      <option name="inputFilter" value="true" />
-                    </GrepExpressionItem>
-                    <GrepExpressionItem>
-                      <option name="action" value="REMOVE" />
-                      <option name="grepExpression" value="SLF4J.*" />
-                      <option name="inputFilter" value="true" />
-                    </GrepExpressionItem>
-                    <GrepExpressionItem>
-                      <option name="action" value="REMOVE" />
-                      <option name="grepExpression" value="log4j:.*" />
-                      <option name="inputFilter" value="true" />
-                    </GrepExpressionItem>
-                  </list>
-                </option>
-                <option name="name" value="My Group" />
-              </GrepExpressionGroup>
-              <GrepExpressionGroup>
-                <option name="grepExpressionItems">
-                  <list>
-                    <GrepExpressionItem>
-                      <option name="action" value="REMOVE" />
+                      <option name="clearConsole" value="true" />
                       <option name="continueMatching" value="true" />
+                      <option name="enabled" value="false" />
                       <option name="grepExpression" value=".*DEBUG.*" />
                       <option name="inputFilter" value="true" />
                       <option name="operationOnMatch" value="CONTINUE_MATCHING" />
@@ -353,12 +424,14 @@
                       <option name="grepExpression" value=".*ssoTokenGenerationLatency.*" />
                       <option name="inputFilter" value="true" />
                     </GrepExpressionItem>
+                    <GrepExpressionItem>
+                      <option name="action" value="REMOVE" />
+                      <option name="grepExpression" value=".*backgroundTokenExpiryChecks.*" />
+                      <option name="inputFilter" value="true" />
+                    </GrepExpressionItem>
                   </list>
                 </option>
-                <option name="name" value="Log Level: Ignore Info" />
-              </GrepExpressionGroup>
-              <GrepExpressionGroup>
-                <option name="name" value="new" />
+                <option name="name" value="Log Level: Ignore Lines" />
               </GrepExpressionGroup>
             </list>
           </option>

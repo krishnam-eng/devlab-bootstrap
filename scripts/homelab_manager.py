@@ -5,6 +5,7 @@ import git
 import time
 from pathlib import Path
 from kutils import mdprint, hrtstate, gitw
+import speedtest
 
 # global variables
 is_force_run = False
@@ -88,10 +89,17 @@ def process_cmd_options():
     except getopt.GetoptError:
         sys.exit(2)
 
+def speed_test():
+    speedtest_obj = speedtest.Speedtest()
+
+    download_speed = speedtest_obj.download()
+    print("Your Download speed is", download_speed)
+
+    upload_speed = speedtest_obj.upload()
+    print("Your Upload speed is", upload_speed)
 
 def after_all():
     mdprint.print_footnote("My brain hurts! Let's automate more !")
-
     print(f"Completed Execution in {time.perf_counter() - counter} seconds \n")
 
     print('But, Now !... [at least weekly once]')
@@ -114,4 +122,5 @@ if __name__ == '__main__':
     sync_gitrepo(repo_path='~/hrt/vault/',
                  source_dirs=["bookmarks", "dbeaver", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot",
                               "sublime", "zsh"])
+    speed_test()
     after_all()

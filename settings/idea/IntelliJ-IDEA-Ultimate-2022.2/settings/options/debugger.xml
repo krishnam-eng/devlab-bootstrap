@@ -100,7 +100,7 @@
         <Renderer ID="LabelRenderer" role="label">
           <option name="QUALIFIED_NAME" value="java.lang.Object" />
           <option name="ON_DEMAND" value="false" />
-          <option name="LABEL_EXPRESSION" expression="if (null == this || this instanceof String)     return this;  new com.google.gson.GsonBuilder().setPrettyPrinting().create().toJson(this);" language="JAVA" mode="CODE_FRAGMENT" />
+          <option name="LABEL_EXPRESSION" expression="if (this == null&#10;        || this instanceof CharSequence&#10;        || this instanceof Number&#10;        || this instanceof Character&#10;        || this instanceof Boolean&#10;        || this instanceof Enum) {&#10;    return this;&#10;}&#10;new com.google.gson.GsonBuilder().setPrettyPrinting().create().toJson(this);" language="JAVA" mode="CODE_FRAGMENT" />
         </Renderer>
       </Renderer>
     </CustomRenderers>

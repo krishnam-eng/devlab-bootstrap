@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 
+if [ -d "/Library/Frameworks/Python.framework/Versions/3.10/bin" ] ;
+then
+  PATH="$PATH:/Library/Frameworks/Python.framework/Versions/3.10/bin"
+fi
+
 # python install from brew
 # python@3.10 is keg-only, which means it was not symlinked into /usr/local,
 # because this is an alternate version of another formula.
 # If you need to have python@3.10 first in your PATH, run:
 export PATH="/usr/local/opt/python@3.10/bin:$PATH"
-
-export PATH="/Library/Frameworks/Python.framework/Versions/3.10/bin:$PATH"
 
 # For compilers to find python@3.10 you may need to set:
 export LDFLAGS="-L/usr/local/opt/python@3.10/lib"

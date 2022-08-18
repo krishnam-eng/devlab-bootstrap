@@ -91,7 +91,8 @@ def process_cmd_options():
 
 
 def speed_test():
-    print("\nSpeed Test Results: \n")
+    print("\nSpeed Test Results:")
+    print("-------------------")
     speedtest_obj = speedtest.Speedtest()
 
     download_speed = speedtest_obj.download()

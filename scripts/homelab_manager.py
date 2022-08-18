@@ -89,14 +89,22 @@ def process_cmd_options():
     except getopt.GetoptError:
         sys.exit(2)
 
+
 def speed_test():
     speedtest_obj = speedtest.Speedtest()
 
     download_speed = speedtest_obj.download()
-    print("Your Download speed is", download_speed)
+    print("Your Download speed is", bytes_to_mb(download_speed))
 
     upload_speed = speedtest_obj.upload()
-    print("Your Upload speed is", upload_speed)
+    print("Your Upload speed is", bytes_to_mb(upload_speed))
+
+
+def bytes_to_mb(value_in_bytes):
+    kb = 1024  # One Kilobyte is 1024 bytes
+    mb = kb * 1024  # One MB is 1024 KB
+    return int(value_in_bytes / mb)
+
 
 def after_all():
     mdprint.print_footnote("My brain hurts! Let's automate more !")
@@ -122,5 +130,5 @@ if __name__ == '__main__':
     sync_gitrepo(repo_path='~/hrt/vault/',
                  source_dirs=["bookmarks", "dbeaver", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot",
                               "sublime", "zsh"])
-    speed_test()
     after_all()
+    speed_test()

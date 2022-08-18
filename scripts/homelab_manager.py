@@ -103,8 +103,8 @@ def speed_test():
 
 
 def bytes_to_mb(value_in_bytes):
-    kb = 1024  # One Kilobyte is 1024 bytes
-    mb = kb * 1024  # One MB is 1024 KB
+    kb = 1024
+    mb = kb * 1024
     return int(value_in_bytes / mb)
 
 

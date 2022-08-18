@@ -1,0 +1,5 @@
+<keymap version="1" name="macOS copy" parent="Mac OS X 10.5+">
+  <action id="WelcomeScreen.Configure.Export">
+    <keyboard-shortcut first-keystroke="f10" />
+  </action>
+</keymap>

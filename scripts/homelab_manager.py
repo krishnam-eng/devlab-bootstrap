@@ -91,14 +91,14 @@ def process_cmd_options():
 
 
 def speed_test():
-    print("Speed Test Results: \n")
+    print("\nSpeed Test Results: \n")
     speedtest_obj = speedtest.Speedtest()
 
     download_speed = speedtest_obj.download()
-    print("Your Download speed is {} MB".format(bytes_to_mb(download_speed)))
+    print("Download: {} Mbits/s".format(bytes_to_mb(download_speed)))
 
     upload_speed = speedtest_obj.upload()
-    print("Your Upload speed is {} MB".format(bytes_to_mb(upload_speed)));
+    print("Upload: {} Mbits/s".format(bytes_to_mb(upload_speed)));
 
 
 def bytes_to_mb(value_in_bytes):

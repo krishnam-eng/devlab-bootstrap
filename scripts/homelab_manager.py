@@ -29,9 +29,9 @@ def backup_safari_bookmarks(source_file='~/Library/Safari/Bookmarks.plist', dest
 # ! source_dirs: do not add "." to avoid untracked file commits
 
 
-def sync_gitrepo(repo_path, source_dirs):
+def sync_gitrepo(repo_path, source_dirs, repo_manager):
     mdprint.print_h1(
-        "GitHub: Sync Dev Workspace - HomeLab, Tools Settings [local -> remote]...")
+        "{}: Sync Dev Workspace - HomeLab, Tools Settings [local -> remote]...".format(repo_manager))
 
     try:
         repo = git.Repo(repo_path)
@@ -172,8 +172,8 @@ if __name__ == '__main__':
 
     update_packages(out='{}/hrt/boot/desktop/macosx/installed-packages.brew'.format(Path.home()))
 
-    sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "scripts", "settings"])
-    sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["bookmarks", "dbeaver", "git", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"])
+    sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "scripts", "settings"], repo_manager="GitHub")
+    sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["bookmarks", "dbeaver", "git", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"], repo_manager="BitBucket")
 
     update_gitrepos()
 

@@ -49,6 +49,9 @@
   </action>
   <action id="EmmetNextEditPoint" />
   <action id="EmmetPreviousEditPoint" />
+  <action id="ExportSettings">
+    <keyboard-shortcut first-keystroke="f10" />
+  </action>
   <action id="ExpressionTypeInfo" />
   <action id="FileChooser.GotoModule" />
   <action id="FileChooser.GotoProject" />

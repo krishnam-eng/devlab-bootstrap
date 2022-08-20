@@ -57,7 +57,7 @@ def sync_gitrepo(repo_path, source_dirs):
         raise
 
 
-def update_gitrepos(repo_list_filename='~/hrt/vault/git/repos.path', ):
+def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path.home()), ):
     mdprint.print_h1(
         "BitBucket: Update Project Repos [remote -> local]...")
 

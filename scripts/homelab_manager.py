@@ -84,7 +84,7 @@ def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path
 
 def update_mvn_localrepo(repo_list_filename='{}/hrt/vault/git/mvn_repos.path'.format(Path.home()), mvn_cmd='package'):
     mdprint.print_h1(
-        "BitBucket: Update Project Repos [remote -> local]...")
+        "Maven: Update Project Dependencies [remote -> local]...")
 
     state_key = 'mvn_localrepo'
     if hrtstate.is_stale(state_key):

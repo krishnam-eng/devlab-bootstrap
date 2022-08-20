@@ -79,7 +79,6 @@ def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path
             except git.GitCommandError:
                 print('Error while pulling from remote')
                 gitw.print_git_status(repo)
-                raise
 
 
 def update_packages(out):

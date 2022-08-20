@@ -154,7 +154,7 @@ if __name__ == '__main__':
     update_packages(out='{}/hrt/boot/desktop/macosx/installed-packages.brew'.format(Path.home()))
 
     sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "scripts", "settings"])
-    sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["bookmarks", "dbeaver", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"])
+    sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["bookmarks", "dbeaver", "git", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"])
 
     update_gitrepos()
 

@@ -63,12 +63,12 @@ def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path
 
     state_key = 'project_repos'
     if hrtstate.is_stale(state_key):
-        try:
-            with open(repo_list_filename) as file:
-                lines = file.readlines()
-                repo_paths = [line.rstrip() for line in lines]
-            for repo_path in repo_paths:
-                print('-----------<{}>--------------'.format(repo_path))
+        with open(repo_list_filename) as file:
+            lines = file.readlines()
+            repo_paths = [line.rstrip() for line in lines]
+        for repo_path in repo_paths:
+            print('-----------< {} >--------------'.format(repo_path))
+            try:
                 repo = git.Repo(repo_path)
                 if gitw.is_stale(repo, None):
                     gitw.print_git_status(repo)
@@ -76,10 +76,10 @@ def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path
                     origin.pull()
                 else:
                     print("Already up-to-date !")
-        except git.GitCommandError:
-            print('Error while pulling from remote')
-            gitw.print_git_status(repo)
-            raise
+            except git.GitCommandError:
+                print('Error while pulling from remote')
+                gitw.print_git_status(repo)
+                raise
 
 
 def update_packages(out):

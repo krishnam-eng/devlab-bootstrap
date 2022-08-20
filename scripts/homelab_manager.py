@@ -87,8 +87,7 @@ def update_mvn_localrepo(repo_list_filename='{}/hrt/vault/git/mvn_repos.path'.fo
         "BitBucket: Update Project Repos [remote -> local]...")
 
     state_key = 'mvn_localrepo'
-    #if hrtstate.is_stale(state_key):
-    if True:
+    if hrtstate.is_stale(state_key):
         with open(repo_list_filename) as file:
             lines = file.readlines()
             repo_paths = [line.rstrip() for line in lines]
@@ -140,10 +139,12 @@ def bytes_to_mb(value_in_bytes):
 
 def after_all():
     mdprint.print_footnote("My brain hurts! Let's automate more !")
-    print(f"Completed Execution in {time.perf_counter() - counter} seconds \n")
+
+    time_taken = int(time.perf_counter() - counter)
+    print('Completed Execution in {} seconds'.format(time_taken))
 
     print('But, Now !... [at least weekly once]')
-    print('Run Repo Manager')
+
     print('Export DBeaver Preferences        => [File -> Export]')
     print(
         'Export IDE IDEA Preferences       => [File -> Manage IDE Settings -> Export]')

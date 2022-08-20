@@ -12,8 +12,7 @@ is_force_run = False
 counter = time.perf_counter()
 
 
-def backup_safari_bookmarks(source_file='~/Library/Safari/Bookmarks.plist',
-                            destination_folder='~/hrt/vault/bookmarks/safari/'):
+def backup_safari_bookmarks(source_file='~/Library/Safari/Bookmarks.plist', destination_folder='~/hrt/vault/bookmarks/safari/'):
     mdprint.print_h1("Vault: Backup Safari Bookmarks...")
     state_key = 'safari'
     if hrtstate.is_stale(state_key) or is_force_run:
@@ -54,7 +53,6 @@ def sync_gitrepo(repo_path, source_dirs):
     except git.GitCommandError:
         print('Error while pushing the change-set')
         gitw.print_git_status(repo)
-        raise
 
 
 def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path.home()), ):
@@ -76,8 +74,8 @@ def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path
                     origin.pull()
                 else:
                     print("Already up-to-date !")
-            except git.GitCommandError:
-                print('Error while pulling from remote')
+            except (git.GitCommandError, git.InvalidGitRepositoryError) as error:
+                print('Error while pulling from remote: {}'.format(error))
                 gitw.print_git_status(repo)
 
 

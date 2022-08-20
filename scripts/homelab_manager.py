@@ -143,13 +143,13 @@ def after_all():
     time_taken = int(time.perf_counter() - counter)
     print('Completed Execution in {} seconds\n'.format(time_taken))
 
-    print('But, Now !... [at least weekly once]')
+    print('Backup Settings: [at least weekly once]')
 
-    print('Export DBeaver Preferences              => F10 or [File -> Export]')
-    print('Export IDE IntelliJ IDEA Preferences    => F10 or [File -> Manage IDE Settings -> Export]')
-    print('Export IDE PyCharm Preferences          => F10 or [File -> Manage IDE Settings -> Export]')
-    print('Export Postman Collection & Environment => [File -> Export]')
-    print('Export IDE VSCode Preferences           => [Code -> Preferences -> Settings Sync is On]')
+    print('\tExport DBeaver Preferences              => F10 or [File -> Export]')
+    print('\tExport IDE IntelliJ IDEA Preferences    => F10 or [File -> Manage IDE Settings -> Export]')
+    print('\tExport IDE PyCharm Preferences          => F10 or [File -> Manage IDE Settings -> Export]')
+    print('\tExport Postman Collection & Environment => [File -> Export]')
+    print('\tExport IDE VSCode Preferences           => [Code -> Preferences -> Settings Sync is On]')
 
 
 def process_cmd_options():

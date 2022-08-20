@@ -65,7 +65,7 @@ def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path
             lines = file.readlines()
             repo_paths = [line.rstrip() for line in lines]
         for repo_path in repo_paths:
-            print('-----------< {} >--------------'.format(repo_path))
+            print('-----------< {} >-----------'.format(repo_path))
             try:
                 repo = git.Repo(repo_path)
                 if gitw.is_stale(repo, None):
@@ -78,6 +78,25 @@ def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path
                 print('Error while pulling from remote: {}'.format(error))
                 gitw.print_git_status(repo)
         hrtstate.mark_updated(state_key)
+    else:
+        print("Already ran today ! Skipping !")
+
+
+def update_mvn_localrepo(repo_list_filename='{}/hrt/vault/git/mvn_repos.path'.format(Path.home()), mvn_cmd='package'):
+    mdprint.print_h1(
+        "BitBucket: Update Project Repos [remote -> local]...")
+
+    state_key = 'mvn_localrepo'
+    #if hrtstate.is_stale(state_key):
+    if True:
+        with open(repo_list_filename) as file:
+            lines = file.readlines()
+            repo_paths = [line.rstrip() for line in lines]
+        for repo_path in repo_paths:
+            completed_process = subprocess.run("mvn -U -f %s/pom.xml clean package -Dmaven.test.skip=true" % repo_path, shell=True)
+        hrtstate.mark_updated(state_key)
+    else:
+        print("Already ran today ! Skipping !")
 
 
 def update_packages(out):
@@ -156,6 +175,8 @@ if __name__ == '__main__':
     sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["bookmarks", "dbeaver", "git", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"])
 
     update_gitrepos()
+
+    update_mvn_localrepo()
 
     after_all()
 

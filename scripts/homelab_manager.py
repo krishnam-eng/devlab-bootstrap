@@ -77,6 +77,7 @@ def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path
             except (git.GitCommandError, git.InvalidGitRepositoryError) as error:
                 print('Error while pulling from remote: {}'.format(error))
                 gitw.print_git_status(repo)
+        hrtstate.mark_updated(state_key)
 
 
 def update_packages(out):

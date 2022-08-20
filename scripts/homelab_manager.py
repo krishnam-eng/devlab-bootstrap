@@ -68,6 +68,7 @@ def update_gitrepos(repo_list_filename='{}/hrt/vault/git/repos.path'.format(Path
                 lines = file.readlines()
                 repo_paths = [line.rstrip() for line in lines]
             for repo_path in repo_paths:
+                print('-----------<{}>--------------'.format(repo_path))
                 repo = git.Repo(repo_path)
                 if gitw.is_stale(repo, None):
                     gitw.print_git_status(repo)

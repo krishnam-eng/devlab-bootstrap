@@ -138,20 +138,18 @@ def bytes_to_mb(value_in_bytes):
 
 
 def after_all():
-    mdprint.print_footnote("My brain hurts! Let's automate more !")
+    mdprint.print_footnote("Every Second Counts! Let's automate more !")
 
     time_taken = int(time.perf_counter() - counter)
-    print('Completed Execution in {} seconds'.format(time_taken))
+    print('Completed Execution in {} seconds\n'.format(time_taken))
 
     print('But, Now !... [at least weekly once]')
 
-    print('Export DBeaver Preferences        => [File -> Export]')
-    print(
-        'Export IDE IDEA Preferences       => [File -> Manage IDE Settings -> Export]')
-    print(
-        'Export IDE VSCode Preferences     => [Code -> Preferences -> Settings Sync is On]')
-    print(
-        'Upgrade IDE VSCode Preferences     => [Code -> Preferences -> Settings Sync is On]')
+    print('Export DBeaver Preferences              => F10 or [File -> Export]')
+    print('Export IDE IntelliJ IDEA Preferences    => F10 or [File -> Manage IDE Settings -> Export]')
+    print('Export IDE PyCharm Preferences          => F10 or [File -> Manage IDE Settings -> Export]')
+    print('Export Postman Collection & Environment => [File -> Export]')
+    print('Export IDE VSCode Preferences           => [Code -> Preferences -> Settings Sync is On]')
 
 
 def process_cmd_options():

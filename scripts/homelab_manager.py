@@ -57,6 +57,30 @@ def sync_gitrepo(repo_path, source_dirs):
         raise
 
 
+def update_gitrepos(repo_list_filename='~/hrt/vault/git/repos.path', ):
+    mdprint.print_h1(
+        "BitBucket: Update Project Repos [remote -> local]...")
+
+    state_key = 'project_repos'
+    if hrtstate.is_stale(state_key):
+        try:
+            with open(repo_list_filename) as file:
+                lines = file.readlines()
+                repo_paths = [line.rstrip() for line in lines]
+            for repo_path in repo_paths:
+                repo = git.Repo(repo_path)
+                if gitw.is_stale(repo, None):
+                    gitw.print_git_status(repo)
+                    origin = repo.remote(name='origin')
+                    origin.pull()
+                else:
+                    print("Already up-to-date !")
+        except git.GitCommandError:
+            print('Error while pulling from remote')
+            gitw.print_git_status(repo)
+            raise
+
+
 def update_packages(out):
     banner = "HomeBrew: Update Taps (third-party repositories) and Bottles (binary packages)...[remote -> local]"
     mdprint.print_h1(banner)
@@ -65,7 +89,6 @@ def update_packages(out):
         mdprint.print_h2('Brew: Upgrade packages...')
         subprocess.run(
             "brew update && brew outdated && brew upgrade && brew cleanup", shell=True)
-
         mdprint.print_h2('Brew: Log Installed Packages...')
         # with w+, create or reset the file - empty it.
         f = open(out, 'w+')
@@ -77,17 +100,6 @@ def update_packages(out):
                 print(line)
     else:
         print("Already ran today ! Skipping !")
-
-
-def process_cmd_options():
-    global is_force_run
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "f", ["force", "rpath="])
-        for opt, arg in opts:
-            if opt in ("-f", "--force"):
-                is_force_run = True
-    except getopt.GetoptError:
-        sys.exit(2)
 
 
 def speed_test():
@@ -123,14 +135,29 @@ def after_all():
         'Upgrade IDE VSCode Preferences     => [Code -> Preferences -> Settings Sync is On]')
 
 
+def process_cmd_options():
+    global is_force_run
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "f", ["force", "rpath="])
+        for opt, arg in opts:
+            if opt in ("-f", "--force"):
+                is_force_run = True
+    except getopt.GetoptError:
+        sys.exit(2)
+
+
 if __name__ == '__main__':
     process_cmd_options()
+
     backup_safari_bookmarks()
+
     update_packages(out='{}/hrt/boot/desktop/macosx/installed-packages.brew'.format(Path.home()))
 
     sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "scripts", "settings"])
-    sync_gitrepo(repo_path='~/hrt/vault/',
-                 source_dirs=["bookmarks", "dbeaver", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot",
-                              "sublime", "zsh"])
+    sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["bookmarks", "dbeaver", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"])
+
+    update_gitrepos()
+
     after_all()
+
     speed_test()

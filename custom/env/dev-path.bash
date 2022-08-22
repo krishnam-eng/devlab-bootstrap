@@ -11,6 +11,10 @@ fi
 # If you need to have python@3.10 first in your PATH, run:
 export PATH="/usr/local/opt/python@3.10/bin:$PATH"
 
+#  WARNING: The script normalizer is installed in '/Users/balamurugan/Library/Python/3.8/bin' which is not on PATH.
+#  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+export PATH="$PATH:${HOME}/Library/Python/3.8/bin"
+
 # For compilers to find python@3.10 you may need to set:
 export LDFLAGS="-L/usr/local/opt/python@3.10/lib"
 

@@ -166,12 +166,27 @@ def process_cmd_options():
 def update_pip():
     mdprint.print_h1("Python: Update PIP version...")
     state_key = 'pip'
-    if hrtstate.is_stale(state_key) or is_force_run:
+    # if hrtstate.is_stale(state_key) or is_force_run:
+    if True:
         completed_process = subprocess.run("/Library/Developer/CommandLineTools/usr/bin/python3 -m pip install --upgrade pip", shell=True)
+        print("\t > {}".format(completed_process.args))
+        if completed_process.stdout is not None:
+            print("\t >  {}".format(completed_process.stdout))
+        completed_process = subprocess.run("pip list --outdated", shell=True)
         hrtstate.mark_updated(state_key)
         print("\t > {}".format(completed_process.args))
         if completed_process.stdout is not None:
             print("\t >  {}".format(completed_process.stdout))
+        completed_process = subprocess.run("pip3 freeze >! ~hrt/boot/desktop/macosx/pip_requirements.txt", shell=True)
+        hrtstate.mark_updated(state_key)
+        print("\t > {}".format(completed_process.args))
+        if completed_process.stdout is not None:
+            print("\t >  {}".format(completed_process.stdout))
+            completed_process = subprocess.run("pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U", shell=True)
+            hrtstate.mark_updated(state_key)
+            print("\t > {}".format(completed_process.args))
+            if completed_process.stdout is not None:
+                print("\t >  {}".format(completed_process.stdout))
     else:
         print("Already ran today ! Skipping !")
 

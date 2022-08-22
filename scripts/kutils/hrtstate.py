@@ -8,6 +8,7 @@ def is_stale(state_key):
             state_value = f.readlines()
     except FileNotFoundError:
         f = open('{}/hrt/state/sync/{}.state'.format(Path.home(), state_key), 'w+')
+        state_value = None
         f.close()
 
     if state_value is None or len(state_value) == 0:

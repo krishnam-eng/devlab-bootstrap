@@ -98,7 +98,7 @@ def update_mvn_localrepo(repo_list_filename='{}/hrt/vault/git/mvn_repos.path'.fo
         print("Already ran today ! Skipping !")
 
 
-def update_packages(out):
+def update_brew_packages(out):
     banner = "HomeBrew: Update Taps (third-party repositories) and Bottles (binary packages)...[remote -> local]"
     mdprint.print_h1(banner)
     state_key = 'brew'
@@ -163,20 +163,31 @@ def process_cmd_options():
         sys.exit(2)
 
 
+def update_pip():
+    mdprint.print_h1("Python: Update PIP version...")
+    state_key = 'pip'
+    if hrtstate.is_stale(state_key) or is_force_run:
+        completed_process = subprocess.run("/Library/Developer/CommandLineTools/usr/bin/python3 -m pip install --upgrade pip", shell=True)
+        hrtstate.mark_updated(state_key)
+        print("\t > {}".format(completed_process.args))
+        if completed_process.stdout is not None:
+            print("\t >  {}".format(completed_process.stdout))
+    else:
+        print("Already ran today ! Skipping !")
+
+
 if __name__ == '__main__':
     process_cmd_options()
 
+    update_brew_packages(out='{}/hrt/boot/desktop/macosx/installed-packages.brew'.format(Path.home()))
+    update_pip()
+
     backup_safari_bookmarks()
-
-    update_packages(out='{}/hrt/boot/desktop/macosx/installed-packages.brew'.format(Path.home()))
-
     sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "scripts", "settings"], repo_manager="GitHub")
     sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["bookmarks", "dbeaver", "git", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"], repo_manager="BitBucket")
 
     update_gitrepos()
-
     update_mvn_localrepo()
 
     after_all()
-
     speed_test()

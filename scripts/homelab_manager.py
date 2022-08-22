@@ -182,11 +182,11 @@ def update_pip():
         print("\t > {}".format(completed_process.args))
         if completed_process.stdout is not None:
             print("\t >  {}".format(completed_process.stdout))
-            completed_process = subprocess.run("pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U", shell=True)
-            hrtstate.mark_updated(state_key)
-            print("\t > {}".format(completed_process.args))
-            if completed_process.stdout is not None:
-                print("\t >  {}".format(completed_process.stdout))
+        completed_process = subprocess.run("pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U", shell=True)
+        hrtstate.mark_updated(state_key)
+        print("\t > {}".format(completed_process.args))
+        if completed_process.stdout is not None:
+            print("\t >  {}".format(completed_process.stdout))
     else:
         print("Already ran today ! Skipping !")
 

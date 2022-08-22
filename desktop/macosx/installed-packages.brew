@@ -9,3 +9,24 @@ helm: Kubernetes package manager
 htop: Improved top (interactive process viewer)
 jansson: C library for encoding, decoding, and manipulating JSON
 jq: Lightweight and flexible command-line JSON processor
+krew: Package manager for kubectl plugins
+libssh2: C library implementing the SSH2 protocol
+lolcat: Rainbows and unicorns in your console!
+jwt-cli: Super fast CLI tool to decode and encode JWTs built in Rust
+minikube: Run a Kubernetes cluster locally
+nano: Free (GNU) replacement for the Pico text editor
+ncdu: NCurses Disk Usage
+newman: Command-line collection runner for Postman
+openjdk: Development kit for the Java programming language
+openldap: Open source suite of directory software
+python@3.9: Interpreted, interactive, object-oriented programming language
+ranger: File browser
+rtmpdump: Tool for downloading RTMP streaming media
+telnet: User interface to the TELNET protocol
+tmux: Terminal multiplexer
+tree: Display directories as trees (with optional color/HTML output)
+watch: Executes a program periodically, showing output fullscreen
+wget: Internet file retriever
+wsk: OpenWhisk Command-Line Interface (CLI)
+xclip: Access X11 clipboards from the command-line
+zstd: Zstandard is a real-time compression algorithm

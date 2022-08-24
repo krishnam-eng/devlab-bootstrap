@@ -151,6 +151,7 @@ def after_all():
     print('\tExport Postman Collection & Environment => [File -> Export]')
     print('\tExport IDE VSCode Preferences           => [Code -> Preferences -> Settings Sync is On]')
 
+# todo: resolve pip...-upgrade only the packages that are directly installed - intersect with outdated list
 
 def process_cmd_options():
     global is_force_run

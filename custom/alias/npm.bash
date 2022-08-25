@@ -1,6 +1,9 @@
 
 # Install dependencies globally
-alias npmg="npm i -g "
+alias npmi="npm install -g "
+
+# List top-level installed packages
+alias npmls="npm ls --depth=0"
 
 # npm package names are lowercase
 # Thus, we've used camelCase for the following aliases:
@@ -32,8 +35,7 @@ alias npmV="npm -v"
 # List packages
 alias npmL="npm list"
 
-# List top-level installed packages
-alias npmL0="npm ls --depth=0"
+
 
 # Run npm start
 alias npmst="npm start"

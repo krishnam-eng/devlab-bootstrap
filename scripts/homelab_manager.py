@@ -150,6 +150,7 @@ def after_all():
     print('\tExport IDE PyCharm Preferences          => F10 or [File -> Manage IDE Settings -> Export]')
     print('\tExport Postman Collection & Environment => [File -> Export]')
     print('\tExport IDE VSCode Preferences           => [Code -> Preferences -> Settings Sync is On]')
+    print('\tCrontab , Npm')
 
 # todo: resolve pip...-upgrade only the packages that are directly installed - intersect with outdated list
 
@@ -192,6 +193,20 @@ def update_pip():
         print("Already ran today ! Skipping !")
 
 
+def backup_crontab_entries():
+    mdprint.print_h1("Crontab: Backup Crontab Entries...")
+    state_key = 'crontab'
+    if hrtstate.is_stale(state_key) or is_force_run:
+        completed_process = subprocess.run("crontab - l >! {}/hrt/boot/job/crontabs.cron".format(Path.home()), shell=True)
+        hrtstate.mark_updated(state_key)
+        print("\t > {}".format(completed_process.args))
+        if completed_process.stdout is not None:
+            print("\t >  {}".format(completed_process.stdout))
+    else:
+        print("Already ran today ! Skipping !")
+
+
+
 if __name__ == '__main__':
     process_cmd_options()
 
@@ -199,6 +214,7 @@ if __name__ == '__main__':
     update_pip()
 
     backup_safari_bookmarks()
+    backup_crontab_entries()
     sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "scripts", "settings"], repo_manager="GitHub")
     sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["bookmarks", "dbeaver", "git", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"], repo_manager="BitBucket")
 

@@ -1,0 +1,3 @@
+# Run homelab manager every 6 hrs
+0 */6 * * * python3 $HOME/hrt/boot/scripts/homelab_manager.py
+

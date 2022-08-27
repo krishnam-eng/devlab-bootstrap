@@ -1,25 +1,18 @@
 #!/usr/bin/env bash
 
-if [ -d "/Library/Frameworks/Python.framework/Versions/3.10/bin" ] ;
-then
-  PATH="$PATH:/Library/Frameworks/Python.framework/Versions/3.10/bin"
-fi
+export PATH=/usr/local/bin:/usr/local/sbin:${PATH}
 
 # python install from brew
 # python@3.10 is keg-only, which means it was not symlinked into /usr/local,
 # because this is an alternate version of another formula.
 # If you need to have python@3.10 first in your PATH, run:
-export PATH="/usr/local/opt/python@3.10/bin:$PATH"
-
-#  WARNING: The script normalizer is installed in '/Users/balamurugan/Library/Python/3.8/bin' which is not on PATH.
-#  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
-export PATH="$PATH:${HOME}/Library/Python/3.8/bin"
+#export PATH="/usr/local/opt/python3/bin:$PATH"
 
 # For compilers to find python@3.10 you may need to set:
-export LDFLAGS="-L/usr/local/opt/python@3.10/lib"
+export LDFLAGS="-L/usr/local/opt/python3/lib"
 
 # For pkg-config to find python@3.10 you may need to set:
-export PKG_CONFIG_PATH="/usr/local/opt/python@3.10/lib/pkgconfig"
+export PKG_CONFIG_PATH="/usr/local/opt/python3/lib/pkgconfig"
 
 # Build tools
 if [ -d "$HOME/hrt/lib/maven" ]
@@ -27,14 +20,14 @@ then
   # maven is a link to a specific version of maven .e.g, apache-maven-3.6.3 
   # >ln -sfn apache-maven-3.6.3 maven
   export M2_HOME="$HOME/hrt/lib/maven"
-  PATH="${M2_HOME}/bin:${PATH}"
+  PATH="${PATH}:${M2_HOME}/bin"
   # export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED"
 fi
 
 if [ -d "$HOME/hrt/lib/gradle-7.1.1" ]
 then
   export GRADLE_HOME="~/hrt/lib/gradle"
-  PATH=${GRADLE_HOME}/bin:${PATH}
+  PATH=${PATH}:${GRADLE_HOME}/bin
 fi
 
 # package manager for kubectl plugins
@@ -48,7 +41,7 @@ fi
 if [ -d /Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home ]
 then
   export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home"
-  PATH="${JAVA_HOME}/bin:${PATH}"
+  PATH="${PATH}:${JAVA_HOME}/bin"
 fi
 
 # IDE Path

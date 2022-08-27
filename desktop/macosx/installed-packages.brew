@@ -1,4 +1,5 @@
 argocd: GitOps Continuous Delivery for Kubernetes
+certbot: Tool to obtain certs from Let's Encrypt and autoenable HTTPS
 colordiff: Color-highlighted diff(1) output
 ctop: Top-like interface for container metrics
 exa: Modern replacement for 'ls'

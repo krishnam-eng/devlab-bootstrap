@@ -24,6 +24,7 @@ python@3.9: Interpreted, interactive, object-oriented programming language
 ranger: File browser
 rtmpdump: Tool for downloading RTMP streaming media
 telnet: User interface to the TELNET protocol
+terraform: Tool to build, change, and version infrastructure
 tmux: Terminal multiplexer
 tree: Display directories as trees (with optional color/HTML output)
 watch: Executes a program periodically, showing output fullscreen

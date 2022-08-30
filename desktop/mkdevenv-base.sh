@@ -106,15 +106,21 @@ function configure_mydevbox_with_homelab_source(){
     touch ~/hrt/etc/ctrflags/enablepowertheme # delete this file if you want to switch off the powertheme
 
     # Auto Completion Setup for Most Popular Tools
+    #
     # docker
     curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker -o ~/hrt/ext/completion/_docker
     # docker-compose
     curl -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/zsh/_docker-compose -o ~/hrt/ext/completion/_docker-compose
     # gradle
     curl -L https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/gradle/_gradle  -o ~/hrt/ext/completion/_gradle
-    # brew: With the release of Homebrew 1.0, they decided to bundle the zsh completion as part of the brew installation
-    # git: auto-complition comes with zsh
-    # kubectl: auto completion is enable in zshrc
+    # terraform
+    curl -L https://codeberg.org/Mebus/oh-my-zsh/raw/branch/master/plugins/terraform/_terraform -o  ~/hrt/ext/completion/_terraform
+    # auto completion is enable in zshrc
+    # kubectl
+    # helm
+    # auto-complition comes with zsh
+    # brew
+    # git
 
     # nano editor
     cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old

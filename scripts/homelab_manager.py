@@ -214,7 +214,7 @@ if __name__ == '__main__':
     update_pip()
 
     backup_safari_bookmarks()
-    backup_crontab_entries()
+    #backup_crontab_entries()
     sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "scripts", "settings"], repo_manager="GitHub")
     sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["bookmarks", "dbeaver", "git", "intellij", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"], repo_manager="BitBucket")
 

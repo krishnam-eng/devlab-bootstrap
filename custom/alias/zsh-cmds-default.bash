@@ -2,7 +2,6 @@
 #     Set Default Options
 #########
 alias watch="watch -d"
-alias history="history"
 alias ping='ping -c 5'
 
 alias ls="ls --color=auto"
@@ -16,13 +15,13 @@ alias du='du -ch'
 ########
 alias c="clear"
 alias hist='history'
+alias forget='history -d'
 alias untar='tar -xvzf'
 
 ########
 #      Lazy to Remeber
 ########
 alias copy='pbcopy'
-alias xq='xqilla'  # like jq, yq
 
 ##########
 #     Default App

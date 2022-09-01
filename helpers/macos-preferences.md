@@ -12,7 +12,10 @@
 
 ### Mission Control
 #### Custom
+![image](https://user-images.githubusercontent.com/82016952/187931463-bb011a9b-fdf4-4893-94de-0a9cd1a4b808.png)
+
 <img width="648" alt="image" src="https://user-images.githubusercontent.com/82016952/179380890-d26ff0d8-8ab0-40c1-864b-f0a28317bd3f.png">
+
 
 * ⌃ M : Toogle Notification **M**essages
 

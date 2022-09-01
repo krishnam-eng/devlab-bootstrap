@@ -12,9 +12,14 @@ function take {
   mkdir -p $1 && cd $1
 }
 
-# command comes handy in moving things back and forth in short time
-function rmv {
+# undo the move: command comes handy in moving things back and forth in short time
+function umv {
   mv $2 $1 
+}
+
+# copy the file content to clipboard
+function fcp {
+  pbcopy < $1
 }
 
 ################################## PRINT START ##############################
@@ -38,6 +43,7 @@ function pcmd {
   echo $CS_bcyan"[whence]:$CS_byellow $(whence $1)"$CS_reset
   echo $CS_bcyan"[type]  :$CS_byellow $(type $1)"$CS_reset
   echo $CS_bcyan"[which] :$CS_byellow $(which $1)"$CS_reset
+  echo $CS_bcyan"[version] :$CS_byellow $($1 -version)"$CS_reset
   while getopts "s" opt
   do
     case $opt in

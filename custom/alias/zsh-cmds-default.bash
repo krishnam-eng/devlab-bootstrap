@@ -1,5 +1,5 @@
 #########
-#      Default Options
+#     Set Default Options
 #########
 alias watch="watch -d"
 alias history="history"
@@ -16,8 +16,14 @@ alias du='du -ch'
 ########
 alias c="clear"
 alias hist='history'
-
 alias untar='tar -xvzf'
 
-# default editor
+########
+#      Lazy to Remeber
+########
+alias copy='pbcopy'
+
+##########
+#     Default App
+##########
 alias e='nano'

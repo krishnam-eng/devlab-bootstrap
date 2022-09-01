@@ -22,6 +22,7 @@ alias untar='tar -xvzf'
 #      Lazy to Remeber
 ########
 alias copy='pbcopy'
+alias xq='xqilla'  # like jq, yq
 
 ##########
 #     Default App

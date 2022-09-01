@@ -170,7 +170,7 @@ def update_pip():
     state_key = 'pip'
     # if hrtstate.is_stale(state_key) or is_force_run:
     if True:
-        completed_process = subprocess.run("/Library/Developer/CommandLineTools/usr/bin/python3 -m pip install --upgrade pip", shell=True)
+        completed_process = subprocess.run("python3 -m pip install --upgrade pip", shell=True)
         print("\t > {}".format(completed_process.args))
         if completed_process.stdout is not None:
             print("\t >  {}".format(completed_process.stdout))

@@ -16,7 +16,7 @@
 
 ![image](https://user-images.githubusercontent.com/82016952/187931919-eabf84e9-8136-4935-a133-ccb0e9d4b041.png)
 
-<img width="648" alt="image" src="https://user-images.githubusercontent.com/82016952/179380890-d26ff0d8-8ab0-40c1-864b-f0a28317bd3f.png">
+![image](https://user-images.githubusercontent.com/82016952/187933856-1943bc56-1223-435f-bfae-6c932b3fa01e.png)
 
 * ⌃ M : Toogle Notification **M**essages
 

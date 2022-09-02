@@ -10,7 +10,6 @@ graphviz: Graph visualization software from AT&T and Bell Labs
 helm: Kubernetes package manager
 htop: Improved top (interactive process viewer)
 jansson: C library for encoding, decoding, and manipulating JSON
-jq: Lightweight and flexible command-line JSON processor
 krew: Package manager for kubectl plugins
 libssh2: C library implementing the SSH2 protocol
 lolcat: Rainbows and unicorns in your console!
@@ -21,6 +20,7 @@ ncdu: NCurses Disk Usage
 newman: Command-line collection runner for Postman
 openjdk: Development kit for the Java programming language
 openldap: Open source suite of directory software
+python-yq: Command-line YAML and XML processor that wraps jq
 python@3.9: Interpreted, interactive, object-oriented programming language
 ranger: File browser
 rtmpdump: Tool for downloading RTMP streaming media
@@ -32,4 +32,5 @@ watch: Executes a program periodically, showing output fullscreen
 wget: Internet file retriever
 wsk: OpenWhisk Command-Line Interface (CLI)
 xclip: Access X11 clipboards from the command-line
+xerces-c: Validating XML parser
 zstd: Zstandard is a real-time compression algorithm

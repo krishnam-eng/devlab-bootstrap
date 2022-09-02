@@ -237,6 +237,13 @@ if [ $commands[helm] ]; then
   source <(helm completion zsh)
 fi
 
+# To run command completion, you need to run bashcompinit by adding the following autoload line
+autoload bashcompinit && bashcompinit
+# Enable auto complete for aws cli
+if [ $commands[aws] ]; then
+  complete -C '/usr/local/bin/aws_completer' aws
+fi
+
 # By default, the completion doesn't allow option-stacking, meaning if you try to complete docker run -it <TAB>
 # it won't work, because you're stacking the -i and -t options.
 zstyle ':completion:*:*:docker:*' option-stacking yes

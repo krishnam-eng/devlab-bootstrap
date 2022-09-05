@@ -1,4 +1,6 @@
 argocd: GitOps Continuous Delivery for Kubernetes
+awscli: Official Amazon AWS command-line interface
+bash-completion: Programmable completion for Bash 3.2
 certbot: Tool to obtain certs from Let's Encrypt and autoenable HTTPS
 colordiff: Color-highlighted diff(1) output
 ctop: Top-like interface for container metrics
@@ -33,4 +35,5 @@ wget: Internet file retriever
 wsk: OpenWhisk Command-Line Interface (CLI)
 xclip: Access X11 clipboards from the command-line
 xerces-c: Validating XML parser
+zsh-completions: Additional completion definitions for zsh
 zstd: Zstandard is a real-time compression algorithm

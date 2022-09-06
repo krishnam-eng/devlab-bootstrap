@@ -66,7 +66,7 @@ alias hpk='helm package'
 # rendered Kubernetes resource templates
 alias htpl='helm template'
 
-# release
+# Release
 alias hi='helm install' # <RELEASE NAME> <CHART NAME>
 alias hui='helm uninstall'
 alias hu='helm upgrade'

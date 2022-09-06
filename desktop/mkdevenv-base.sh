@@ -115,6 +115,10 @@ function configure_mydevbox_with_homelab_source(){
     curl -L https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/gradle/_gradle  -o ~/hrt/ext/completion/_gradle
     # terraform
     curl -L https://codeberg.org/Mebus/oh-my-zsh/raw/branch/master/plugins/terraform/_terraform -o  ~/hrt/ext/completion/_terraform
+    # istioctl
+    cd /tmp/
+    curl -L https://istio.io/downloadIstio | sh -
+    mv /tmp/istio-1.15.0/tools/_istioctl ~hrt/ext/completion
     # auto completion is enable in zshrc
     # kubectl
     # helm

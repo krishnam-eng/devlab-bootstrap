@@ -1,3 +1,4 @@
+ack: Search tool like grep, but optimized for programmers
 argocd: GitOps Continuous Delivery for Kubernetes
 awscli: Official Amazon AWS command-line interface
 bash-completion: Programmable completion for Bash 3.2
@@ -8,9 +9,11 @@ exa: Modern replacement for 'ls'
 figlet: Banner-like program prints strings as ASCII art
 gh: GitHub command-line tool
 glances: Alternative to top/htop
+go: Open source programming language to build simple/reliable/efficient software
 graphviz: Graph visualization software from AT&T and Bell Labs
 helm: Kubernetes package manager
 htop: Improved top (interactive process viewer)
+istioctl: Istio configuration command-line utility
 jansson: C library for encoding, decoding, and manipulating JSON
 krew: Package manager for kubectl plugins
 libssh2: C library implementing the SSH2 protocol

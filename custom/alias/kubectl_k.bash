@@ -26,8 +26,9 @@ alias kgns='kubectl get namespaces'
 alias kens='kubectl edit namespace'
 alias kdns='kubectl describe namespace'
 alias kdelns='kubectl delete namespace'
-alias kcn='kubectl config set-context --current --namespace'
 
+# set context with the given namespace
+alias kcn='kubectl config set-context --current --namespace'
 
 ##### 1.2
 # Working with Nodes

@@ -221,3 +221,6 @@ if __name__ == '__main__':
 
     after_all()
     speed_test()
+
+# TODos:
+# use log instead of std out

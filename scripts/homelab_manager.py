@@ -86,6 +86,7 @@ def update_mvn_localrepo(repo_list_filename='{}/hrt/vault/git/mvn_repos.path'.fo
     mdprint.print_h1(
         "Maven: Update Project Dependencies [remote -> local]...")
 
+    # check for vpn status
     state_key = 'mvn_localrepo'
     if hrtstate.is_stale(state_key):
         with open(repo_list_filename) as file:
@@ -215,8 +216,8 @@ if __name__ == '__main__':
 
     backup_safari_bookmarks()
     #backup_crontab_entries()
-    sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "scripts", "settings"], repo_manager="GitHub")
-    sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["bookmarks", "dbeaver", "git", "intellij", "image", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"], repo_manager="BitBucket")
+    sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "job", "scripts", "settings"], repo_manager="GitHub")
+    sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["aws", "bookmarks", "dbeaver", "git", "intellij", "image", "index", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"], repo_manager="BitBucket")
 
     update_gitrepos()
     update_mvn_localrepo()

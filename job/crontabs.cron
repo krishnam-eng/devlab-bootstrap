@@ -1,2 +1,2 @@
 # Run homelab manager every 4 hrs
-0 10-22/4 * * * python3 $HOME/hrt/boot/scripts/homelab_manager.py &> $HOME/hrt/tmp/logs/crontab/hlm_`date +%y%m%d_%H_%M`
+0 08-22/4 * * * $HOME/hrt/boot/job/commands/run_homelab_manager.sh

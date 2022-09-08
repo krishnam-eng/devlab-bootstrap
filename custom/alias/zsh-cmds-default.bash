@@ -2,9 +2,9 @@
 #     Set Default Options
 #########
 alias ls="ls --color=auto"
-alias grep='grep --color=auto'
+alias grep='grep --color=auto -i'
 alias egrep='egrep --color=auto'
-
+alias ack='ack -i'  # case insensitive seach
 alias watch="watch -d"
 alias ping='ping -c 5'
 

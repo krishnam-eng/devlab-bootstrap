@@ -1,8 +1,6 @@
 ##########===========----------------
 # enhanced ls with built-in
 ##########===========----------------
-alias ls="ls --color=auto"
-
 # Dot: Showing All Hidden (Dot) Files in the Current Director. add -l for long list
 alias ld='ls -d .*'
 
@@ -16,7 +14,10 @@ alias la="ls -lABFh" # duplicate alias for convenience
 alias lR='ls -tRFh'
 
 # Order: with Size and Sorted
-alias lo='ls -1FSsh'
+alias los='ls -lFasSh'
+
+# Order: with time and Sorted
+alias lot='ls -lart'
 
 # Tree: use tree like ls , -a => all , -prune => no empty dir , -L 2 => 2 level
 alias lt="tree -L 1"

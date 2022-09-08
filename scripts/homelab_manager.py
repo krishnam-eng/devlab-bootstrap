@@ -150,10 +150,8 @@ def after_all():
     print('\tExport IDE IntelliJ IDEA Preferences    => F10 or [File -> Manage IDE Settings -> Export]')
     print('\tExport IDE PyCharm Preferences          => F10 or [File -> Manage IDE Settings -> Export]')
     print('\tExport Postman Collection & Environment => [File -> Export]')
-    print('\tExport IDE VSCode Preferences           => [Code -> Preferences -> Settings Sync is On]')
-    print('\tCrontab , Npm')
-
-# todo: resolve pip...-upgrade only the packages that are directly installed - intersect with outdated list
+    #print('\tExport IDE VSCode Preferences           => [Code -> Preferences -> Settings Sync is On]')
+    print('\tNpm')
 
 def process_cmd_options():
     global is_force_run
@@ -169,8 +167,7 @@ def process_cmd_options():
 def update_pip():
     mdprint.print_h1("Python: Update PIP version...")
     state_key = 'pip'
-    # if hrtstate.is_stale(state_key) or is_force_run:
-    if True:
+    if hrtstate.is_stale(state_key) or is_force_run:
         completed_process = subprocess.run("python3 -m pip install --upgrade pip", shell=True)
         print("\t > {}".format(completed_process.args))
         if completed_process.stdout is not None:

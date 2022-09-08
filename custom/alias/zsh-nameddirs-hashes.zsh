@@ -36,10 +36,19 @@ hash -d vol=~/hrt/vol
 hash -d alias=~/hrt/boot/custom/alias
 hash -d env=~/hrt/boot/custom/env
 hash -d func=~/hrt/boot/custom/func
+
+# shell configs
+hash -d bash=~/hrt/boot/conf/bash
+hash -d zsh=~/hrt/boot/conf/zsh
+
+# Others
+hash -d job=~/hrt/boot/job
 hash -d scripts=~/hrt/boot/scripts
-hash -d bash=~/hrt/boot/shell/bash
-hash -d zsh=~/hrt/boot/shell/sh
+hash -d settings=~/hrt/boot/settings
 hash -d tools=~/hrt/boot/tools
+
+# log dirs
+hash -d lg-ct=~/hrt/var/log/crontab/
 
 # quick access to all checkout repos
 # convention "1stword-1stchar"+"2ndword-1stchar"+"2ndword-lastchar")

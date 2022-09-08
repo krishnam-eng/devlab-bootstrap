@@ -1,12 +1,12 @@
 #########
 #     Set Default Options
 #########
-alias watch="watch -d"
-alias ping='ping -c 5'
-
 alias ls="ls --color=auto"
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
+
+alias watch="watch -d"
+alias ping='ping -c 5'
 
 alias df='df -H'
 alias du='du -ch'

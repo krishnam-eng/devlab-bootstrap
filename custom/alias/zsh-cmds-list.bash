@@ -1,14 +1,20 @@
 ##########===========----------------
 # enhanced ls with built-in
 ##########===========----------------
+# Enable auto complete for helm
+if [ $commands[lsd] ]; then
+  alias ls='lsd'
+fi
+
 # Dot: Showing All Hidden (Dot) Files in the Current Director. add -l for long list
+
 alias ld='ls -d .*'
 
 # All: long list,show almost all,show type,human readable (with dot files)
 # alias la="ls -lABXFh --block-size=K" # debian
-alias ll="ls -lBFh" # all dir w/o dot dir
-alias lA="ls -lABFh" # all dir w/ dot dir
-alias la="ls -lABFh" # duplicate alias for convenience
+alias ll="ls -lFh" # all dir w/o dot dir
+alias lA="ls -lAFh" # all dir w/ dot dir
+alias la="ls -lAFh" # duplicate alias for convenience
 
 # Recursive: sorted by date,recursive,show type,human readable
 alias lR='ls -tRFh'

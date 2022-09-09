@@ -195,7 +195,7 @@ def backup_crontab_entries():
     mdprint.print_h1("Crontab: Backup Crontab Entries...")
     state_key = 'crontab'
     if hrtstate.is_stale(state_key) or is_force_run:
-        completed_process = subprocess.run("crontab - l >! {}/hrt/boot/job/crontabs.cron".format(Path.home()), shell=True)
+        completed_process = subprocess.run("crontab -l >! {}/hrt/boot/job/crontabs.cron".format(Path.home()), shell=True)
         hrtstate.mark_updated(state_key)
         print("\t > {}".format(completed_process.args))
         if completed_process.stdout is not None:
@@ -203,7 +203,17 @@ def backup_crontab_entries():
     else:
         print("Already ran today ! Skipping !")
 
-
+def build_disk_usage_index():
+    mdprint.print_h1("Age Disk Usage: Build index...")
+    state_key = 'agedu'
+    if hrtstate.is_stale(state_key) or is_force_run:
+        completed_process = subprocess.run("agedu -s {}".format(Path.home()), shell=True)
+        hrtstate.mark_updated(state_key)
+        print("\t > {}".format(completed_process.args))
+        if completed_process.stdout is not None:
+            print("\t >  {}".format(completed_process.stdout))
+    else:
+        print("Already ran today ! Skipping !")
 
 if __name__ == '__main__':
     process_cmd_options()
@@ -212,7 +222,8 @@ if __name__ == '__main__':
     update_pip()
 
     backup_safari_bookmarks()
-    #backup_crontab_entries()
+    backup_crontab_entries()
+    build_disk_usage_index()
     sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "job", "scripts", "settings"], repo_manager="GitHub")
     sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["aws", "bookmarks", "dbeaver", "git", "intellij", "image", "index", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"], repo_manager="BitBucket")
 

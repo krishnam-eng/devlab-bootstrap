@@ -9,11 +9,11 @@ alias -g H='| head'
 alias -g T='| tail'
 alias -g M='| more'
 alias -g L='| less'
-alias -g J='| jq .'    # json pretty print - colorful output
+alias -g J='| jq '    # json pretty print - colorful output
 alias -g R='| lolcat'
 alias -g G='| egrep'
-alias -g GW='| egrep -w' # grep for a word (not partial match)
 
+alias -g LT='| as-tree' # list as tree
 
 alias -g EH='|& head'
 alias -g ET='|& tail'

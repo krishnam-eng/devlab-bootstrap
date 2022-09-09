@@ -20,7 +20,7 @@ alias la="ls -lAFh" # duplicate alias for convenience
 alias lR='ls -tRFh'
 
 # Order: with Size and Sorted
-alias los='ls -lFasSh'
+alias los='ls -lFaSh'
 
 # Order: with time and Sorted
 alias lot='ls -lart'

@@ -150,8 +150,6 @@ def after_all():
     print('\tExport IDE IntelliJ IDEA Preferences    => F10 or [File -> Manage IDE Settings -> Export]')
     print('\tExport IDE PyCharm Preferences          => F10 or [File -> Manage IDE Settings -> Export]')
     print('\tExport Postman Collection & Environment => [File -> Export]')
-    #print('\tExport IDE VSCode Preferences           => [Code -> Preferences -> Settings Sync is On]')
-    print('\tNpm')
 
 def process_cmd_options():
     global is_force_run

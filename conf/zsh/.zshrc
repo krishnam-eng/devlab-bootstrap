@@ -5,8 +5,10 @@
 # author	    : krishnam
 ################
 
+# initialize
 [[ -f $HOME/hrt/etc/ctrflags/enablepowertheme ]] && source $HOME/hrt/boot/conf/zsh/extensions/p10k-instant-prompt.zsh
 
+# Configure zsh core
 source $HOME/hrt/boot/custom/env/interactice-shell/prompt.bash
 
 source $HOME/hrt/boot/conf/zsh/elements/pre-launch-cmds.zshrc
@@ -23,6 +25,8 @@ source $HOME/hrt/boot/conf/zsh/elements/set-opts-zle.zshrc
 
 source $HOME/hrt/boot/conf/zsh/elements/prompt.zshrc
 
+# Extensions
 source $HOME/hrt/boot/conf/zsh/extensions/fish_shell.zsh
+source $HOME/hrt/boot/conf/zsh/extensions/atuin.zshrc
 
-[[ -f $HOME/hrt/etc/ctrflags/enablepowertheme ]] && source $HOME/hrt/boot/conf/zsh/extensions/.p10k.zsh && source $HOME/hrt/boot/conf/zsh/themes/powerlevel10k.zsh-theme
+[[ -f $HOME/hrt/etc/ctrflags/enablepowertheme ]] && source $HOME/hrt/boot/conf/zsh/extensions/.p10k.zsh && source $HOME/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme

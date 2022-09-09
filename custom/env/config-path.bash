@@ -1,0 +1,1 @@
+export ATUIN_CONFIG_DIR=$HOME/hrt/boot/settings/history/atuin/

@@ -1,10 +1,6 @@
 ##########===========----------------
 # enhanced ls with built-in
 ##########===========----------------
-# Enable auto complete for helm
-if [ $commands[lsd] ]; then
-  alias ls='lsd'
-fi
 
 # Dot: Showing All Hidden (Dot) Files in the Current Director. add -l for long list
 
@@ -40,6 +36,7 @@ alias lm="ls -aFXZ --full-time  --sort=size --block-size=KiB -n"
 ##########===========----------------
 # enhanced ls with exa
 ##########===========----------------
+alias ils='lsd'
 
 alias els="exa"
 

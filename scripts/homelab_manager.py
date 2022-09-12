@@ -223,7 +223,7 @@ if __name__ == '__main__':
     backup_crontab_entries()
     build_disk_usage_index()
     sync_gitrepo(repo_path='~/hrt/boot/', source_dirs=["conf", "custom", "desktop", "helpers", "job", "scripts", "settings"], repo_manager="GitHub")
-    sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["aws", "bookmarks", "dbeaver", "git", "intellij", "image", "index", "mvn", "pipeline", "postman", "scripts", "springboot", "sublime", "zsh"], repo_manager="BitBucket")
+    sync_gitrepo(repo_path='~/hrt/vault/', source_dirs=["aws", "bookmarks", "dbeaver", "git", "intellij", "image", "index", "mvn", "pipeline", "postman", "scripts", "ssh", "springboot", "sublime", "zsh"], repo_manager="BitBucket")
 
     update_gitrepos()
     update_mvn_localrepo()

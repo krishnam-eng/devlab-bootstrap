@@ -4,10 +4,10 @@ from pathlib import Path
 
 def is_stale(state_key):
     try:
-        with open('{}/hrt/state/sync/{}.state'.format(Path.home(), state_key), 'r') as f:
+        with open('{}/hrt/etc/states/{}.state'.format(Path.home(), state_key), 'r') as f:
             state_value = f.readlines()
     except FileNotFoundError:
-        f = open('{}/hrt/state/sync/{}.state'.format(Path.home(), state_key), 'w+')
+        f = open('{}/hrt/etc/states/{}.state'.format(Path.home(), state_key), 'w+')
         state_value = None
         f.close()
 
@@ -24,5 +24,5 @@ def is_stale(state_key):
 
 def mark_updated(state_key):
     today = date.today().strftime('%Y%m%d')
-    with open('{}/hrt/state/sync/{}.state'.format(Path.home(), state_key), 'w+') as f:
+    with open('{}/hrt/etc/states/{}.state'.format(Path.home(), state_key), 'w+') as f:
         f.writelines(today)

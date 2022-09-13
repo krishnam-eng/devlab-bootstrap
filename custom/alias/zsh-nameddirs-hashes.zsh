@@ -57,3 +57,5 @@ hash -d rp-ujl=~gh/useful-java-libraries
 hash -d rp-cni=~gh/explore-cloud-native-infra
 hash -d rp-ddd=~gh/domain-driven-design
 
+# user home dirs
+hash -d gd=~/Drives/            # google drives (4)

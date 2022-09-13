@@ -205,7 +205,7 @@ def build_disk_usage_index():
     mdprint.print_h1("Age Disk Usage: Build index...")
     state_key = 'agedu'
     if hrtstate.is_stale(state_key) or is_force_run:
-        completed_process = subprocess.run("agedu -s {}".format(Path.home()), shell=True)
+        completed_process = subprocess.run("agedu --scan {}  --file {}/hrt/var/agedu/agedu.dat".format(Path.home(), Path.home()), shell=True)
         hrtstate.mark_updated(state_key)
         print("\t > {}".format(completed_process.args))
         if completed_process.stdout is not None:
@@ -230,6 +230,3 @@ if __name__ == '__main__':
 
     after_all()
     speed_test()
-
-# TODos:
-# use log instead of std out

@@ -37,3 +37,4 @@ alias/private.zsh
 .DS_Store
 */.DS_Store
 zsh/.zsh_sessions/**
+"Icon\r"

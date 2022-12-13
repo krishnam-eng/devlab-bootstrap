@@ -19,7 +19,7 @@
 ################
 # echo 'History Configuration...'
 
-HISTFILE=~/hrt/state/shell/.zhistfile # up or down to navigate history or use CTR+R to search history
+HISTFILE=~/hrt/etc/states/shell/.zhistfile # up or down to navigate history or use CTR+R to search history
 HISTSIZE=1000000
 SAVEHIST=1000000 # hist won't be _saved_ with out this conf
 

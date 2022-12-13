@@ -126,3 +126,5 @@ if [ -d ~/hrt/boot/func ]; then
     done
     unset ffile
 fi
+
+source /Users/balamurugan/.docker/init-bash.sh || true # Added by Docker Desktop

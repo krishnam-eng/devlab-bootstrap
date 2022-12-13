@@ -10,6 +10,7 @@
 # alternate access to dir @ L1  e.g, ~/hrt -> ~hrt
 hash -d hrt=~/hrt
 hash -d proj=~/proj
+hash -d exp=~/exp
 hash -d log=~/log
 hash -d tmp=~/tmp
 hash -d bkp=~/hrt/ver

@@ -9,6 +9,10 @@ alias bp='brew pin'
 # List installed formulae or the installed files for a given formula.
 alias bls='brew list -1'
 
+# List installed formulae or the installed files for a given formula.
+# label: favorite=1
+alias bdesc='brew leaves | xargs -n1 brew desc'
+
 # List pinned formulae, or show the version of a given formula.
 alias blsp='brew list --pinned'
 

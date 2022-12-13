@@ -129,9 +129,9 @@ function configure_mydevbox_with_homelab_source(){
     # nano editor
     cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old
     rm -f ~/.nanorc
-    ln -s ~/hrt/boot/nano/.nanorc  ~/.nanorc # first time
-    ln -sfn ~/hrt/boot/tools/nano/.nanorc ~/.nanorc # for update
-    sudo ln -s ~/hrt/boot/tools/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
+    ln -s ~/hrt/boot/settings/nano/.nanorc  ~/.nanorc # first time
+    ln -sfn ~/hrt/boot/settings/nano/.nanorc ~/.nanorc # for update
+    sudo ln -s ~/hrt/boot/settings/nano/syntax-highlight/yaml.nanorc /usr/share/nano/yaml.nanorc
 
     # Configure: Tmux
     #

@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# Prerequisites: git clone zsh-syntax-highlighting, zsh-autosuggestions
+
 # Enable syntax highlighting like fish-shell - make it easy to spot syntax and fix syntax before executing
 [[ ! -f ~/hrt/ext/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] || source ~/hrt/ext/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

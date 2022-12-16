@@ -19,9 +19,8 @@
 ##############
 # echo 'Auto Completion & Some More Magic Setup...'
 
-# Load the completion script placed in ~/hrt/boot/conf/zsh/completion
-
-fpath=(~/hrt/boot/conf/zsh/completion $fpath)
+# Load the completion script placed in ...
+fpath=(~/hrt/boot/conf/zsh/consoles $fpath)
 
 # Load auto completion feature
 autoload -Uz compinit

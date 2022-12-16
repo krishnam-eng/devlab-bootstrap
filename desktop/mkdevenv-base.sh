@@ -105,27 +105,6 @@ function configure_mydevbox_with_homelab_source(){
     p10k configure
     touch ~/hrt/etc/ctrflags/enablepowertheme # delete this file if you want to switch off the powertheme
 
-    # Auto Completion Setup for Most Popular Tools
-    #
-    # docker
-    curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker -o ~/hrt/ext/completion/_docker
-    # docker-compose
-    curl -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/zsh/_docker-compose -o ~/hrt/ext/completion/_docker-compose
-    # gradle
-    curl -L https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/gradle/_gradle  -o ~/hrt/ext/completion/_gradle
-    # terraform
-    curl -L https://codeberg.org/Mebus/oh-my-zsh/raw/branch/master/plugins/terraform/_terraform -o  ~/hrt/ext/completion/_terraform
-    # istioctl
-    cd /tmp/
-    curl -L https://istio.io/downloadIstio | sh -
-    mv /tmp/istio-1.15.0/tools/_istioctl ~hrt/ext/completion
-    # auto completion is enable in zshrc
-    # kubectl
-    # helm
-    # auto-complition comes with zsh
-    # brew
-    # git
-
     # nano editor
     cp ~/.nanorc ~/.mybkp/.nanorc_$(date +%y%m%d)-old
     rm -f ~/.nanorc

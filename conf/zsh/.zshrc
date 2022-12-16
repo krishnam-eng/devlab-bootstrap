@@ -30,3 +30,5 @@ source $HOME/hrt/boot/conf/zsh/extensions/fish_shell.zsh
 source $HOME/hrt/boot/conf/zsh/extensions/atuin.zshrc
 
 [[ -f $HOME/hrt/etc/ctrflags/enablepowertheme ]] && source $HOME/hrt/boot/conf/zsh/extensions/.p10k.zsh && source $HOME/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme
+
+source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop

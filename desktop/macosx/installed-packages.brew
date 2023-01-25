@@ -25,6 +25,7 @@ go: Open source programming language to build simple/reliable/efficient software
 graphviz: Graph visualization software from AT&T and Bell Labs
 helm: Kubernetes package manager
 htop: Improved top (interactive process viewer)
+hugo: Configurable static site generator
 hyperkit: Toolkit for embedding hypervisor capabilities in your application
 istioctl: Istio configuration command-line utility
 jid: Json incremental digger
@@ -38,6 +39,7 @@ minikube: Run a Kubernetes cluster locally
 nano: Free (GNU) replacement for the Pico text editor
 ncdu: NCurses Disk Usage
 newman: Command-line collection runner for Postman
+nginx: HTTP(S) server and reverse proxy, and IMAP/POP3 proxy server
 openjdk: Development kit for the Java programming language
 openldap: Open source suite of directory software
 pygobject3: GNOME Python bindings (based on GObject Introspection)

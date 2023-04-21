@@ -44,7 +44,7 @@ alias npmst="npm start"
 alias npmt="npm test"
 
 # Run npm scripts
-alias npmR="npm run"
+alias npmr="npm run"
 
 # Run npm publish
 alias npmP="npm publish"

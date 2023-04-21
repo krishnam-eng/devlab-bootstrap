@@ -22,6 +22,9 @@
 # Load the completion script placed in ...
 fpath=(~/hrt/boot/conf/zsh/consoles $fpath)
 
+# function load is not compatible with npm file
+source $HOME/hrt/boot/conf/zsh/consoles/npm-completion.zshrc
+
 # Load auto completion feature
 autoload -Uz compinit
 compinit -u # https://stackoverflow.com/questions/13762280/zsh-compinit-insecure-directories

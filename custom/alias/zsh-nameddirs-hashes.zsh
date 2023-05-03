@@ -60,3 +60,6 @@ hash -d rp-ddd=~gh/domain-driven-design
 
 # user home dirs
 hash -d gd=~/Drives/            # google drives (4)
+
+# workspace
+hash -d vm=~/exp/cnl-observability-and-analysis/victoriametrics

@@ -43,6 +43,7 @@ alias kcn='kubectl config set-context --current --namespace'
 
 # View the nodes in the cluster
 alias kg='kubectl get'
+alias kgA='kubectl get all -A'
 alias kgn='kubectl get nodes'
 alias kgnV='kubectl get nodes -o wide' #verbose
 
@@ -318,11 +319,10 @@ alias kgpn='kgp -n'
 
 # Port forwarding
 alias kpf="kubectl port-forward"
+alias kpfls="kubectl port-forward --list"
 
 # File copy
 alias kcp='kubectl cp'
-
-
 
 # Only run if the user actually has kubectl installed
 if (( ${+_comps[kubectl]} )); then

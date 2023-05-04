@@ -9,10 +9,10 @@ tlog() {
 }
 
 # Example usage
-tlog $INFO "Starting script"
-tlog $WARN "This is a warning"
-tlog $ERROR "This is an error"
-tlog $INFO "Script complete"
-tlog $TRACE "Starting trace"
-tlog $FATAL "This is a fatal"
-tlog $DEBUG "This is an debug"
+#tlog $INFO "Starting script"
+#tlog $WARN "This is a warning"
+#tlog $ERROR "This is an error"
+#tlog $INFO "Script complete"
+#tlog $TRACE "Starting trace"
+#tlog $FATAL "This is a fatal"
+#tlog $DEBUG "This is an debug"

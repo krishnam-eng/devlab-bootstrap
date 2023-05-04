@@ -21,22 +21,26 @@ function purge_minikube() {
 
 function start_minikube() {
   if [ "$(uname)" != "Darwin" ]; then
-    echo "This script is only for macOS"
+    tlog $FATAL "This script is only for macOS"
     exit 1
   fi
 
   if ! pgrep "Docker Desktop" >/dev/null; then
-    echo "Docker Desktop is not running"
+    tlog $WARN "Docker Desktop is not running"
     open --hide -a Docker
     sleep 45
   else
-    echo "Docker Desktop is already running"
+    tlog $INFO "Docker Desktop is already running"
   fi
 
+  tlog $INFO "Launching minikube..."
   minikube start --memory=8g --cpus=4
+
+  tlog $INFO "Launching minikube dashboard in background..."
   minikube dashboard &
+
+  tlog $TRACE "minikube status"
   minikube status
-  exit 0
 }
 
 function shutdown_minikube() {

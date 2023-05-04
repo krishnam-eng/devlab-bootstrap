@@ -2,7 +2,11 @@ alias mk='minikube'
 
 alias mkst='minikube start'
 alias mksp='minikube stop'
+
+# Stop any running deployments, services, or other resources in the cluster. You can use the kubectl delete command
+# to delete specific resources or use kubectl delete --all to delete all resources in the current namespace.
 alias mkdel='minikube delete'
+alias mkdelA='minikube delete --all'
 
 alias mkdb='minikube dashboard'
 
@@ -27,3 +31,7 @@ alias mks='minikube service' # hello-svc --url
 alias kst='ps -ef | grep docker@127.0.0.1'
 # id_rsa -L 50262:10.101.125.63:8080, - 50262 is tunnel port
 # more on - https://minikube.sigs.k8s.io/docs/handbook/accessing/
+
+
+#
+

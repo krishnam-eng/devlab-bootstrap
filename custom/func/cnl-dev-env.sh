@@ -20,12 +20,23 @@ function purge_minikube() {
 }
 
 function start_minikube() {
-  # pgrep Docker
-  open --hide -a Docker
-  # sleep 45 seconds - it took 45 secs for Docker Desktop to be accessible
+  if [ "$(uname)" != "Darwin" ]; then
+    echo "This script is only for macOS"
+    exit 1
+  fi
+
+  if ! pgrep "Docker Desktop" >/dev/null; then
+    echo "Docker Desktop is not running"
+    open --hide -a Docker
+    sleep 45
+  else
+    echo "Docker Desktop is already running"
+  fi
+
   minikube start --memory=8g --cpus=4
   minikube dashboard &
   minikube status
+  exit 0
 }
 
 function shutdown_minikube() {

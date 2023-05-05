@@ -3,6 +3,16 @@
 #description    : Helper functions to work with container env
 #author	        : krishnam
 ################
+function init_docker_compose() {
+
+  tlog $INFO "Starting portainer..."
+  docker run -d \
+    -p 9000:9000 \
+    --name portainer \
+    --restart always \
+    -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer
+
+}
 
 function init_minikube() {
   minikube start
@@ -49,12 +59,19 @@ function start_minikube() {
   tlog $DEBUG "Kubernetes Cluster Info"
   minikube kubectl cluster-info
 
-  tlog $INFO "Launching minikube dashboard in background..."
+  tlog
   minikube dashboard & # --url=true
+
+  if ! pgrep -f 'minikube dashboard' >/dev/null; then
+    tlog $INFO "Launching minikube dashboard in background..."
+    octant >/dev/null & # --disable-open-browser
+  else
+    tlog $WARN "Minikube dashboard is already running in the background. Kill the process before starting new"
+  fi
 
   if ! pgrep "octant" >/dev/null; then
     tlog $WARN "Octant is not running. Starting the octant dashboard..."
-    octant --disable-open-browser >/dev/null &
+    octant >/dev/null & # --disable-open-browser
   else
     tlog $INFO "Octant is already running"
   fi

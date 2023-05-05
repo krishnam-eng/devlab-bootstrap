@@ -16,17 +16,21 @@ function init_minikube() {
   kubectl run kcurl --image=curlimages/curl
 }
 function purge_minikube() {
+  tlog $WARN "Purging resources created in Minikube VM"
   minikube delete
 }
 
 function start_minikube() {
+  # Start the timer
+  start_time=$(date +%s.%N)
+
   if [ "$(uname)" != "Darwin" ]; then
     tlog $FATAL "This script is only for macOS"
     exit 1
   fi
 
   if ! pgrep "Docker Desktop" >/dev/null; then
-    tlog $WARN "Docker Desktop is not running"
+    tlog $WARN "Docker Desktop is not running. Starting Docker Desktop and will take around 40 seconds"
     open --hide -a Docker
     sleep 45
   else
@@ -36,15 +40,53 @@ function start_minikube() {
   tlog $INFO "Launching minikube..."
   minikube start --memory=8g --cpus=4
 
-  tlog $INFO "Launching minikube dashboard in background..."
-  minikube dashboard &
-
-  tlog $TRACE "minikube status"
+  tlog $DEBUG "minikube status"
   minikube status
+
+  tlog $DEBUG "IP address of the Minikube VM"
+  minikube ip
+
+  tlog $DEBUG "Kubernetes Cluster Info"
+  minikube kubectl cluster-info
+
+  tlog $INFO "Launching minikube dashboard in background..."
+  minikube dashboard & # --url=true
+
+  if ! pgrep "octant" >/dev/null; then
+    tlog $WARN "Octant is not running. Starting the octant dashboard..."
+    octant --disable-open-browser >/dev/null &
+  else
+    tlog $INFO "Octant is already running"
+  fi
+
+  # End the timer
+  end_time=$(date +%s.%N)
+
+  # Calculate the time taken in seconds
+  time_taken=$(echo "$end_time - $start_time" | bc)
+  tlog $LOG "Time taken: $time_taken seconds"
+
 }
 
 function shutdown_minikube() {
-  minikube stop
+  # Start the timer
+  start_time=$(date +%s.%N)
+
+  tlog $INFO "Shutting down Minikube"
+  minikube stop --keep-context-active=true
+
+  if pgrep -f 'minikube dashboard' >/dev/null; then
+    tlog $WARN "Killing Minikube dashboard..."
+    # kill $(pgrep -f 'minikube dashboard')
+    tlog $WARN "kill $(pgrep -f 'minikube dashboard')"
+  fi
+
+  # End the timer
+  end_time=$(date +%s.%N)
+
+  # Calculate the time taken in seconds
+  time_taken=$(echo "$end_time - $start_time" | bc)
+  tlog $LOG "Time taken: $time_taken seconds"
 }
 
 function status_minikube() {

@@ -8,7 +8,11 @@ alias mksp='minikube stop'
 alias mkdel='minikube delete'
 alias mkdelA='minikube delete --all'
 
+# Debugging & State
 alias mkdb='minikube dashboard'
+alias mkssh='minikube ssh'
+alias mklog='minikube logs'
+alias mkss='minikube status'
 
 alias mkcf='minikube config'
 alias mkcfls='minikube config list'
@@ -33,5 +37,7 @@ alias kst='ps -ef | grep docker@127.0.0.1'
 # more on - https://minikube.sigs.k8s.io/docs/handbook/accessing/
 
 
-#
+# Tips & Tricks for
+
+# Running multiple Minikube clusters: You can run multiple Minikube clusters on your local machine by using different profiles
 

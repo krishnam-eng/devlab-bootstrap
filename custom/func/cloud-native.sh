@@ -8,6 +8,8 @@
 ######################### < Minikube > #########################
 #
 
+# If the setup is done from complete scratch after docker images clean up,
+# it will take 3 minutes and 21 seconds
 function init_minikube() {
   # Start the timer
   local start_time=$(date +%s.%N)
@@ -52,7 +54,7 @@ function start_minikube() {
 
 function enable_minikube_addons() {
   # Start the timer
-  lcoal start_time=$(date +%s.%N)
+  local start_time=$(date +%s.%N)
 
   # The default addons: dashboard, storage-provisioner, default-storageclass, ingress, and registry
 
@@ -83,16 +85,17 @@ function enable_minikube_addons() {
   tlog $TRACE "Time taken for enable_minikube_addons: $time_taken seconds"
 
 }
+
 function create_diagnostic_services(){
   # Start the timer
   local start_time=$(date +%s.%N)
 
-  # default pods to setup handy utilities
-  kubectl run kcurl --image=curlimages/curl
-
   # Start useful diagnostics tools
   tlog $INFO "Launching minikube dashboard in the background..."
   minikube dashboard & # --url=true
+
+  tlog $INFO "Create curl pod..."
+  kubectl run kcurl --image=curlimages/curl > /dev/null
 
   if docker ps | grep portainer > /dev/null; then
     tlog $INFO "Portainer is already running"
@@ -102,11 +105,11 @@ function create_diagnostic_services(){
     tlog $INFO "Portainer container port is published to the host in 9000"
   fi
 
-  if pgrep "octant" >/dev/null; then
+  if pgrep "octant"  > /dev/null ; then
     tlog $INFO "Octant is already running"
   else
     tlog $WARN "Octant is not running. Starting the octant dashboard..."
-    octant >/dev/null --disable-open-browser
+    octant > /dev/null --disable-open-browser &
   fi
 
   #Prometheus: To monitor the performance and health of your Kubernetes cluster.

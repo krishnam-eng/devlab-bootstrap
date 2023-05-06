@@ -23,6 +23,9 @@ function init_minikube() {
   local end_time=$(date +%s.%N)
   local time_taken=$(echo "$end_time - $start_time" | bc)
   tlog $TRACE "Time taken for init_minikube: $time_taken seconds"
+
+  # Keep the system awake for next 10 hrs or till it goes to manual sleep
+  caffeinate -u -t 36000 &
 }
 
 function start_minikube() {
@@ -86,16 +89,17 @@ function enable_minikube_addons() {
 
 }
 
+#
+# Curl
+# K8S Dashboard, Portainer, Octant
+#
 function create_diagnostic_services(){
   # Start the timer
   local start_time=$(date +%s.%N)
 
   # Start useful diagnostics tools
-  tlog $INFO "Launching minikube dashboard in the background..."
-  minikube dashboard & # --url=true
-
-  tlog $INFO "Create curl pod..."
-  kubectl run kcurl --image=curlimages/curl > /dev/null
+  tlog $INFO "Create curl deployment..."
+  kubectl apply -f ~/hrt/boot/settings/k8s/curl-deployment.yml
 
   if docker ps | grep portainer > /dev/null; then
     tlog $INFO "Portainer is already running"
@@ -112,11 +116,27 @@ function create_diagnostic_services(){
     octant > /dev/null --disable-open-browser &
   fi
 
+  # todo:
   #Prometheus: To monitor the performance and health of your Kubernetes cluster.
   #Grafana: To create and display dashboards for monitoring Kubernetes and other systems.
   #Fluentd: To collect, parse, and forward logs from containers and applications running on Kubernetes.
   #Elasticsearch: To store and search logs and other data.
   #Kibana: To visualize and analyze data stored in Elasticsearch.
+
+  tlog $INFO "Launching minikube dashboard in the background..."
+  if lsof -Pi :13114 -sTCP:LISTEN -t >/dev/null ; then
+    tlog $ERROR "Port 13114 is already in use"
+    tlog $FATAL "Waiting until you kill that process(es)"
+    echo $(lsof -i :13114 -sTCP:LISTEN)
+
+    # wait until port becomes available
+    wait_until 60 5 "! nc -z localhost 13114"
+  else
+    echo "Port 13114 is available"
+    kubectl port-forward -n kubernetes-dashboard svc/kubernetes-dashboard 13114:80 > /dev/null &
+  fi
+  # !! minikube dashboard --port=13114 --url=true &
+  # ^ This one is unreliable since killing of the process has to be taken care
 
   # End the timer
   local end_time=$(date +%s.%N)
@@ -138,12 +158,10 @@ function shutdown_minikube() {
   local start_time=$(date +%s.%N)
 
   tlog $INFO "Shutting down Minikube"
-  minikube stop --keep-context-active=true
-
-  if pgrep -f 'minikube dashboard' >/dev/null; then
-    tlog $WARN "Killing Minikube dashboard..."
-    # kill $(pgrep -f 'minikube dashboard')
-    tlog $WARN "kill $(pgrep -f 'minikube dashboard')"
+  if minikube status &>/dev/null; then
+      echo "Stopping Minikube..."
+      minikube stop
+      exit 0
   fi
 
   # End the timer
@@ -152,6 +170,14 @@ function shutdown_minikube() {
   # Calculate the time taken in seconds
   time_taken=$(echo "$end_time - $start_time" | bc)
   tlog $LOG "Time taken: $time_taken seconds"
+}
+
+function kill_minikube_dashboard() {
+  if pgrep -f 'minikube dashboard' >/dev/null; then
+    tlog $WARN "Killing Minikube dashboard..."
+    set pids = echo $(pgrep -f 'minikube dashboard' | tr '\n' ' ')
+    kill $(pgrep -f 'minikube dashboard' | tr '\n' ' ')
+  fi
 }
 
 function purge_minikube() {

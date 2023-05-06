@@ -22,7 +22,7 @@ function kill_port(){
   fi
 }
 
-wait_until() {
+function wait_until() {
   local max_wait_time=${1:-60}  # Default to 60 seconds
   local wait_interval=${2:-5}  # Default to 5 seconds
   local condition="$3"
@@ -34,14 +34,14 @@ wait_until() {
   for ((i=1; i<=$max_wait_time; i+=$wait_interval)); do
     # Check the condition
     if eval "$condition"; then
-      tlog $DEBUG "It is up !"
+      tlog $DEBUG "wait_until: Condition met"
       return 0  # Success
     else
       # Increment the total wait time and print the accumulated waiting time
       total_wait_time=$((total_wait_time + wait_interval))
-      tlog $DEBUG "Waiting..."
+      tlog $DEBUG "wait_until: Waiting..."
       sleep $wait_interval
-      tlog $TRACE "Total wait time: $total_wait_time seconds"
+      tlog $TRACE "wait_until: Total wait time: $total_wait_time seconds"
     fi
   done
 

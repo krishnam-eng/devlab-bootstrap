@@ -1,4 +1,6 @@
 # This command is used a LOT both below and in daily life
+alias kubectl=kubecolor
+
 alias k=kubectl
 
 ##################################### Kubernetes Cluster and Node Management ###########################################

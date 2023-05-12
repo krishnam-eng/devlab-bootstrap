@@ -50,9 +50,14 @@ then
   PATH="$PATH:$HOME/hrt/vscode/bin"
 fi
 
-if [ -d "$HOME/hrt/ide/idea-2021/bin" ]
+#if [ -d "$HOME/hrt/ide/idea-2021/bin" ]
+#then
+#  PATH="$PATH:$HOME/hrt/ide/idea-2021/bin"
+#fi
+
+if [ -d "/Applications/IntelliJ IDEA CE.app/Contents/MacOS " ]
 then
-  PATH="$PATH:$HOME/hrt/ide/idea-2021/bin"
+  PATH="$PATH:/Applications/IntelliJ IDEA CE.app/Contents/MacOS"
 fi
 
 if [ -d "$HOME/hrt/node/bin" ]

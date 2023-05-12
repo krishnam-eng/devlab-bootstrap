@@ -39,9 +39,9 @@ function start_minikube() {
 
   # Make sure Docker is up before starting minikube
   if ! pgrep "Docker Desktop" >/dev/null; then
-    tlog $WARN "Docker Desktop is not running. Starting Docker Desktop and will wait at most 60 seconds..."
+    tlog $WARN "Docker Desktop is not running. Starting Docker Desktop and will wait at most 120 seconds..."
     open --hide -a Docker
-    wait_until 60 5 "docker version --format - > /dev/null"
+    wait_until 120 5 "docker version --format - > /dev/null"
   else
     tlog $INFO "Docker Desktop is already running"
   fi

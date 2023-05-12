@@ -34,6 +34,9 @@ if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
 fi
 
+# make completion work with kubecolor
+compdef kubecolor=kubectl
+
 # Enable auto complete for helm
 if [ $commands[helm] ]; then
   source <(helm completion zsh)

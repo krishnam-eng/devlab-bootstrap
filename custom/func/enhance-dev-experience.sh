@@ -93,12 +93,12 @@ function enable_minikube_addons() {
   # The Portainer add-on provides a web-based graphical user interface (GUI)
   # to manage Docker containers, images, networks, and volumes running inside a Minikube cluster
   # to deploy and manage Kubernetes resources from the same UI, including managing namespaces, pods, services, and deployments
-  minikube addons enable portainer > /dev/null
+  # minikube addons enable portainer > /dev/null
 
   # Container Storage Interface (CSI) driver that provides the ability to use hostPath as a persistent volume.
   # HostPath is a simple way to provide persistent storage for pods in a single node Kubernetes cluster or in a development or test environment
-  minikube addons enable volumesnapshots > /dev/null
-  minikube addons enable csi-hostpath-driver > /dev/null
+  # minikube addons enable volumesnapshots > /dev/null
+  # minikube addons enable csi-hostpath-driver > /dev/null
 
   # The Kong addon for Minikube installs the Kong API Gateway in the Kubernetes cluster.
   # Kong is an open-source API gateway that allows developers to manage API requests, authentication, and traffic policies.
@@ -346,7 +346,8 @@ function create_diagnostic_services(){
     tlog $INFO "Portainer is already running"
   else
     tlog $INFO "Running portainer container..."
-    docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
+    # limit resource usage like t2.micro
+    docker run -d -p 9000:9000 --name portainer --cpus=1 --memory=1g --restart always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
     tlog $INFO "Portainer container port is published to the host in 9000"
   fi
 

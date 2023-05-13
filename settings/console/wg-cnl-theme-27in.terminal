@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>WindowList</key>
+	<array>
+		<dict>
+			<key>Origin</key>
+			<string>{71, 293}</string>
+			<key>ScrollerStyle</key>
+			<integer>0</integer>
+			<key>ShowsTabBar</key>
+			<false/>
+			<key>ShowsTabBarInFullScreen</key>
+			<false/>
+			<key>Window Settings</key>
+			<array>
+				<dict>
+					<key>Tab Scrollback Restorable</key>
+					<true/>
+					<key>Tab Session Class ID</key>
+					<string>2D43840A-FAE2-4B03-A5BC-55EE6C19ED80</string>
+					<key>Tab Settings</key>
+					<dict>
+						<key>ProfileCurrentVersion</key>
+						<real>2.0699999999999998</real>
+						<key>name</key>
+						<string>1. WG- Banner</string>
+						<key>type</key>
+						<string>Window Settings</string>
+					</dict>
+					<key>Tab Settings Name</key>
+					<string>1. WG- Banner</string>
+					<key>Tab Working Directory URL</key>
+					<string>file://HMDVBALAMURUGANK/Users/balamurugan/</string>
+					<key>Tab Working Directory URL String</key>
+					<string>file://HMDVBALAMURUGANK/Users/balamurugan</string>
+					<key>TabSelected</key>
+					<true/>
+				</dict>
+			</array>
+			<key>WindowNumber</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>Origin</key>
+			<string>{71, 1127}</string>
+			<key>ScrollerStyle</key>
+			<integer>0</integer>
+			<key>ShowsTabBar</key>
+			<false/>
+			<key>ShowsTabBarInFullScreen</key>
+			<false/>
+			<key>Window Settings</key>
+			<array>
+				<dict>
+					<key>Tab Scrollback Restorable</key>
+					<true/>
+					<key>Tab Session Class ID</key>
+					<string>6073FE32-9580-4E59-BFD9-31F4B1AEAFA5</string>
+					<key>Tab Settings</key>
+					<dict>
+						<key>ProfileCurrentVersion</key>
+						<real>2.0699999999999998</real>
+						<key>name</key>
+						<string>1. WG- Main</string>
+						<key>type</key>
+						<string>Window Settings</string>
+					</dict>
+					<key>Tab Settings Name</key>
+					<string>1. WG- Main</string>
+					<key>Tab Working Directory URL</key>
+					<string>file://HMDVBALAMURUGANK/Users/balamurugan/</string>
+					<key>Tab Working Directory URL String</key>
+					<string>file://HMDVBALAMURUGANK/Users/balamurugan</string>
+					<key>TabSelected</key>
+					<true/>
+				</dict>
+			</array>
+			<key>WindowNumber</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>Origin</key>
+			<string>{1265, 1127}</string>
+			<key>ScrollerStyle</key>
+			<integer>0</integer>
+			<key>ShowsTabBar</key>
+			<false/>
+			<key>ShowsTabBarInFullScreen</key>
+			<false/>
+			<key>Window Settings</key>
+			<array>
+				<dict>
+					<key>Tab Scrollback Restorable</key>
+					<true/>
+					<key>Tab Session Class ID</key>
+					<string>8D2B60EB-E0DF-40C9-B79D-E4DEFE44D190</string>
+					<key>Tab Settings</key>
+					<dict>
+						<key>ProfileCurrentVersion</key>
+						<real>2.0699999999999998</real>
+						<key>name</key>
+						<string>1. WG- Side</string>
+						<key>type</key>
+						<string>Window Settings</string>
+					</dict>
+					<key>Tab Settings Name</key>
+					<string>1. WG- Side</string>
+					<key>Tab Working Directory URL</key>
+					<string>file://HMDVBALAMURUGANK/Users/balamurugan/</string>
+					<key>Tab Working Directory URL String</key>
+					<string>file://HMDVBALAMURUGANK/Users/balamurugan</string>
+					<key>TabSelected</key>
+					<true/>
+				</dict>
+			</array>
+			<key>WindowNumber</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>name</key>
+	<string>wg-cnl-theme</string>
+	<key>type</key>
+	<string>Window Group</string>
+</dict>
+</plist>

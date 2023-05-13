@@ -19,7 +19,7 @@ function kubelab() {
       start)
           # Add your specific action for start
           tlog $INFO "Performing start action..."
-          init_kube_environment
+          init_minikube_environment
           ;;
       stop)
           # Add your specific action for stop

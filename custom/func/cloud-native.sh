@@ -1,16 +1,41 @@
 #!/usr/bin/env bash
 ################
-#description    : Helper functions to work with container env
+#description    : Enhance developer experience on working with Kubernetes
 #author	        : krishnam
 ################
 
 #
 ######################### < Minikube > #########################
 #
+function kubelab() {
+    case "$1" in
+        restart)
+            # Add your specific action for restart
+            tlog $INFO "Performing restart action..."
+            # Shutdown if it is already running - gives restart
+            shutdown_minikube
+            init_kube_environment
+            ;;
+        start)
+            # Add your specific action for start
+            tlog $INFO "Performing start action..."
+            init_kube_environment
+            ;;
+        stop)
+            # Add your specific action for stop
+            tlog $INFO  "Performing stop action..."
+            shutdown_minikube
+            ;;
+        *)
+            echo "Unknown command: $1"
+            ;;
+    esac
+}
 
 # If the setup is done from complete scratch after docker images clean up,
 # it will take 3 minutes and 21 seconds
-function init_minikube() {
+function init_kube_environment() {
+
   # Start the timer
   local start_time=$(date +%s.%N)
 
@@ -113,7 +138,7 @@ function create_diagnostic_services(){
     tlog $INFO "Octant is already running"
   else
     tlog $WARN "Octant is not running. Starting the octant dashboard..."
-    octant > /dev/null --disable-open-browser &
+    octant --disable-open-browser &> /dev/null &
   fi
 
   # todo:
@@ -151,18 +176,22 @@ function inspect_minikube() {
   minikube ip
   tlog $DEBUG "Kubernetes Cluster Info"
   minikube kubectl cluster-info
+  tlog $DEBUG "Background Jobs Running..."
+  minikube kubectl cluster-info
 }
 
 function shutdown_minikube() {
   # Start the timer
   local start_time=$(date +%s.%N)
 
-  tlog $INFO "Shutting down Minikube"
+
   if minikube status &>/dev/null; then
-      echo "Stopping Minikube..."
+      tlog $INFO "Shutting down Minikube"
       minikube stop
-      exit 0
   fi
+
+  tlog $INFO "Stopping octant dashboard"
+  echo $(pgrep "octant") | xargs kill
 
   # End the timer
   end_time=$(date +%s.%N)

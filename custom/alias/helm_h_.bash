@@ -73,7 +73,7 @@ alias hu='helm upgrade'
 alias hro='helm rollout'
 
 # Inspecting your release
-alias hls='helm list --all-namespaces'
+alias hls='helm list --all-namespaces' # use -A
 alias hh='helm history'
 
 # Get details for a "named release"
@@ -82,7 +82,6 @@ alias hgA='helm get all'
 alias hgm='helm get manifest'
 alias hgn='helm get notes'
 alias hgv='helm get values'
-alias hgA='helm get all'
 
 
 ######

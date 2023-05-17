@@ -73,7 +73,7 @@ function start_minikube() {
   start_docker
 
   tlog $INFO "Launching minikube..."
-  minikube start --memory=8g --cpus=4
+  minikube start --memory=6g --cpus=2
 
   # End the timer
   local end_time=$(date +%s.%N)
@@ -230,7 +230,7 @@ function inspect_docker() {
 }
 
 function shutdown_docker() {
-  # Start the timer
+  # Start the time
   local start_time=$(date +%s.%N)
 
   if [[ "$1" == "-A" || "$1" == "-all" ]]; then
@@ -352,7 +352,7 @@ function create_diagnostic_services(){
   fi
 
   if pgrep "octant"  > /dev/null ; then
-    tlog $INFO "Octant is already running"
+   tlog $INFO "Octant is already running"
   else
     tlog $WARN "Octant is not running. Starting the octant dashboard..."
     octant --disable-open-browser &> /dev/null &

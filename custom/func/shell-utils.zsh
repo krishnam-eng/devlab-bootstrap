@@ -5,6 +5,29 @@
 #author	      : krishnam
 ################
 
+function show_all_job_commands() {
+  # Get a list of all job IDs
+  local job_ids=$(jobs -l | awk '{print $1}' | tr -d '[[:punct:]]')
+
+  # Check if there are any job IDs
+  if [ -z "$job_ids" ]; then
+    echo "No active jobs"
+    return 1
+  fi
+
+  # Iterate over each job ID and display the full command
+  for job_id in $job_ids; do
+    # Get the process ID (PID) associated with the job ID
+    local pid=$(jobs -p %"$job_id" | awk '{print $3}')
+
+    # Use ps to display the full command for the PID
+    local command=$(ps -p "$pid" -o command)
+
+    # Print the job ID and the full command
+    echo "Job $job_id command: $command"
+  done
+}
+
 # like a pgrep for process (ps) filtering
 function hgrep() {
     if [[ -z "$1" ]]; then

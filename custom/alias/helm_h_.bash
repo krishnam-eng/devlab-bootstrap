@@ -68,8 +68,10 @@ alias htpl='helm template'
 
 # Release
 alias hi='helm install' # <RELEASE NAME> <CHART NAME>
-alias hui='helm uninstall'
 alias hu='helm upgrade'
+
+# Clean up
+alias hui='helm uninstall'
 alias hro='helm rollout'
 
 # Inspecting your release
@@ -83,6 +85,8 @@ alias hgm='helm get manifest'
 alias hgn='helm get notes'
 alias hgv='helm get values'
 
+# Find secrects created by helm
+alias hsecrects="kubectl get secret -A -o wide | grep helm"
 
 ######
 # examples

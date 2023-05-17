@@ -15,4 +15,3 @@ spec:
       containers:
       - name: curl
         image: curlimages/curl
-        command: ["sleep", "infinity"]

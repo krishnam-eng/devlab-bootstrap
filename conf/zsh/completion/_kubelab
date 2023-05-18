@@ -1,0 +1,11 @@
+#compdef kubelab
+compdef _kubelab kubelab
+
+_kubelab() {
+  local -a commands
+  commands=("start" "stop" "restart")
+
+  _arguments "1: :(${(j:|:)commands})"
+}
+
+_kubelab "$@"

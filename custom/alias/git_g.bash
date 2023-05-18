@@ -5,6 +5,9 @@ alias g='git'
 # list all alias in this context
 alias galias="alias | awk '/^g/{print}' | lolcat"
 
+# TOP 10
+alias gus="git restore --staged"
+
 ################# Frequently Used CMDs
 alias gcl='git clone'
 alias gclQ='git clone -q'

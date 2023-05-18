@@ -309,7 +309,7 @@ alias kca='_kca(){ kubectl "$@" --all-namespaces;  unset -f _kca; }; _kca'
 
 # General aliases
 alias kdel='kubectl delete'
-alias kdelf='kubectl delete -f'
+alias kdelf='kubectl delete --force'
 alias kdelns='kubectl delete namespace' # delete all resources in a namespace
 
 # get pod by label: kgpl "app=myapp" -n myns

@@ -21,9 +21,9 @@
  fi
 
 # load all alias / func / env files from private dir
-# vault dir is version with private repo
- if [[ -d ~/hrt/vault/zsh ]]; then
-  for pfile in ~/hrt/vault/zsh/*zsh
+# secret dir is version with private repo
+ if [[ -d ~/hrt/secret/zsh-alias ]]; then
+  for pfile in ~/hrt/secret/zsh-alias/*zsh
   do
     # echo $LOG_TS"Sourcing ${pfile} ..."
     source $pfile

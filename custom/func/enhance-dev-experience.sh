@@ -51,7 +51,7 @@ function init_minikube_environment() {
 
   start_minikube
   enable_minikube_addons
-  create_diagnostic_services
+  create_utility_services
   inspect_minikube
 
   # End the timer
@@ -187,7 +187,7 @@ function init_docker_environment() {
   local start_time=$(date +%s.%N)
 
   start_docker
-  create_diagnostic_services
+  create_utility_services
   inspect_docker
 
   # End the timer
@@ -332,15 +332,19 @@ function purge_docker(){
 # Curl
 # K8S Dashboard, Portainer, Octant, Custom utilities
 # TODO: verify namespace, context before running kubectl cmds
-function create_diagnostic_services(){
+function create_utility_services(){
   # Start the timer
   local start_time=$(date +%s.%N)
 
   # Start useful diagnostics tools
   if minikube status &>/dev/null; then
     tlog $INFO "Create curl deployment..."
-    kubectl apply -f ~/hrt/boot/settings/k8s/curl-deployment.yml
+    # kubectl apply -f ~/hrt/boot/settings/k8s/curl-deployment.yml
+    # todo: curl pod is in crashloop - find better alternative
   fi
+
+  cd $HOME/hrt/svc/helm-local-repo
+  http-server -p 8512 &
 
   if docker ps | grep portainer > /dev/null; then
     tlog $INFO "Portainer is already running"
@@ -383,5 +387,5 @@ function create_diagnostic_services(){
   # End the timer
   local end_time=$(date +%s.%N)
   local time_taken=$(echo "$end_time - $start_time" | bc)
-  tlog $TRACE "Time taken for create_diagnostic_services: $time_taken seconds"
+  tlog $TRACE "Time taken for create_utility_services: $time_taken seconds"
 }

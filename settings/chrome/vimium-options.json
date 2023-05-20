@@ -1,6 +1,11 @@
 {
   "settingsVersion": "1.67.4",
-  "exclusionRules": [],
+  "exclusionRules": [
+    {
+      "pattern": "https?://calendar.google.com/*",
+      "passKeys": "j k t g w s c e"
+    }
+  ],
   "filterLinkHints": false,
   "waitForEnterForFilteredHints": true,
   "hideHud": false,
@@ -15,7 +20,7 @@
   "scrollStepSize": 60,
   "smoothScroll": true,
   "grabBackFocus": true,
-  "searchEngines": "w: https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s Wikipedia\n\n# More examples.\n#\n# (Vimium supports search completion Wikipedia, as\n# above, and for these.)\n#\n# g: https://www.google.com/search?q=%s Google\n# l: https://www.google.com/search?q=%s&btnI I'm feeling lucky...\n# y: https://www.youtube.com/results?search_query=%s Youtube\n# gm: https://www.google.com/maps?q=%s Google maps\n# b: https://www.bing.com/search?q=%s Bing\n# d: https://duckduckgo.com/?q=%s DuckDuckGo\n# az: https://www.amazon.com/s/?field-keywords=%s Amazon\n# qw: https://www.qwant.com/?q=%s Qwant",
+  "searchEngines": "# Source Code\ngh: https://github.com/search?q=%s GitHub\nbb: https://bitbucket.org/search?account=%7B0a0986c5-2f21-4669-b65c-d18ffe2265aa%7D Bit Bucket\nbby: https://bitbucket.org/search?account=%7B0a0986c5-2f21-4669-b65c-d18ffe2265aa%7D&q=ext%3Ayaml%20%20ext%3Ayml%20%22%s%22 Bit Bucket: Search in Files with YAML Extention\n# google image search icons \ngi: https://www.google.com/search?q=%s+icon+logo&tbm=isch Google Image: Icons\n\n# map\ngm: https://www.google.com/maps?q=%s Google maps\n\n# training videos \nu: https://www.youtube.com/results?search_query=%s Youtube\n\n# my fav dictionary\nd: https://www.merriam-webster.com/dictionary/%s Dictionary\n\n# search engine/products/doc\ng: https://www.google.com/search?q=%s Google\na: https://www.amazon.in/s/?field-keywords=%s Amazon\nw: https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s Wikipedia",
   "searchUrl": "https://www.google.com/search?q=",
   "userDefinedLinkHintCss": "div > .vimiumHintMarker {\n/* linkhint boxes */\nbackground: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFF785),\n  color-stop(100%,#FFC542));\nborder: 1px solid #E3BE23;\n}\n\ndiv > .vimiumHintMarker span {\n/* linkhint text */\ncolor: black;\nfont-weight: bold;\nfont-size: 12px;\n}\n\ndiv > .vimiumHintMarker > .matchingCharacter {\n}"
 }

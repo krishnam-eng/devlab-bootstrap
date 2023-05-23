@@ -33,3 +33,8 @@ source $HOME/hrt/boot/conf/zsh/extensions/direnv.zsh
 [[ -f $HOME/hrt/etc/ctrflags/enablepowertheme ]] && source $HOME/hrt/boot/conf/zsh/extensions/.p10k.zsh && source $HOME/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme
 
 source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
+
+# For Vim-style navigation in the Zsh terminal
+bindkey -v
+# For emacs-style navigation in the Zsh terminal
+# bindkey -e for emacs

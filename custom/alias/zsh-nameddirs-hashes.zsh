@@ -59,7 +59,8 @@ hash -d rp-cni=~gh/explore-cloud-native-infra
 hash -d rp-ddd=~gh/domain-driven-design
 
 # user home dirs
-hash -d gd=~/Drives/            # google drives (4)
+hash -d gd=~/Drives/  
+hash -d dl=$HOME/Downloads
 
 # workspace
 hash -d vm=~/exp/cnl-observability-and-analysis/victoriametrics

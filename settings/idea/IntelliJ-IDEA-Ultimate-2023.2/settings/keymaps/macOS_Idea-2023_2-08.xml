@@ -1,0 +1,10 @@
+<keymap version="1" name="macOS_Idea-2023.2-08" parent="Mac OS X 10.5+">
+  <action id="ActivateBigDataToolWindowToolWindow">
+    <keyboard-shortcut first-keystroke="shift ctrl meta b" />
+  </action>
+  <action id="ActivateFindToolWindow" />
+  <action id="ActivateMachinetAIToolWindow">
+    <keyboard-shortcut first-keystroke="meta 3" />
+  </action>
+  <action id="FileChooser.GotoModule" />
+</keymap>

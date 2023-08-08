@@ -14,6 +14,7 @@ com.nnthink.aixcoder
 com.euphoricity.gitignore
 com.intellij.guice
 String Manipulation
+MavenRunHelper
 com.intellij.bigdatatools.core
 com.intellij.bigdatatools.binary.files
 com.intellij.bigdatatools.rfs

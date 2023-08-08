@@ -1,0 +1,10 @@
+<application>
+  <component name="github-copilot">
+    <languageAllowList>
+      <map>
+        <entry key="*" value="true" />
+      </map>
+    </languageAllowList>
+    <option name="inlayTextColor" value="#65ed15" />
+  </component>
+</application>

@@ -1,0 +1,5 @@
+<application>
+  <component name="com.github.evgenys91.machinet.common.settings.AppSettingsState">
+    <option name="isLoggedInWithTrial" value="true" />
+  </component>
+</application>

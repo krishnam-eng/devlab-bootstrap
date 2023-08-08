@@ -1,0 +1,668 @@
+<application>
+  <component name="com.github.evgenys91.machinet.common.feedback.FeedbackState">
+    <option name="feedbackDTOByID">
+      <map>
+        <entry key="AssetUploadEndpointTest.java_s3BucketWithNullOrEmpty">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="AssetUploadEndpointTest.java" />
+              <option name="myMethodName" value="s3BucketWithNullOrEmpty" />
+              <option name="myCode" value="/**Should throw an exception when the s3Bucket is null or empty*/&#10;@Test&#10;public void s3BucketWithNullOrEmpty() {        // Create a new instance of the Builder class&#10;        AssetUploadEndpoint.Builder builder = new AssetUploadEndpoint.Builder();&#10;&#10;        // Test with null s3Bucket&#10;        builder.s3Bucket(null);&#10;        AssetUploadEndpoint endpoint = builder.build();&#10;        assertNull(endpoint.getAcl());&#10;&#10;        // Test with empty s3Bucket&#10;        builder.s3Bucket(&quot;&quot;);&#10;        endpoint = builder.build();&#10;        assertNull(endpoint.getAcl());&#10;    }" />
+              <option name="myGeneratedDate" value="1689255230134" />
+              <option name="myRequestId" value="4a0b3f" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="AssetUploadEndpointTest.java_s3BucketWithValidInput">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="AssetUploadEndpointTest.java" />
+              <option name="myMethodName" value="s3BucketWithValidInput" />
+              <option name="myCode" value="/**Should set the s3Bucket when a valid s3Bucket is provided*/&#10;@Test&#10;public void s3BucketWithValidInput() {        String s3Bucket = &quot;my-s3-bucket&quot;;&#10;        Builder builder = new Builder();&#10;&#10;        AssetUploadEndpoint result = builder.s3Bucket(s3Bucket).build();&#10;&#10;        assertEquals(s3Bucket, result.getAcl());&#10;    }" />
+              <option name="myGeneratedDate" value="1689255230134" />
+              <option name="myRequestId" value="4a0b3f" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="ExternalImageResizePayloadTest.java_getSourceUrl">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="ExternalImageResizePayloadTest.java" />
+              <option name="myMethodName" value="getSourceUrl" />
+              <option name="myCode" value="/**Should return the source URL when getSourceUrl is called*/&#10;@Test&#10;public void getSourceUrl() {&#10;        ExternalImageResizePayload.Builder builder = new ExternalImageResizePayload.Builder();&#10;        builder.sourceUrl(&quot;https://example.com/image.jpg&quot;);&#10;        ExternalImageResizePayload payload = new ExternalImageResizePayload(builder);&#10;&#10;        String expectedSourceUrl = &quot;https://example.com/image.jpg&quot;;&#10;        String actualSourceUrl = payload.getSourceUrl();&#10;&#10;        assertEquals(expectedSourceUrl, actualSourceUrl);&#10;    }" />
+              <option name="myGeneratedDate" value="1689255241106" />
+              <option name="myRequestId" value="c6123b" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="ExternalImageResizePayloadTest.java_getSourceUrlWhenSourceUrlIsNullThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="ExternalImageResizePayloadTest.java" />
+              <option name="myMethodName" value="getSourceUrlWhenSourceUrlIsNullThenThrowException" />
+              <option name="myCode" value="/**Should throw an exception when the source URL is null or empty*/&#10;@Test&#10;public void getSourceUrlWhenSourceUrlIsNullThenThrowException() {&#10;        ExternalImageResizePayload payload = new ExternalImageResizePayload.Builder()&#10;                .sourceUrl(null)&#10;                .key(&quot;testKey&quot;)&#10;                .destinationFolder(&quot;testDestination&quot;)&#10;                .maxSize(100)&#10;                .imageFormatName(&quot;jpg&quot;)&#10;                .build();&#10;&#10;        try {&#10;            payload.getSourceUrl();&#10;            fail(&quot;Expected IllegalStateException to be thrown&quot;);&#10;        } catch (IllegalStateException e) {&#10;            assertEquals(&quot;Source Url can not be null or empty&quot;, e.getMessage());&#10;        }&#10;    }" />
+              <option name="myGeneratedDate" value="1689255241106" />
+              <option name="myRequestId" value="c6123b" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerControllerTest.java_getAssetUploadEndpointReturnsCorrectEndpoint">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerControllerTest.java" />
+              <option name="myMethodName" value="getAssetUploadEndpointReturnsCorrectEndpoint" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should return the correct asset upload endpoint&quot;)&#10;void getAssetUploadEndpointReturnsCorrectEndpoint() {        AssetUpload assetUpload = AssetUpload.builder()&#10;            .maxUploadSize(1000000L)&#10;            .setContentDisposition(true)&#10;            .contentType(&quot;image/jpeg&quot;)&#10;            .fileExtension(&quot;jpg&quot;)&#10;            .build();&#10;&#10;        AssetUploadEndpoint expectedEndpoint = AssetUploadEndpoint.builder()&#10;            .postAction(&quot;postAction&quot;)&#10;            .acl(&quot;acl&quot;)&#10;            .key(&quot;key&quot;)&#10;            .policy(&quot;policy&quot;)&#10;            .successActionStatus(&quot;successActionStatus&quot;)&#10;            .xAmzAlgorithm(&quot;xAmzAlgorithm&quot;)&#10;            .xAmzCredential(&quot;xAmzCredential&quot;)&#10;            .xAmzDate(&quot;xAmzDate&quot;)&#10;            .xAmzSignature(&quot;xAmzSignature&quot;)&#10;            .build();&#10;&#10;        AssetUploadEndpoint actualEndpoint = lockerController.getAssetUploadEndpoint(assetUpload);&#10;&#10;        assertEquals(expectedEndpoint, actualEndpoint);&#10;    }" />
+              <option name="myGeneratedDate" value="1690366285523" />
+              <option name="myRequestId" value="01c985" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerControllerTest.java_getAssetUploadEndpointWithValidAssetUpload">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerControllerTest.java" />
+              <option name="myMethodName" value="getAssetUploadEndpointWithValidAssetUpload" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return the correct AssetUploadEndpoint when a valid AssetUpload is provided&quot;)&#10;  void getAssetUploadEndpointWithValidAssetUpload() {&#10;    AssetUpload validAssetUpload =&#10;        AssetUpload.builder()&#10;            .maxUploadSize(1000000L)&#10;            .setContentDisposition(true)&#10;            .contentType(&quot;image/jpeg&quot;)&#10;            .fileExtension(&quot;jpg&quot;)&#10;            .build();&#10;&#10;    AssetUploadEndpoint expectedEndpoint =&#10;        AssetUploadEndpoint.builder()&#10;            .postAction(&quot;postAction&quot;)&#10;            .acl(&quot;acl&quot;)&#10;            .key(&quot;key&quot;)&#10;            .policy(&quot;policy&quot;)&#10;            .successActionStatus(&quot;successActionStatus&quot;)&#10;            .xAmzAlgorithm(&quot;xAmzAlgorithm&quot;)&#10;            .xAmzCredential(&quot;xAmzCredential&quot;)&#10;            .xAmzDate(&quot;xAmzDate&quot;)&#10;            .xAmzSignature(&quot;xAmzSignature&quot;)&#10;            .build();&#10;&#10;    AssetUploadEndpoint actualEndpoint = lockerController.getAssetUploadEndpoint(validAssetUpload);&#10;&#10;    assertEquals(expectedEndpoint, actualEndpoint);&#10;  }" />
+              <option name="myGeneratedDate" value="1690366583999" />
+              <option name="myRequestId" value="16769f" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerControllerTest.java_getS3ObjectMetadata">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerControllerTest.java" />
+              <option name="myMethodName" value="getS3ObjectMetadata" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should return correct S3ObjectMetadataResponse for given S3ObjectMetadataRequest&quot;)&#10;void getS3ObjectMetadata() {                S3ObjectMetadataRequest request = S3ObjectMetadataRequest.builder()&#10;            .s3Url(&quot;https://example.com/s3/object&quot;)&#10;            .build();&#10;&#10;                try {&#10;            mockMvc.perform(post(&quot;/locker/getS3ObjectMetadata&quot;)&#10;                    .contentType(MediaType.APPLICATION_JSON)&#10;                    .content(asJsonString(request)))&#10;                    .andExpect(status().isOk())&#10;                    .andExpect(jsonPath(&quot;$.eTag&quot;).value(request.getS3Url().hashCode() + &quot;eTag&quot;))&#10;                    .andExpect(jsonPath(&quot;$.contentType&quot;).value(&quot;contentType&quot;))&#10;                    .andExpect(jsonPath(&quot;$.contentLength&quot;).value(100L));&#10;        } catch (Exception e) {&#10;            fail(&quot;Exception occurred: &quot; + e.getMessage());&#10;        }&#10;    }" />
+              <option name="myGeneratedDate" value="1690366583999" />
+              <option name="myRequestId" value="16769f" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerControllerTest.java_getS3ObjectMetadataWhenInvalidRequestIsProvidedThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerControllerTest.java" />
+              <option name="myMethodName" value="getS3ObjectMetadataWhenInvalidRequestIsProvidedThenThrowException" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should throw an exception when invalid request is provided&quot;)&#10;  void getS3ObjectMetadataWhenInvalidRequestIsProvidedThenThrowException() {&#10;    S3ObjectMetadataRequest invalidRequest = new S3ObjectMetadataRequest();&#10;    invalidRequest.setS3Url(null);&#10;&#10;    assertThrows(&#10;        InvalidS3UrlException.class,&#10;        () -&gt; {&#10;          lockerController.getS3ObjectMetadata(invalidRequest);&#10;        });&#10;&#10;    verify(lockerService, never()).getS3ObjectMetadata(any(S3ObjectMetadataRequest.class));&#10;&#10;    invalidRequest.setS3Url(&quot;https://s3.ap-south-1.amazonaws.com/zeta-media-dev/123456&quot;);&#10;&#10;    assertThrows(&#10;        InvalidS3UrlException.class,&#10;        () -&gt; {&#10;          lockerController.getS3ObjectMetadata(invalidRequest);&#10;        });&#10;&#10;    verify(lockerService, never()).getS3ObjectMetadata(any(S3ObjectMetadataRequest.class));&#10;  }" />
+              <option name="myGeneratedDate" value="1690634366661" />
+              <option name="myRequestId" value="f8630f" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerControllerTest.java_getS3ObjectMetadataWhenValidRequestIsProvided">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerControllerTest.java" />
+              <option name="myMethodName" value="getS3ObjectMetadataWhenValidRequestIsProvided" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should return S3 object metadata when valid request is provided&quot;)&#10;void getS3ObjectMetadataWhenValidRequestIsProvided() {        S3ObjectMetadataRequest request = new S3ObjectMetadataRequest();&#10;                S3ObjectMetadataRequest request = new S3ObjectMetadataRequest();&#10;        S3ObjectMetadataResponse expectedResponse = S3ObjectMetadataResponse.builder()&#10;                .eTag(&quot;123456&quot;)&#10;                .contentType(&quot;application/json&quot;)&#10;                .contentLength(1024L)&#10;                .build();&#10;&#10;        when(lockerService.getS3ObjectMetadata(request)).thenReturn(expectedResponse);&#10;&#10;        S3ObjectMetadataResponse actualResponse = lockerController.getS3ObjectMetadata(request);&#10;&#10;        assertEquals(expectedResponse, actualResponse);&#10;        verify(lockerService, times(1)).getS3ObjectMetadata(request);&#10;    }" />
+              <option name="myGeneratedDate" value="1690631182364" />
+              <option name="myRequestId" value="6ae8c0" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerControllerTest.java_reportUploadSuccessReturnsAssetLocation">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerControllerTest.java" />
+              <option name="myMethodName" value="reportUploadSuccessReturnsAssetLocation" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should report upload success and return asset location&quot;)&#10;void reportUploadSuccessReturnsAssetLocation() {        UploadSuccess uploadSuccess = new UploadSuccess(&quot;file.jpg&quot;, &quot;1234567890&quot;);&#10;        AssetLocation expectedAssetLocation = new AssetLocation(&quot;https://example.com/assets/file.jpg&quot;);&#10;&#10;        when(lockerService.reportUploadSuccess(uploadSuccess)).thenReturn(expectedAssetLocation);&#10;&#10;        AssetLocation actualAssetLocation = lockerController.reportUploadSuccess(uploadSuccess);&#10;&#10;        assertEquals(expectedAssetLocation, actualAssetLocation);&#10;        verify(lockerService, times(1)).reportUploadSuccess(uploadSuccess);&#10;    }" />
+              <option name="myGeneratedDate" value="1691146821827" />
+              <option name="myRequestId" value="ece445" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerControllerTest.java_reportUploadSuccessWhenUploadSuccessIsNullThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerControllerTest.java" />
+              <option name="myMethodName" value="reportUploadSuccessWhenUploadSuccessIsNullThenThrowException" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should throw an exception when the upload success report is null&quot;)&#10;void reportUploadSuccessWhenUploadSuccessIsNullThenThrowException() {        UploadSuccess uploadSuccess = null;&#10;&#10;        assertThrows(IllegalArgumentException.class, () -&gt; {&#10;            lockerController.reportUploadSuccess(uploadSuccess);&#10;        });&#10;&#10;        verifyNoInteractions(lockerService);&#10;    }" />
+              <option name="myGeneratedDate" value="1691146821827" />
+              <option name="myRequestId" value="ece445" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getAssetUploadEndpointWithContentType">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getAssetUploadEndpointWithContentType" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return the asset upload endpoint with content type when it is provided&quot;)&#10;  void getAssetUploadEndpointWithContentType() {&#10;    AssetUpload assetUpload = new AssetUpload();&#10;    assetUpload.setContentType(&quot;image/jpeg&quot;);&#10;&#10;    AssetUploadEndpoint.Builder builder = new AssetUploadEndpoint.Builder();&#10;&#10;    builder.accessKeyID(lockerAWSConfig.getS3().getAccessKeyID());&#10;    builder.secretAccessKey(lockerAWSConfig.getS3().getSecretAccessKey());&#10;    builder.s3Bucket(lockerAWSConfig.getS3().getTmpBucket());&#10;    builder.awsRegion(lockerAWSConfig.getS3().getRegion());&#10;    builder.acl(CannedAccessControlList.PublicReadWrite);&#10;    builder.setContentDisposition(false);&#10;    builder.contentType(&quot;image/jpeg&quot;);&#10;&#10;    AssetUploadEndpoint expectedEndpoint = builder.build();&#10;&#10;    AssetUploadEndpoint actualEndpoint = lockerService.getAssetUploadEndpoint(assetUpload);&#10;&#10;    // TODO: decode the policy to test the matching&#10;    String policy = actualEndpoint.getPolicy();&#10;    // Assert&#10;    // assertEquals(expectedEndpoint.getContentType(), actualEndpoint.getContentType());&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getAssetUploadEndpointWithDefaultValues">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getAssetUploadEndpointWithDefaultValues" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&#10;      &quot;Should return the asset upload endpoint with default values when no max upload size, content type, and file extension are provided&quot;)&#10;  void getAssetUploadEndpointWithDefaultValues() {&#10;    AssetUpload assetUpload = new AssetUpload();&#10;    AssetUploadEndpoint expectedEndpoint =&#10;        new AssetUploadEndpoint.Builder()&#10;            .accessKeyID(lockerAWSConfig.getS3().getAccessKeyID())&#10;            .secretAccessKey(lockerAWSConfig.getS3().getSecretAccessKey())&#10;            .s3Bucket(lockerAWSConfig.getS3().getTmpBucket())&#10;            .awsRegion(lockerAWSConfig.getS3().getRegion())&#10;            .acl(CannedAccessControlList.PublicReadWrite)&#10;            .setContentDisposition(false)&#10;            .build();&#10;&#10;    AssetUploadEndpoint actualEndpoint = lockerService.getAssetUploadEndpoint(assetUpload);&#10;&#10;    assertEquals(expectedEndpoint.getPostAction(), actualEndpoint.getPostAction());&#10;    assertEquals(expectedEndpoint.getAcl(), actualEndpoint.getAcl());&#10;    assertEquals(&#10;        expectedEndpoint.getSuccessActionStatus(), actualEndpoint.getSuccessActionStatus());&#10;    assertEquals(expectedEndpoint.getxAmzAlgorithm(), actualEndpoint.getxAmzAlgorithm());&#10;    assertEquals(expectedEndpoint.getxAmzCredential(), actualEndpoint.getxAmzCredential());&#10;    assertEquals(expectedEndpoint.getxAmzDate(), actualEndpoint.getxAmzDate());&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getAssetUploadEndpointWithFileExtension">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getAssetUploadEndpointWithFileExtension" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return the asset upload endpoint with file extension when it is provided&quot;)&#10;  void getAssetUploadEndpointWithFileExtension() {&#10;    AssetUpload assetUpload = new AssetUpload();&#10;    assetUpload.setFileExtension(&quot;jpg&quot;);&#10;&#10;    AssetUploadEndpoint.Builder builder = new AssetUploadEndpoint.Builder();&#10;    builder.accessKeyID(&quot;accessKeyID&quot;);&#10;    builder.secretAccessKey(&quot;secretAccessKey&quot;);&#10;    builder.s3Bucket(&quot;zeta-s3-bucket-temporary-staging&quot;);&#10;    builder.awsRegion(&quot;ap-southeast-1&quot;);&#10;    builder.acl(CannedAccessControlList.PublicReadWrite);&#10;    builder.setContentDisposition(false);&#10;    builder.fileExtension(&quot;jpg&quot;);&#10;&#10;    AssetUploadEndpoint expectedEndpoint = builder.build();&#10;&#10;    AssetUploadEndpoint actualEndpoint = lockerService.getAssetUploadEndpoint(assetUpload);&#10;&#10;    assertEquals(expectedEndpoint.getPostAction(), actualEndpoint.getPostAction());&#10;    assertEquals(expectedEndpoint.getAcl(), actualEndpoint.getAcl());&#10;    assertEquals(&#10;        expectedEndpoint.getSuccessActionStatus(), actualEndpoint.getSuccessActionStatus());&#10;    assertEquals(expectedEndpoint.getxAmzAlgorithm(), actualEndpoint.getxAmzAlgorithm());&#10;    assertEquals(expectedEndpoint.getxAmzCredential(), actualEndpoint.getxAmzCredential());&#10;    assertEquals(expectedEndpoint.getxAmzDate(), actualEndpoint.getxAmzDate());&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getAssetUploadEndpointWithMaxUploadSize">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getAssetUploadEndpointWithMaxUploadSize" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return the asset upload endpoint with max upload size when it is provided&quot;)&#10;  void getAssetUploadEndpointWithMaxUploadSize() {&#10;    AssetUpload assetUpload = new AssetUpload();&#10;    assetUpload.setMaxUploadSize(1000000L);&#10;&#10;    AssetUploadEndpoint result = lockerService.getAssetUploadEndpoint(assetUpload);&#10;&#10;    assertNotNull(result);&#10;    // assertEquals(1000000L, result.getMaxUploadSize());&#10;    verify(s3Client, never()).getObjectMetadata(anyString(), anyString());&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getS3ObjectMetadataWhenErrorOccursThenThrowLockerServiceException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getS3ObjectMetadataWhenErrorOccursThenThrowLockerServiceException" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&#10;      &quot;Should throw LockerServiceException when an error occurs while retrieving S3Config object metadata&quot;)&#10;  void getS3ObjectMetadataWhenErrorOccursThenThrowLockerServiceException() {&#10;    String url =&#10;        &quot;https://zeta-locker-s3-bucket.s3.ap-south-1.amazonaws.com/487af975-a745-4a7d-8558-2239d5c18c73&quot;;&#10;    S3ObjectMetadataRequest request = new S3ObjectMetadataRequest();&#10;    request.setS3Url(url);&#10;    when(s3Client.getObjectMetadata(anyString(), anyString())).thenThrow(AmazonS3Exception.class);&#10;&#10;    // Act and Assert&#10;    assertThrows(&#10;        LockerServiceException.class,&#10;        () -&gt; {&#10;          lockerService.getS3ObjectMetadata(request);&#10;        });&#10;&#10;    verify(s3Client, times(1)).getObjectMetadata(anyString(), anyString());&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getS3ObjectMetadataWhenS3UrlIsInvalidThenThrowInvalidS3UrlException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getS3ObjectMetadataWhenS3UrlIsInvalidThenThrowInvalidS3UrlException" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should throw InvalidS3UrlException when the S3Config URL is invalid&quot;)&#10;  void getS3ObjectMetadataWhenS3UrlIsInvalidThenThrowInvalidS3UrlException() {&#10;    String invalidS3Url = &quot;invalid-s3-url&quot;;&#10;    S3ObjectMetadataRequest request = new S3ObjectMetadataRequest();&#10;    request.setS3Url(invalidS3Url);&#10;&#10;    // Act and Assert&#10;    assertThrows(&#10;        InvalidS3UrlException.class,&#10;        () -&gt; {&#10;          lockerService.getS3ObjectMetadata(request);&#10;        });&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getS3ObjectMetadataWhenS3UrlIsNotAccessibleThenThrowLockerServiceException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getS3ObjectMetadataWhenS3UrlIsNotAccessibleThenThrowLockerServiceException" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should throw LockerServiceException when the S3Config URL is not accessible&quot;)&#10;  void getS3ObjectMetadataWhenS3UrlIsNotAccessibleThenThrowLockerServiceException() {&#10;    String s3Url =&#10;        &quot;https://atez-locker-s3-bucket.s3.ap-south-1.amazonaws.com/487af975-a745-4a7d-8558-2239d5c18c73&quot;;&#10;    S3ObjectMetadataRequest request = new S3ObjectMetadataRequest();&#10;    request.setS3Url(s3Url);&#10;&#10;    when(s3Client.getObjectMetadata(anyString(), anyString())).thenThrow(AmazonS3Exception.class);&#10;&#10;    // Act and Assert&#10;    assertThrows(&#10;        LockerServiceException.class,&#10;        () -&gt; {&#10;          lockerService.getS3ObjectMetadata(request);&#10;        });&#10;&#10;    verify(s3Client, times(1)).getObjectMetadata(anyString(), anyString());&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getS3ObjectMetadataWhenS3UrlIsValid">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getS3ObjectMetadataWhenS3UrlIsValid" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return S3Config object metadata when the S3Config URL is valid&quot;)&#10;  void getS3ObjectMetadataWhenS3UrlIsValid() {&#10;    String validS3Url =&#10;        &quot;https://zeta-locker-s3-bucket-temporary-mum1-stage.s3.ap-south-1.amazonaws.com/487af975-a745-4a7d-8558-2239d5c18c73&quot;;&#10;    S3ObjectMetadataRequest request = new S3ObjectMetadataRequest();&#10;    request.setS3Url(validS3Url);&#10;    ObjectMetadata expectedMetadata = new ObjectMetadata();&#10;    expectedMetadata.setHeader(&quot;ETag&quot;, &quot;etag&quot;);&#10;    expectedMetadata.setContentType(&quot;application/json&quot;);&#10;    expectedMetadata.setContentLength(100L);&#10;    when(s3Client.getObjectMetadata(anyString(), anyString())).thenReturn(expectedMetadata);&#10;&#10;    S3ObjectMetadataResponse response = lockerService.getS3ObjectMetadata(request);&#10;&#10;    assertNotNull(response);&#10;    assertEquals(expectedMetadata.getETag(), response.getETag());&#10;    assertEquals(expectedMetadata.getContentType(), response.getContentType());&#10;    assertEquals(expectedMetadata.getContentLength(), response.getContentLength());&#10;    verify(s3Client, times(1)).getObjectMetadata(anyString(), anyString());&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getSignedUrlWhenBucketNameIsNullThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getSignedUrlWhenBucketNameIsNullThenThrowException" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should throw an IllegalArgumentException when bucket name is null or empty&quot;)&#10;  void getSignedUrlWhenBucketNameIsNullThenThrowException() {&#10;    SignedUrlRequest signedUrlRequest = new SignedUrlRequest(1000L, null, &quot;key&quot;);&#10;    assertThrows(&#10;        IllegalArgumentException.class,&#10;        () -&gt; {&#10;          lockerService.getSignedUrl(signedUrlRequest);&#10;        });&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getSignedUrlWhenKeyIsNullThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getSignedUrlWhenKeyIsNullThenThrowException" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should throw an IllegalArgumentException when key is null or empty&quot;)&#10;  void getSignedUrlWhenKeyIsNullThenThrowException() {&#10;    SignedUrlRequest signedUrlRequest = new SignedUrlRequest(1000L, &quot;bucketName&quot;, null);&#10;    assertThrows(&#10;        IllegalArgumentException.class,&#10;        () -&gt; {&#10;          lockerService.getSignedUrl(signedUrlRequest);&#10;        });&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getSignedUrlWithValidBucketNameAndKey">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getSignedUrlWithValidBucketNameAndKey" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return a pre-signed URL when valid bucket name and key are provided&quot;)&#10;  void getSignedUrlWithValidBucketNameAndKey() {&#10;    String bucketName = &quot;test-bucket&quot;;&#10;    String key = &quot;test-key&quot;;&#10;    long validForMillis = 3600000;&#10;&#10;    SignedUrlRequest signedUrlRequest = new SignedUrlRequest(validForMillis, key, bucketName);&#10;&#10;    GeneratePresignedUrlRequest preSignedRequest =&#10;        new GeneratePresignedUrlRequest(bucketName, key)&#10;            .withExpiration(new Date(System.currentTimeMillis() + validForMillis));&#10;&#10;    String expectedUrl = &quot;https://s3.amazonaws.com/&quot; + bucketName + &quot;/&quot; + key;&#10;&#10;    when(s3Client.generatePresignedUrl(any())).thenReturn(expectedUrl);&#10;&#10;    PreSignedUrlResponse result = lockerService.getSignedUrl(signedUrlRequest);&#10;&#10;    assertEquals(expectedUrl, result.getPreSignedUrl());&#10;    verify(s3Client, times(1)).generatePresignedUrl(any());&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_reportLogUploadSuccess">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="reportLogUploadSuccess" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should successfully copy the log to permanent storage&quot;)&#10;void reportLogUploadSuccess() {        // Create test data&#10;        String key = &quot;testKey&quot;;&#10;        String clientID = &quot;testClientID&quot;;&#10;        String destinationFolder = base64UrlEncode(clientID);&#10;        String destinationBucket = lockerAWSConfig.getS3().getClientLogsBucket();&#10;&#10;        LogUploadSuccess logUploadSuccess = new LogUploadSuccess(key, clientID);&#10;&#10;        // Mock the copyToPermanentStorage method&#10;        AssetLocation expectedAssetLocation = new AssetLocation(&quot;https://example.com&quot;);&#10;        when(s3Client.copyToPermanentStorage(&#10;                logUploadSuccess.getKey(),&#10;                destinationBucket,&#10;                destinationFolder,&#10;                Optional.empty(),&#10;                Optional.empty()))&#10;                .thenReturn(expectedAssetLocation);&#10;&#10;        // Call the method under test&#10;        AssetLocation actualAssetLocation = lockerService.reportLogUploadSuccess(logUploadSuccess);&#10;&#10;        // Verify the copyToPermanentStorage method was called with the correct arguments&#10;        verify(s3Client, times(1)).copyToPermanentStorage(&#10;                logUploadSuccess.getKey(),&#10;                destinationBucket,&#10;                destinationFolder,&#10;                Optional.empty(),&#10;                Optional.empty());&#10;&#10;        // Verify the returned asset location is correct&#10;        assertEquals(expectedAssetLocation, actualAssetLocation);&#10;    }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_reportUploadSuccessWhenAclIsSpecified">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="reportUploadSuccessWhenAclIsSpecified" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should copy to permanent storage and return asset location when ACL is specified&quot;)&#10;  void reportUploadSuccessWhenAclIsSpecified() { // Create test data&#10;    String key = &quot;test-key&quot;;&#10;    String destinationBucket = &quot;test-destination-bucket&quot;;&#10;    String destinationFolder = &quot;test-destination-folder&quot;;&#10;    String destinationKey = &quot;test-destination-key&quot;;&#10;    CannedAccessControlList acl = CannedAccessControlList.PublicRead;&#10;&#10;    // Mock the S3Client's copyToPermanentStorage method&#10;    AssetLocation expectedAssetLocation = new AssetLocation(&quot;test-url&quot;);&#10;    when(s3Client.copyToPermanentStorage(&#10;            key,&#10;            destinationBucket,&#10;            destinationFolder,&#10;            Optional.of(destinationKey),&#10;            Optional.of(acl)))&#10;        .thenReturn(expectedAssetLocation);&#10;&#10;    // Create UploadSuccess object&#10;    UploadSuccess uploadSuccess = new UploadSuccess();&#10;    uploadSuccess.setKey(key);&#10;    uploadSuccess.setDestinationBucket(destinationBucket);&#10;    uploadSuccess.setDestinationFolder(destinationFolder);&#10;    uploadSuccess.setDestinationKey(destinationKey);&#10;    uploadSuccess.setAcl(acl);&#10;&#10;    // Call the method under test&#10;    AssetLocation actualAssetLocation = lockerService.reportUploadSuccess(uploadSuccess);&#10;&#10;    // Verify the S3Client's copyToPermanentStorage method was called with the correct parameters&#10;    verify(s3Client, times(1))&#10;        .copyToPermanentStorage(&#10;            key,&#10;            destinationBucket,&#10;            destinationFolder,&#10;            Optional.of(destinationKey),&#10;            Optional.of(acl));&#10;&#10;    // Verify that the actual asset location matches the expected asset location&#10;    assertEquals(expectedAssetLocation, actualAssetLocation);&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_reportUploadSuccessWhenDestinationFolderIsNotSpecified">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="reportUploadSuccessWhenDestinationFolderIsNotSpecified" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&#10;      &quot;Should copy to permanent storage and return asset location when destination folder is not specified&quot;)&#10;  void reportUploadSuccessWhenDestinationFolderIsNotSpecified() {&#10;    String key = &quot;test-key&quot;;&#10;    String destinationBucket = &quot;test-destination-bucket&quot;;&#10;    String destinationKey = &quot;test-destination-key&quot;;&#10;    String acl = &quot;test-acl&quot;;&#10;    String defaultFolder = &quot;default-folder-name&quot;;&#10;    String clientID = &quot;test-client-id&quot;;&#10;    String destinationFolder = base64UrlEncode(&quot;default&quot;);&#10;    AssetLocation expectedAssetLocation = new AssetLocation(&quot;test-url&quot;);&#10;&#10;    UploadSuccess uploadSuccess = new UploadSuccess();&#10;    uploadSuccess.setKey(key);&#10;    uploadSuccess.setDestinationBucket(destinationBucket);&#10;    uploadSuccess.setDestinationKey(destinationKey);&#10;    uploadSuccess.setAcl(CannedAccessControlList.PublicReadWrite);&#10;&#10;    when(s3Client.copyToPermanentStorage(&#10;            uploadSuccess.getKey(),&#10;            uploadSuccess.getDestinationBucket(),&#10;            destinationFolder,&#10;            Optional.ofNullable(uploadSuccess.getDestinationKey()),&#10;            Optional.ofNullable(uploadSuccess.getAcl())))&#10;        .thenReturn(expectedAssetLocation);&#10;&#10;    AssetLocation actualAssetLocation = lockerService.reportUploadSuccess(uploadSuccess);&#10;&#10;    assertEquals(expectedAssetLocation, actualAssetLocation);&#10;    verify(s3Client, times(1))&#10;        .copyToPermanentStorage(&#10;            uploadSuccess.getKey(),&#10;            uploadSuccess.getDestinationBucket(),&#10;            destinationFolder,&#10;            Optional.ofNullable(uploadSuccess.getDestinationKey()),&#10;            Optional.ofNullable(uploadSuccess.getAcl()));&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_reportUploadSuccessWhenDestinationFolderIsSpecified">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="reportUploadSuccessWhenDestinationFolderIsSpecified" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&#10;      &quot;Should copy to permanent storage and return asset location when destination folder is specified&quot;)&#10;  void reportUploadSuccessWhenDestinationFolderIsSpecified() {&#10;    String key = &quot;test-key&quot;;&#10;    String destinationBucket = &quot;test-destination-bucket&quot;;&#10;    String destinationFolder = &quot;test-destination-folder&quot;;&#10;    String destinationKey = &quot;test-destination-key&quot;;&#10;    CannedAccessControlList acl = CannedAccessControlList.PublicReadWrite;&#10;&#10;    UploadSuccess uploadSuccess = new UploadSuccess();&#10;    uploadSuccess.setKey(key);&#10;    uploadSuccess.setDestinationBucket(destinationBucket);&#10;    uploadSuccess.setDestinationFolder(destinationFolder);&#10;    uploadSuccess.setDestinationKey(destinationKey);&#10;    uploadSuccess.setAcl(acl);&#10;&#10;    AssetLocation expectedAssetLocation = new AssetLocation(&quot;test-url&quot;);&#10;&#10;    doReturn(expectedAssetLocation)&#10;        .when(s3Client)&#10;        .copyToPermanentStorage(&#10;            eq(key),&#10;            eq(destinationBucket),&#10;            eq(destinationFolder),&#10;            eq(Optional.of(destinationKey)),&#10;            eq(Optional.of(acl)));&#10;&#10;    AssetLocation actualAssetLocation = lockerService.reportUploadSuccess(uploadSuccess);&#10;&#10;    assertEquals(expectedAssetLocation, actualAssetLocation);&#10;    verify(s3Client, times(1))&#10;        .copyToPermanentStorage(&#10;            eq(key),&#10;            eq(destinationBucket),&#10;            eq(destinationFolder),&#10;            eq(Optional.of(destinationKey)),&#10;            eq(Optional.of(acl)));&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_reportUploadSuccessWhenDestinationKeyIsNotSpecified">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="reportUploadSuccessWhenDestinationKeyIsNotSpecified" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&#10;      &quot;Should copy to permanent storage and return asset location when destination key is not specified&quot;)&#10;  void reportUploadSuccessWhenDestinationKeyIsNotSpecified() { // Create test data&#10;&#10;    String key = &quot;test-key&quot;;&#10;    String destinationBucket = &quot;test-destination-bucket&quot;;&#10;    String acl = &quot;test-acl&quot;;&#10;    String defaultFolder = &quot;default-folder-name&quot;;&#10;    String clientID = &quot;test-client-id&quot;;&#10;    String destinationFolder = base64UrlEncode(&quot;default&quot;);&#10;    AssetLocation expectedAssetLocation = new AssetLocation(&quot;test-url&quot;);&#10;&#10;    UploadSuccess uploadSuccess = new UploadSuccess();&#10;    uploadSuccess.setKey(key);&#10;    uploadSuccess.setDestinationBucket(destinationBucket);&#10;    uploadSuccess.setDestinationKey(null);&#10;    uploadSuccess.setDestinationFolder(destinationFolder);&#10;    uploadSuccess.setAcl(CannedAccessControlList.PublicReadWrite);&#10;&#10;    // Mock the behavior of the S3Client&#10;    when(s3Client.copyToPermanentStorage(&#10;            uploadSuccess.getKey(),&#10;            uploadSuccess.getDestinationBucket(),&#10;            uploadSuccess.getDestinationFolder(),&#10;            Optional.empty(),&#10;            Optional.ofNullable(uploadSuccess.getAcl())))&#10;        .thenReturn(expectedAssetLocation);&#10;&#10;    // Call the method under test&#10;    AssetLocation actualAssetLocation = lockerService.reportUploadSuccess(uploadSuccess);&#10;&#10;    // Verify the result&#10;    assertEquals(expectedAssetLocation, actualAssetLocation);&#10;    verify(s3Client, times(1))&#10;        .copyToPermanentStorage(&#10;            uploadSuccess.getKey(),&#10;            uploadSuccess.getDestinationBucket(),&#10;            uploadSuccess.getDestinationFolder(),&#10;            Optional.ofNullable(uploadSuccess.getDestinationKey()),&#10;            Optional.ofNullable(uploadSuccess.getAcl()));&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_reportUploadSuccessWhenDestinationKeyIsSpecified">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="reportUploadSuccessWhenDestinationKeyIsSpecified" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&#10;      &quot;Should copy to permanent storage and return asset location when destination key is specified&quot;)&#10;  void reportUploadSuccessWhenDestinationKeyIsSpecified() {&#10;    // Create test data&#10;    UploadSuccess uploadSuccess = new UploadSuccess();&#10;    uploadSuccess.setKey(&quot;test-key&quot;);&#10;    uploadSuccess.setDestinationBucket(&quot;test-destination-bucket&quot;);&#10;    uploadSuccess.setDestinationKey(&quot;test-destination-key&quot;);&#10;    uploadSuccess.setAcl(CannedAccessControlList.PublicReadWrite);&#10;    uploadSuccess.setDestinationFolder(&quot;test-destination-folder&quot;);&#10;&#10;    // Mock the behavior of the S3Client&#10;    AssetLocation expectedAssetLocation = new AssetLocation(&quot;test-url&quot;);&#10;    when(s3Client.copyToPermanentStorage(&#10;            uploadSuccess.getKey(),&#10;            uploadSuccess.getDestinationBucket(),&#10;            uploadSuccess.getDestinationFolder(),&#10;            Optional.ofNullable(uploadSuccess.getDestinationKey()),&#10;            Optional.ofNullable(uploadSuccess.getAcl())))&#10;        .thenReturn(expectedAssetLocation);&#10;&#10;    // Call the method under test&#10;    AssetLocation actualAssetLocation = lockerService.reportUploadSuccess(uploadSuccess);&#10;&#10;    // Verify the interactions and assertions&#10;    verify(s3Client, times(1))&#10;        .copyToPermanentStorage(&#10;            uploadSuccess.getKey(),&#10;            uploadSuccess.getDestinationBucket(),&#10;            uploadSuccess.getDestinationFolder(),&#10;            Optional.ofNullable(uploadSuccess.getDestinationKey()),&#10;            Optional.ofNullable(uploadSuccess.getAcl()));&#10;    assertEquals(expectedAssetLocation, actualAssetLocation);&#10;  }" />
+              <option name="myGeneratedDate" value="1690887174316" />
+              <option name="myRequestId" value="b92899" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_reportUploadSuccessWhenUploadIsSuccessful">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="reportUploadSuccessWhenUploadIsSuccessful" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should return the asset location when the upload is successful&quot;)&#10;void reportUploadSuccessWhenUploadIsSuccessful() {        // Create test data&#10;        String key = &quot;test-key&quot;;&#10;        String destinationBucket = &quot;test-destination-bucket&quot;;&#10;        String destinationFolder = &quot;test-destination-folder&quot;;&#10;        String destinationKey = &quot;test-destination-key&quot;;&#10;        CannedAccessControlList acl = CannedAccessControlList.PublicReadWrite;&#10;        UploadSuccess uploadSuccess = new UploadSuccess(key, destinationBucket, destinationFolder, destinationKey, acl);&#10;&#10;        // Mock the behavior of the S3Client&#10;        AssetLocation expectedAssetLocation = new AssetLocation(&quot;test-url&quot;);&#10;        when(s3Client.copyToPermanentStorage(&#10;                uploadSuccess.getKey(),&#10;                uploadSuccess.getDestinationBucket(),&#10;                destinationFolder,&#10;                Optional.ofNullable(uploadSuccess.getDestinationKey()),&#10;                Optional.ofNullable(uploadSuccess.getAcl())))&#10;                .thenReturn(expectedAssetLocation);&#10;&#10;        // Call the method under test&#10;        AssetLocation actualAssetLocation = lockerService.reportUploadSuccess(uploadSuccess);&#10;&#10;        // Verify the interactions and assertions&#10;        verify(s3Client, times(1)).copyToPermanentStorage(&#10;                uploadSuccess.getKey(),&#10;                uploadSuccess.getDestinationBucket(),&#10;                destinationFolder,&#10;                Optional.ofNullable(uploadSuccess.getDestinationKey()),&#10;                Optional.ofNullable(uploadSuccess.getAcl()));&#10;        assertEquals(expectedAssetLocation, actualAssetLocation);&#10;    }" />
+              <option name="myGeneratedDate" value="1690872115228" />
+              <option name="myRequestId" value="cd3dd9" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerUtilTest.java_base64UrlEncodeWithEmptyString">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerUtilTest.java" />
+              <option name="myMethodName" value="base64UrlEncodeWithEmptyString" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return an empty string when an empty string is provided&quot;)&#10;  void base64UrlEncodeWithEmptyString() {&#10;    String input = &quot;&quot;;&#10;    String expectedOutput = &quot;&quot;;&#10;&#10;    String actualOutput = LockerUtil.base64UrlEncode(input);&#10;&#10;    assertEquals(expectedOutput, actualOutput);&#10;  }" />
+              <option name="myGeneratedDate" value="1690638411751" />
+              <option name="myRequestId" value="0aa2a2" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerUtilTest.java_base64UrlEncodeWithNullThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerUtilTest.java" />
+              <option name="myMethodName" value="base64UrlEncodeWithNullThenThrowException" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should throw an exception when null is provided&quot;)&#10;  void base64UrlEncodeWithNullThenThrowException() {&#10;    assertThrows(&#10;        NullPointerException.class,&#10;        () -&gt; {&#10;          LockerUtil.base64UrlEncode(null);&#10;        });&#10;  }" />
+              <option name="myGeneratedDate" value="1690638411750" />
+              <option name="myRequestId" value="0aa2a2" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerUtilTest.java_base64UrlEncodeWithValidString">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerUtilTest.java" />
+              <option name="myMethodName" value="base64UrlEncodeWithValidString" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return base64 encoded string when a valid string is provided&quot;)&#10;  void base64UrlEncodeWithValidString() {&#10;    String inputString = &quot;Hello World&quot;;&#10;    String expectedEncodedString = &quot;SGVsbG8gV29ybGQ=&quot;;&#10;&#10;    String encodedString = LockerUtil.base64UrlEncode(inputString);&#10;&#10;    assertEquals(expectedEncodedString, encodedString);&#10;  }" />
+              <option name="myGeneratedDate" value="1690638411751" />
+              <option name="myRequestId" value="0aa2a2" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerUtilTest.java_getCSRandomStringWhenByteArrayIsProvided">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerUtilTest.java" />
+              <option name="myMethodName" value="getCSRandomStringWhenByteArrayIsProvided" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should return a random string when byte array is provided&quot;)&#10;void getCSRandomStringWhenByteArrayIsProvided() {        byte[] bytes = new byte[16];&#10;        String randomString = LockerUtil.getCSRandomString(bytes);&#10;&#10;        assertNotNull(randomString);&#10;        assertEquals(22, randomString.length());&#10;    }" />
+              <option name="myGeneratedDate" value="1690638411750" />
+              <option name="myRequestId" value="0aa2a2" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerUtilTest.java_getCSRandomStringWhenDifferentByteArraysAreProvided">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerUtilTest.java" />
+              <option name="myMethodName" value="getCSRandomStringWhenDifferentByteArraysAreProvided" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should return a different random string for different byte arrays&quot;)&#10;void getCSRandomStringWhenDifferentByteArraysAreProvided() {        byte[] bytes1 = new byte[16];&#10;        byte[] bytes2 = new byte[16];&#10;&#10;        String randomString1 = LockerUtil.getCSRandomString(bytes1);&#10;        String randomString2 = LockerUtil.getCSRandomString(bytes2);&#10;&#10;        assertNotEquals(randomString1, randomString2);&#10;    }" />
+              <option name="myGeneratedDate" value="1690638411750" />
+              <option name="myRequestId" value="0aa2a2" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerUtilTest.java_getCSRandomStringWhenSameByteArrayIsProvided">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerUtilTest.java" />
+              <option name="myMethodName" value="getCSRandomStringWhenSameByteArrayIsProvided" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should return a consistent random string for the same byte array&quot;)&#10;void getCSRandomStringWhenSameByteArrayIsProvided() {        byte[] bytes = new byte[16];&#10;        LockerUtil lockerUtil = new LockerUtil();&#10;&#10;        String randomString1 = lockerUtil.getCSRandomString(bytes);&#10;        String randomString2 = lockerUtil.getCSRandomString(bytes);&#10;&#10;        assertEquals(randomString1, randomString2);&#10;    }" />
+              <option name="myGeneratedDate" value="1690638411750" />
+              <option name="myRequestId" value="0aa2a2" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerUtilTest.java_getObjectDetailsWhenUrlDoesNotMatchAnyPattern">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerUtilTest.java" />
+              <option name="myMethodName" value="getObjectDetailsWhenUrlDoesNotMatchAnyPattern" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return null when URL does not match any pattern&quot;)&#10;  void getObjectDetailsWhenUrlDoesNotMatchAnyPattern() {&#10;    String url = &quot;https://example.com/image.jpg&quot;;&#10;    Pair&lt;String, String&gt; result = LockerUtil.getObjectDetails(url);&#10;    assertNull(result);&#10;  }" />
+              <option name="myGeneratedDate" value="1690638411751" />
+              <option name="myRequestId" value="0aa2a2" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerUtilTest.java_getObjectDetailsWhenUrlMatchesS3UrlRegex">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerUtilTest.java" />
+              <option name="myMethodName" value="getObjectDetailsWhenUrlMatchesS3UrlRegex" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return object details when URL matches the S3_URL_REGEX pattern&quot;)&#10;  void getObjectDetailsWhenUrlMatchesS3UrlRegex() {&#10;    String url = &quot;https://example.s3.amazonaws.com/file.txt&quot;;&#10;    Pair&lt;String, String&gt; expectedDetails = Pair.of(&quot;example&quot;, &quot;file.txt&quot;);&#10;&#10;    Pair&lt;String, String&gt; actualDetails = LockerUtil.getObjectDetails(url);&#10;&#10;    assertEquals(expectedDetails, actualDetails);&#10;  }" />
+              <option name="myGeneratedDate" value="1690638411751" />
+              <option name="myRequestId" value="0aa2a2" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerUtilTest.java_getObjectDetailsWhenUrlMatchesS3UrlWithRegionRegex">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerUtilTest.java" />
+              <option name="myMethodName" value="getObjectDetailsWhenUrlMatchesS3UrlWithRegionRegex" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should return object details when URL matches the S3_URL_WITH_REGION_REGEX pattern&quot;)&#10;  void getObjectDetailsWhenUrlMatchesS3UrlWithRegionRegex() {&#10;    String url = &quot;https://example.s3.us-west-2.amazonaws.com/file.txt&quot;;&#10;    Pair&lt;String, String&gt; expectedDetails = Pair.of(&quot;example&quot;, &quot;file.txt&quot;);&#10;&#10;    Pair&lt;String, String&gt; actualDetails = LockerUtil.getObjectDetails(url);&#10;&#10;    assertEquals(expectedDetails, actualDetails);&#10;  }" />
+              <option name="myGeneratedDate" value="1690638411751" />
+              <option name="myRequestId" value="0aa2a2" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="PlayWithCoPilotTest.java_calculateDaysBetweenDatesWithCorrectDates">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="PlayWithCoPilotTest.java" />
+              <option name="myMethodName" value="calculateDaysBetweenDatesWithCorrectDates" />
+              <option name="myCode" value="/**Should return the correct number of days between two dates*/&#10;@Test&#10;public void calculateDaysBetweenDatesWithCorrectDates() {&#10;        Date date1 = new Date(2022, 10, 1);&#10;        Date date2 = new Date(2022, 10, 10);&#10;&#10;        int daysBetweenDates = playWithCoPilot.calculateDaysBetweenDates(date1, date2);&#10;&#10;        assertEquals(9, daysBetweenDates);&#10;    }" />
+              <option name="myGeneratedDate" value="1689253945883" />
+              <option name="myRequestId" value="51097e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="PlayWithCoPilotTest.java_calculateDaysBetweenDatesWithFirstDateLater">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="PlayWithCoPilotTest.java" />
+              <option name="myMethodName" value="calculateDaysBetweenDatesWithFirstDateLater" />
+              <option name="myCode" value="/**Should return a negative number when the first date is later than the second date*/&#10;@Test&#10;public void calculateDaysBetweenDatesWithFirstDateLater() {&#10;        Date date1 = new Date(2022, 10, 1);&#10;        Date date2 = new Date(2022, 10, 10);&#10;&#10;        int days = playWithCoPilot.calculateDaysBetweenDates(date1, date2);&#10;&#10;        assertEquals(9, days);&#10;    }" />
+              <option name="myGeneratedDate" value="1689253945889" />
+              <option name="myRequestId" value="51097e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="PlayWithCoPilotTest.java_calculateDaysBetweenDatesWithSameDates">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="PlayWithCoPilotTest.java" />
+              <option name="myMethodName" value="calculateDaysBetweenDatesWithSameDates" />
+              <option name="myCode" value="/**Should return zero when the two dates are the same*/&#10;@Test&#10;public void calculateDaysBetweenDatesWithSameDates() {&#10;        Date date1 = new Date();&#10;        Date date2 = new Date();&#10;&#10;        int days = playWithCoPilot.calculateDaysBetweenDates(date1, date2);&#10;&#10;        assertEquals(0, days);&#10;    }" />
+              <option name="myGeneratedDate" value="1689253945877" />
+              <option name="myRequestId" value="51097e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="PlayWithCoPilotTest.java_calculateDaysBetweenSameDates">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="PlayWithCoPilotTest.java" />
+              <option name="myMethodName" value="calculateDaysBetweenSameDates" />
+              <option name="myCode" value="/**Should return zero when the two dates are the same*/&#10;@Test&#10;public void calculateDaysBetweenSameDates() {        Date date1 = new Date();&#10;        Date date2 = new Date();&#10;&#10;        int days = playWithCoPilot.calculateDaysBetweenDates(date1, date2);&#10;&#10;        assertEquals(0, days);&#10;    }" />
+              <option name="myGeneratedDate" value="1689253945894" />
+              <option name="myRequestId" value="51097e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="PlayWithCoPilotTest.java_calculateDaysBetweenTwoDates">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="PlayWithCoPilotTest.java" />
+              <option name="myMethodName" value="calculateDaysBetweenTwoDates" />
+              <option name="myCode" value="/**Should correctly calculate the number of days between two dates*/&#10;@Test&#10;public void calculateDaysBetweenTwoDates() {&#10;        Date date1 = new Date(2022, 10, 1);&#10;        Date date2 = new Date(2022, 10, 10);&#10;&#10;        int daysBetween = playWithCoPilot.calculateDaysBetweenDates(date1, date2);&#10;&#10;        assertEquals(9, daysBetween);&#10;    }" />
+              <option name="myGeneratedDate" value="1689253945903" />
+              <option name="myRequestId" value="51097e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="PlayWithCoPilotTest.java_calculateDaysWhenFirstDateIsLater">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="PlayWithCoPilotTest.java" />
+              <option name="myMethodName" value="calculateDaysWhenFirstDateIsLater" />
+              <option name="myCode" value="/**Should return a negative number when the first date is later than the second date*/&#10;@Test&#10;public void calculateDaysWhenFirstDateIsLater() {&#10;        Date date1 = new Date(2022, 10, 1);&#10;        Date date2 = new Date(2022, 10, 10);&#10;&#10;        int days = playWithCoPilot.calculateDaysBetweenDates(date1, date2);&#10;&#10;        assertEquals(9, days);&#10;    }" />
+              <option name="myGeneratedDate" value="1689253945909" />
+              <option name="myRequestId" value="51097e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="PlayWithCoPilotTest.java_reverseStringWithEmptyString">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="PlayWithCoPilotTest.java" />
+              <option name="myMethodName" value="reverseStringWithEmptyString" />
+              <option name="myCode" value="/**Should return an empty string when the input is an empty string*/&#10;@Test&#10;public void reverseStringWithEmptyString() {        String reversed = playWithCoPilot.reverseString(&quot;&quot;);&#10;        assertEquals(&quot;&quot;, reversed);&#10;    }" />
+              <option name="myGeneratedDate" value="1689253945909" />
+              <option name="myRequestId" value="51097e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="PlayWithCoPilotTest.java_reverseStringWithNonEmptyString">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="PlayWithCoPilotTest.java" />
+              <option name="myMethodName" value="reverseStringWithNonEmptyString" />
+              <option name="myCode" value="/**Should correctly reverse a non-empty string*/&#10;@Test&#10;public void reverseStringWithNonEmptyString() {        String reversed = playWithCoPilot.reverseString(&quot;Hello World&quot;);&#10;&#10;        assertEquals(&quot;dlroW olleH&quot;, reversed);&#10;    }" />
+              <option name="myGeneratedDate" value="1689253945909" />
+              <option name="myRequestId" value="51097e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="PlayWithCoPilotTest.java_reverseStringWithNullInput">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="PlayWithCoPilotTest.java" />
+              <option name="myMethodName" value="reverseStringWithNullInput" />
+              <option name="myCode" value="/**Should throw a NullPointerException when the input string is null*/&#10;@Test&#10;public void reverseStringWithNullInput() {        String reversed = playWithCoPilot.reverseString(null);&#10;        assertNull(reversed);&#10;    }" />
+              <option name="myGeneratedDate" value="1689253945909" />
+              <option name="myRequestId" value="51097e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="S3ClientTest.java_copyToPermanentStorageWhenDestinationKeyIsNotProvided">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="S3ClientTest.java" />
+              <option name="myMethodName" value="copyToPermanentStorageWhenDestinationKeyIsNotProvided" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should copy the asset to permanent storage when the destination key is not provided&quot;)&#10;void copyToPermanentStorageWhenDestinationKeyIsNotProvided() {&#10;        String sourceKey = &quot;sourceKey&quot;;&#10;        String destinationBucket = &quot;destinationBucket&quot;;&#10;        String destinationFolderName = &quot;destinationFolderName&quot;;&#10;        Optional&lt;String&gt; optionalDestinationKey = Optional.empty();&#10;        Optional&lt;CannedAccessControlList&gt; acl = Optional.empty();&#10;&#10;        String expectedDestinationKey = destinationFolderName + &quot;/&quot; + LockerUtil.getCSRandomString(new byte[32]);&#10;        String expectedDestinationUrl = String.format(LockerConstants.S3_URL_FORMAT, destinationBucket, expectedDestinationKey);&#10;&#10;        CopyObjectRequest copyObjectRequest = new CopyObjectRequest(s3Client.getTmpS3Bucket(), sourceKey, destinationBucket, expectedDestinationKey);&#10;&#10;        when(amazonS3Client.getObjectMetadata(anyString(), anyString())).thenReturn(new ObjectMetadata());&#10;        when(amazonS3Client.generatePresignedUrl(any())).thenReturn(new URL(expectedDestinationUrl));&#10;        when(transfer.isDone()).thenReturn(true);&#10;        when(transfer.getState()).thenReturn(Transfer.TransferState.Completed);&#10;&#10;        AssetLocation result = s3Client.copyToPermanentStorage(sourceKey, destinationBucket, destinationFolderName, optionalDestinationKey, acl);&#10;&#10;        verify(amazonS3Client).copyObject(copyObjectRequest);&#10;        verify(transferManager).copy(copyObjectRequest, transferStateChangeListener);&#10;        verify(amazonS3Client).getObjectMetadata(destinationBucket, expectedDestinationKey);&#10;        verify(amazonS3Client).generatePresignedUrl(any());&#10;&#10;        assertNotNull(result);&#10;        assertEquals(expectedDestinationUrl, result.getUrl());&#10;    }" />
+              <option name="myGeneratedDate" value="1690888974525" />
+              <option name="myRequestId" value="5a697e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="S3ClientTest.java_copyToPermanentStorageWhenDestinationKeyIsProvided">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="S3ClientTest.java" />
+              <option name="myMethodName" value="copyToPermanentStorageWhenDestinationKeyIsProvided" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should copy the asset to permanent storage when the destination key is provided&quot;)&#10;void copyToPermanentStorageWhenDestinationKeyIsProvided() {&#10;        String sourceKey = &quot;sourceKey&quot;;&#10;        String destinationBucket = &quot;destinationBucket&quot;;&#10;        String destinationFolderName = &quot;destinationFolderName&quot;;&#10;        Optional&lt;String&gt; optionalDestinationKey = Optional.of(&quot;optionalDestinationKey&quot;);&#10;        Optional&lt;CannedAccessControlList&gt; acl = Optional.of(CannedAccessControlList.PublicRead);&#10;&#10;        String expectedDestinationKey = destinationFolderName + &quot;/&quot; + optionalDestinationKey.get();&#10;&#10;        CopyObjectRequest copyObjectRequest = new CopyObjectRequest(&#10;                s3Client.getTmpS3Bucket(), sourceKey, destinationBucket, expectedDestinationKey);&#10;        copyObjectRequest.setCannedAccessControlList(acl.get());&#10;&#10;        when(amazonS3Client.getObjectMetadata(anyString(), anyString())).thenReturn(new ObjectMetadata());&#10;        when(transfer.isDone()).thenReturn(true);&#10;        when(transfer.getState()).thenReturn(Transfer.TransferState.Completed);&#10;        when(transfer.getDescription()).thenReturn(&quot;Transfer completed successfully&quot;);&#10;        doAnswer(invocation -&gt; {&#10;            TransferStateChangeListener listener = invocation.getArgument(1);&#10;            listener.transferStateChanged(transfer, transfer.getState());&#10;            return null;&#10;        }).when(transferManager).copy(any(CopyObjectRequest.class), any(TransferStateChangeListener.class));&#10;&#10;        AssetLocation result = s3Client.copyToPermanentStorage(&#10;                sourceKey, destinationBucket, destinationFolderName, optionalDestinationKey, acl);&#10;&#10;        assertNotNull(result);&#10;        assertEquals(expectedDestinationKey, result.getUrl());&#10;&#10;        verify(amazonS3Client, times(1)).getObjectMetadata(anyString(), anyString());&#10;        verify(transferManager, times(1)).copy(any(CopyObjectRequest.class), any(TransferStateChangeListener.class));&#10;        verify(transfer, times(1)).isDone();&#10;        verify(transfer, times(1)).getState();&#10;        verify(transfer, times(1)).getDescription();&#10;    }" />
+              <option name="myGeneratedDate" value="1690888974525" />
+              <option name="myRequestId" value="5a697e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="S3ClientTest.java_copyToPermanentStorageWhenTransferFailsThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="S3ClientTest.java" />
+              <option name="myMethodName" value="copyToPermanentStorageWhenTransferFailsThenThrowException" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should throw an exception when the transfer to permanent storage fails&quot;)&#10;void copyToPermanentStorageWhenTransferFailsThenThrowException() {&#10;        String sourceKey = &quot;sourceKey&quot;;&#10;        String destinationBucket = &quot;destinationBucket&quot;;&#10;        String destinationFolderName = &quot;destinationFolderName&quot;;&#10;        Optional&lt;String&gt; optionalDestinationKey = Optional.empty();&#10;        Optional&lt;CannedAccessControlList&gt; acl = Optional.empty();&#10;&#10;        when(transfer.isDone()).thenReturn(true);&#10;        when(transfer.getState()).thenReturn(Transfer.TransferState.Failed);&#10;        when(transfer.getDescription()).thenReturn(&quot;Transfer failed&quot;);&#10;&#10;        doAnswer(invocation -&gt; {&#10;            TransferStateChangeListener listener = invocation.getArgument(1);&#10;            listener.transferStateChanged(transfer, transfer.getState());&#10;            return null;&#10;        }).when(transferManager).copy(any(CopyObjectRequest.class), any(TransferStateChangeListener.class));&#10;&#10;        // Act and Assert        assertThrows(S3TransferException.class, () -&gt; {&#10;            s3Client.copyToPermanentStorage(sourceKey, destinationBucket, destinationFolderName, optionalDestinationKey, acl);&#10;        }" />
+              <option name="myGeneratedDate" value="1690888974525" />
+              <option name="myRequestId" value="5a697e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="S3ClientTest.java_copyToPermanentStorageWithAclWhenItIsProvided">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="S3ClientTest.java" />
+              <option name="myMethodName" value="copyToPermanentStorageWithAclWhenItIsProvided" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should copy the asset to permanent storage with access control list when it is provided&quot;)&#10;void copyToPermanentStorageWithAclWhenItIsProvided() {&#10;        String sourceKey = &quot;sourceKey&quot;;&#10;        String destinationBucket = &quot;destinationBucket&quot;;&#10;        String destinationFolderName = &quot;destinationFolderName&quot;;&#10;        Optional&lt;String&gt; optionalDestinationKey = Optional.of(&quot;optionalDestinationKey&quot;);&#10;        Optional&lt;CannedAccessControlList&gt; acl = Optional.of(CannedAccessControlList.PublicRead);&#10;&#10;        String expectedDestinationKey = destinationFolderName + &quot;/&quot; + optionalDestinationKey.get();&#10;        String expectedDestinationUrl = String.format(LockerConstants.S3_URL_FORMAT, destinationBucket, expectedDestinationKey);&#10;&#10;        CopyObjectRequest copyObjectRequest = new CopyObjectRequest(s3Client.getTmpS3Bucket(), sourceKey, destinationBucket, expectedDestinationKey);&#10;        copyObjectRequest.setCannedAccessControlList(acl.get());&#10;&#10;        when(amazonS3Client.getObjectMetadata(anyString(), anyString())).thenReturn(new ObjectMetadata());&#10;        when(amazonS3Client.generatePresignedUrl(any())).thenReturn(new URL(expectedDestinationUrl));&#10;        when(transfer.isDone()).thenReturn(true);&#10;        when(transfer.getState()).thenReturn(Transfer.TransferState.Completed);&#10;&#10;        AssetLocation result = s3Client.copyToPermanentStorage(sourceKey, destinationBucket, destinationFolderName, optionalDestinationKey, acl);&#10;&#10;        assertNotNull(result);&#10;        assertEquals(expectedDestinationUrl, result.getUrl());&#10;        verify(transferManager).copy(copyObjectRequest, transferStateChangeListener);&#10;    }" />
+              <option name="myGeneratedDate" value="1690888974525" />
+              <option name="myRequestId" value="5a697e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="S3ClientTest.java_copyToPermanentStorageWithoutAclWhenItIsNotProvided">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="S3ClientTest.java" />
+              <option name="myMethodName" value="copyToPermanentStorageWithoutAclWhenItIsNotProvided" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should copy the asset to permanent storage without access control list when it is not provided&quot;)&#10;void copyToPermanentStorageWithoutAclWhenItIsNotProvided() {&#10;        String sourceKey = &quot;sourceKey&quot;;&#10;        String destinationBucket = &quot;destinationBucket&quot;;&#10;        String destinationFolderName = &quot;destinationFolderName&quot;;&#10;        Optional&lt;String&gt; optionalDestinationKey = Optional.empty();&#10;        Optional&lt;CannedAccessControlList&gt; acl = Optional.empty();&#10;        String expectedDestinationKey = destinationFolderName + &quot;/&quot;;&#10;&#10;        when(amazonS3Client.getObjectMetadata(anyString(), anyString())).thenReturn(new ObjectMetadata());&#10;        when(transferManager.copy(any(CopyObjectRequest.class), any(TransferStateChangeListener.class))).thenReturn(transfer);&#10;        when(transfer.isDone()).thenReturn(true);&#10;        when(transfer.getState()).thenReturn(Transfer.TransferState.Completed);&#10;&#10;        AssetLocation result = s3Client.copyToPermanentStorage(sourceKey, destinationBucket, destinationFolderName, optionalDestinationKey, acl);&#10;&#10;        assertNotNull(result);&#10;        assertEquals(expectedDestinationKey, result.getUrl());&#10;        verify(amazonS3Client, times(1)).getObjectMetadata(anyString(), anyString());&#10;        verify(transferManager, times(1)).copy(any(CopyObjectRequest.class), any(TransferStateChangeListener.class));&#10;    }" />
+              <option name="myGeneratedDate" value="1690888974525" />
+              <option name="myRequestId" value="5a697e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="S3ClientTest.java_getObjectMetadataWhenKeysAreInvalidThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="S3ClientTest.java" />
+              <option name="myMethodName" value="getObjectMetadataWhenKeysAreInvalidThenThrowException" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should throw an exception when the provided keys are invalid&quot;)&#10;void getObjectMetadataWhenKeysAreInvalidThenThrowException() {&#10;        String bucketName = &quot;testBucket&quot;;&#10;        String objectKey = &quot;testObjectKey&quot;;&#10;&#10;        when(amazonS3Client.getObjectMetadata(bucketName, objectKey))&#10;                .thenThrow(AmazonS3Exception.class);&#10;&#10;        assertThrows(AmazonS3Exception.class,&#10;                () -&gt; s3Client.getObjectMetadata(bucketName, objectKey));&#10;    }" />
+              <option name="myGeneratedDate" value="1690951900651" />
+              <option name="myRequestId" value="045b5e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="S3ClientTest.java_getObjectMetadataWhenKeysAreValid">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="S3ClientTest.java" />
+              <option name="myMethodName" value="getObjectMetadataWhenKeysAreValid" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should return the object metadata when the provided keys are valid&quot;)&#10;void getObjectMetadataWhenKeysAreValid() {&#10;        String bucketName = &quot;testBucket&quot;;&#10;        String objectKey = &quot;testObjectKey&quot;;&#10;        ObjectMetadata expectedMetadata = new ObjectMetadata();&#10;        expectedMetadata.setContentLength(1000L);&#10;        expectedMetadata.setContentType(&quot;application/pdf&quot;);&#10;&#10;        when(amazonS3Client.getObjectMetadata(bucketName, objectKey)).thenReturn(expectedMetadata);&#10;&#10;        ObjectMetadata actualMetadata = s3Client.getObjectMetadata(bucketName, objectKey);&#10;&#10;        assertEquals(expectedMetadata.getContentLength(), actualMetadata.getContentLength());&#10;        assertEquals(expectedMetadata.getContentType(), actualMetadata.getContentType());&#10;&#10;        verify(amazonS3Client, times(1)).getObjectMetadata(bucketName, objectKey);&#10;    }" />
+              <option name="myGeneratedDate" value="1690951900651" />
+              <option name="myRequestId" value="045b5e" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="SignedPolicyBuilderTest.java_addConditionAddsConditionInCorrectOrder">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="SignedPolicyBuilderTest.java" />
+              <option name="myMethodName" value="addConditionAddsConditionInCorrectOrder" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should add a condition to the conditions array in the correct order&quot;)&#10;void addConditionAddsConditionInCorrectOrder() {&#10;        String operator = &quot;equals&quot;;&#10;        String operand1 = &quot;key&quot;;&#10;        String operand2 = &quot;value&quot;;&#10;&#10;        SignedPolicyBuilder signedPolicyBuilder = new SignedPolicyBuilder(&quot;secretAccessKey&quot;, &quot;20220101&quot;, &quot;us-west-2&quot;);&#10;&#10;        SignedPolicyBuilder result = signedPolicyBuilder.addCondition(operator, operand1, operand2);&#10;&#10;        assertNotNull(result);&#10;        JsonArray conditions = signedPolicyBuilder.getConditions();&#10;        assertEquals(1, conditions.size());&#10;&#10;        JsonArray condition = conditions.get(0).getAsJsonArray();&#10;        assertEquals(3, condition.size());&#10;        assertEquals(operator, condition.get(0).getAsString());&#10;        assertEquals(operand1, condition.get(1).getAsString());&#10;        assertEquals(operand2, condition.get(2).getAsString());&#10;    }" />
+              <option name="myGeneratedDate" value="1690639519107" />
+              <option name="myRequestId" value="f9d415" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="SignedPolicyBuilderTest.java_addConditionReturnsSameSignedPolicyBuilderInstance">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="SignedPolicyBuilderTest.java" />
+              <option name="myMethodName" value="addConditionReturnsSameSignedPolicyBuilderInstance" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should return the same SignedPolicyBuilder instance after adding a condition&quot;)&#10;void addConditionReturnsSameSignedPolicyBuilderInstance() {&#10;        String secretAccessKey = &quot;mySecretAccessKey&quot;;&#10;        String isoDate = &quot;20220101&quot;;&#10;        String awsRegion = &quot;us-west-2&quot;;&#10;        SignedPolicyBuilder signedPolicyBuilder = new SignedPolicyBuilder(secretAccessKey, isoDate, awsRegion);&#10;&#10;        SignedPolicyBuilder returnedInstance = signedPolicyBuilder.addCondition(&quot;key&quot;, &quot;value&quot;);&#10;&#10;        assertSame(signedPolicyBuilder, returnedInstance);&#10;    }" />
+              <option name="myGeneratedDate" value="1690639519107" />
+              <option name="myRequestId" value="f9d415" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="SignedPolicyBuilderTest.java_addConditionWithOperatorAndTwoOperands">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="SignedPolicyBuilderTest.java" />
+              <option name="myMethodName" value="addConditionWithOperatorAndTwoOperands" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should add a condition with operator, operand1 and operand2 to the conditions array&quot;)&#10;void addConditionWithOperatorAndTwoOperands() {&#10;        String operator = &quot;equals&quot;;&#10;        String operand1 = &quot;key&quot;;&#10;        String operand2 = &quot;value&quot;;&#10;&#10;        SignedPolicyBuilder signedPolicyBuilder = new SignedPolicyBuilder(&quot;secretAccessKey&quot;, &quot;20220101&quot;, &quot;us-west-2&quot;);&#10;&#10;        SignedPolicyBuilder result = signedPolicyBuilder.addCondition(operator, operand1, operand2);&#10;&#10;        assertSame(signedPolicyBuilder, result);&#10;        assertEquals(1, signedPolicyBuilder.conditions.size());&#10;&#10;        JsonArray condition = signedPolicyBuilder.conditions.get(0).getAsJsonArray();&#10;        assertEquals(3, condition.size());&#10;        assertEquals(operator, condition.get(0).getAsString());&#10;        assertEquals(operand1, condition.get(1).getAsString());&#10;        assertEquals(operand2, condition.get(2).getAsString());&#10;    }" />
+              <option name="myGeneratedDate" value="1690639519107" />
+              <option name="myRequestId" value="f9d415" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="SignedPolicyBuilderTest.java_buildSignedPolicyWhenSignatureGenerationFailsThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="SignedPolicyBuilderTest.java" />
+              <option name="myMethodName" value="buildSignedPolicyWhenSignatureGenerationFailsThenThrowException" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should throw an exception when signature generation fails&quot;)&#10;  void buildSignedPolicyWhenSignatureGenerationFailsThenThrowException() {&#10;    String secretAccessKey = &quot;secretKey&quot;;&#10;    String isoDate = &quot;20220101&quot;;&#10;    String awsRegion = &quot;us-west-2&quot;;&#10;&#10;    SignedPolicyBuilder signedPolicyBuilder =&#10;        new SignedPolicyBuilder(secretAccessKey, isoDate, awsRegion);&#10;&#10;    signedPolicyBuilder&#10;        .addCondition(&quot;key1&quot;, &quot;value1&quot;)&#10;        .addCondition(&quot;key2&quot;, &quot;value2&quot;)&#10;        .addExpiry(Instant.now().plus(Duration.ofDays(7)));&#10;&#10;    SignedPolicyBuilder.SignedPolicy signedPolicy = signedPolicyBuilder.build();&#10;&#10;    assertNotNull(signedPolicy);&#10;    assertNotNull(signedPolicy.getBase64EncodedPolicy());&#10;    assertNotNull(signedPolicy.getSignature());&#10;  }" />
+              <option name="myGeneratedDate" value="1690639519107" />
+              <option name="myRequestId" value="f9d415" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="SignedPolicyBuilderTest.java_buildSignedPolicyWithValidConditionsAndExpiry">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="SignedPolicyBuilderTest.java" />
+              <option name="myMethodName" value="buildSignedPolicyWithValidConditionsAndExpiry" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should build a signed policy with valid conditions and expiry&quot;)&#10;  void buildSignedPolicyWithValidConditionsAndExpiry() {&#10;    String secretAccessKey = &quot;mySecretAccessKey&quot;;&#10;    String isoDate = &quot;20220101&quot;;&#10;    String awsRegion = &quot;us-west-2&quot;;&#10;    Instant expiry = Instant.now().plus(Duration.ofDays(7));&#10;&#10;    SignedPolicyBuilder.SignedPolicy expectedPolicy =&#10;        new SignedPolicyBuilder.SignedPolicy(&#10;            &quot;eyJleHBpcmF0aW9uIjoiMjAyMy0wOC0wNVQxMzo1Nzo0OC4zMzBaIiwiY29uZGl0aW9ucyI6W3sia2V5MSI6InZhbHVlMSJ9LHsia2V5MiI6InZhbHVlMiJ9XX0=&quot;,&#10;            &quot;784e48494e0b97378094fe9ca9f4afb2e33ac2769e2df3895966ff96b3d90c07&quot;);&#10;&#10;    SignedPolicyBuilder signedPolicyBuilder =&#10;        new SignedPolicyBuilder(secretAccessKey, isoDate, awsRegion);&#10;    signedPolicyBuilder&#10;        .addCondition(&quot;key1&quot;, &quot;value1&quot;)&#10;        .addCondition(&quot;key2&quot;, &quot;value2&quot;)&#10;        .addExpiry(expiry);&#10;&#10;    SignedPolicyBuilder.SignedPolicy actualPolicy = signedPolicyBuilder.build();&#10;&#10;    assertNotNull(actualPolicy.getSignature());&#10;    assertNotNull(actualPolicy.getBase64EncodedPolicy());&#10;  }" />
+              <option name="myGeneratedDate" value="1690639519107" />
+              <option name="myRequestId" value="f9d415" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="SignedPolicyBuilderTest.java_buildSignedPolicyWithoutExpiryThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="SignedPolicyBuilderTest.java" />
+              <option name="myMethodName" value="buildSignedPolicyWithoutExpiryThenThrowException" />
+              <option name="myCode" value="@Test&#10;  @DisplayName(&quot;Should throw an exception when trying to build a signed policy without expiry&quot;)&#10;  void buildSignedPolicyWithoutExpiryThenThrowException() {&#10;    String secretAccessKey = &quot;secretKey&quot;;&#10;    String isoDate = &quot;20220101&quot;;&#10;    String awsRegion = &quot;us-west-2&quot;;&#10;    SignedPolicyBuilder builder = new SignedPolicyBuilder(secretAccessKey, isoDate, awsRegion);&#10;&#10;    assertThrows(IllegalStateException.class, builder::build);&#10;&#10;    // Exception is thrown&#10;  }" />
+              <option name="myGeneratedDate" value="1690639519107" />
+              <option name="myRequestId" value="f9d415" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</application>

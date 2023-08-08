@@ -1,0 +1,13 @@
+<application>
+  <component name="IgnoredPluginSuggestions">
+    <option name="pluginIds">
+      <list>
+        <option value="com.intellij.bigdatatools" />
+        <option value="com.haulmont.jpab" />
+        <option value="aws.toolkit" />
+        <option value="com.intellij.guice" />
+        <option value="Pythonid" />
+      </list>
+    </option>
+  </component>
+</application>

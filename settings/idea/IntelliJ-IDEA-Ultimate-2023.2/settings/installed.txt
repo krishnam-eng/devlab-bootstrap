@@ -1,0 +1,29 @@
+org.intellij.plugins.hcl
+awesome.console
+com.github.copilot
+org.jetbrains.plugins.go-template
+Key Promoter X
+org.jetbrains.plugins.go
+com.tabnine.TabNine
+co.bito.bito-intellij
+com.intellij.kubernetes
+org.igu.plugins.bettercomments
+google-java-format
+ink.organics.pojo2json
+com.nnthink.aixcoder
+com.euphoricity.gitignore
+com.intellij.guice
+String Manipulation
+com.intellij.bigdatatools.core
+com.intellij.bigdatatools.binary.files
+com.intellij.bigdatatools.rfs
+izhangzhihao.rainbow.brackets
+io.snyk.snyk-intellij-plugin
+com.github.evgenys91.machinet
+com.mallowigi
+zielu.gittoolbox
+com.intellij.ml.llm
+mobi.hsz.idea.gitignore
+org.sonarlint.idea
+com.clutcher.comments_highlighter
+aws.toolkit

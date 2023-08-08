@@ -1,8 +1,11 @@
-reverse(){
- echo "${(j::)${(@Oa)${(s::):-${1}}}}"
-}
+decode64() {
+  # Check if the required argument is provided
+  if [ -z "$1" ]; then
+    echo "Error: Base64-encoded string is missing."
+    return 1
+  fi
 
-# N digits long
-nrandom(){
-  echo ${(l:${1}::0:)${RANDOM}}
+  # Decode the Base64-encoded string and print the result
+  decoded_string=$(echo "$1" | base64 --decode)
+  echo "$decoded_string"
 }

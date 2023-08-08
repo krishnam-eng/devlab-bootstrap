@@ -28,6 +28,10 @@ alias lt2="tree -L 2"
 alias lt3="tree -L 3"
 alias lt4="tree -L 4"
 alias lt5="tree -L 5"
+alias lt6="tree -L 6"
+alias lt7="tree -L 7"
+alias lt8="tree -L 8"
+alias lt9="tree -L 9"
 alias ltA="tree"
 
 # ls for machince read (all files and full timestamp

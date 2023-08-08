@@ -34,6 +34,7 @@ hash -d ver=~/hrt/ver
 hash -d vol=~/hrt/vol
 
 # quick access to config files or custom setting @L3
+hash -d hrepo=~/hrt/repo/helm-repo
 hash -d alias=~/hrt/boot/custom/alias
 hash -d env=~/hrt/boot/custom/env
 hash -d func=~/hrt/boot/custom/func

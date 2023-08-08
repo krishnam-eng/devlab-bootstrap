@@ -22,6 +22,10 @@
 # Load the completion script placed in ...
 fpath=(~/hrt/boot/conf/zsh/consoles $fpath)
 
+# git clone https://github.com/zsh-users/zsh-completions.git
+# fpath=(~/hrt/ext/zsh-completions/src $fpath)
+# Note: Selectively copied the required files under consoles dir
+
 # function load is not compatible with npm file
 source $HOME/hrt/boot/conf/zsh/consoles/npm-completion.zshrc
 

@@ -19,6 +19,14 @@ helm repo add chartrepo <destination_repository_url>
 helm repo update
 helm push victoria-metrics-operator-0.21.0.tgz chartrepo
 ```
+#### Create Local Helm Repo and Expose via HTTP
+```
+helm package .
+mv my-chart-1.0.0.tgz  ~hrt/repo/helm-repo
+helm repo index .
+helm repo add localrepo http://localhost:8512
+
+```
 #### Clear the Helm Cache 
 If any consistent repo related issues , clear the cache and
 ```shell

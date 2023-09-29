@@ -1,0 +1,14 @@
+<templateSet group="Java">
+  <template name="prsc" value="@Data&#10;public static class  $CLASS_NAME${&#10;}" description="public static class" toReformat="false" toShortenFQNames="false">
+    <variable name="CLASS_NAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+  <template name="ps" value="private String $INSTANCE_VARIABLE$" description="private String" toReformat="false" toShortenFQNames="false">
+    <variable name="INSTANCE_VARIABLE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+</templateSet>

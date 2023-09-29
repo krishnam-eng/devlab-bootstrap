@@ -47,9 +47,11 @@ alias dclsq="docker container ls --quiet"
 
 # image cmds
 alias dil="docker image pull"
-alias dib="docker image build"
 alias dils="docker image ls"
 alias dirmA="docker image prune -f"
+
+# build with tag name; run maven build before building image
+alias dib="mvn clean install -DskipTests; docker image build -t" 
 
 # system utilities
 alias dsrmA="docker system prune -a"

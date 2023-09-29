@@ -1,0 +1,30 @@
+<application>
+  <component name="com.github.evgenys91.machinet.common.feedback.FeedbackState">
+    <option name="feedbackDTOByID">
+      <map>
+        <entry key="LockerServiceTest.java_getAssetUploadEndpointWhenAssetUploadIsInvalidThenThrowException">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getAssetUploadEndpointWhenAssetUploadIsInvalidThenThrowException" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should throw an exception when the asset upload is invalid&quot;)&#10;void getAssetUploadEndpointWhenAssetUploadIsInvalidThenThrowException() {        AssetUpload assetUpload = new AssetUpload();&#10;        assetUpload.setFileName(null);&#10;        assetUpload.setFileSize(0);&#10;&#10;        assertThrows(InvalidAssetUploadException.class, () -&gt; {&#10;            lockerService.getAssetUploadEndpoint(assetUpload);&#10;        });&#10;    }" />
+              <option name="myGeneratedDate" value="1691564433367" />
+              <option name="myRequestId" value="78b5b5" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+        <entry key="LockerServiceTest.java_getAssetUploadEndpointWhenAssetUploadIsValid">
+          <value>
+            <FeedbackDTO>
+              <option name="myFileName" value="LockerServiceTest.java" />
+              <option name="myMethodName" value="getAssetUploadEndpointWhenAssetUploadIsValid" />
+              <option name="myCode" value="@Test&#10;@DisplayName(&quot;Should return the asset upload endpoint when the asset upload is valid&quot;)&#10;void getAssetUploadEndpointWhenAssetUploadIsValid() {        AssetUpload assetUpload = new AssetUpload();&#10;        assetUpload.setFileName(&quot;test.jpg&quot;);&#10;        assetUpload.setFileSize(1024);&#10;&#10;        AssetUploadEndpoint expectedEndpoint = new AssetUploadEndpoint.Builder()&#10;            .postAction(&quot;https://example.s3.amazonaws.com&quot;)&#10;            .acl(&quot;private&quot;)&#10;            .key(&quot;test.jpg&quot;)&#10;            .policy(&quot;eyJleHBpcmF0aW9uIjoiMjAyMS0wMS0wMVQwMDowMDowMFoiLCJjb25kaXRpb25zIjpbeyJhY2wiOiJwcml2YXRlIiwidmFsdWUiOiJwcml2YXRlIn1dfQ==&quot;)&#10;            .successActionStatus(&quot;201&quot;)&#10;            .xAmzAlgorithm(&quot;AWS4-HMAC-SHA256&quot;)&#10;            .xAmzCredential(&quot;AKIAEXAMPLE/20210101/ap-southeast-1/s3/aws4_request&quot;)&#10;            .xAmzDate(&quot;20210101T000000Z&quot;)&#10;            .xAmzSignature(&quot;exampleSignature&quot;)&#10;            .build();&#10;&#10;        when(lockerRetrofitClient.getAssetUploadEndpoint(assetUpload))&#10;            .thenReturn(CompletableFuture.completedFuture(expectedEndpoint));&#10;&#10;        CompletionStage&lt;AssetUploadEndpoint&gt; result = lockerService.getAssetUploadEndpoint(assetUpload);&#10;&#10;        assertNotNull(result);&#10;        assertTrue(result instanceof CompletableFuture);&#10;&#10;        CompletableFuture&lt;AssetUploadEndpoint&gt; futureResult = (CompletableFuture&lt;AssetUploadEndpoint&gt;) result;&#10;&#10;        futureResult.thenAccept(endpoint -&gt; {&#10;            assertEquals(expectedEndpoint.getPostAction(), endpoint.getPostAction());&#10;            assertEquals(expectedEndpoint.getAcl(), endpoint.getAcl());&#10;            assertEquals(expectedEndpoint.getKey(), endpoint.getKey());&#10;            assertEquals(expectedEndpoint.getPolicy(), endpoint.getPolicy());&#10;            assertEquals(expectedEndpoint.getSuccessActionStatus(), endpoint.getSuccessActionStatus());&#10;            assertEquals(expectedEndpoint.getxAmzAlgorithm(), endpoint.getxAmzAlgorithm());&#10;            assertEquals(expectedEndpoint.getxAmzCredential(), endpoint.getxAmzCredential());&#10;            assertEquals(expectedEndpoint.getxAmzDate(), endpoint.getxAmzDate());&#10;            assertEquals(expectedEndpoint.getxAmzSignature(), endpoint.getxAmzSignature());&#10;        });&#10;&#10;        verify(lockerRetrofitClient, times(1)).getAssetUploadEndpoint(assetUpload);&#10;    }" />
+              <option name="myGeneratedDate" value="1691564433367" />
+              <option name="myRequestId" value="78b5b5" />
+            </FeedbackDTO>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</application>

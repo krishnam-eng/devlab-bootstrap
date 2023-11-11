@@ -33,6 +33,9 @@ function install_core_packages(){
      brew install ctop            # top-like interface for container metrics
      brew install telnet          # Telnet is an old network protocol that is used to connect to remote systems over a TCP/IP network.  data sent over the protocol is unencrypted.
 
+    # Others
+    brew install tnftp      # FTP client
+
     # have a little fun
      brew install cowsay            # An ASCII cow in terminal that will say what ever you want
      brew install figlet            # utility for creating ASCII text banners or large letters out of ordinary text

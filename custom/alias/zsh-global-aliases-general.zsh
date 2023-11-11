@@ -4,12 +4,12 @@
 #     $ alias -g aliasName="command"
 #     $ usage: xcmd aliasName
 ####
-
-alias -g H='| head'
+alias -g C='| pbcopy' # copy to clipboard
+alias -g H='| head' 
 alias -g T='| tail'
-alias -g M='| more'
-alias -g L='| less'
-alias -g J='| jq '    # json pretty print - colorful output
+alias -g M='| more' 
+alias -g L='| less' # less is enchanced legacy more
+alias -g J='| jq '  # json pretty print - colorful output
 alias -g R='| lolcat'
 alias -g G='| egrep'
 
@@ -32,8 +32,6 @@ alias -g X='| xargs'
 alias -g X0G='| xargs -0 egrep'
 alias -g X0='| xargs -0'
 alias -g XG='| xargs egrep'
-
-alias -g C='| wc -l'
 
 alias -g S='| sort'
 alias -g US='| sort -u'

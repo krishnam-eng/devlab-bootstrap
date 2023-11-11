@@ -14,7 +14,7 @@ sudo apt install zip             # default in > ubuntu21.04
 sudo apt install unzip           # default in > ubuntu21.04
 sudo apt install rar             # archive utilities
 sudo apt install unrar           # archive utilities
-sudo apt install rsync           # utility tool for performing swift incremental file transfers
+sudo apt install rsync           # utility tool for performing swift incremental file transfers -  default in ubuntu
 sudo apt install gnome-tweaks    # useful to change capslock key binding
 sudo apt install spell           # used in nano for spell check
 sudo apt install sysstat         # iostat - cpu usage

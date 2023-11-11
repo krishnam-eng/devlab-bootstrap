@@ -29,6 +29,7 @@ alias dcri="docker container run -it"
 alias dcrr="docker container run --rm"
 
 alias dcexe="docker container exec -it"
+alias dx="docker container exec -it"
 
 alias dclg="docker container logs"
 alias dci="docker container inspect"

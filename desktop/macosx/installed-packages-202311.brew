@@ -1,0 +1,79 @@
+ack: Search tool like grep, but optimized for programmers
+agedu: Unix utility for tracking down wasted disk space
+as-tree: Print a list of paths as a tree of paths
+atuin: Improved shell history for zsh, bash, fish and nushell
+awscli: Official Amazon AWS command-line interface
+base64: Encode and decode base64 files
+base91: Utility to encode and decode base91 files
+bash-completion: Programmable completion for Bash 3.2
+bat: Clone of cat(1) with syntax highlighting and Git integration
+broot: New way to see and navigate directory trees
+cask: Emacs dependency management
+ccat: Like cat but displays content with syntax highlighting
+certbot: Tool to obtain certs from Let's Encrypt and autoenable HTTPS
+colordiff: Color-highlighted diff(1) output
+ctop: Top-like interface for container metrics
+k9s: Kubernetes CLI To Manage Your Clusters In Style!
+direnv: Load/unload environment variables based on $PWD
+dive: Tool for exploring each layer in a docker image
+docker: Pack, ship and run any application as a lightweight container
+dockviz: Visualizing docker data
+etcd: Key value store for shared configuration and service discovery
+exa: Modern replacement for 'ls'
+figlet: Banner-like program prints strings as ASCII art
+fish: User-friendly command-line shell for UNIX-like operating systems
+fx: Terminal JSON viewer
+gh: GitHub command-line tool
+git: Distributed revision control system
+glances: Alternative to top/htop
+gnupg: GNU Pretty Good Privacy (PGP) package
+graphviz: Graph visualization software from AT&T and Bell Labs
+guile: GNU Ubiquitous Intelligent Language for Extensions
+helm: Kubernetes package manager
+kubecolor: Colorize your kubectl output
+htop: Improved top (interactive process viewer)
+hugo: Configurable static site generator
+hyperkit: Toolkit for embedding hypervisor capabilities in your application
+istioctl: Istio configuration command-line utility
+jid: Json incremental digger
+kompose: Tool to move from `docker-compose` to Kubernetes
+krew: Package manager for kubectl plugins
+kube-ps1: Kubernetes prompt info for bash and zsh
+kubebuilder: SDK for building Kubernetes APIs using CRDs
+kustomize: Template-free customization of Kubernetes YAML manifests
+logrotate: Rotates, compresses, and mails system logs
+lolcat: Rainbows and unicorns in your console!
+lsd: Clone of ls with colorful output, file type icons, and more
+jwt-cli: Super fast CLI tool to decode and encode JWTs built in Rust
+minikube: Run a Kubernetes cluster locally
+nano: Free (GNU) replacement for the Pico text editor
+ncdu: NCurses Disk Usage
+neovim: Ambitious Vim-fork focused on extensibility and agility
+newman: Command-line collection runner for Postman
+nginx: HTTP(S) server and reverse proxy, and IMAP/POP3 proxy server
+nvm: Manage multiple Node.js versions
+octant: Kubernetes introspection tool for developers
+openapi-generator: Generate clients, server & docs from an OpenAPI spec (v2, v3)
+openjdk: Development kit for the Java programming language
+operator-sdk: SDK for building Kubernetes applications
+pcre: Perl compatible regular expressions library
+postgresql@15: Object-relational database system
+pygobject3: GNOME Python bindings (based on GObject Introspection)
+python-yq: Command-line YAML and XML processor that wraps jq
+python@3.9: Interpreted, interactive, object-oriented programming language
+ranger: File browser
+redis: Persistent key-value database, with built-in net interface
+rtmpdump: Tool for downloading RTMP streaming media
+sftpgo: Fully featured SFTP server with optional HTTP/S, FTP/S and WebDAV support
+telnet: User interface to the TELNET protocol
+terraform: Tool to build, change, and version infrastructure
+tldr: Simplified and community-driven man pages
+tmux: Terminal multiplexer
+tree: Display directories as trees (with optional color/HTML output)
+watch: Executes a program periodically, showing output fullscreen
+wget: Internet file retriever
+wsk: OpenWhisk Command-Line Interface (CLI)
+xclip: Access X11 clipboards from the command-line
+xerces-c: Validating XML parser
+zsh-autosuggestions: Fish-like fast/unobtrusive autosuggestions for zsh
+zsh-completions: Additional completion definitions for zsh

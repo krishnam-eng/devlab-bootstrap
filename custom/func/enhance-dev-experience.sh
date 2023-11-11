@@ -389,3 +389,16 @@ function create_utility_services(){
   local time_taken=$(echo "$end_time - $start_time" | bc)
   tlog $TRACE "Time taken for create_utility_services: $time_taken seconds"
 }
+
+function docker_dashboard(){
+  
+  if docker ps | grep portainer > /dev/null; then
+    tlog $INFO "Portainer is already running"
+  else
+    tlog $INFO "Running portainer container..."
+    # limit resource usage like t2.micro
+    docker run -d -p 9000:9000 --name portainer --cpus=1 --memory=1g --restart always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce
+    tlog $INFO "Portainer container port is published to the host in 9000"
+  fi
+
+}

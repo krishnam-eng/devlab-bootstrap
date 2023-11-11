@@ -5,6 +5,11 @@ then
   PATH="$PATH:$HOME/bin"
 fi
 
+if [ -d "$HOME/.rd/bin" ] ; 
+then
+  PATH="$PATH:$HOME/.rd/bin"
+fi
+
 if [ -d "$HOME/.local/bin" ] ; 
 then
   PATH="$PATH:$HOME/.local/bin"

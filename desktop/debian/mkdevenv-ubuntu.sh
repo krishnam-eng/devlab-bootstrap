@@ -39,6 +39,10 @@ function install_core_packages{
     sudo apt install bridge-utils    # brctr - ethernet brdige admin cmd
 }
 
+function customizable {
+    # Remove title bar from gnome-terminal
+    gsettings set org.gnome.Terminal.Legacy.Settings headerbar "@mb false"
+}
 
 function install_dev_tools(){
     # Java Dev: Basic Development Tools & Others

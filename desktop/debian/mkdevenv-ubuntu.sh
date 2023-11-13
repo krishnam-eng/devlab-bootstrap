@@ -5,7 +5,6 @@
 function install_core_packages{
     # core install (might be already installed)
     sudo apt install tree
-    sudo apt install git 
     sudo apt install nano            # feature-rich CLI text editor for power users 
     sudo apt install tmux            # terminal multiplexer
     sudo apt install zsh             # powerful sh

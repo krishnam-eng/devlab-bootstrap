@@ -18,23 +18,6 @@
 #############################################################################################################
 
 ################################## START: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################
-function boot(){
-    _install_boot_dependencies
-
-    # Homelab RooT (HRT). ~/hrt will be the heart of the devbox.
-    # Its subdirectories are used for additions not part of the operating system distribution, such as custom programs or files.
-    # devbox is a convention based utility to make the dev related micro automations and configuration for productivity boost.
-    mkdir ~/hrt
-
-    # Checkout HomeLab source to configure DevBox
-    ssh-keygen # add key to github ssh keys to access private repo
-    git clone --depth=1 git@github.com:krishnam-eng/homelab-devbox.git ~/hrt/boot
-}
-
-function _install_boot_dependencies(){
-    sudo apt install git
-    sudo apt install tree
-}
 
 function build_file_hierarchy_structure(){
     #l2

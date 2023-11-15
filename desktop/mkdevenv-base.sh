@@ -1,24 +1,3 @@
-#!/usr/bin/env bash
-#############################################################################################################
-# name       : Make My Dev Environment
-# description: Build powerful dev environment with numerous micro automation
-# author     : krishnam
-#
-#  Bootstrap new Box:
-#    Step 1: Build file structure which will be used in aliases, functions, run configuration to simplyfy micro dev tasks
-#            `build_file_hierarchy_structure()``
-#    Step 2: Install required system tools
-#             `install_core_packages()`  (look at the mkdevenv-macos/linux script)
-#    Step 3: Build workspace core with battle tested and fine tunned pre-configurations (runcommand configs for various dev tools)
-#              `configure_mydevbox_with_homelabsetup()`
-#    Step 4: Install packages requires for dev work
-#               `install_dev_tools()` (look at the mkdevenv-macos/linux script)
-#    Step 5: Any Misc Steps
-#               `other_misc_steps()` (look at the mkdevenv-macos/linux script)
-#############################################################################################################
-
-################################## START: BOOTSTRAPPING DEV ENV IN NEW BOX ##################################
-
 function build_file_hierarchy_structure(){
     #l2
     mkdir ~/hrt/bin        # Essential command binaries that need to be available in single-user mode for dev tools

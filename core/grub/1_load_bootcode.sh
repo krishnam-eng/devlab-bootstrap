@@ -7,6 +7,7 @@ function main(){
   _checkout_bootcode
 
   _make_zsh_default_shell
+
   _load_aliases
 }
 
@@ -39,8 +40,9 @@ function _make_zsh_default_shell() {
 
 # load named directories & list aliases
 function _load_aliases() {
-      source $HOME/hrt/boot/custom/alias/boot-list.zsh
+      source $HOME/hrt/boot/custom/alias/boot-list.bash
       source $HOME/hrt/boot/custom/alias/boot-nameddirs.zsh
+      source $HOME/hrt/boot/custom/alias/git_g.bash
 }
 
 function _install_dependencies(){

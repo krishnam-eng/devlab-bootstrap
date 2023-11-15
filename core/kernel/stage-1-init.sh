@@ -5,7 +5,10 @@ function main() {
 }
 
 function build_file_hierarchy_structure(){
-    mkdir ~/hrt/ver        # For taking backup version of config before overwriting
+    mkdir $HOME/hrt/ver        # For taking backup version of config before overwriting
+
+    mkdir $HOME/hrt/state      # For user-specific apps session data or history, which should be stored for future reuse;
+    mkdir $HOME/hrt/states/shell
 
     #l2
     mkdir ~/hrt/bin        # Essential command binaries that need to be available in single-user mode for dev tools
@@ -29,7 +32,6 @@ function build_file_hierarchy_structure(){
     mkdir ~/hrt/srv        # Server data (data for services provided by system).
     mkdir ~/hrt/ssh        # todo: reuse .ssh and follow naming convention for keys
 
-    mkdir ~/hrt/state      # For user-specific apps session data or history, which should be stored for future reuse;
     mkdir ~/hrt/state/shell
     mkdir ~/hrt/state/tmux
     mkdir ~/hrt/state/tmux/resurrect

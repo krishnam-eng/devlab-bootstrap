@@ -36,10 +36,10 @@ compinit -u # https://stackoverflow.com/questions/13762280/zsh-compinit-insecure
 # Enable auto complete for kubectl
 if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
+ # make completion work with kubecolor
+ compdef kubecolor=kubectl
 fi
 
-# make completion work with kubecolor
-compdef kubecolor=kubectl
 
 # Enable auto complete for helm
 if [ $commands[helm] ]; then
@@ -48,6 +48,7 @@ fi
 
 # To run command completion, you need to run bashcompinit by adding the following autoload line
 autoload bashcompinit && bashcompinit
+
 # Enable auto complete for aws cli
 if [ $commands[aws] ]; then
   complete -C '/usr/local/bin/aws_completer' aws

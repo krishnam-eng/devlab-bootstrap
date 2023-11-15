@@ -6,9 +6,7 @@
 
 # Load HomeLab source code into hrt to configure DevBox
 function load_boot_source(){
-  _upgrade
-  _configure_vm_guest_machine
-  _install_boot_dependencies
+  _install_dependencies
 
   # Homelab RooT (HRT). ~/hrt will be the heart of the devbox. It contains all the files needed for successful booting process.
   mkdir $USER/hrt
@@ -20,13 +18,7 @@ function load_boot_source(){
   git clone --depth=1 git@github.com:krishnam-eng/homelab-devbox.git ~/hrt/boot
 }
 
-function _upgrade() {
-  sudo apt update
-  sudo apt list --upgradeable # list packages that can be upgraded
-  sudo apt upgrade
-}
-
-function _install_boot_dependencies(){
+function _install_dependencies(){
     sudo apt install git
     sudo apt install tree
 }

@@ -16,10 +16,12 @@
 ################
 
 function main() {
+  _upgrade_system
+  _install_dependencies
+
   _perform_cpu_memory_checks
   _perform_storage_checks
   _perform_peripheral_checks
-  _configure_vm_guest_machine
 }
 
 function _perform_cpu_memory_checks(){
@@ -57,21 +59,12 @@ function _perform_peripheral_checks(){
   hcitool dev
 }
 
-function _configure_vm_guest_machine(){
-  echo "Install Guest Additions for Better Display & Configure Devices as below"
-  echo  " # On Host Machine (VirtualBox VM Top Menu)
-                # Devices > Network > Network Settings > Adapter 1 > Attached to: Bridged Adapter
-                # Devices > Shared Clipboard > Bidirectional
-                # Devices > Drag and Drop > Bidirectional
-                # Devices > Insert Guest Additions CD image [insert Guest machine's Virtual Optical Drive]
-
-              # On Guest Machine
-                # /media/$USER/VBox_GAs_7.0.12 > RunSoftware
-                # "
-  echo "Set IconSize=Minimum, MenuBar=RightSide, SoftwareUpdate=DisableProprietaryDownloadSource"
-  gsettings set org.gnome.Terminal.Legacy.Settings headerbar "@mb false"
+function _install_dependencies(){
+  sudo apt install net-tools # for ifconfig cmd - interface config
 }
 
-function _dependency_install() {
-  sudo apt install net-tools # for ifconfig cmd - interface config
+function _upgrade_system() {
+  sudo apt update
+  sudo apt list --upgradeable # list packages that can be upgraded
+  sudo apt upgrade
 }

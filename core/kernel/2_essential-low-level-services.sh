@@ -1,21 +1,11 @@
 function install_core_packages{
-    # core install (might be already installed)
-    sudo apt install tree
-    sudo apt install nano            # feature-rich CLI text editor for power users
-    sudo apt install tmux            # terminal multiplexer
-    sudo apt install zsh             # powerful sh
-
-    # to get the latest version, it is preferable to use ppa - personal package archive repo over default debian repo
-    # Install Optional items later when needed
-
     # basic tools to start with
     sudo apt install vim             # open-source clone of vi text editor developed to be customizable and able to work with any type of text
-    sudo apt install watch           #
-    sudo apt install curl            #
-    sudo apt install tree            # list dir in tree form
-    sudo apt install gawk            # GNU awk
-    sudo apt install rar unrar       # archive utilities
-    sudo apt install zip unzip      # [default in version > ubuntu21.04]
+    sudo apt install watch         #
+    sudo apt install curl             #
+    sudo apt install gawk          # GNU awk
+    sudo apt install rar unrar    # archive utilities
+    sudo apt install zip unzip    # [default in version > ubuntu21.04]
     sudo apt install xclip           # [default in version > ubuntu21.04] clipboard management
     sudo apt install rsync           # [default in version > ubuntu21.04] utility tool for performing swift incremental file transfers
     sudo apt install guake           # drop down terminal emulator - # ! use x (x11 or xarg) display server since keybinding doesn't work well in wyaland server

@@ -31,18 +31,5 @@ function _install_boot_dependencies(){
     sudo apt install tree
 }
 
-function _configure_vm_guest_machine(){
-  echo "Install Guest Additions for Better Display & Configure Devices as below"
-  echo  " # On Host Machine (VirtualBox VM Top Menu)
-                # Devices > Network > Network Settings > Adapter 1 > Attached to: Bridged Adapter
-                # Devices > Shared Clipboard > Bidirectional
-                # Devices > Drag and Drop > Bidirectional
-                # Devices > Insert Guest Additions CD image [insert Guest machine's Virtual Optical Drive]
 
-              # On Guest Machine
-                # /media/$USER/VBox_GAs_7.0.12 > RunSoftware
-                # "
-  echo "Set IconSize=Minimum, MenuBar=RightSide, SoftwareUpdate=DisableProprietaryDownloadSource"
-  gsettings set org.gnome.Terminal.Legacy.Settings headerbar "@mb false"
-}
 

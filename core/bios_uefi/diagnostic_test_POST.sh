@@ -1,5 +1,6 @@
 ####
-# The BIOS/UEFI initiates a series of diagnostic tests known as the Power-On Self-Test (POST).
+# The BIOS/UEFI (Basic Input/Output System or the Unified Extensible Firmware Interface)
+#         initiates a series of diagnostic tests known as the Power-On Self-Test (POST).
 ####
 
 ################

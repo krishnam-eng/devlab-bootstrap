@@ -7,27 +7,8 @@
 # ExecStart=/usr/sbin/sshd -D -f /etc/ssh/sshd_config
 
 function main(){
-    _activate_dependencies
-
-    _create_sftp_users
     _enable_sftp_server
-}
-
-function _create_sftp_users() {
-  # create group
-  sudo groupadd sftpusr
-
-  # create users
-  sudo useradd -m -d /home/sftpclt -s /bin/false -G sftpusr sftpclt
-  sudo useradd -m -d /home/gaia -s /bin/false -G sftpusr gaia
-
-  # verify groups
-  id sftpclt
-  id gaia
-
-  # create password
-  sudo passwd sftpclt
-  sudo passwd gaia
+    _create_sftp_users
 }
 
 function _enable_sftp_server(){
@@ -40,7 +21,20 @@ function _enable_sftp_server(){
     sudo systemctl restart ssh.service
 }
 
-function _activate_dependencies(){
-  sudo apt install ufw
-}
+# todo: sftp login failure for new users. it works only with existing main user
+function _create_sftp_users() {
+  # create group
+  sudo groupadd sftpusr
 
+  # create users
+  sudo useradd -m -d /home/sftpclt -s /bin/false -G sftpusr sftpclt
+  sudo useradd -m -d /home/gaia -s /bin/false -G sftpusr gaia
+
+  # create password
+  sudo passwd gaia
+  sudo passwd sftpclt
+
+  # verify groups
+  id sftpclt
+  id gaia
+}

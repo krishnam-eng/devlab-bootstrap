@@ -6,6 +6,9 @@
 # ExecStartPre=ln -s $HOME/hrt/boot/settings/ssh/sshd_config.d/sftp-server.conf /etc/ssh/sshd_config.d/sftp-server.conf
 # ExecStart=/usr/sbin/sshd -D -f /etc/ssh/sshd_config
 
+# Troubleshooting: Run with verbose mode
+#     sftp -v -P 22 erebus@hostname
+
 function main(){
     _enable_sftp_server
     _create_sftp_users

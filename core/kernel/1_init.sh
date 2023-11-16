@@ -1,8 +1,26 @@
 
 function main() {
+  _install_dependencies
+
   _build_file_hierarchy_structure
+
+  _make_zsh_default_shell
   _configure_zsh
   _extend_zsh_capabilities
+}
+
+function _make_zsh_default_shell() {
+    # current default shell
+    echo $SHELL
+
+    # list available shells
+    cat /etc/shells
+
+    # change default shell to zsh
+    zsh --version
+    sudo chsh -s $(which zsh)
+
+  # ! Log out and log back in to see the change
 }
 
 function build_file_hierarchy_structure(){
@@ -36,4 +54,10 @@ function _extend_zsh_capabilities() {
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  $HOME/hrt/ext/zsh-autosuggestions
 
     git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search  $HOME/hrt/ext/zsh-history-substring-search
+}
+
+function _install_dependencies(){
+    sudo apt install zsh
+    sudo apt install git
+    sudo apt install tree
 }

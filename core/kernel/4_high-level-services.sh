@@ -1,10 +1,4 @@
-function intermediary {
-    sudo apt install openssh-server
-    sudo apt install net-tools
-    sudo apt install vsftpd
-}
-
-function install_dev_tools(){
+function load_dev_tools(){
     # Java Dev: Basic Development Tools & Others
     sudo apt install openjdk-11-jre-headless
     sudo apt install openjdk-8-jre-headless

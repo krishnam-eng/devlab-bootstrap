@@ -24,6 +24,8 @@ function main(){
 
     _enable_ssh_server
     _allow_ssh_with_firewall
+
+    _configure_ssh_client
 }
 
 function _enable_ssh_server(){
@@ -39,11 +41,11 @@ function _enable_ssh_server(){
 function _allow_ssh_with_firewall(){
     sudo ufw allow ssh
     sudo ufw status
-#    To                         Action        From
-#    --                          ------          ----
-#    22/tcp                  ALLOW       Anywhere
 }
 
+function _configure_ssh_client() {
+    ln -s $HOME/hrt/boot/settings/ssh/ssh_client.config ~/.ssh/config
+}
 
 function _activate_dependencies(){
   # install ssh client / server

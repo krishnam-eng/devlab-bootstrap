@@ -8,12 +8,17 @@ function main() {
 function build_file_hierarchy_structure(){
     mkdir $HOME/hrt/ext        # Extensions to zsh like theme, plugins, fonts, auto completes
 
-    mkdir $HOME/hrt/state      # For user-specific apps session data or history, which should be stored for future reuse;
+    mkdir $HOME/hrt/etc/ctrflags/  # For storing flags to control default behavior with feature toggle
+
+    mkdir $HOME/hrt/state              # For user-specific apps session data or history, which should be stored for future reuse;
     mkdir $HOME/hrt/states/shell
 
     mkdir $HOME/hrt/ver        # For taking backup version of config before overwriting
 
     mkdir $HOME/hrt/vol        # For persistence volume to attach to container
+
+    mkdir $HOME/hrt/vault
+    mkdir $HOME/hrt/vault/alias          # For storing sensitive alias
 }
 
 function _configure_zsh() {

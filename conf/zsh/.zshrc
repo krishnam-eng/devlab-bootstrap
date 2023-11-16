@@ -11,27 +11,19 @@
 # Configure zsh core
 source $HOME/hrt/boot/custom/env/interactice-shell/prompt.bash
 
-source $HOME/hrt/boot/conf/zsh/elements/pre-launch-cmds.zshrc
+# like macos launchd at shell session start
+source $HOME/hrt/boot/conf/zsh/launchd/pre-shell-launch-cmds.zshrc
 
-source $HOME/hrt/boot/conf/zsh/elements/expansions-globbing.zshrc
+# customize zsh default behavior with units (like kernel units)
+source $HOME/hrt/boot/conf/zsh/units/aliases-functions.zshrc
+source $HOME/hrt/boot/conf/zsh/units/auto-completion.zshrc
+source $HOME/hrt/boot/conf/zsh/units/expansions-globbing.zshrc
+source $HOME/hrt/boot/conf/zsh/units/history.zshrc
+source $HOME/hrt/boot/conf/zsh/units/zsh_line_editor.zshrc
+source $HOME/hrt/boot/conf/zsh/units/prompt.zshrc
 
-source $HOME/hrt/boot/conf/zsh/elements/load-aliases-functions.zshrc
-
-source $HOME/hrt/boot/conf/zsh/elements/history-configuration.zshrc
-
-source $HOME/hrt/boot/conf/zsh/elements/auto-completion.zshrc
-
-source $HOME/hrt/boot/conf/zsh/elements/set-opts-zle.zshrc
-
-source $HOME/hrt/boot/conf/zsh/elements/prompt.zshrc
-
-# Extensions
+# Extend zsh behavior with fish shell capabilities
 source $HOME/hrt/boot/conf/zsh/extensions/fish_shell.zsh
 
+# optional powerlevel10k theme
 [[ -f $HOME/hrt/etc/ctrflags/enablepowertheme ]] && source $HOME/hrt/boot/conf/zsh/extensions/.p10k.zsh && source $HOME/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme
-
-# For Vim-style navigation in the Zsh terminal
-bindkey -v
-
-# For emacs-style navigation in the Zsh terminal
-# bindkey -e for emacs

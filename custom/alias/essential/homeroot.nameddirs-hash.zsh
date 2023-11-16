@@ -18,7 +18,6 @@ hash -d shared=~/shared
 
 # quick access to core FHS dir @ L2
 hash -d bin=~/hrt/bin
-hash -d boot=~/hrt/boot
 hash -d etc=~/hrt/etc
 hash -d ext=~/hrt/ext
 hash -d lib=~/hrt/lib
@@ -35,19 +34,6 @@ hash -d vol=~/hrt/vol
 
 # quick access to config files or custom setting @L3
 hash -d hrepo=~/hrt/repo/helm-repo
-hash -d alias=~/hrt/boot/custom/alias
-hash -d env=~/hrt/boot/custom/env
-hash -d func=~/hrt/boot/custom/func
-
-# shell configs
-hash -d bash=~/hrt/boot/conf/bash
-hash -d zsh=~/hrt/boot/conf/zsh
-
-# Others
-hash -d job=~/hrt/boot/job
-hash -d scripts=~/hrt/boot/scripts
-hash -d settings=~/hrt/boot/settings
-hash -d tools=~/hrt/boot/tools
 
 # log dirs
 hash -d lg-ct=~/hrt/var/log/crontab/

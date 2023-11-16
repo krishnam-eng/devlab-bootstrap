@@ -76,6 +76,12 @@ setopt multios
 ##################
 
 # By default zsh relies on $EDITOR & $VISUAL to guess the binding. Don't guess now.(use -v for vi mode
-bindkey -e
+
+# For Vim-style navigation in the Zsh terminal
+bindkey -v
+
+# For emacs-style navigation in the Zsh terminal
+# bindkey -e for emacs
+
 # skip beeping on errors.
 setopt NO_BEEP

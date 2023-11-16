@@ -56,6 +56,9 @@ alias -g D='| tee /tmp/tee.log' # to debug a long sequance of piped i/o
 
 alias -g CA="2>&1 | cat -A"
 
+# global alias to get version. e.g. python V => python --version
+alias -g V="--version"
+
 # Recepie: Skipping a header in a file
 #   tail: -n +2 will skip first line and give everything else  (offset from top)
 #   tail: -n 2 will give last two line (offset from end)

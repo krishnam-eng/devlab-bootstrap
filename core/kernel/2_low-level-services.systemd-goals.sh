@@ -1,3 +1,4 @@
+# Essential
 function install_core_packages{
     # basic tools to start with
     sudo apt install vim             # open-source clone of vi text editor developed to be customizable and able to work with any type of text

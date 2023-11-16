@@ -2,6 +2,10 @@
 alias systemctl='sudo systemctl'
 alias apt='sudo apt'
 
+alias groupadd='sudo groupadd'
+alias useradd='sudo useradd'
+alias passwd='sudo passwd'
+
 # create missing parents
 alias mkdir="mkdir -p"
 

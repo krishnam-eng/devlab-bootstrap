@@ -2,7 +2,7 @@
 # Custom commands for listing
 ##########===========----------------
 alias lssh="cat /etc/shells"
-
+alias lsgroups="getent group | cut -d: -f1 | sort"
 ##########===========----------------
 # ls commands
 ##########===========----------------

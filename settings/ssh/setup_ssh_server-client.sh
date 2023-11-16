@@ -1,22 +1,3 @@
-sudo apt update
-sudo apt upgrade
-
-# install ssh client / server
-sudo apt install openssh-server
-sudo apt install openssh-client # pre-installed
-
-
-# server start ...
-sudo systemctl status ssh
-sudo systemctl enable ssh
-sudo systemctl start  ssh
-sudo systemctl restart ssh.service
-
-# config debian firewall
-sudo ufw allow ssh
-sudo ufw enable
-sudo ufw status
-
 # server/client config goes here - control default port, banner, auth setup, host alias...
 # fileneme: sshd_config , config
 mkdir -p ~/.ssh         # dir  is auto created when the user runs the ssh cmd for the first time

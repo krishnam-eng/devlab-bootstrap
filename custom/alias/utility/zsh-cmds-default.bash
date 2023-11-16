@@ -6,11 +6,6 @@
 # author       : krishnam
 # sh version   : works with both bash and zsh
 #####################
-
-# set color with LS_COLOR for tree
-alias tree="tree -C"
-
-#
 alias ps="ps -ef"
 
 # run in quite mode
@@ -20,9 +15,6 @@ alias ps="ps -ef"
 # enable unicode (utf-8) char by default
 #   - needed for powerline
 alias tmux="tmux -u"
-
-# create missing parents
-alias mkdir="mkdir -p"
 
 # launch visual studio in bg
 alias code="code . &"

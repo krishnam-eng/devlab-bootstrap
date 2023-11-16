@@ -5,7 +5,6 @@ function load_dev_tools(){
     sudo add-apt-repository ppa:cwchien/gradle # use this repo to get latest gradle version
     sudo apt install gradle          # build tool & dependency manager
     sudo apt install httpie          # user-friendly command-line HTTP client for the API era
-    sudo apt install jq              # lightweight and flexible command-line JSON processor. It is like sed for JSON data. use it to slice and filter and map and transform structured data
     sudo apt install apache2         # [optional] web server
     sudo apt install nginx           # [optional] web server
     sudo apt install tomcat9         # [optional] servlet container

@@ -7,12 +7,6 @@ ln -s ~/github/ohmy-linux/ssh ~/.myssh
 ln -s ~/.myssh/config ~/.ssh/config
 chmod 600 ~/.ssh/config # file must be readable and writable only by the user
 
-cp /etc/ssh/sshd_config ~/.myssh/sshd_config.original
-sudo ln -s ~/.myssh/sshd_config /etc/ssh/sshd_config
-
-
-
-
 # https://ubuntu.com/server/docs/service-openssh
 
 #### SSH setup
@@ -35,8 +29,7 @@ git remote set-url origin  git@github.com:krishnam-eng/ohmy-linux.git
 
 ##### useful cmds
 
-# from local to add pub key to remote
-ssh-copy-id username@hostname -p 'portnumber in sshd'
+
 
 # or append pub keys to ~/.ssh/authorized_keys
 

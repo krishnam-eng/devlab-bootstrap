@@ -9,6 +9,16 @@
 # [Install]
 # WantedBy=sftp.service
 
+# Usage:
+#     Add user public key to sshd_config.d/authorized-keys.conf to have access to the server
+#
+#     Step 1: From a machine where ssh access is required,
+#             ssh-copy-id  -i {identity-file} -p 'ssh-sever-port' {username_in_ssh_server}@{ssh_server_hostname}
+#           e.g.,
+#             ssh-copy-id  -i ~/.ssh/server_access_key_chaos_ubuntuvm_vbox.pub -p 22 erebus@172.25.66.189
+#
+#         or
+#               : Manually copy the key to the server out-of-band
 function main(){
     _activate_dependencies
 

@@ -13,8 +13,8 @@ alias ld='ls -d .*'
 
 # All: long list,show almost all,show type,human readable (with dot files)
 # alias la="ls -lABXFh --block-size=K" # debian
-alias ll="ls -lFh" # all dir w/o dot dir
-alias lA="ls -lAFh" # all dir w/ dot dir
+alias ll="ls -lFh" # all dir w/o dot dir  - Long List
+alias lA="ls -lAFh" # all dir w/ dot dir  - List All
 alias la="ls -lAFh" # duplicate alias for convenience
 
 # Recursive: sorted by date,recursive,show type,human readable

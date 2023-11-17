@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# use this for log prefix
+# (bug: breaks in mac) export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
+export LOG_TS="${CS_byellow}[${CS_yellow}$(date -u)${CS_byellow}] ${CS_reset}"
+
 # Define log levels color code
 export TRACE="[${CS_magenta}TRACE${CS_reset}]"
 # DEBUG env will mess up with kubectl exec cmd

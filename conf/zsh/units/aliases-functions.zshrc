@@ -9,22 +9,34 @@
 #     Hash  : hash -d namedir=/path/to/dir
 ##############
 
- if [[ -d $HOME/hrt/boot/custom/alias ]]; then
-  for afile in $HOME/hrt/boot/custom/alias/*/*sh
-  do
-    source $afile
-  done
-  unset afile
- fi
+if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
+	for afile in $HOME/hrt/boot/custom/linux/alias/*/*sh
+	do
+		source $afile
+	done
+	unset afile
 
- if [[ -d ~/hrt/boot/custom/macos ]]; then
-  for afile in ~/hrt/boot/custom/macos/*alias.bash
-  do
-    source $afile
-  done
-  unset afile
- fi
+	for ffile in ~/hrt/boot/custom/linux/func/*sh
+	do
+		source $ffile
+	done
+	unset ffile
+fi
 
+if [ "$(uname)" = "Darwin" ]; then
+	for afile in ~/hrt/boot/custom/darwin/alias/*sh
+	do
+		source $afile
+	done
+	unset afile
+	for ffile in ~/hrt/boot/custom/darwin/func/*sh
+	do
+		source $ffile
+	done
+	unset ffile
+fi
+
+# load from local vault - untracted files
  if [[ -d ~/hrt/vault/alias ]]; then
   for vfile in ~/hrt/vault/alias/*sh
   do
@@ -32,22 +44,6 @@
   done
   unset vfile
  fi
-
-if [ -d ~/hrt/boot/custom/func ]; then
-  for ffile in ~/hrt/boot/custom/func/*sh
-  do
-    source $ffile
-  done
-  unset ffile
-fi
-
-if [ -d ~/hrt/boot/custom/macos ]; then
-  for ffile in ~/hrt/boot/custom/macos/*func.bash
-  do
-    source $ffile
-  done
-  unset ffile
-fi
 
 # todo: make them as lazy load using auto load capability or set it in fpath
 # Extending your fpath: test and enable the below

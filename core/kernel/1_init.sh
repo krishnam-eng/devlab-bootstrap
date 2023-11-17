@@ -37,6 +37,8 @@ function build_file_hierarchy_structure(){
 
     mkdir $HOME/hrt/vault
     mkdir $HOME/hrt/vault/alias          # For storing sensitive alias
+
+    tree -L 3 $HOME/hrt
 }
 
 function _configure_zsh() {

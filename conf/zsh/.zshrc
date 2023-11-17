@@ -8,9 +8,6 @@
 # initialize
 [[ -f $HOME/hrt/etc/ctrflags/enablepowertheme ]] && source $HOME/hrt/boot/conf/zsh/extensions/p10k-instant-prompt.zsh
 
-# Configure zsh core
-source $HOME/hrt/boot/custom/env/interactice-shell/prompt.bash
-
 # like macos launchd at shell session start
 source $HOME/hrt/boot/conf/zsh/launchd/pre-shell-launch-cmds.zshrc
 

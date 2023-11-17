@@ -13,18 +13,20 @@ export ZDOTDIR=~/hrt/boot/conf/zsh
 # Note: This file is sourced on all invocations of the shell - for both interactive & non-interacttive
 # Right place for setting command search path and other improtnat env variables
 #####
-
-if [ -d ~/hrt/boot/custom/env ]; then
-  for efile in ~/hrt/boot/custom/env/*.(bash|zsh)
+if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
+  for efile in ~/hrt/boot/custom/linux/env/*.(bash|zsh)
   do
    source $efile
   done
   unset efile
 fi
 
+# load from local vault - untracted files
 # Load machine specific environment variables
-[[ ! -f ~/hrt/secret/env.bash ]] || source ~/hrt/secret/env.bash
-
-# use this for log prefix
-# (bug: breaks in mac) export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
-export LOG_TS="${CS_byellow}[${CS_yellow}$(date -u)${CS_byellow}] ${CS_reset}"
+if [[ -d ~/hrt/vault/env ]]; then
+	for vfile in ~/hrt/vault/env/*sh
+	do
+		source $vfile
+	done
+	unset vfile
+fi

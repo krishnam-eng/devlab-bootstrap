@@ -94,40 +94,8 @@ fi
 
 [ -z "$TMUX" ] && export TERM=xterm-256color
 
-
-#####
-# set env variables
-#####
-ZDOTDIR=~/hrt/boot/zsh
-
-if [ -d ~/hrt/boot/env ]; then
-  # Recipe: Running All Scripts in a Directory
-  for efile in ~/hrt/boot/env/*.bash
-  do
-    source $efile
-  done
-  unset efile
-fi
-
-export LOG_TS="${CS_byellow}[${CS_yellow}$(date --utc --rfc-3339=ns)${CS_byellow}] ${CS_reset}"
-
-if [ -d ~/hrt/boot/alias ]; then
-    for afile in ~/hrt/boot/alias/*.bash
-    do
-        source $afile
-    done
-    unset afile
-fi
-
-if [ -d ~/hrt/boot/func ]; then
-    for ffile in ~/hrt/boot/func/*.bash
-    do
-        source $ffile
-    done
-    unset ffile
-fi
-
-source /Users/balamurugan/.docker/init-bash.sh || true # Added by Docker Desktop
+source $HOME/hrt/boot/conf/bash/rc.d/aliases-functions.bashrc
+source $HOME/hrt/boot/conf/bash/rc.d/env.bashrc
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/balamurugan/.rd/bin:$PATH"

@@ -7,12 +7,12 @@ uname -a
 
 The first version of Unix was developed by Bell Labs (part of AT&T) in 1969,
 
-Multics
+Multics < CTSS
 
 * **Multics** (Multiplexed Information and Computing Service) was an early time-sharing operating system for mainframe computers.
 * It was developed based on an earlier operating system, CTSS (Compatible Time-Sharing System).
 
-Unics
+Unics < Multics
 * **Unics** (Uniplexed Information and Computing Service) was a pun on Multics for single user systems.
 * The name was later changed to Unix when it started to support multiple users, and was rewritten in C.
 * C programming developed for Unix, and Unix was rewritten in C.

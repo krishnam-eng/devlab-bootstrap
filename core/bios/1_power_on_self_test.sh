@@ -16,12 +16,18 @@
 ################
 
 function main() {
-  _upgrade_system
-  _install_dependencies
+	_upgrade_system
+	_install_dependencies
 
-  _perform_cpu_memory_checks
-  _perform_storage_checks
-  _perform_peripheral_checks
+	_system_check
+	_perform_cpu_memory_checks
+	_perform_storage_checks
+	_perform_peripheral_checks
+}
+
+function _system_check() {
+	sudo systemd-analyze blame
+	sudo systemd-analyze critical-chain
 }
 
 function _perform_cpu_memory_checks(){

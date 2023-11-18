@@ -64,11 +64,7 @@ function _extend_zsh_capabilities() {
 }
 
 function _sudo_control() {
-	sudo ln -s $HOME/hrt/custom/unix/drop-in/sudoer.conf /etc/sudoers.d/hrt-sudoer.conf
-	sudo chmod 440 /etc/sudoers.d/hrt
-	visudo
-	# Add this line for timeout
-	# Defaults        timestamp_timeout=30
+	sudo ln -s $HOME/hrt/custom/unix/drop-in/sudoers.conf /etc/sudoers.d/hrt-sudoers.conf
 }
 function _install_dependencies(){
     sudo apt install zsh

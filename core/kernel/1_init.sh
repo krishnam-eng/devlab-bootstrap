@@ -1,12 +1,17 @@
 
 function main() {
-  _install_dependencies
+	_install_dependencies
 
-  _build_file_hierarchy_structure
+	# File hierarchy
+	_build_file_hierarchy_structure
 
-  _make_zsh_default_shell
-  _configure_zsh
-  _extend_zsh_capabilities
+	# Shell configuration
+	_make_zsh_default_shell
+	_configure_zsh
+	_extend_zsh_capabilities
+
+	# Unix kernel commands configuration
+	_sudo_control
 }
 
 function _make_zsh_default_shell() {
@@ -58,6 +63,13 @@ function _extend_zsh_capabilities() {
     git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search  $HOME/hrt/ext/zsh-history-substring-search
 }
 
+function _sudo_control() {
+	sudo ln -s $HOME/hrt/custom/unix/drop-in/sudoer.conf /etc/sudoers.d/hrt-sudoer.conf
+	sudo chmod 440 /etc/sudoers.d/hrt
+	visudo
+	# Add this line for timeout
+	# Defaults        timestamp_timeout=30
+}
 function _install_dependencies(){
     sudo apt install zsh
     sudo apt install git

@@ -20,14 +20,14 @@
 # echo 'Auto Completion & Some More Magic Setup...'
 
 # Load the completion script placed in ...
-fpath=(~/hrt/boot/conf/zsh/consoles $fpath)
+fpath=($HOME/hrt/boot/conf/custom/linux/console $fpath)
 
 # git clone https://github.com/zsh-users/zsh-completions.git
 # fpath=(~/hrt/ext/zsh-completions/src $fpath)
 # Note: Selectively copied the required files under consoles dir
 
 # function load is not compatible with npm file
-source $HOME/hrt/boot/conf/zsh/consoles/npm-completion.zshrc
+source /Users/balamurugan/hrt/boot/custom/linux/console/npm-completion.zshrc
 
 # Load auto completion feature
 autoload -Uz compinit
@@ -39,7 +39,6 @@ if [ $commands[kubectl] ]; then
  # make completion work with kubecolor
  compdef kubecolor=kubectl
 fi
-
 
 # Enable auto complete for helm
 if [ $commands[helm] ]; then

@@ -1,5 +1,0 @@
-unix name
-```
-uname -a   
-```
-

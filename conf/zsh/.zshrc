@@ -1,23 +1,15 @@
 #!/usr/bin/env zsh
-################
-# description : This script (known as _startup file_) will be executed by zsh and all zsh preferences goes here
-# zsh_version : 5.8 (zsh --version)
-# author	    : krishnam
-################
 
 # initialize
 [[ -f $HOME/hrt/etc/ctrflags/enablepowertheme ]] && source $HOME/hrt/boot/conf/zsh/extensions/p10k-instant-prompt.zsh
 
-# like macos launchd at shell session start
-source $HOME/hrt/boot/conf/zsh/launchd/pre-shell-launch-cmds.zshrc
-
-# customize zsh default behavior with units (like kernel units)
-source $HOME/hrt/boot/conf/zsh/units/aliases-functions.zshrc
-source $HOME/hrt/boot/conf/zsh/units/auto-completion.zshrc
-source $HOME/hrt/boot/conf/zsh/units/expansions-globbing.zshrc
-source $HOME/hrt/boot/conf/zsh/units/history.zshrc
-source $HOME/hrt/boot/conf/zsh/units/zsh_line_editor.zshrc
-source $HOME/hrt/boot/conf/zsh/units/prompt.zshrc
+if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
+  for efile in $HOME/hrt/boot/conf/zsh/rc.d/*.zshrc
+  do
+   source $efile
+  done
+  unset efile
+fi
 
 # Extend zsh behavior with fish shell capabilities
 source $HOME/hrt/boot/conf/zsh/extensions/fish_shell.zsh

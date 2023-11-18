@@ -1,4 +1,6 @@
 # Always run as super user do action
+alias visudo='sudo visudo'
+
 alias apt='sudo apt'
 alias systemctl='sudo systemctl'
 

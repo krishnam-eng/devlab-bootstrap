@@ -1,22 +1,18 @@
-ignore
+# zsh
+/conf/zsh/.zsh_sessions/
+/conf/zsh/.zcompdump
 
 .git
 
 # temp file convention
 *.ignore
 
-# temp files 
+# temp files
 *.swp
 *.save
 *.save.*
 
 
-# zsh 
-.histfile
-.zhistfile
-.zcompdump
-zsh/.zsh_history/
-zsh/.zcompcache/
 
 # tmux
 tmux/plugins/tpm
@@ -38,5 +34,4 @@ alias/private.zsh
 *.iml
 .DS_Store
 */.DS_Store
-zsh/.zsh_sessions/**
 "Icon\r"

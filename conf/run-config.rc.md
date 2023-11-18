@@ -1,5 +1,6 @@
 ## zsh Configuration Files
 
+
 zsh has a list of files it will execute at shell startup. The list of possible files is even longer, but somewhat more ordered.
 
 ```
@@ -47,25 +48,68 @@ By default, zsh will look in the root of the home directory for the user .z* fil
 
 If it needs to be set via user session (not globally) and needs to be portable (relative path), there is practically only one way it can reliably work and be portable - setting zdotdir in your $HOME/.zshenv and the rest of your configuration in $ZDOTDIR/...
 
-🧰 **What's this**
+## Shell Logic
+        **Unary operators that check file characteristics**
 
-_It consists of ready-to-use config files and more of my Linux setup and development environment._
+        ```
+        Option Description
+        -b File is a block special device (for files like /dev/hda1)
+        -c File is character special (for files like /dev/tty)
+        -d File is a directory
+        -e File exists
+        -f File is a regular file
+        -g File has its set-group-ID (setgid) bit set
+        -h File is a symbolic link (same as -L)
+        -G File is owned by the effective group ID
+        -k File has its sticky bit set
+        -L File is a symbolic link (same as -h)
+        -N File has been modified since it was last read
+        -O File is owned by the effective user ID
+        -p File is a named pipe
+        -r File is readable
+        -s File has a size greater than zero
+        -S File is a socket
+        -u File has its set-user-ID (setuid) bit set
+        -w File is writable
+        -x File is executable
+        ```
 
-To create an efficient Linux developer environment, it's a runbook to use to quickly customize and learn 'Tips n Tricks' of various tools; to quickly install and configure required development tools.
+        **Explanation of assignment operators in bash**
+        ```
+        Operator Operation with assignment Use Meaning
+        = Simple assignment a=b a=b
+        *= Multiplication a*=b a=(a*b)
+        /= Division a/=b a=(a/b)
+        %= Remainder a%=b a=(a%b)
+        += Addition a+=b a=(a+b)
+        -= Subtraction a-=b a=(a-b)
+<<= Bit-shift left a<<=b a=(a<<b)
+        >>= Bit-shift right a>>=b a=(a>>b)
+        &= Bitwise “and” a&=b a=(a&b)
+        ^= Bitwise “exclusive or” a^=b a=(a^b)
+        \ = Bitwise “or” a|=b
+        ```
 
-🔩 **How/Why It Got Created**
+        **Testing for More than One Thing**
 
-Learn, practice and check-in what-worked-well
-- To learn the depth of Linux, shells, various dev tools capabilities in the context of dev productivity
-- To capture 'Up n Running' & 'Tips n Tricks' along with the learning notes
-- To create ready to use configs to start with 
+        Use the operators for logical AND (-a) and OR (-o) to combine more than one test
+        in an expression. For example:
+        ```
+        if [ -r $FILE -a -w $FILE ]
+        ```
 
-🚀 **When To Use**
+        **Testing for String Characteristics**
+        ```
+        if [ -z "$VAR" ]
+        then
+        echo zero length
+        else
+        echo has text
+        fi
+        ```
 
-- To manage personal customization to zsh, bash, nano, tmux configurations for boosting productivity. 
-- To reuse the same config in any new Linux dev environment
+        **Testing for Equality**
+        The type of comparison you need determines which operator you should use. Use the
+        -eq operator for numeric comparisons and the equality primary = (or ==) for string
+        comparisons
 
-✍️ **My Related Blogs**
-
-- [tmux: 13 Cool Tweaks to Make It Personal and Powerful](https://dev.to/krishnam/tmux-13-cool-tweaks-to-make-it-personal-and-powerful-487p)
-- [Productivity Booster: Command Line Happiness with tmux](https://dev.to/krishnam/dev-productivity-command-line-happiness-with-terminal-multiplexing-5067)

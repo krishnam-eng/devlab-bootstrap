@@ -3,7 +3,12 @@ function main() {
 }
 
 function _configure_vm_guest_machine(){
-  echo "Install Guest Additions for Better Display & Configure Devices as below"
+  echo "[0] SoftwareUpdate=DisableProprietaryDownloadSource, Multiverse"
+  echo "-------------------------------------------------------------------------"
+
+  echo "[1] Install Guest Additions for Better Display & Configure Devices as below"
+  echo "-------------------------------------------------------------------------"
+
   echo  " # On Host Machine (VirtualBox VM Top Menu)
                 # Devices > Network > Network Settings > Adapter 1 > Attached to: Bridged Adapter
                 # Devices > Shared Clipboard > Bidirectional
@@ -13,6 +18,12 @@ function _configure_vm_guest_machine(){
               # On Guest Machine
                 # /media/$USER/VBox_GAs_7.0.12 > RunSoftware
                 # "
-  echo "Set IconSize=Minimum, MenuBar=RightSide, SoftwareUpdate=DisableProprietaryDownloadSource"
+
+  echo "[2] Set IconSize=Minimum,   MenuBar=RightSide"
+  echo "-------------------------------------------------------------------------"
+
+  echo "[3] Settings > Power > Blank Screen: Never"
+  echo "-------------------------------------------------------------------------"
+
   gsettings set org.gnome.Terminal.Legacy.Settings headerbar "@mb false"
 }

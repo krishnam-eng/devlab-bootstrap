@@ -98,5 +98,5 @@ source $HOME/hrt/boot/conf/bash/rc.d/aliases-functions.bashrc
 source $HOME/hrt/boot/conf/bash/rc.d/env.bashrc
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/balamurugan/.rd/bin:$PATH"
+export PATH="$HOME/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

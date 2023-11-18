@@ -34,7 +34,7 @@ function _enable_ssh_server(){
     sudo systemctl start  ssh
 
     # Enable authkey based login
-    ln -s $HOME/hrt/boot/settings/ssh/sshd_config.d/authorized-keys.conf /etc/ssh/sshd_config.d/authorized-keys.conf
+    ln -s $HOME/hrt/boot/ctrls/unix/etc/sshd_config.d/authorized-keys.conf /etc/ssh/sshd_config.d/authorized-keys.conf
     sudo systemctl restart ssh.service
 }
 

@@ -1,4 +1,4 @@
-
+# like systemd or initd starting point
 function main() {
 	_install_dependencies
 
@@ -63,7 +63,7 @@ function _extend_zsh_capabilities() {
 }
 
 function _sudo_control() {
-	sudo ln -s $HOME/hrt/custom/unix/drop-in/sudoers.conf /etc/sudoers.d/hrt-sudoers.conf
+	sudo ln -s $HOME/hrt/boot/custom/unix/drop-in/sudoers.conf /etc/sudoers.d/hrt-sudoers.conf
 }
 function _install_dependencies(){
     sudo apt install zsh

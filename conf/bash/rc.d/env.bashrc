@@ -3,10 +3,10 @@
 #####
 # set env variables
 #####
-ZDOTDIR=~/hrt/boot/conf/zsh
+ZDOTDIR=$HOME/hrt/boot/conf/zsh
 
 if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
-  for efile in ~/hrt/boot/custom/linux/env/*.bash
+  for efile in $HOME/hrt/boot/ctrls/linux/env/*.bash
   do
    source $efile
   done
@@ -15,8 +15,8 @@ fi
 
 # load from local vault - untracted files
 # Load machine specific environment variables
-if [[ -d ~/hrt/vault/env ]]; then
-	for vfile in ~/hrt/vault/env/*.bash
+if [[ -d $HOME/hrt/vault/env ]]; then
+	for vfile in $HOME/hrt/vault/env/*.bash
 	do
 		source $vfile
 	done

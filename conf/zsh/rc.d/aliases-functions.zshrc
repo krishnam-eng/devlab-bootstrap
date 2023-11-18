@@ -10,13 +10,13 @@
 ##############
 
 if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
-	for afile in $HOME/hrt/boot/custom/linux/alias/*/*sh
+	for afile in $HOME/hrt/boot/ctrls/linux/map/*/*sh
 	do
 		source $afile
 	done
 	unset afile
 
-	for ffile in ~/hrt/boot/custom/linux/func/*sh
+	for ffile in ~/hrt/boot/ctrls/linux/func/*sh
 	do
 		source $ffile
 	done
@@ -24,12 +24,12 @@ if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
 fi
 
 if [ "$(uname)" = "Darwin" ]; then
-	for afile in ~/hrt/boot/custom/darwin/alias/*sh
+	for afile in ~/hrt/boot/ctrls/darwin/map/*sh
 	do
 		source $afile
 	done
 	unset afile
-	for ffile in ~/hrt/boot/custom/darwin/func/*sh
+	for ffile in ~/hrt/boot/ctrls/darwin/func/*sh
 	do
 		source $ffile
 	done

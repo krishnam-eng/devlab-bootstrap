@@ -27,7 +27,7 @@ fpath=($HOME/hrt/boot/conf/custom/linux/console $fpath)
 # Note: Selectively copied the required files under consoles dir
 
 # function load is not compatible with npm file
-source /Users/balamurugan/hrt/boot/custom/linux/console/npm-completion.zshrc
+source $HOME/hrt/boot/custom/linux/console/npm-completion.zshrc
 
 # Load auto completion feature
 autoload -Uz compinit

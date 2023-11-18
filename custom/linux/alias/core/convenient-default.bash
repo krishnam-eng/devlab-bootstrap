@@ -1,4 +1,9 @@
-# Always run as super user do action
+#########
+## sudo -  do action as substitute user  / super user
+#########
+alias redo="sudo !!"
+
+# Always run as super user  as substitute user do action
 alias visudo='sudo visudo'
 
 alias apt='sudo apt'
@@ -9,6 +14,8 @@ alias useradd='sudo useradd'
 alias passwd='sudo passwd'
 
 alias ufw='sudo ufw'
+
+
 
 # create missing parents
 alias mkdir="mkdir -p"

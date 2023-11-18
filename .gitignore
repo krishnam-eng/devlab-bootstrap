@@ -25,8 +25,8 @@ tmux/screenshots/*.screenshot
 tmux/plugins/tmux-mem-cpu-load
 
 # private config
-alias/private.bash
-alias/private.zsh
+ctrls/darwin/map/private.bash
+ctrls/darwin/map/private.zsh
 
 
 #

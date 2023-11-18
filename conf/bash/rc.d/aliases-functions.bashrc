@@ -1,12 +1,12 @@
 
 if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
-	for afile in $HOME/hrt/boot/custom/linux/alias/*/*.bash
+	for afile in $HOME/hrt/boot/ctrls/linux/map/*/*.bash
 	do
 		source $afile
 	done
 	unset afile
 
-	for ffile in ~/hrt/boot/custom/linux/func/*.bash
+	for ffile in $HOME/hrt/boot/custom/linux/func/*.bash
 	do
 		source $ffile
 	done
@@ -14,12 +14,12 @@ if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
 fi
 
 if [ "$(uname)" = "Darwin" ]; then
-	for afile in ~/hrt/boot/custom/darwin/alias/*.bash
+	for afile in $HOME/hrt/boot/ctrls/darwin/map/*.bash
 	do
 		source $afile
 	done
 	unset afile
-	for ffile in ~/hrt/boot/custom/darwin/func/*.bash
+	for ffile in $HOME/hrt/boot/ctrls/darwin/func/*.bash
 	do
 		source $ffile
 	done
@@ -27,8 +27,8 @@ if [ "$(uname)" = "Darwin" ]; then
 fi
 
 # load from local vault - untracted files
- if [[ -d ~/hrt/vault/alias ]]; then
-  for vfile in ~/hrt/vault/alias/*.bash
+ if [[ -d $HOME/hrt/vault/alias ]]; then
+  for vfile in $HOME/hrt/vault/alias/*.bash
   do
     source $vfile
   done

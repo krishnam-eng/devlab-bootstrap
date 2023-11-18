@@ -14,7 +14,7 @@ export ZDOTDIR=~/hrt/boot/conf/zsh
 # Right place for setting command search path and other improtnat env variables
 #####
 if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
-  for efile in ~/hrt/boot/custom/linux/env/*.(bash|zsh)
+  for efile in ~/hrt/boot/ctrls/linux/env/*.(bash|zsh)
   do
    source $efile
   done

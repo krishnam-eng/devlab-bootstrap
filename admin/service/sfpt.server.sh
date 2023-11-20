@@ -37,12 +37,15 @@ function _create_sftp_users() {
 	chown root:root /sftpusers
 
     mkdir /sftpusers/sftpclt
-    chown root:sftpusers -R /sftpusers/shared
+    chown root:sftpusers -R /sftpusers/sftpclt
 
-    mkdir /sftpusers/sftpclt/incoming
-    chown sftpclt:sftpusers -R /sftpusers/sftpclt/incoming/
+    mkdir /sftpusers/sftpclt/input
+    mkdir /sftpusers/sftpclt/output
+    mkdir /sftpusers/sftpclt/processing
+    chown sftpclt:sftpusers -R /sftpusers/sftpclt/input
+    chown sftpclt:sftpusers -R /sftpusers/sftpclt/output
+    chown sftpclt:sftpusers -R /sftpusers/sftpclt/processing
 
-	# verify groups
-	id sftpusers
+	# verify user
 	id sftpclt
 }

@@ -1,9 +1,12 @@
 ##########===========----------------
 # Custom commands for listing
+#
+#  Utilizes getent to get entries in a number of important text files called databases
 ##########===========----------------
 alias lssh="cat /etc/shells"
 alias lsgrp="getent group | cut -d: -f1" # list all groups
 alias lsusr="getent passwd | cut -d: -f1" # list all users
+alias lsgrpusr="getent group" # get group users
 
 ##########===========----------------
 # ls commands

@@ -2,7 +2,9 @@
 # Custom commands for listing
 ##########===========----------------
 alias lssh="cat /etc/shells"
-alias lsgroups="getent group | cut -d: -f1 | sort"
+alias lsgrp="getent group | cut -d: -f1" # list all groups
+alias lsusr="getent passwd | cut -d: -f1" # list all users
+
 ##########===========----------------
 # ls commands
 ##########===========----------------

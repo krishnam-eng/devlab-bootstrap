@@ -41,7 +41,8 @@ function build_file_hierarchy_structure(){
     mkdir $HOME/hrt/vol        # For persistence volume to attach to container
 
     mkdir $HOME/hrt/vault
-    mkdir $HOME/hrt/vault/alias          # For storing sensitive alias
+    mkdir $HOME/hrt/vault/alias
+    touch $HOME/hrt/vault/alias/base.zsh  # For storing sensitive alias
 
     tree -L 3 $HOME/hrt
 }

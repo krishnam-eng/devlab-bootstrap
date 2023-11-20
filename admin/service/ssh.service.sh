@@ -28,13 +28,15 @@ function main(){
     _configure_ssh_client
 }
 
+
 function _enable_ssh_server(){
     sudo systemctl status ssh
     sudo systemctl enable ssh
     sudo systemctl start  ssh
 
     # Enable authkey based login
-    ln -s $HOME/hrt/boot/ctrls/unix/etc/sshd_config.d/authorized-keys.conf /etc/ssh/sshd_config.d/authorized-keys.conf
+    sudo ln -s $HOME/hrt/boot/ctrls/linux/etc/sshd_config.d/authorized-keys.conf /etc/ssh/sshd_config.d/authorized-keys.conf
+
     sudo systemctl restart ssh.service
 }
 
@@ -44,7 +46,7 @@ function _allow_ssh_with_firewall(){
 }
 
 function _configure_ssh_client() {
-    ln -s $HOME/hrt/boot/settings/ssh/ssh_client.config ~/.ssh/config
+    ln -s $HOME/hrt/boot/ctrls/linux/etc/ssh_config.d/ssh_client.conf ~/.ssh/config
 }
 
 function _activate_dependencies(){

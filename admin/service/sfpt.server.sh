@@ -49,7 +49,12 @@ function _create_sftp_users() {
 	# setup public keys authentication
 	sudo mkdir -p /sftpusers/sftpclt/.ssh
 	sudo touch /sftpusers/sftpclt/.ssh/authorized_keys
+	cat $HOME/.ssh/id_rsa.pub >> /sftpusers/sftpclt/.ssh/authorized_keys
+	cat {pub key from client server} >> /sftpusers/sftpclt/.ssh/authorized_keys
     sudo chown sftpclt:sftpusers -R /sftpusers/sftpclt/.ssh
+
+    # Authentication refused: bad ownership or modes for file , unless
+    sudo chmod 600 /sftpusers/sftpclt/.ssh/authorized_keys
 
 	# verify user
 	id sftpclt

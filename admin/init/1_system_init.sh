@@ -45,6 +45,10 @@ function build_file_hierarchy_structure(){
     touch $HOME/hrt/vault/alias/base.zsh  # For storing sensitive alias
 
     tree -L 3 $HOME/hrt
+
+	# Unclutter: remove default folders created by Ubuntu at $HOME
+	cd $HOME
+    \rm -rf -d Documents Music Pictures Public Templates Videos
 }
 
 function _configure_zsh() {

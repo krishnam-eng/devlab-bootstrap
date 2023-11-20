@@ -20,7 +20,7 @@ function _enable_sftp_server(){
     sudo systemctl start  ssh
 
     # Enable authkey based login
-    ln -s $HOME/hrt/boot/settings/ssh/sshd_config.d/sftp-server.conf /etc/ssh/sshd_config.d/sftp-server.conf
+    ln -s $HOME/hrt/boot/ctrls/linux/etc/sshd_config.d/sftp-server.conf /etc/ssh/sshd_config.d/sftp-server.conf
     sudo systemctl restart ssh.service
 }
 

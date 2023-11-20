@@ -26,18 +26,23 @@ function _enable_sftp_server(){
 
 # todo: sftp login failure for new users. it works only with existing main user
 function _create_sftp_users() {
-  # create group
-  sudo groupadd sftpusr
+	# create group
+	groupadd sftpusers
 
-  # create users
-  sudo useradd -m -d /home/sftpclt -s /bin/false -G sftpusr sftpclt
-  sudo useradd -m -d /home/gaia -s /bin/false -G sftpusr gaia
+	adduser sftpclt # set sftpcltpwd
+	usermod -a -G sftpusers sftpclt
 
-  # create password
-  sudo passwd gaia
-  sudo passwd sftpclt
+	mkdir /sftpusers
+	sudo chmod 755 /sftpusers
+	chown root:root /sftpusers
 
-  # verify groups
-  id sftpclt
-  id gaia
+    mkdir /sftpusers/sftpclt
+    chown root:sftpusers -R /sftpusers/shared
+
+    mkdir /sftpusers/sftpclt/incoming
+    chown sftpclt:sftpusers -R /sftpusers/sftpclt/incoming/
+
+	# verify groups
+	id sftpusers
+	id sftpclt
 }

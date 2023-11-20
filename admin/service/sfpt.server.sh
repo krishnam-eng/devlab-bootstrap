@@ -29,7 +29,7 @@ function _create_sftp_users() {
 	# create group & user
 	groupadd sftpusers
 
-	adduser sftpclt # set sftpcltpwd
+	adduser sftpclt # set sftpclt pwd
 	usermod -a -G sftpusers sftpclt
 
 	mkdir /sftpusers
@@ -46,14 +46,16 @@ function _create_sftp_users() {
     chown sftpclt:sftpusers -R /sftpusers/sftpclt/output
     chown sftpclt:sftpusers -R /sftpusers/sftpclt/processing
 
-	# setup public keys authentication
+	# setup public keys authentication (change root is setup by match group policy, so setup keys in that root)
 	sudo mkdir -p /sftpusers/sftpclt/.ssh
 	sudo touch /sftpusers/sftpclt/.ssh/authorized_keys
 	cat $HOME/.ssh/id_rsa.pub >> /sftpusers/sftpclt/.ssh/authorized_keys
 	cat {pub key from client server} >> /sftpusers/sftpclt/.ssh/authorized_keys
+
+	# ! To avoid, Could not open user 'sftpclt' authorized keys
     sudo chown sftpclt:sftpusers -R /sftpusers/sftpclt/.ssh
 
-    # Authentication refused: bad ownership or modes for file , unless
+    # ! To avoid, Authentication refused: bad ownership or modes for file
     sudo chmod 600 /sftpusers/sftpclt/.ssh/authorized_keys
 
 	# verify user

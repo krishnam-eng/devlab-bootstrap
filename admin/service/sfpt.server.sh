@@ -47,9 +47,9 @@ function _create_sftp_users() {
     chown sftpclt:sftpusers -R /sftpusers/sftpclt/processing
 
 	# setup public keys authentication
-	mkdir -p /sftpusers/.ssh
-	touch /sftpusers/.ssh/authorized_keys
-    chown root:sftpusers -R /sftpusers/.ssh
+	sudo mkdir -p /sftpusers/sftpclt/.ssh
+	sudo touch /sftpusers/sftpclt/.ssh/authorized_keys
+    sudo chown sftpclt:sftpusers -R /sftpusers/sftpclt/.ssh
 
 	# verify user
 	id sftpclt

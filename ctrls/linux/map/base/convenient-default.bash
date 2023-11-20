@@ -12,8 +12,10 @@ alias systemctl='sudo systemctl'
 alias groupadd='sudo groupadd'
 alias groupdel='sudo groupdel'
 
-alias useradd='sudo useradd'
+alias useradd='sudo useradd' # low level useradd
+alias usermod='sudo usermod'
 alias userdel='sudo userdel'
+alias adduser='sudo adduser' # interactive useradd
 
 alias chown='sudo chown'
 

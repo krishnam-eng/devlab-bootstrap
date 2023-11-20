@@ -26,7 +26,7 @@ function _enable_sftp_server(){
 }
 
 function _create_sftp_users() {
-	# create group
+	# create group & user
 	groupadd sftpusers
 
 	adduser sftpclt # set sftpcltpwd
@@ -45,6 +45,11 @@ function _create_sftp_users() {
     chown sftpclt:sftpusers -R /sftpusers/sftpclt/input
     chown sftpclt:sftpusers -R /sftpusers/sftpclt/output
     chown sftpclt:sftpusers -R /sftpusers/sftpclt/processing
+
+	# setup public keys authentication
+	mkdir -p /sftpusers/.ssh
+	touch /sftpusers/.ssh/authorized_keys
+    chown root:sftpusers -R /sftpusers/.ssh
 
 	# verify user
 	id sftpclt

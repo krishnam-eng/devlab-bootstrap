@@ -17,6 +17,8 @@
 #           e.g.,
 #             ssh-copy-id  -i ~/.ssh/server_access_key_chaos_ubuntuvm_vbox.pub -p 22 erebus@172.25.66.189
 #
+#             from server for self testing, cat /home/erebus/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+#
 #         or
 #               : Manually copy the key to the server out-of-band
 function main(){

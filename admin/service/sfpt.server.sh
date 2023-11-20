@@ -10,8 +10,8 @@
 #     sftp -v -P 22 erebus@hostname
 
 function main(){
-    _enable_sftp_server
     _create_sftp_users
+    _enable_sftp_server
 }
 
 function _enable_sftp_server(){
@@ -20,11 +20,11 @@ function _enable_sftp_server(){
     sudo systemctl start  ssh
 
     # Enable authkey based login
-    ln -s $HOME/hrt/boot/ctrls/linux/etc/sshd_config.d/sftp-server.conf /etc/ssh/sshd_config.d/sftp-server.conf
-    sudo systemctl restart ssh.service
+    ln -s $HOME/hrt/boot/ctrls/linux/etc/sshd_config.d/sftpusers.conf /etc/ssh/sshd_config.d/sftpusers.conf
+
+    sudo systemctl restart ssh
 }
 
-# todo: sftp login failure for new users. it works only with existing main user
 function _create_sftp_users() {
 	# create group
 	groupadd sftpusers

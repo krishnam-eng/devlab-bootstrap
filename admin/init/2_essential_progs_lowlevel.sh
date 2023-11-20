@@ -15,5 +15,8 @@ function load_essential(){
     sudo apt install exa             # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18 not found]
     sudo apt install ranger        # console file manager with vi key bindings (npm error: Not compatible with your version of node/npm)
 
+    # Needed for building guest addons for virtualbox during vboxadd.service auto start in boot
+    sudo apt-get install gcc make
+
     sudo apt update; sudo apt upgrade ; sudo apt autoremove;
 }

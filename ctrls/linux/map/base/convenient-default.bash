@@ -22,6 +22,8 @@ alias userdel='sudo userdel'     # delete user
 alias adduser='sudo adduser'   # interactive useradd
 alias usermod='sudo usermod' #
 
+alias chsh='sudo chsh' # change shell for a user account e.g., chsh -s /bin/bash sftpclt
+
 alias ufw='sudo ufw'
 
 # Don't make it default, but provide short way to do it
@@ -31,6 +33,7 @@ alias srmd='sudo rmd'
 alias smv='sudo mv'
 alias smkdir='sudo mkdir'
 alias stouch='sudo touch'
+alias svim='sudo vim'
 
 # create missing parents
 alias mkdir="mkdir -p"

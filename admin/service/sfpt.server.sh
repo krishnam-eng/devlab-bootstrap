@@ -29,22 +29,18 @@ function _create_sftp_users() {
 	# create group & user
 	groupadd sftpusers
 
-	adduser sftpclt # set sftpclt pwd
+	adduser sftpclt # set sftp pwd
 	usermod -a -G sftpusers sftpclt
+
+	adduser sftpadmin # set sftp pwd
 
 	mkdir /sftpusers
 	sudo chmod 755 /sftpusers
-	chown root:root /sftpusers
+	chown sftpadmin:sftpadmin /sftpusers
 
     mkdir /sftpusers/sftpclt
-    chown root:sftpusers -R /sftpusers/sftpclt
-
-    mkdir /sftpusers/sftpclt/input
-    mkdir /sftpusers/sftpclt/output
-    mkdir /sftpusers/sftpclt/processing
-    chown sftpclt:sftpusers -R /sftpusers/sftpclt/input
-    chown sftpclt:sftpusers -R /sftpusers/sftpclt/output
-    chown sftpclt:sftpusers -R /sftpusers/sftpclt/processing
+    chown sftpadmin:sftpusers -R /sftpusers/sftpclt
+	chmod g+w /sftpusers/sftpclt/
 
 	# setup public keys authentication (change root is setup by match group policy, so setup keys in that root)
 	sudo mkdir -p /sftpusers/sftpclt/.ssh

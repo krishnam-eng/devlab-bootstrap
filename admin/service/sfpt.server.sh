@@ -35,25 +35,25 @@ function _create_sftp_users() {
 	adduser sftpadmin # set sftp pwd
 	usermod -a -G sudo sftpadmin   # add to sudo group
 
-	mkdir /sftpusers
-	sudo chmod 755 /sftpusers
-	chown root:sftpadmin /sftpusers
+    mkdir /sftp
+    chown root:root /sftp
+    chmod 755 /sftp
 
-    mkdir /sftpusers/sftpclt
-    chown root:sftpusers -R /sftpusers/sftpclt
-	chmod g+w /sftpusers/sftpclt/
+    mkdir /sftp/sftpclt
+    chown sftpclt:sftpusers /sftp/sftpclt
+    chmod 700 /sftp/sftpclt
+
+    mkdir /sftp/sftpclt/.ssh
+    chown sftpclt:sftpclt /sftp/sftpclt/.ssh
+    chmod 700 /sftp/sftpclt/.ssh                                              # ! To avoid, Could not open user 'sftpclt' authorized keys
+
+	touch /sftp/sftpclt/.ssh/authorized_keys
+    chown sftpclt:sftpclt /sftp/sftpclt/.ssh/authorized_keys
+    chmod 600 /sftp/sftpclt/.ssh/authorized_keys                  # ! To avoid, Authentication refused: bad ownership or modes for file
 
 	# setup public keys authentication (change root is setup by match group policy, so setup keys in that root)
-	sudo mkdir -p /sftpusers/sftpclt/.ssh
-	sudo touch /sftpusers/sftpclt/.ssh/authorized_keys
 	cat $HOME/.ssh/id_rsa.pub >> /sftpusers/sftpclt/.ssh/authorized_keys
 	cat {pub key from client server} >> /sftpusers/sftpclt/.ssh/authorized_keys
-
-	# ! To avoid, Could not open user 'sftpclt' authorized keys
-    sudo chown sftpclt:sftpusers -R /sftpusers/sftpclt/.ssh
-
-    # ! To avoid, Authentication refused: bad ownership or modes for file
-    sudo chmod 600 /sftpusers/sftpclt/.ssh/authorized_keys
 
 	# verify user
 	id sftpadmin

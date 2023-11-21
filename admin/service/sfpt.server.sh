@@ -33,13 +33,14 @@ function _create_sftp_users() {
 	usermod -a -G sftpusers sftpclt
 
 	adduser sftpadmin # set sftp pwd
+	usermod -a -G sudo sftpadmin   # add to sudo group
 
 	mkdir /sftpusers
 	sudo chmod 755 /sftpusers
-	chown sftpadmin:sftpadmin /sftpusers
+	chown root:sftpadmin /sftpusers
 
     mkdir /sftpusers/sftpclt
-    chown sftpadmin:sftpusers -R /sftpusers/sftpclt
+    chown root:sftpusers -R /sftpusers/sftpclt
 	chmod g+w /sftpusers/sftpclt/
 
 	# setup public keys authentication (change root is setup by match group policy, so setup keys in that root)
@@ -55,5 +56,8 @@ function _create_sftp_users() {
     sudo chmod 600 /sftpusers/sftpclt/.ssh/authorized_keys
 
 	# verify user
+	id sftpadmin
 	id sftpclt
+	su - sftpadmin
+	su - sftpclt
 }

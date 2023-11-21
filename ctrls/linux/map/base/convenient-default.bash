@@ -25,9 +25,11 @@ alias usermod='sudo usermod' #
 alias ufw='sudo ufw'
 
 # Don't make it default, but provide short way to do it
+alias scat='sudo cat'
 alias srm='sudo rm'
 alias srmd='sudo rmd'
 alias smv='sudo mv'
+alias smkdir='sudo mkdir'
 
 # create missing parents
 alias mkdir="mkdir -p"

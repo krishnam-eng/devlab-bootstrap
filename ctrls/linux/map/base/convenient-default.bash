@@ -30,6 +30,7 @@ alias srm='sudo rm'
 alias srmd='sudo rmd'
 alias smv='sudo mv'
 alias smkdir='sudo mkdir'
+alias stouch='sudo touch'
 
 # create missing parents
 alias mkdir="mkdir -p"

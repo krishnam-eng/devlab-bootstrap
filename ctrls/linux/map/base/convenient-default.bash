@@ -9,18 +9,18 @@ alias visudo='sudo visudo'
 alias apt='sudo apt'
 alias systemctl='sudo systemctl'
 
+alias chown='sudo chown'       # change owner
+alias chgrp='sudo chgrp'          # change group
+alias chmod='sudo chmod'      # change permissions
+alias passwd='sudo passwd'   # change password
+
 alias groupadd='sudo groupadd'
 alias groupdel='sudo groupdel'
 
-alias useradd='sudo useradd' # low level useradd
-alias usermod='sudo usermod'
-alias userdel='sudo userdel'
-alias adduser='sudo adduser' # interactive useradd
-
-alias chown='sudo chown'
-
-alias passwd='sudo passwd'
-
+alias useradd='sudo useradd'   # low level useradd
+alias userdel='sudo userdel'     # delete user
+alias adduser='sudo adduser'   # interactive useradd
+alias usermod='sudo usermod' #
 
 alias ufw='sudo ufw'
 

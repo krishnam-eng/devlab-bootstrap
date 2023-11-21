@@ -71,7 +71,7 @@ function _sudo_control() {
 	sudo ln -s $HOME/hrt/boot/custom/unix/drop-in/sudoers.conf /etc/sudoers.d/hrt-sudoers.conf
 }
 function _install_dependencies(){
-    sudo apt install zsh
-    sudo apt install git
-    sudo apt install tree
+    sudo apt install -y zsh
+    sudo apt install -y git
+    sudo apt install -y tree
 }

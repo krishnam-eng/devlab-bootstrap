@@ -20,6 +20,6 @@ function _checkout_bootcode() {
 }
 
 function _install_dependencies(){
-    sudo apt install git
-    sudo apt install tree
+    sudo apt install -y git
+    sudo apt install -y tree
 }

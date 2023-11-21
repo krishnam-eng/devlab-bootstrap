@@ -31,6 +31,7 @@ function _create_sftp_users() {
 
 	adduser sftpclt # set sftp pwd
 	usermod -a -G sftpusers sftpclt
+	sudo chsh -s /bin/bash sftpclt    # set shell to bash, to override /bin/false
 
 	adduser sftpadmin # set sftp pwd
 	usermod -a -G sudo sftpadmin   # add to sudo group
@@ -40,7 +41,7 @@ function _create_sftp_users() {
     chmod 755 /sftp
 
     mkdir /sftp/sftpclt
-    chown sftpclt:sftpusers /sftp/sftpclt
+    chown sftpclt:sftpclt /sftp/sftpclt
     chmod 700 /sftp/sftpclt
 
     mkdir /sftp/sftpclt/.ssh
@@ -52,11 +53,12 @@ function _create_sftp_users() {
     chmod 600 /sftp/sftpclt/.ssh/authorized_keys                  # ! To avoid, Authentication refused: bad ownership or modes for file
 
 	# setup public keys authentication (change root is setup by match group policy, so setup keys in that root)
-	cat $HOME/.ssh/id_rsa.pub >> /sftpusers/sftpclt/.ssh/authorized_keys
-	cat {pub key from client server} >> /sftpusers/sftpclt/.ssh/authorized_keys
+	# paste in /sftp/sftpclt/.ssh/authorized_keys & /home/sftpclt/.ssh/authorized_keys (just in case)
+	cat $HOME/.ssh/id_rsa.pub
+	cat $HOME/.ssh/server_access_key_chaos_ubuntuvm_vbox.pub # pub key from client server
 
 	# verify user
-	id sftpadmin
+	id sftpadmin # not used
 	id sftpclt
 	su - sftpadmin
 	su - sftpclt

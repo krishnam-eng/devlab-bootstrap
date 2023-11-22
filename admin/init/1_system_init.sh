@@ -68,7 +68,8 @@ function _extend_zsh_capabilities() {
 }
 
 function _sudo_control() {
-	sudo ln -s $HOME/hrt/boot/custom/unix/drop-in/sudoers.conf /etc/sudoers.d/hrt-sudoers.conf
+	ln -s $HOME/hrt/boot/ctrls/linux/etc/sudoer.d/timeout.conf /etc/sudoers.d/timout  # '.' in the file name is not allowed
+	chown root:root /etc/sudoers.d/timout
 }
 function _install_dependencies(){
     sudo apt install -y zsh

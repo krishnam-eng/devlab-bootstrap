@@ -27,9 +27,9 @@ alias ufw='sudo ufw'
 # Don't make it default, but provide short way to do it
 alias scat='sudo cat'
 alias srm='sudo rm'
-alias srmd='sudo rmd'
+alias srmd='sudo \rm -rf'
 alias smv='sudo mv'
-alias smkdir='sudo mkdir'
+alias smkdir='sudo mkdir -p'
 alias stouch='sudo touch'
 alias svim='sudo vim'
 

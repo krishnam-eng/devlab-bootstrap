@@ -4,8 +4,6 @@
 # alias redo="sudo !!" - bug
 
 # Always run as super user  as substitute user do action
-alias visudo='sudo visudo'
-
 alias apt='sudo apt'
 alias systemctl='sudo systemctl'
 

@@ -52,8 +52,17 @@ function _configure_ssh_client() {
     ln -s $HOME/hrt/boot/ctrls/linux/etc/ssh_config.d/ssh_client.conf ~/.ssh/config
 }
 
+function _testing(){
+	ping -c 5 localhost
+	# Test ssh server
+	ssh localhost
+	# Test ssh client
+	ssh -p 2022 erebus@localhost
+}
+
 function _activate_dependencies(){
   # install ssh client / server
   sudo apt install openssh-server
   sudo apt install openssh-client
 }
+

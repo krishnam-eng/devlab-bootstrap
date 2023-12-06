@@ -32,7 +32,7 @@ labctl() {
                     ;;
                 "purge")
 					echo "Purging $app_name..."
-					purge_docker
+					purge_docker -A
 					;;
                 *)
                     echo "Invalid action for $app_name. Use {start|stop|restart|status}"

@@ -4,7 +4,9 @@
 ####################
 
 # To prevent stdout or stderr (1> or 2>) redirection to existing file, use append >>
+# The >| operator forcefully overwrites the file, bypassing the noclobber option.
 setopt noclobber
+
 #o enable multiple output stream
 setopt multios
 

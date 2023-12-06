@@ -7,4 +7,13 @@ function main() {
   lspci
   lsusb
   ifconfig -a
+
+  # network manager command line interface - Linux
+  nmcli device show
+  # Darwin
+  networksetup -listallhardwareports
+
+  #
+  hostname
+  vim /etc/hostname
 }

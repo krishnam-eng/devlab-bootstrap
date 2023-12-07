@@ -10,17 +10,20 @@ alias lsgrpusr="getent group" # get group users
 
 ##########===========----------------
 # ls commands
+# f- full path
 ##########===========----------------
 
 # Dot: Showing All Hidden (Dot) Files in the Current Director. add -l for long list
 
 alias ld='ls -d .*'
+alias ldf='ld "$(pwd)"/*'
 
 # All: long list,show almost all,show type,human readable (with dot files)
 # alias la="ls -lABXFh --block-size=K" # debian
 alias ll="ls -lFh" # all dir w/o dot dir  - Long List
 alias lA="ls -lAFh" # all dir w/ dot dir  - List All
 alias la="ls -lAFh" # duplicate alias for convenience
+alias laf='la "$(pwd)"/*' # all dir w/ dot dir  - List All
 
 # Recursive: sorted by date,recursive,show type,human readable
 alias lR='ls -tRFh'

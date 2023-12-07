@@ -30,7 +30,6 @@ alias autoload="autoload -Uz"
 #########
 #     Set Default Options
 #########
-alias ls="ls -G"
 alias grep='grep --color=auto -i'
 alias egrep='egrep --color=auto'
 alias ack='ack -i'  # case insensitive search

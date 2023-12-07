@@ -23,6 +23,7 @@ alias elt2="exa --tree --level=2 --long"
 alias elt3="exa --tree --level=3 --long"
 alias elt4="exa --tree --level=4 --long"
 alias elt5="exa --tree --level=4 --long"
+alias elt6="exa --tree --level=5 --long"
 alias eltA="exa --tree --long"
 
 # Other useful options

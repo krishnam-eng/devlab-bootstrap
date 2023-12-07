@@ -36,10 +36,17 @@ function _create_sftp_users() {
 	adduser sftpadmin # set sftp pwd
 	usermod -a -G sudo sftpadmin   # add to sudo group
 
+	# Root directory creation for sftp users
     mkdir /sftp
     chown root:root /sftp
     chmod 755 /sftp
 
+	# Home directory creation for host login user (sftp via login user)
+	mkdir /sftp/erebus/
+	chown erebus:erebus /sftp/erebus/
+
+	# Home directory creation for sftpclt user
+	# sftp via sftpclt user will not allow to execute commands due to /bin/false shell; so use login user for that purpose
     mkdir /sftp/sftpclt
     chown sftpclt:sftpclt /sftp/sftpclt
     chmod 700 /sftp/sftpclt
@@ -52,9 +59,13 @@ function _create_sftp_users() {
     chown sftpclt:sftpclt /sftp/sftpclt/.ssh/authorized_keys
     chmod 600 /sftp/sftpclt/.ssh/authorized_keys                  # ! To avoid, Authentication refused: bad ownership or modes for file
 
-	# test directory creation
+	# test directory creation for sftpclt user
 	mkdir /sftp/sftpclt/test
 	chown sftpclt:sftpclt /sftp/sftpclt/test
+
+	# test directory creation for sftpclt user
+	mkdir /sftp/erebus/test
+	chown erebus:erebus /sftp/erebus/test
 
 	# setup public keys authentication (change root is setup by match group policy, so setup keys in that root)
 	# paste in /sftp/sftpclt/.ssh/authorized_keys & /home/sftpclt/.ssh/authorized_keys (just in case)
@@ -66,4 +77,10 @@ function _create_sftp_users() {
 	id sftpclt
 	su - sftpadmin
 	su - sftpclt
+
+	# add sftp users per tenants
+	adduser tenanta # set password username+pwd
+	adduser tenantb # set password username+pwd
+
+	 id tenanta tenantb # verify user
 }

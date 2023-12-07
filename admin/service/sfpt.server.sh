@@ -52,6 +52,10 @@ function _create_sftp_users() {
     chown sftpclt:sftpclt /sftp/sftpclt/.ssh/authorized_keys
     chmod 600 /sftp/sftpclt/.ssh/authorized_keys                  # ! To avoid, Authentication refused: bad ownership or modes for file
 
+	# test directory creation
+	mkdir /sftp/sftpclt/test
+	chown sftpclt:sftpclt /sftp/sftpclt/test
+
 	# setup public keys authentication (change root is setup by match group policy, so setup keys in that root)
 	# paste in /sftp/sftpclt/.ssh/authorized_keys & /home/sftpclt/.ssh/authorized_keys (just in case)
 	cat $HOME/.ssh/id_rsa.pub

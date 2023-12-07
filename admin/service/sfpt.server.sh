@@ -42,8 +42,8 @@ function _create_sftp_users() {
     chmod 755 /sftp
 
 	# Home directory creation for host login user (sftp via login user)
-	mkdir /sftp/erebus/
-	chown erebus:erebus /sftp/erebus/
+	mkdir /sftp/data/
+	chown erebus:erebus /sftp/data/
 
 	# Home directory creation for sftpclt user
 	# sftp via sftpclt user will not allow to execute commands due to /bin/false shell; so use login user for that purpose

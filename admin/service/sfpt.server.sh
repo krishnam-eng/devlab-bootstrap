@@ -83,4 +83,14 @@ function _create_sftp_users() {
 	adduser tenantb # set password username+pwd
 
 	 id tenanta tenantb # verify user
+
+	 # sftp data directory per tenant
+	 mkdir /sftp/data/erebus
+	 chown erebus:erebus /sftp/data/erebus
+
+	 mkdir /sftp/data/tenanta
+	 chown tenanta:erebus /sftp/data/tenanta
+
+	 mkdir /sftp/data/tenantb
+	 chown tenantb:erebus /sftp/data/tenantb
 }

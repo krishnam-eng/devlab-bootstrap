@@ -1,20 +1,14 @@
-: <<'END'
-=head1
-Recipe: Running All Scripts in a Directory
-todo: WIP
-=cut
-END
+# Usage: repeat 5 "echo Hello, World!"
+# Runs the specified command every 5 seconds
+function refresh() {
+  local interval=$1
+  local command_to_run="${@:2}"
 
-function runscripts () {
-  dir="$(realpath $1)/*"
-  echo $LOGTS"Running scripts from ${dir}"
-  for script in ${dir}
-  do
-    echo ${script}
-    if [ -f "${script}" -a -x "${script}" ]
-    then
-      echo "$LOG_TS ${script} ..."
-      ${script}
-    fi
+  while true; do
+    # Run the specified command
+    eval "$command_to_run"
+
+    # Sleep for the specified interval
+    sleep "$interval"
   done
 }

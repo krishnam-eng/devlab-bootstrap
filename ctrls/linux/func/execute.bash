@@ -11,4 +11,4 @@ function refresh() {
     # Sleep for the specified interval
     sleep "$interval"
   done
-}``
+}

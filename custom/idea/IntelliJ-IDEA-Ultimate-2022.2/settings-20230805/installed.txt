@@ -1,7 +1,0 @@
-org.intellij.plugins.hcl
-org.jetbrains.plugins.go
-org.jetbrains.plugins.go-template
-org.sonarlint.idea
-org.zalando.intellij.swagger
-ru.adelf.idea.dotenv
-ski.chrzanow.foldableprojectview

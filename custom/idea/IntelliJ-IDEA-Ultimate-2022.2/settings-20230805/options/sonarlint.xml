@@ -1,6 +1,0 @@
-<application>
-  <component name="SonarLintGlobalSettings">
-    <option name="autoTrigger" value="false" />
-    <rules />
-  </component>
-</application>

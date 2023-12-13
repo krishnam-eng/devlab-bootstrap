@@ -10,6 +10,8 @@
 #     sftp -v -P 22 erebus@hostname
 
 function main(){
+    _activate_dependencies
+
     _create_sftp_users
     _enable_sftp_server
 }
@@ -93,4 +95,22 @@ function _create_sftp_users() {
 
 	 mkdir /sftp/data/tenantb
 	 chown tenantb:erebus /sftp/data/tenantb
+}
+
+function _enable_audit_on_sftp_dir()
+{
+	systemctl enable auditd
+
+	auditctl -w /sftp -p wa -k sftp-action
+    auditctl -w /sftp/data -p wa -k sftp-action
+    auditctl -w /sftp/data/erebus -p wa -k sftp-action
+	auditctl -w /sftp/data/tenanta -p wa -k sftp-action
+	auditctl -w /sftp/data/tenantb -p wa -k sftp-action
+
+    # tail -f /var/log/audit/audit.log | grep sftp-action
+}
+
+function _activate_dependencies(){
+  # install ssh client / server
+  sudo apt install auditd
 }

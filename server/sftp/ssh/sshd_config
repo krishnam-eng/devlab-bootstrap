@@ -1,0 +1,32 @@
+LogLevel VERBOSE
+
+# The LogLevel VERBOSE in the SSH server configuration (sshd_config) provides more detailed logging, but it might not capture specific SFTP actions like creating a directory or uploading a file by default.
+# To capture more granular details of SFTP actions, use VERBOSE in subsystem
+
+Subsystem sftp internal-sftp -l VERBOSE
+
+# Enables public key authentication for SSH.
+
+PubkeyAuthentication yes
+
+# without this Jsch will not connect to the server
+
+PubkeyAcceptedAlgorithms ssh-rsa,ssh-dss,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,ssh-ed25519,rsa-sha2-512
+
+# Authorized public keys for authentication
+# ! NOTE: This is a relative path to the user's home directory.
+
+AuthorizedKeysFile  .ssh/authorized_keys
+
+UseDNS no
+
+Match group sftpusers
+	PubkeyAuthentication yes
+	ChrootDirectory /sftp/%u
+	AuthorizedKeysFile /sftp/%u/.ssh/authorized_keys
+	# this service allows sftp connections only. It doesn't allow ssh connections. Enable this for extra security
+	# ForceCommand internal-sftp -d /home
+	# restricting the user from setting up TCP tunnels
+	AllowTcpForwarding no
+	# graphical applications cannot be forwarded from the server to the client
+	X11Forwarding no

@@ -1,0 +1,186 @@
+{
+    "port": 9162,
+    "protocol": "http",
+    "stubs": [
+        {
+            "responses": [
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "products": [
+                                {
+                                    "id": "1",
+                                    "name": "iPhone 11 256Gb",
+                                    "description": "A premium smartphone designed by Apple, known for its sleek design, powerful performance, and integration with the iOS ecosystem."
+                                },
+                                {
+                                    "id": "2",
+                                    "name": "iPhone 12 64Gb",
+                                    "description": "A premium smartphone designed by Apple, known for its sleek design, powerful performance, and integration with the iOS ecosystem."
+                                },
+                                {
+                                    "id": "3",
+                                    "name": "iPad Air 256Gb",
+                                    "description": "A versatile tablet series by Apple, offering a range of models for various tasks, from entertainment to productivity, with a focus on portability and performance"
+                                },
+                                {
+                                    "id": "4",
+                                    "name": "iPad 128Gb",
+                                    "description": "A versatile tablet series by Apple, offering a range of models for various tasks, from entertainment to productivity, with a focus on portability and performance"
+                                },
+                                {
+                                    "id": "5",
+                                    "name": "Apple Watch 8",
+                                    "description": "A smartwatch by Apple, offering fitness tracking, health monitoring, customizable watch faces, and integration with iPhone for notifications and apps, enhancing the overall user experience."
+                                },
+                                {
+                                    "id": "6",
+                                    "name": "AirPods Pro",
+                                    "description": "Wireless earbuds designed by Apple, providing a seamless and cord-free audio experience with features like easy pairing, intelligent sensors, and integration with Apple devices."
+                                },
+                                {
+                                    "id": "7",
+                                    "name": "AirTag",
+                                    "description": "Apple's location tracking device designed to help users find lost items, leveraging the Find My network for precise location information"
+                                },
+                                {
+                                    "id": "8",
+                                    "name": "MacPro",
+                                    "description": "Apple's high-end desktop computer, designed for professional users and demanding workflows, with modular components for customization and expansion"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "predicates": [
+                {
+                    "equals": {
+                        "path": "/products",
+                        "method": "GET"
+                    }
+                }
+            ]
+        },
+        {
+            "responses": [
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "id": "1",
+                            "name": "iPhone 11 256Gb",
+                            "description": "A premium smartphone designed by Apple, known for its sleek design, powerful performance, and integration with the iOS ecosystem."
+                        }
+                    }
+                },
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "id": "2",
+                            "name": "iPhone 12 64Gb",
+                            "description": "A premium smartphone designed by Apple, known for its sleek design, powerful performance, and integration with the iOS ecosystem."
+                        }
+                    }
+                },
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "id": "3",
+                            "name": "iPad Air 256Gb",
+                            "description": "A versatile tablet series by Apple, offering a range of models for various tasks, from entertainment to productivity, with a focus on portability and performance"
+                        }
+                    }
+                },
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "id": "4",
+                            "name": "iPad 128Gb",
+                            "description": "A versatile tablet series by Apple, offering a range of models for various tasks, from entertainment to productivity, with a focus on portability and performance"
+                        }
+                    }
+                },
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "id": "5",
+                            "name": "Apple Watch 8",
+                            "description": "A smartwatch by Apple, offering fitness tracking, health monitoring, customizable watch faces, and integration with iPhone for notifications and apps, enhancing the overall user experience."
+                        }
+                    }
+                },
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "id": "6",
+                            "name": "AirPods Pro",
+                            "description": "Wireless earbuds designed by Apple, providing a seamless and cord-free audio experience with features like easy pairing, intelligent sensors, and integration with Apple devices."
+                        }
+                    }
+                },
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "id": "7",
+                            "name": "AirTag",
+                            "description": "Apple's location tracking device designed to help users find lost items, leveraging the Find My network for precise location information"
+                        }
+                    }
+                },
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "id": "8",
+                            "name": "MacPro",
+                            "description": "Apple's high-end desktop computer, designed for professional users and demanding workflows, with modular components for customization and expansion"
+                        }
+                    }
+                }
+            ],
+            "predicates": [
+                {
+                    "matches": {
+                        "path": "/product/\\d+",
+                        "method": "GET"
+                    }
+                }
+            ]
+        }
+    ]
+}

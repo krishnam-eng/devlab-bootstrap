@@ -32,3 +32,22 @@ function repeatN() {
         done
     fi
 }
+
+curld() {
+  local directory=$1
+
+  # Check if the directory exists
+  if [ ! -d "$directory" ]; then
+    echo "Error: Directory $directory not found."
+    return 1
+  fi
+
+  # Iterate through files in the directory, assuming they are named like "01_command.txt", "02_command.txt", etc.
+  for file in "$directory"/*.sh; do
+    if [ -f "$file" ]; then
+      echo "Executing: curl $(cat "$file")"
+      sh "$file"
+      echo "----------------------------------------"
+    fi
+  done
+}

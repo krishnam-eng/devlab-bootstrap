@@ -29,7 +29,7 @@ function _make_zsh_default_shell() {
 }
 
 function build_file_hierarchy_structure(){
-    mkdir $HOME/hrt/ext        # Extensions to zsh like theme, plugins, fonts, auto completes
+    mkdir -p $HOME/hrt/ext        # Extensions to zsh like theme, plugins, fonts, auto completes
 
     mkdir $HOME/hrt/etc/ctrflags/  # For storing flags to control default behavior with feature toggle
 
@@ -61,10 +61,16 @@ function _configure_zsh() {
 }
 
 function _extend_zsh_capabilities() {
+  mkdir -p $HOME/hrt/ext
+
 	# order matters
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  $HOME/hrt/ext/zsh-autosuggestions
-    git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search  $HOME/hrt/ext/zsh-history-substring-search
-    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting $HOME/hrt/ext/zsh-syntax-highlighting
+  git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  $HOME/hrt/ext/zsh-autosuggestions
+  git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search  $HOME/hrt/ext/zsh-history-substring-search
+  git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting $HOME/hrt/ext/zsh-syntax-highlighting
+
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/hrt/ext/powerlevel10k
+  echo 'source $HOME/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+  p10k configure
 }
 
 function _sudo_control() {
@@ -73,6 +79,8 @@ function _sudo_control() {
 }
 function _install_dependencies(){
     sudo apt install -y zsh
-    sudo apt install -y git
+
     sudo apt install -y tree
+
+    sudo apt install -y git  # installed by default
 }

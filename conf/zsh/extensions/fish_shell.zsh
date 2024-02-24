@@ -14,4 +14,5 @@ if [[ -f ~/hrt/ext/zsh-history-substring-search/zsh-history-substring-search.zsh
     # enable key binding for up and down
     bindkey '^[[A' history-substring-search-up
     bindkey '^[[B' history-substring-search-down
+    # todo: key binding issue?
 fi

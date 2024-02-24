@@ -20,6 +20,6 @@ function _checkout_bootcode() {
 }
 
 function _install_dependencies(){
-    sudo apt install -y git
+    sudo apt install -y git  # installed by default >= ubuntu 22.04
     sudo apt install -y tree
 }

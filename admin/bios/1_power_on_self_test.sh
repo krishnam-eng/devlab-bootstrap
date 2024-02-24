@@ -81,12 +81,14 @@ function _perform_peripheral_checks(){
   hcitool dev
 }
 
-function _install_dependencies(){
-  sudo apt install net-tools # for ifconfig cmd - interface config
-}
-
 function _upgrade_system() {
   sudo apt update
   sudo apt list --upgradeable # list packages that can be upgraded
   sudo apt upgrade
+}
+
+function _install_dependencies(){
+  sudo apt install net-tools # for ifconfig cmd - interface config
+  sudo apt install network-manager # for nmcli
+  sudo apt install bluez     # for hcitool
 }

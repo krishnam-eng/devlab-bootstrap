@@ -10,6 +10,7 @@ function main() {
 
   # network manager command line interface - Linux
   nmcli device show
+
   # Darwin
   networksetup -listallhardwareports
 

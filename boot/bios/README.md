@@ -1,4 +1,4 @@
-# GRUB - Grand Unified Boot Loader
+
 # High-level Overview of the BIOS/UEFI Initialization Process
 
 ## Power-On or Reset:
@@ -39,7 +39,7 @@ The BIOS/UEFI selects the primary boot device (usually the hard drive or SSD) fr
 The BIOS/UEFI reads the initial part of the boot loader (such as the Master Boot Record or EFI System Partition) from the designated boot device.
 This boot loader is responsible for loading the operating system's kernel into memory.
 
-## Handover to the Boot Loader:
+## Handover to the Boot Loader: GRUB - Grand Unified Boot Loader
 
 * Control is handed over to the boot loader, which continues the boot process.
 * For UEFI systems, this handover process is more standardized and involves loading the EFI executable (such as bootx64.efi) from the EFI System Partition.

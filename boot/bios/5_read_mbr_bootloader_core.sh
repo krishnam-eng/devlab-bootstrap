@@ -8,6 +8,5 @@ function main() {
 #       - Master Boot Record (MBR) or GUID Partition Table (GPT):
 function _read_master_boot_record() {
         # loads to memory and executes the boot loader
-        cat 0_load_bootcode.sh
-        sh  0_load_bootcode.sh
+        sh  1_load_bootcode.sh
 }

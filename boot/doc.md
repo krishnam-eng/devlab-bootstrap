@@ -43,6 +43,6 @@ Kernel (Kernel Space) + Shell (User Space)
 
 Power On (core) => BIOS / UEFI
     Boot loader => GRUB2
-        Initrd => systemd
+        Initd => systemd
             service => units
 ```

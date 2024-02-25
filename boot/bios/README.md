@@ -1,3 +1,4 @@
+# GRUB - Grand Unified Boot Loader
 # High-level Overview of the BIOS/UEFI Initialization Process
 
 ## Power-On or Reset:

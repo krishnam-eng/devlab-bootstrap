@@ -1,0 +1,13 @@
+[Unit]
+Description=echo socket
+
+[Socket]
+ListenStream=2222
+Accept=true
+
+# what do to after listening, is defined in
+# echo.service by convention
+
+# >telnet localhost 2222
+# Hi there
+# hi there

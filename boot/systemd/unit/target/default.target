@@ -1,0 +1,31 @@
+# unit files are similar to .ini files on Microsoft systems
+
+# Control start up & shutdown behaviour with Type
+# Type=simple
+# Type=forking -
+# Type=notify - sends notification to systemd
+# Type=dubs   - register in desktop bus after start
+
+
+# Unit section contains description & dependency
+[Unit]
+Description=
+Requisite= (must be already active)
+Require= (make it active if not, abort if fails)
+Wants= (make it active if not, continue even if fails)
+Conflicts= (don't want - negative dependencies)
+
+# Gives reverse dependency - who depend on me
+[Install]
+WantedBy=fermen.target
+
+# Details about the service; $variables & %specifiers are allowed (%H - hostname)
+[Service]
+EnvironmentFile=
+ExecutionStartPre=
+ExecStart=
+ExecReload=
+
+# Ordering
+After=foo.target
+Before=bar.target

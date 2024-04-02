@@ -26,15 +26,8 @@ fi
 
 if [ -d "$HOME/hrt/lib/gradle-7.1.1" ]
 then
-  export GRADLE_HOME="~/hrt/lib/gradle"
+  export GRADLE_HOME="$HOME/hrt/lib/gradle"
   PATH=${PATH}:${GRADLE_HOME}/bin
-fi
-
-# Environment and Package management
-if [ -d "$HOME/hrt/tools/anaconda3/bin" ]
-then
-  export CONDA_HOME="~/hrt/tools/anaconda3"
-  PATH=${PATH}:${CONDA_HOME}/bin
 fi
 
 # package manager for kubectl plugins

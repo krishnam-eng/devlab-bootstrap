@@ -21,9 +21,9 @@ function _make_zsh_default_shell() {
     # list available shells
     cat /etc/shells
 
-    # change default shell to zsh
+    # change default shell to zsh. Do it without sudo as it is user-specific
     zsh --version
-    sudo chsh -s $(which zsh)
+    chsh -s $(which zsh)
 
   # ! Log out and log back in to see the change
 }
@@ -63,7 +63,6 @@ function _configure_zsh() {
 function _extend_zsh_capabilities() {
   mkdir -p $HOME/hrt/ext
 
-	# order matters
   git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  $HOME/hrt/ext/zsh-autosuggestions
   git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search  $HOME/hrt/ext/zsh-history-substring-search
   git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting $HOME/hrt/ext/zsh-syntax-highlighting
@@ -79,8 +78,4 @@ function _sudo_control() {
 }
 function _install_dependencies(){
     sudo apt install -y zsh
-
-    sudo apt install -y tree
-
-    sudo apt install -y git  # installed by default
 }

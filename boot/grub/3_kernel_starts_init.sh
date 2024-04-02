@@ -8,6 +8,6 @@ function main() {
 # systemd:/etc/systemd (inspired from darwin launchd - goal oriented)
 # runit (android)
 function _start_init_as_first_user_space_process() {
-        cd ../user
-        sh  1_systemd.sh
+        cd ../init
+        sh  1_activate_systemd-unit.sh
 }

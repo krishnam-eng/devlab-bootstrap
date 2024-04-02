@@ -18,3 +18,4 @@ function main() {
   hostname
   vim /etc/hostname
 }
+

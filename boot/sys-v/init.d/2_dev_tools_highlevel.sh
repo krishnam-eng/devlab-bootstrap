@@ -1,7 +1,56 @@
+
 function load_dev_tools(){
+	_java_dev_env_darwin
+	_docker_dev_env
+}
+
+function _java_dev_env_darwin(){
+	# Check the current Java version
+	java -version
+
+	# Check Existing Versions: list available Java versions
+	 /usr/libexec/java_home
+
+	# Install Java 17 with Homebrew:
+	brew install openjdk@17
+
+	# Get the path of the newly installed Java 17
+	/usr/libexec/java_home -v 17
+
+	# Set the default Java path permanently
+	echo $JAVA_HOME
+
+	# in .zshrc or .bashrc
+	export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+
+	# Verify the Change
+	java -version
+}
+
+function _docker_dev_env(){
+	# Docker Engine
+    # Container: Check latest instructions from
+    # https://docs.docker.com/engine/install/ubuntu/
+    # TODO: refer latest container ecosystem stack install instructions from dev home doc
+    # Step 1: Set up the repository
+    sudo apt-get update
+    sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-releasesudo apt install -y docker-ce
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    # Step 2: Install Docker Engine
+    sudo apt-get update
+    sudo apt-get install docker-ce docker-ce-cli containerd.io
+    # Step3: Check
+    sudo docker run hello-world
+    # Docker Compose
+    # https://docs.docker.com/compose/install/
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    docker-compose --version
+}
+
+function others(){
     # Java Dev: Basic Development Tools & Others
-    sudo apt install -y openjdk-11-jre-headless
-    sudo apt install -y openjdk-8-jre-headless
     sudo add-apt-repository ppa:cwchien/gradle # use this repo to get latest gradle version
     sudo apt install -y gradle          # build tool & dependency manager
     sudo apt install -y httpie          # user-friendly command-line HTTP client for the API era
@@ -24,24 +73,6 @@ function load_dev_tools(){
     pip install locust               # [optional] open source load testing tool, define user behaviour with Python code
     pip install rope                 # [optional] python refactoring library - used in vscode
     sudo snap install --classic code # IDE for light weight project (python, scripts)
-
-    # Container: Check latest instructions from
-    # https://docs.docker.com/engine/install/ubuntu/
-    # Step 1: Set up the repository
-    sudo apt-get update
-    sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-releasesudo apt install -y docker-ce
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    # Step 2: Install Docker Engine
-    sudo apt-get update
-    sudo apt-get install docker-ce docker-ce-cli containerd.io
-    # Step3: Check
-    sudo docker run hello-world
-    # Docker Compose
-    # https://docs.docker.com/compose/install/
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    docker-compose --version
 
     # just for fun
     sudo apt install -y cowsay            # An ASCII cow in terminal that will say what ever you want

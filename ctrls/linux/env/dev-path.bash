@@ -30,6 +30,13 @@ then
   PATH=${PATH}:${GRADLE_HOME}/bin
 fi
 
+# Environment and Package management
+if [ -d "$HOME/hrt/tools/anaconda3/bin" ]
+then
+  export CONDA_HOME="~/hrt/tools/anaconda3"
+  PATH=${PATH}:${CONDA_HOME}/bin
+fi
+
 # package manager for kubectl plugins
 if [ -d "${HOME}/.krew/" ]
 then
@@ -40,7 +47,7 @@ fi
 # So, set it to jdk for mvn to work
 if [ -d /Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home ]
 then
-  export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home"
+  export JAVA_HOME="${HOME}/Library/Java/JavaVirtualMachines/temurin-17.0.8/Contents/Home"
   PATH="${PATH}:${JAVA_HOME}/bin"
 fi
 

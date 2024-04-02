@@ -10,9 +10,8 @@
 
 # Implementation of the Fish shell's history search feature, where you can type in any part of any command from history and then press chosen keys, such as the UP and DOWN arrows, to cycle through matches.
 if [[ -f ~/hrt/ext/zsh-history-substring-search/zsh-history-substring-search.zsh ]]; then
-    source ~/hrt/ext/zsh-history-substring-search/zsh-history-substring-search.zsh
-    # enable key binding for up and down
-    bindkey '^[[A' history-substring-search-up
-    bindkey '^[[B' history-substring-search-down
-    # todo: key binding issue?
+	source ~/hrt/ext/zsh-history-substring-search/zsh-history-substring-search.zsh
+	# enable key binding for up and down
+	bindkey "$terminfo[kcuu1]" history-substring-search-up
+	bindkey "$terminfo[kcud1]" history-substring-search-down
 fi

@@ -8,6 +8,12 @@ export PATH=/usr/local/bin:/usr/local/sbin:${PATH}
 # If you need to have python@3.10 first in your PATH, run:
 #export PATH="/usr/local/opt/python3/bin:$PATH"
 
+#   WARNING: The script virtualenv is installed in '/Users/balamurugan/.local/bin' which is not on PATH.
+#   Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+#   WARNING: The scripts pipenv and pipenv-resolver are installed in '/Users/balamurugan/.local/bin' which is not on PATH.
+#   Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+export PATH=/usr/$HOME/.local/bin:${PATH}
+
 # For compilers to find python@3.10 you may need to set:
 export LDFLAGS="-L/usr/local/opt/python3/lib"
 

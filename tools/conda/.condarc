@@ -1,5 +1,6 @@
 channels:
-  - defaults
-
+  - conda-forge
 pkgs_dirs:
-    - /Users/balamurugan/.anaconda
+  - /Users/balamurugan/hrt/.miniconda
+create_default_packages:
+  - jupyter

@@ -31,9 +31,9 @@ function _make_zsh_default_shell() {
 function build_file_hierarchy_structure(){
     mkdir -p $HOME/hrt/ext        # Extensions to zsh like theme, plugins, fonts, auto completes
 
-    mkdir $HOME/hrt/etc/ctrflags/  # For storing flags to control default behavior with feature toggle
+    mkdir -p $HOME/hrt/etc/ctrflags/  # For storing flags to control default behavior with feature toggle
 
-    mkdir $HOME/hrt/state              # For user-specific apps session data or history, which should be stored for future reuse;
+    mkdir $HOME/hrt/states              # For user-specific apps session data or history, which should be stored for future reuse;
     mkdir $HOME/hrt/states/shell
 
     mkdir $HOME/hrt/ver        # For taking backup version of config before overwriting
@@ -48,12 +48,12 @@ function build_file_hierarchy_structure(){
 
 	# Unclutter: remove default folders created by Ubuntu at $HOME
 	cd $HOME
-    \rm -rf -d Documents Music Pictures Public Templates Videos
+    \rm -rf -d Music Pictures Public Templates Videos
 }
 
 function _configure_zsh() {
     # back up existing config and replace with hrt config
-    cp ~/.zshrc ~/hrt/ver/.zshrc_$(date +%y%m%d)-old
+    cp ~/.zshrc ~/hrt/ver/.zshrc_$(date +%y%m%d)-old # Possible devout: No such file or directory
     rm -f  ~/.zshrc
 
     # Update ZDOTDIR env to ~/hrt/boot/conf/zsh
@@ -68,8 +68,10 @@ function _extend_zsh_capabilities() {
   git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting $HOME/hrt/ext/zsh-syntax-highlighting
 
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/hrt/ext/powerlevel10k
-  echo 'source $HOME/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
-  p10k configure
+
+  touch $HOME/hrt/etc/ctrflags/enablepowertheme # enable custom flag for sourcing p10k
+  lzsh           # reload zsh run config
+  p10k configure # install the suggested nerd font to get icons in prompt header line
 }
 
 function _sudo_control() {

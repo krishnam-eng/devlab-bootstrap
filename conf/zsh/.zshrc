@@ -14,11 +14,6 @@ fi
 # Extend zsh behavior with fish shell capabilities
 source $HOME/hrt/boot/conf/zsh/extensions/fish_shell.zsh
 
-# optional powerlevel10k theme
+# To customize prompt, run `p10k configure` or edit ~/hrt/boot/conf/zsh/extensions/.p10k.zsh.
 [[ -f $HOME/hrt/etc/ctrflags/enablepowertheme ]] && source $HOME/hrt/boot/conf/zsh/extensions/.p10k.zsh && source $HOME/hrt/ext/powerlevel10k/powerlevel10k.zsh-theme
 
-
-eval "$(gh copilot alias -- zsh)"
-
-# Created by `pipx` on 2024-04-24 08:26:42
-export PATH="$PATH:/Users/balamurugan/hrt/local/bin"

@@ -1,6 +1,11 @@
-function load_dev_tools(){
+function install_dev_tools(){
 	_programming_languages
 	_version_control_systems
+	_build_tools
+	_db_tools
+	_test_tools
+	_container_management_tools # TODO
+	_cloud_interaction_tools
 	# todo: auto completion setup for all CLI tools
 }
 
@@ -23,6 +28,54 @@ function _version_control_systems() {
   gh --version
   sourcetree --version
 }
+
+function _build_tools() {
+  brew install maven
+  brew install gradle
+  brew install helm
+}
+
+function _db_tools() {
+   # ! Approach 1: Needs sudoer access for cask install
+   # Approach 2: Install from dmg files with Admin access
+   brew install --cask dbeaver-community
+   brew install --cask pgadmin4
+}
+
+function _test_tools() {
+   brew install httpie
+}
+
+function _cloud_interaction_tools() {
+  # ! Fetching dependencies for awscli: python@3.11
+  brew install awscli
+  brew install hashicorp/tap/terraform
+}
+
+function _container_management_tools() {
+  # Colima: Alternative to Docker/Ranger Desktop
+  brew install colima         # Colima initiates with a user specified container runtime on MacOS that defaults to Docker.
+  brew install docker         # Docker client is required for Docker runtime
+  brew install docker-compose
+
+  brew install minikube       # Minikube is a tool that makes it easy to run Kubernetes locally
+  brew install kubectl        # Kubectl is a command line tool for controlling Kubernetes clusters
+  brew install k9s            # k9s is a terminal-based UI to interact with your Kubernetes clusters
+  brew install krew           # Krew is the package manager for kubectl plugins
+
+  # TODO: Explore them later - not installed as essential bundle
+  brew install kind           # kind is a tool for running local Kubernetes clusters using Docker container “nodes”
+  brew install tilt           # Tilt is a tool for local Kubernetes development with no stress
+  brew install telepresence   # Telepresence is a tool to enable local development against a remote Kubernetes cluster
+  brew install kustomize      # Kustomize is a standalone tool to customize Kubernetes objects through a kustomization file
+  brew install kompose        # Kompose is a tool to help users familiar with docker-compose move to Kubernetes
+  brew install skaffold       # Skaffold is a command line tool that facilitates continuous development for Kubernetes applications
+  brew install duffle         # Duffle is a CLI tool to build, publish, and run Cloud-Native Application Bundles (CNAB)
+  brew install pack           # Pack CLI is a tool for building apps using Cloud Native Buildpacks
+  brew install podman         # Podman is a daemonless container engine for developing, managing, and running OCI Containers
+  brew install podman-compose # Podman Compose is a script to run a group of containers
+}
+
 function _setup_python() {
   # Install Python 3.12 with Homebrew:
   brew install python@3.12
@@ -91,34 +144,7 @@ function _setup_java(){
 # NOTE: check the mkdevenv-base.sh script first and come back here
 
 function install_core_packages(){
-    # Install Package Manager - Homebrew
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
-
-    # core install (some packages might be already installed)
-     brew install git             # might already be there
-     brew install nano            # feature-rich CLI text editor for power users
-     brew install tmux            # terminal multiplexer
-     brew install zsh             # best shell to use (already there)
-
-    # basic tools to start with
-     brew install vim             # open-source clone of vi text editor developed to be customizable and able to work with any type of text
-     brew install watch           #
-     brew install curl            #
-     brew install wget            #
-     brew install tree            # list dir in tree form
-     brew install rar unrar       # archive utilities
-     brew install zip unzip       #
-     brew install xclip           # clipboard management
-     brew install rsync           # [default in version > ubuntu21.04] utility tool for performing swift incremental file transfers
-
-    # system utilities
-     brew install exa             # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18 not found]
-     brew install ranger          # console file manager with vi key bindings (npm error: Not compatible with your version of node/npm)
-     brew install ncdu            # NCurses Disk Usage: to view and analyse disk space usage. It can drill down into directories and report space used by individual directories.
-     brew install htop            # interactive process viewer similar to top but that provides a nicer user experience out of the box
-     brew install glances         # system monitoring tool
-     brew install ctop            # top-like interface for container metrics
      brew install telnet          # Telnet is an old network protocol that is used to connect to remote systems over a TCP/IP network.  data sent over the protocol is unencrypted.
 
     # Others
@@ -129,16 +155,6 @@ function install_core_packages(){
      brew install figlet            # utility for creating ASCII text banners or large letters out of ordinary text
      brew install cmatrix           # shows a scrolling ‘Matrix‘ like screen in a Linux terminal [Not in venv setup]
      brew install lolcat            # rainbow view of the cat
-}
-
-
-function install_dev_tools(){
-    brew install python
-    brew install node
-
-    # jq is like sed for JSON data - you can use it to slice and filter and map and transform structured data
-    # with the same ease that sed , awk , grep
-    brew install jq
 }
 
 function install_infra_tools(){
@@ -156,25 +172,6 @@ function install_infra_tools(){
     kubectl krew view-allocations
     kubectl krew config-cleanup
     kubectl krew whoami
-
-    # Like a Package Manager for k8s Operating System
-    brew install helm
-
-    #### Serverless - OpenWhisk
-    # wsk interacts with openwhisk platform
-    brew install wsk
-
-    # wskdeploy helps manage deploy configs - action, packages, namespace
-    wget https://github.com/apache/openwhisk-wskdeploy/releases/download/1.2.0/openwhisk_wskdeploy-1.2.0-mac-amd64.zip
-    unzip ../openwhisk_wskdeploy-1.2.0-mac-amd64.zip
-    mv wskdeploy ~hrt/bin/    # hrt/bin is set as PATH
-
-    #### Search Engine & Data Store - or use docker compose / k8s helm to setup ES
-    brew install elasticsearch
-
-    #### Hashsicorp Vault: Manage secrets and protect sensitive data. 
-    brew tap hashicorp/tap
-    brew install hashicorp/tap/vault
 }
 
 function install_db_dev_tools {
@@ -198,21 +195,6 @@ function install_db_dev_tools {
 # For testers and developers responsible for API testing, Postman is a popular and free solution
 # Postman says: Automated API testing is far superior to automated UI testing
 function setup_postman_api_testenv(){
-    # node is needed for postman cli runner - newman
-    node --version
-
-    # if you have node and not have npm, it is a indication that node version is old. Action: Upgrade node.
-    npm --version
-
-    # install if not exist
-    brew install node
-
-    # Java SDK is required
-    java -version
-
-    # Install if not available
-    # https://docs.oracle.com/en/java/javase/15/install/installation-jdk-macos.html
-
     # Install newman in global mode (it installs as a global package)
     npm install -g newman
     newman --version
@@ -222,42 +204,4 @@ function setup_postman_api_testenv(){
 
     # For Desktop, download postman (not the agent) app from https://www.postman.com/downloads/
     # Unzip and move it to $User-Home/Applications dir
-}
-
-function setup_build_tools(){
-  # change working dir to lib
-  cd ~/hrt/lib
-
-  # maven
-  curl https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.tar.gz --output apache-maven-3.6.1.tar.gz
-  curl https://dlcdn.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz --output apache-maven-3.8.4.tar.gz
-
-  tar -xvzf apache-maven-3.6.1.tar.gz
-  tar -xvzf apache-maven-3.8.4.tar.gz
-
-  # symlink to your preferred default
-  ln -s apache-maven-3.6.1 maven
-  ln -s ~/hrt/lib/maven/bin/mvn ~/hrt/bin/mvn
-
-  # set the below in run-config (rc file). e,g - env/dev-tools-base-path.bash
-  if [ -d "$HOME/hrt/lib/maven" ]
-  then
-    # maven is a link to a specific version of maven .e.g, apache-maven-3.6.1
-    export M2_HOME="$HOME/hrt/lib/maven"
-    PATH="${M2_HOME}/bin:${PATH}"
-  fi
-
-  # optional: e.g, env/base-path.bash file
-  if [ -d "$HOME/hrt/bin" ]
-  then
-    PATH="$PATH:$HOME/hrt/bin"
-  fi
-
-  # gradle
-  wget https://services.gradle.org/distributions/gradle-7.3.2-bin.zip
-  cp gradle-7.3.2-bin.zip ~hrt/lib/
-  unzip gradle-7.3.2-bin.zip
-  ln -s gradle-7.3.2 gradle
-  rm gradle-7.3.2-bin.zip
-  ln -s ~/hrt/lib/gradle/bin/gradle ~/hrt/bin/gradle
 }

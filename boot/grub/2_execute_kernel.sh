@@ -52,18 +52,17 @@ function _configure_zsh() {
     # back up existing config and replace with hrt config
     cp ~/.zshrc $HOME/Paradigm/Development/Version/.zshrc_$(date +%y%m%d)-old # Possible devout: No such file or directory
     rm -f  ~/.zshrc
+    rm -f ~/.zshenv
 
     # Update ZDOTDIR env to /Users/${USER}/Paradigm/Development/Root/conf/zsh
     ln -s /Users/${USER}/Paradigm/Development/Root/conf/zsh/.zshenv ~/.zshenv
 }
 function _extend_zsh_capabilities() {
-  mkdir -p $HOME/Paradigm/Development/ext
+  git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  $HOME/Paradigm/Development/Extensions/zsh-autosuggestions
+  git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search  $HOME/Paradigm/Development/Extensions/zsh-history-substring-search
+  git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting $HOME/Paradigm/Development/Extensions/zsh-syntax-highlighting
 
-  git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  $HOME/Paradigm/Development/ext/zsh-autosuggestions
-  git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search  $HOME/Paradigm/Development/ext/zsh-history-substring-search
-  git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting $HOME/Paradigm/Development/ext/zsh-syntax-highlighting
-
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/Paradigm/Development/ext/powerlevel10k
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/Paradigm/Development/Extensions/powerlevel10k
 
   touch $HOME/Paradigm/Development/etc/ctrflags/enablepowertheme # enable custom flag for sourcing p10k
   touch $HOME/Paradigm/Development/States/.zhistfile

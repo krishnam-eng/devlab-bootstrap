@@ -24,7 +24,7 @@ function _checkout_bootcode() {
   # ! Manual Step: copy and add key to github ssh keys to access private repo
   ssh-keygen
   cat ~/.ssh/github.pub
-  git clone --depth=1 git@github.com:krishnam-eng/homelab-devbox.git /Users/$(whoami)/Paradigm/Development/Root
+  git clone --depth=1 git@github.com:krishnam-eng/homelab-devbox.git $HOME/Paradigm/Development/Root
 }
 
 function _install_dependencies_ubuntu(){

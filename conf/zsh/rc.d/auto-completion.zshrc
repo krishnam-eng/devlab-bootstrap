@@ -55,7 +55,9 @@ fi
 
 # Enable alias for copilot
 if [ $commands[gh] ]; then
-  eval "$(gh copilot alias -- zsh)"
+  source <(gh completion -s zsh)
+  # copilot subcommand will work only after gh login
+  # eval "$(gh copilot alias -- zsh)"
 fi
 
 # By default, the completion doesn't allow option-stacking, meaning if you try to complete docker run -it <TAB>

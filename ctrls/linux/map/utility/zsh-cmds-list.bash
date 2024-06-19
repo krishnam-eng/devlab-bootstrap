@@ -1,30 +1,7 @@
 ##########===========----------------
-# enhanced ls with exa
+# Enhanced ls with LSDeluxe
 ##########===========----------------
-alias ils='lsd'
-
-alias els="exa"
-
-alias eld="exa -ld .*"
-
-alias ela="exa --long"
-
-alias elo="exa -l --header -s"
-
-alias elr="exa --recurse"
-
-alias elg="exa --long --header --git"
-
-alias elm="exa --long --extended"
-
-alias elt="exa --tree --level=1 --long"
-alias elt1="exa --tree --level=1 --long"
-alias elt2="exa --tree --level=2 --long"
-alias elt3="exa --tree --level=3 --long"
-alias elt4="exa --tree --level=4 --long"
-alias elt5="exa --tree --level=4 --long"
-alias elt6="exa --tree --level=5 --long"
-alias eltA="exa --tree --long"
+alias lsc='lsd' # lsd is a ls command with colorful output, file type icons, and more - https://github.com/lsd-rs/lsd
 
 # Other useful options
 # -1 => print in one column

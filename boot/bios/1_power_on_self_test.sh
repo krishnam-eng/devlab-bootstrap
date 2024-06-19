@@ -55,7 +55,8 @@ function _perform_peripheral_checks(){
   ss -t -a     #  linux
   networksetup -listallhardwareports # darwin
 
-  # net-tools needs to be installed - linux & darwin
+  # net-tools needs to be installed for linux
+  # lists all network interfaces (if), including Ethernet and Wi-Fi adapters
   ifconfig -a
   netstat -s #  list network statistics for all interfaces
   netstat -l #  list all listening ports
@@ -65,12 +66,6 @@ function _perform_peripheral_checks(){
   arp -a     #  list the kernel’s ARP table - address resolution protocol (ip - mac)
   dig google.com #  list the DNS records for a domain name
 
-  # network manager command line interface - Linux
-  nmcli device show
-  nmcli connection show
-  nmcli connection show --active
-  route -n
-
   # lists all PCI devices, , including graphics cards and other internal peripherals
   lspci
 
@@ -79,6 +74,12 @@ function _perform_peripheral_checks(){
 
   # lists all Bluetooth devices, including keyboards, mice, and other external peripherals
   hcitool dev
+
+  # network manager command line interface - Only Linux
+  nmcli device show
+  nmcli connection show
+  nmcli connection show --active
+  route -n
 }
 
 function _upgrade_system() {

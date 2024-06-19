@@ -8,13 +8,13 @@ function main() {
   lsusb
   ifconfig -a
 
-  # network manager command line interface - Linux
+  # network manager command line interface - only Linux
   nmcli device show
 
   # Darwin
   networksetup -listallhardwareports
 
-  #
+  # Set the hostname of the machine to a unique name. Only admins can change the hostname.
   hostname
   vim /etc/hostname
 }

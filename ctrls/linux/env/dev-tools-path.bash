@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-export PATH=/usr/local/bin:/usr/local/sbin:${PATH}
-
 # python install from brew
 # python@3.10 is keg-only, which means it was not symlinked into /usr/local,
 # because this is an alternate version of another formula.
@@ -93,3 +91,26 @@ then
   PATH="$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin"
   export PGDATA=~/hrt/var/pgsql/data
 fi
+
+# vim config path
+#* neovim uses different dir for config and data
+export VIMCONFIG=~/.myvim
+export VIMDATA=~/.myvim
+
+# pipx
+export PIPX_BIN_DIR=$HOME/hrt/local/bin
+export PIPX_HOME=$HOME/hrt/local/pipx
+
+# executable awk programs
+if [ -d "$HOME/.myawk" ]
+then
+  PATH="$PATH:$HOME/.myawk"
+fi
+
+# executable tmux session
+if [ -d "$HOME/.mytmux/sessions" ]
+then
+  PATH="$PATH:$HOME/.mytmux/sessions"
+fi
+
+export HOMEBREW_NO_INSTALL_CLEANUP=TRUE

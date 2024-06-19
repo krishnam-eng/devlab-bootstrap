@@ -151,7 +151,7 @@ function setup_build_tools(){
   ln -s apache-maven-3.6.1 maven
   ln -s ~/hrt/lib/maven/bin/mvn ~/hrt/bin/mvn
 
-  # set the below in run-config (rc file). e,g - env/dev-path.bash
+  # set the below in run-config (rc file). e,g - env/dev-tools-base-path.bash
   if [ -d "$HOME/hrt/lib/maven" ]
   then
     # maven is a link to a specific version of maven .e.g, apache-maven-3.6.1
@@ -159,7 +159,7 @@ function setup_build_tools(){
     PATH="${M2_HOME}/bin:${PATH}"
   fi
 
-  # optional: e.g, env/path.bash file
+  # optional: e.g, env/base-path.bash file
   if [ -d "$HOME/hrt/bin" ]
   then
     PATH="$PATH:$HOME/hrt/bin"

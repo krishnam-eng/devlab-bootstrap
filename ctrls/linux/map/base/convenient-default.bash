@@ -2,7 +2,6 @@
 ## sudo -  do action as substitute user  / super user
 #########
 # alias redo="sudo !!" - bug
-
 # Always run as super user  as substitute user do action
 alias apt='sudo apt'
 alias systemctl='sudo systemctl'

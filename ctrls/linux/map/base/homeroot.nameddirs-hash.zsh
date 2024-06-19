@@ -7,47 +7,32 @@
 #
 ###################
 
-hash -d hrt=~/hrt
+hash -d dev=$HOME/Paradigm/Development/Root
 
-hash -d boot=~/hrt/boot
+hash -d devroot=$HOME/Paradigm/Development/Root
 
-hash -d zsh=~/hrt/boot/conf/zsh
+hash -d zsh=$HOME/Paradigm/Development/Root/conf/zsh
 
-hash -d alias=~/hrt/boot/custom/alias
-hash -d env=~/hrt/boot/custom/env
-hash -d func=~/hrt/boot/custom/func
+hash -d alias=$HOME/Paradigm/Development/Root/custom/alias
+hash -d env=$HOME/Paradigm/Development/Root/custom/env
+hash -d func=$HOME/Paradigm/Development/Root/custom/func
 
-hash -d ssh=~/hrt/boot/settings/ssh
+hash -d ssh=$HOME/Paradigm/Development/Root/settings/ssh
+hash -d vim=$HOME/Paradigm/Development/Root/settings/vim
+hash -d nano=$HOME/Paradigm/Development/Root/settings/nano
 
-hash -d vim=~/hrt/boot/settings/vim
-hash -d nano=~/hrt/boot/settings/nano
+# Projects
+hash -d proj=$HOME/Paradigm/Projects
 
+hash -d lab=$HOME/Paradigm/Projects/Experimental
+hash -d edu=$HOME/Paradigm/Projects/Academic
+hash -d pri=$HOME/Paradigm/Projects/Personal
+hash -d pro=$HOME/Paradigm/Projects/Product
 
-hash -d proj=~/proj
-hash -d exp=~/exp
 hash -d log=~/log
 hash -d tmp=~/tmp
 hash -d bkp=~/hrt/ver
 hash -d shared=~/shared
-
-# quick access to core FHS dir @ L2
-hash -d bin=~/hrt/bin
-hash -d etc=~/hrt/etc
-hash -d ext=~/hrt/ext
-hash -d lib=~/hrt/lib
-hash -d style=~/hrt/opt
-hash -d hproj=~/hrt/proj
-hash -d pvt=~/hrt/pvt
-hash -d tmp=~/hrt/tmp
-hash -d state=~/hrt/state
-hash -d var=~/hrt/var
-hash -d vault=~/hrt/vault
-hash -d tools=~/hrt/vault
-hash -d ver=~/hrt/ver
-hash -d vol=~/hrt/vol
-
-# quick access to config files or custom setting @L3
-hash -d hrepo=~/hrt/repo/helm-repo
 
 # log dirs
 hash -d lg-ct=~/hrt/var/log/crontab/

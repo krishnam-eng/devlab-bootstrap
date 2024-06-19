@@ -1,7 +1,7 @@
 ### Autocompletion Scripts
 
 ```
-cd $HOME/hrt/boot/ctrls/linux/console
+cd $HOME/Paradigm/Development/Root/ctrls/linux/console
 
 wget https://raw.githubusercontent.com/conda-incubator/conda-zsh-completion/master/_conda
 

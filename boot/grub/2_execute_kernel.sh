@@ -29,22 +29,19 @@ function _make_zsh_default_shell() {
 }
 
 function build_file_hierarchy_structure(){
-    mkdir -p $HOME/hrt/ext        # Extensions to zsh like theme, plugins, fonts, auto completes
+    cd /Users/${USER}/Paradigm/Development/
+    mkdir Extensions        # Extensions to zsh like theme, plugins, fonts, auto completes
+    mkdir Flags             # For storing flags to control default behavior with feature toggle
+    mkdir Version           # For taking backup version of config before overwriting
+    mkdir Volume            # For persistence volume to attach to container
+    mkdir Vault              # For storing sensitive alias
+    mkdir States            # For user-specific apps session data or history, which should be stored for future reuse;
 
-    mkdir -p $HOME/hrt/etc/ctrflags/  # For storing flags to control default behavior with feature toggle
+    mkdir States/shell
+    mkdir -p /Users/${USER}/Paradigm/Development/Vault/alias
+    touch /Users/${USER}/Paradigm/Development/Vault/alias/base.zsh  # For storing sensitive alias
 
-    mkdir $HOME/hrt/states              # For user-specific apps session data or history, which should be stored for future reuse;
-    mkdir $HOME/hrt/states/shell
-
-    mkdir $HOME/hrt/ver        # For taking backup version of config before overwriting
-
-    mkdir $HOME/hrt/vol        # For persistence volume to attach to container
-
-    mkdir $HOME/hrt/vault
-    mkdir $HOME/hrt/vault/alias
-    touch $HOME/hrt/vault/alias/base.zsh  # For storing sensitive alias
-
-    tree -L 3 $HOME/hrt
+    tree -L 3 /Users/${USER}/Paradigm/Development
 
 	# Unclutter: remove default folders created by Ubuntu at $HOME
 	cd $HOME
@@ -53,29 +50,29 @@ function build_file_hierarchy_structure(){
 
 function _configure_zsh() {
     # back up existing config and replace with hrt config
-    cp ~/.zshrc ~/hrt/ver/.zshrc_$(date +%y%m%d)-old # Possible devout: No such file or directory
+    cp ~/.zshrc $HOME/Paradigm/Development/Version/.zshrc_$(date +%y%m%d)-old # Possible devout: No such file or directory
     rm -f  ~/.zshrc
 
-    # Update ZDOTDIR env to ~/hrt/boot/conf/zsh
-    ln -s ~/hrt/boot/conf/zsh/.zshenv ~/.zshenv
+    # Update ZDOTDIR env to /Users/${USER}/Paradigm/Development/Root/conf/zsh
+    ln -s /Users/${USER}/Paradigm/Development/Root/conf/zsh/.zshenv ~/.zshenv
 }
-
 function _extend_zsh_capabilities() {
-  mkdir -p $HOME/hrt/ext
+  mkdir -p $HOME/Paradigm/Development/ext
 
-  git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  $HOME/hrt/ext/zsh-autosuggestions
-  git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search  $HOME/hrt/ext/zsh-history-substring-search
-  git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting $HOME/hrt/ext/zsh-syntax-highlighting
+  git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions  $HOME/Paradigm/Development/ext/zsh-autosuggestions
+  git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search  $HOME/Paradigm/Development/ext/zsh-history-substring-search
+  git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting $HOME/Paradigm/Development/ext/zsh-syntax-highlighting
 
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/hrt/ext/powerlevel10k
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/Paradigm/Development/ext/powerlevel10k
 
-  touch $HOME/hrt/etc/ctrflags/enablepowertheme # enable custom flag for sourcing p10k
+  touch $HOME/Paradigm/Development/etc/ctrflags/enablepowertheme # enable custom flag for sourcing p10k
+  touch $HOME/Paradigm/Development/States/.zhistfile
   lzsh           # reload zsh run config
   p10k configure # install the suggested nerd font to get icons in prompt header line
 }
 
 function _sudo_control() {
-	ln -s $HOME/hrt/boot/ctrls/linux/etc/sudoer.d/timeout.conf /etc/sudoers.d/timout  # '.' in the file name is not allowed
+	ln -s $HOME/Paradigm/Development/boot/ctrls/linux/etc/sudoer.d/timeout.conf /etc/sudoers.d/timout  # '.' in the file name is not allowed
 	chown root:root /etc/sudoers.d/timout
 }
 function _install_dependencies(){

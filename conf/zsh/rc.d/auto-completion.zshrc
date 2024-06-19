@@ -20,14 +20,14 @@
 # echo 'Auto Completion & Some More Magic Setup...'
 
 # Load the completion script placed in ...
-fpath=($HOME/hrt/boot/ctrls/linux/console $fpath)
+fpath=($HOME/Paradigm/Development/Root/ctrls/linux/console $fpath)
 
 # git clone https://github.com/zsh-users/zsh-completions.git
 # fpath=(~/hrt/ext/zsh-completions/src $fpath)
 # Note: Selectively copied the required files under consoles dir
 
 # function load is not compatible with npm file
-source $HOME/hrt/boot/ctrls/linux/console/npm-completion.zshrc
+source $HOME/Paradigm/Development/Root/ctrls/linux/console/npm-completion.zshrc
 
 # Load auto completion feature
 autoload -Uz compinit

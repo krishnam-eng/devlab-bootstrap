@@ -7,14 +7,14 @@
 # It is easy to create one sym link to conf gitrepo instead of creating for all files
 ##########
 
-export ZDOTDIR=~/hrt/boot/conf/zsh
+export ZDOTDIR=/Users/${USER}/Paradigm/Development/Root/conf/zsh
 
 ##### When to Use
 # Note: This file is sourced on all invocations of the shell - for both interactive & non-interacttive
 # Right place for setting command search path and other improtnat env variables
 #####
 if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
-  for efile in ~/hrt/boot/ctrls/linux/env/*.(bash|zsh)
+  for efile in /Users/${USER}/Paradigm/Development/Root/ctrls/linux/env/*.(bash|zsh)
   do
    source $efile
   done

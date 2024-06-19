@@ -1,1 +1,1 @@
-export ATUIN_CONFIG_DIR=$HOME/hrt/boot/settings/history/atuin/
+export ATUIN_CONFIG_DIR=$HOME/Paradigm/Development/Root/settings/history/atuin/

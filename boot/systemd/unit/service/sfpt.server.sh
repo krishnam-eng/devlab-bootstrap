@@ -3,7 +3,7 @@
 # After=ssh.service
 
 # [Service]
-# ExecStartPre=ln -s $HOME/hrt/boot/settings/ssh/sshd_config.d/sftp-server.conf /etc/ssh/sshd_config.d/sftp-server.conf
+# ExecStartPre=ln -s $HOME/Paradigm/Development/Root/settings/ssh/sshd_config.d/sftp-server.conf /etc/ssh/sshd_config.d/sftp-server.conf
 # ExecStart=/usr/sbin/sshd -D -f /etc/ssh/sshd_config
 
 # Troubleshooting: Run with verbose mode
@@ -22,7 +22,7 @@ function _enable_sftp_server(){
     sudo systemctl start  ssh
 
     # Enable authkey based login
-    sudo ln -s $HOME/hrt/boot/ctrls/linux/etc/sshd_config.d/sftpusers.conf /etc/ssh/sshd_config.d/sftpusers.conf
+    sudo ln -s $HOME/Paradigm/Development/Root/ctrls/linux/etc/sshd_config.d/sftpusers.conf /etc/ssh/sshd_config.d/sftpusers.conf
 
     sudo systemctl restart ssh
 }

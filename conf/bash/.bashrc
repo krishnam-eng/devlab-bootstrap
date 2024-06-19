@@ -94,8 +94,8 @@ fi
 
 [ -z "$TMUX" ] && export TERM=xterm-256color
 
-source $HOME/hrt/boot/conf/bash/rc.d/aliases-functions.bashrc
-source $HOME/hrt/boot/conf/bash/rc.d/env.bashrc
+source $HOME/Paradigm/Development/Root/conf/bash/rc.d/aliases-functions.bashrc
+source $HOME/Paradigm/Development/Root/conf/bash/rc.d/env.bashrc
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/balamurugan/.rd/bin:$PATH"

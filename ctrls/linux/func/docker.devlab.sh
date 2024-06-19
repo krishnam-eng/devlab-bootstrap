@@ -48,7 +48,7 @@ function docker_dashboard() {
     # limit resource usage like t2.micro
     docker container rm portainer-ce
     docker run -d -p 9000:9000 --name portainer-ce --cpus=1 --memory=1g --restart always -v /var/run/docker.sock:/var/run/docker.sock  portainer/portainer-ce
-    # -v $HOME/hrt/vol/portainer_data:/data - works with only business license
+    # -v $HOME/.../Volume/portainer_data:/data - works with only business license
 
     tlog $INFO "Portainer container port is published to the host in 9000"
   fi

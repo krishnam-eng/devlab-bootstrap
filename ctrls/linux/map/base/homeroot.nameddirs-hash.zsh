@@ -7,9 +7,9 @@
 #
 ###################
 
-hash -d dev=$HOME/Paradigm/Development/Root
+hash -d dev=$HOME/Paradigm/Development
 
-hash -d devroot=$HOME/Paradigm/Development/Root
+hash -d droot=$HOME/Paradigm/Development/Root
 
 hash -d zsh=$HOME/Paradigm/Development/Root/conf/zsh
 

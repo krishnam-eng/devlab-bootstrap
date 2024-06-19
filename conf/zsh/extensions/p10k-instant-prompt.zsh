@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-if [[ -f "$FLAGS_DIR/enablepowertheme" ]]; then
+if [[ -f "$HOME/Paradigm/Development/Flags/enablepowertheme" ]]; then
   # Enable Powerlevel10k instant prompt. Should stay close to the top of .zshrc.
   # Initialization code that may require console input (password prompts, [y/n]
   # confirmations, etc.) must go above this block; everything else may go below.
@@ -13,5 +13,3 @@ if [[ -f "$FLAGS_DIR/enablepowertheme" ]]; then
   typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
   typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 fi
-
-

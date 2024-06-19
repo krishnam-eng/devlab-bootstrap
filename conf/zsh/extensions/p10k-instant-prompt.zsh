@@ -10,3 +10,4 @@ fi
 # When using Powerlevel10k with instant prompt, console output during zsh initialization may indicate issues.
 # Suppress this warning either by running p10k configure or by manually defining the following parameter:
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=off

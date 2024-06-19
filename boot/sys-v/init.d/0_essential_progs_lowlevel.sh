@@ -1,4 +1,30 @@
-function load_essential(){
+# default bundled basic tools versions are outdated, so install latest version with brew
+function load_essential_darwin_macos(){
+    # macOS already provides this software and installing another version in
+    # ! parallel can cause all kinds of trouble. So, it installs keg-only version for some of the software
+    brew install vim
+    brew install curl
+
+    # Use GNU grep instead of BSD grep to get the more advanced features like Perl-compatible regular expressions
+    # TODO: more of the BSD version can be replaced with GNU version
+    brew install grep
+
+
+    # installing because not available in default macos
+    brew install watch # execute a program periodically, showing output fullscreen
+    brew install xclip # clipboard management
+
+    brew info jq
+    brew install jq  # lightweight and flexible command-line JSON processor. It is like sed for JSON data. use it to slice and filter and map and transform structured data
+
+    # should have better navigation
+    # ! exa has been disabled because it is not maintained upstream! Use `lsd` instead.
+    brew install exa                # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18 not found]
+    brew install lsd                # The next gen ls command: Clone of ls with colorful output, file type icons, and more
+    brew install ranger             # File browser with VI key bindings
+}
+
+function load_essential_ubuntu(){
     # basic tools to start with
     sudo apt install -y vim            # [comes with latest ubuntu - 23.10]
     sudo apt install -y watch        # [comes with latest ubuntu - 23.10]

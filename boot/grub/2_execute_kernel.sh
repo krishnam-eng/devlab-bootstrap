@@ -79,5 +79,7 @@ function _sudo_control() {
 	chown root:root /etc/sudoers.d/timout
 }
 function _install_dependencies(){
+    # it comes with ubuntu 22.04
+    # it comes with mac os
     sudo apt install -y zsh
 }

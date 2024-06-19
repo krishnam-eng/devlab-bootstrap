@@ -9,13 +9,15 @@ function _java_dev_env_darwin(){
 	java -version
 
 	# Check Existing Versions: list available Java versions
-	 /usr/libexec/java_home
+	/usr/libexec/java_home
 
 	# Install Java 17 with Homebrew:
 	brew install openjdk@17
 
 	# Get the path of the newly installed Java 17
 	/usr/libexec/java_home -v 17
+
+	# TODO: not recognized by java home cmd
 
 	# Set the default Java path permanently
 	echo $JAVA_HOME

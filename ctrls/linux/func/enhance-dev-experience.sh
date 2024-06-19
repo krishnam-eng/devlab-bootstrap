@@ -201,7 +201,7 @@ function create_utility_services(){
     # todo: curl pod is in crashloop - find better alternative
   fi
 
-  cd $HOME/hrt/svc/helm-local-repo
+  cd $HOME/Paradigm/Development/Tools/helm/helm-local-repo
   http-server -p 8512 &
 
   if docker ps | grep portainer > /dev/null; then

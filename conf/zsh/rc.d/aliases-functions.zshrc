@@ -10,13 +10,13 @@
 ##############
 
 if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
-	for afile in $HOME/hrt/boot/ctrls/linux/map/*/*sh
+	for afile in $HOME/Paradigm/Development/Root/ctrls/linux/map/*/*sh
 	do
 		source $afile
 	done
 	unset afile
 
-	for ffile in ~/hrt/boot/ctrls/linux/func/*sh
+	for ffile in $HOME/Paradigm/Development/Root/ctrls/linux/func/*sh
 	do
 		source $ffile
 	done
@@ -24,12 +24,12 @@ if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
 fi
 
 if [ "$(uname)" = "Darwin" ]; then
-	for afile in ~/hrt/boot/ctrls/darwin/map/*sh
+	for afile in $HOME/Paradigm/Development/Root/ctrls/darwin/map/*sh
 	do
 		source $afile
 	done
 	unset afile
-	for ffile in ~/hrt/boot/ctrls/darwin/func/*sh
+	for ffile in $HOME/Paradigm/Development/Root/ctrls/darwin/func/*sh
 	do
 		source $ffile
 	done
@@ -37,8 +37,8 @@ if [ "$(uname)" = "Darwin" ]; then
 fi
 
 # load from local vault - untracted files
- if [[ -d ~/hrt/vault/alias ]]; then
-  for vfile in ~/hrt/vault/alias/*sh
+ if [[ -d $HOME/Paradigm/Development/Root/Vault/alias ]]; then
+  for vfile in $HOME/Paradigm/Development/Root/Vault/alias/*sh
   do
     source $vfile
   done

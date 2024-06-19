@@ -3,10 +3,10 @@
 #####
 # set env variables
 #####
-ZDOTDIR=$HOME/hrt/boot/conf/zsh
+ZDOTDIR=$HOME/Paradigm/Development/Root/conf/zsh
 
 if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
-  for efile in $HOME/hrt/boot/ctrls/linux/env/*.bash
+  for efile in $HOME/Paradigm/Development/Root/ctrls/linux/env/*.bash
   do
    source $efile
   done

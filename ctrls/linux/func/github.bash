@@ -22,7 +22,7 @@ function ghcl(){
   git config --global core.editor nano
   git config --global core.autocrlf input # if file got CRLF, change it to LF when git add
 
-  git config --global core.excludesfile ~/hrt/boot/git/.gitignore_global
+  git config --global core.excludesfile ~/Paradigm/Development/Root/tools/git/.gitignore_global
 
   git config --global rebase.autosquash true
 

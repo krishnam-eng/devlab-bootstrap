@@ -19,8 +19,8 @@
 ################
 # echo 'History Configuration...'
 
-HISTFILE=$HOME/hrt/states/shell/.zhistfile # up or down to navigate history or use CTR+R to search history
-HISTSIZE=1000000
+HISTFILE=$HOME/Paradigm/Development/States/.zhistfile # up or down to navigate history or use CTR+R to search history
+HISTSIZE=1000000 # 1M
 SAVEHIST=1000000 # hist won't be _saved_ with out this conf
 
 # To save unexecuted cmd to history, make the command as comment by prefixing # and executing

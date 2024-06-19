@@ -9,9 +9,9 @@ then
 fi
 
 # dev lab path
-if [ -d "$HOME/hrt/bin" ]
+if [ -d "$HOME/Paradigm/Development/Tools/bin" ]
 then
-  PATH="$PATH:$HOME/hrt/bin"
+  PATH="$PATH:$HOME/Paradigm/Development/Tools/bin"
 fi
 
 # All GNU commands have been installed with the prefix "g" (e.g. ggrep, gdate, gecho)

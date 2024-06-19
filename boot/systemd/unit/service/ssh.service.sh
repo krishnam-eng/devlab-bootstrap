@@ -3,7 +3,7 @@
 # After=firewall.service
 
 # [Service]
-# ExecStartPre=ln -s $HOME/hrt/boot/settings/ssh/sshd_config.d/authorized-keys.conf /etc/ssh/sshd_config.d/authorized-keys.conf
+# ExecStartPre=ln -s $HOME/Paradigm/Development/Root/settings/ssh/sshd_config.d/authorized-keys.conf /etc/ssh/sshd_config.d/authorized-keys.conf
 # ExecStart=/usr/sbin/sshd -D -f /etc/ssh/sshd_config
 
 # [Install]
@@ -37,8 +37,8 @@ function _enable_ssh_server(){
     sudo systemctl start  ssh
 
     # Enable authkey based login
-    sudo ln -s $HOME/hrt/boot/ctrls/linux/etc/sshd_config.d/authentication.conf /etc/ssh/sshd_config.d/authentication.conf
-    sudo ln -s $HOME/hrt/boot/ctrls/linux/etc/sshd_config.d/log.conf /etc/ssh/sshd_config.d/log.conf
+    sudo ln -s $HOME/Paradigm/Development/Root/ctrls/linux/etc/sshd_config.d/authentication.conf /etc/ssh/sshd_config.d/authentication.conf
+    sudo ln -s $HOME/Paradigm/Development/Root/ctrls/linux/etc/sshd_config.d/log.conf /etc/ssh/sshd_config.d/log.conf
 
     sudo systemctl restart ssh.service
 }
@@ -49,7 +49,7 @@ function _allow_ssh_with_firewall(){
 }
 
 function _configure_ssh_client() {
-    ln -s $HOME/hrt/boot/ctrls/linux/etc/ssh_config.d/ssh_client.conf ~/.ssh/config
+    ln -s $HOME/Paradigm/Development/Root/ctrls/linux/etc/ssh_config.d/ssh_client.conf ~/.ssh/config
 }
 
 function _testing(){

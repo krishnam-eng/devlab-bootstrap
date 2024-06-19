@@ -19,18 +19,18 @@ export LDFLAGS="-L/usr/local/opt/python3/lib"
 export PKG_CONFIG_PATH="/usr/local/opt/python3/lib/pkgconfig"
 
 # Build tools
-if [ -d "$HOME/hrt/lib/maven" ]
+if [ -d "$HOME/Paradigm/Development/Libraries/maven" ]
 then
   # maven is a link to a specific version of maven .e.g, apache-maven-3.6.3 
   # >ln -sfn apache-maven-3.6.3 maven
-  export M2_HOME="$HOME/hrt/lib/maven"
+  export M2_HOME="$HOME/Paradigm/Development/Libraries/maven"
   PATH="${PATH}:${M2_HOME}/bin"
   # export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED"
 fi
 
-if [ -d "$HOME/hrt/lib/gradle-7.1.1" ]
+if [ -d "$HOME/Paradigm/Development/Libraries/gradle-7.1.1" ]
 then
-  export GRADLE_HOME="$HOME/hrt/lib/gradle"
+  export GRADLE_HOME="$HOME/Paradigm/Development/Libraries/gradle"
   PATH=${PATH}:${GRADLE_HOME}/bin
 fi
 
@@ -48,27 +48,6 @@ then
   PATH="${PATH}:${JAVA_HOME}/bin"
 fi
 
-# IDE Path
-if [ -d "$HOME/hrt/vscode/bin" ]
-then
-  PATH="$PATH:$HOME/hrt/vscode/bin"
-fi
-
-#if [ -d "$HOME/hrt/ide/idea-2021/bin" ]
-#then
-#  PATH="$PATH:$HOME/hrt/ide/idea-2021/bin"
-#fi
-
-if [ -d "/Applications/IntelliJ IDEA CE.app/Contents/MacOS " ]
-then
-  PATH="$PATH:/Applications/IntelliJ IDEA CE.app/Contents/MacOS"
-fi
-
-if [ -d "$HOME/hrt/node/bin" ]
-then
-  PATH="$PATH:$HOME/hrt/node/bin"
-fi
-
 # use development mode as default for python flask project development
 export FLASK_ENV=development
 
@@ -77,7 +56,7 @@ export FLASK_APP=app.py
 
 # ES 1.7 expects ES JAVA HOME
 export ES_JAVA_HOME=$JAVA_HOME
-export ES_HOME=$HOME/hrt/server/elasticsearch-7.15.2
+export ES_HOME=$HOME/Paradigm/Development/Tools/elasticsearch-7.15.2
 
 # MySQL - to access mysqladmin from cli
 if [ -d "/usr/local/mysql/bin" ]
@@ -98,8 +77,8 @@ export VIMCONFIG=~/.myvim
 export VIMDATA=~/.myvim
 
 # pipx
-export PIPX_BIN_DIR=$HOME/hrt/local/bin
-export PIPX_HOME=$HOME/hrt/local/pipx
+export PIPX_BIN_DIR=$HOME/Paradigm/Development/Tools/bin
+export PIPX_HOME=$HOME/Paradigm/Development/Tools/pipx
 
 # executable awk programs
 if [ -d "$HOME/.myawk" ]

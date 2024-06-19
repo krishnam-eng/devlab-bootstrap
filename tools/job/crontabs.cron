@@ -1,2 +1,0 @@
-# Run homelab manager every 4 hrs
-0 08-22/1 * * * $HOME/hrt/boot/job/commands/run_homelab_manager.sh

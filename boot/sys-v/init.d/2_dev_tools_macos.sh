@@ -1,6 +1,7 @@
 function install_dev_tools(){
 	_programming_languages
 	_version_control_systems
+	_ides
 	_build_tools
 	_db_tools
 	_test_tools
@@ -29,6 +30,16 @@ function _version_control_systems() {
   sourcetree --version
 }
 
+funciton _ides() {
+  brew install --cask intellij-idea
+  brew install --cask visual-studio-code
+
+  brew install --cask lens       # not free for $100m revenue org
+  brew install --cask kubernetic # not free
+
+  brew install vim
+}
+
 function _build_tools() {
   brew install maven
   brew install gradle
@@ -53,10 +64,13 @@ function _cloud_interaction_tools() {
 }
 
 function _container_management_tools() {
+  brew install --cask rancher
+
   # Colima: Alternative to Docker/Ranger Desktop
   brew install colima         # Colima initiates with a user specified container runtime on MacOS that defaults to Docker.
   brew install docker         # Docker client is required for Docker runtime
-  brew install docker-compose
+  brew install docker-compose # Docker Compose is a tool for defining and running multi-container Docker applications
+  brew install docker-completion # Docker completion is a completion script for Docker CLI
 
   brew install minikube       # Minikube is a tool that makes it easy to run Kubernetes locally
   brew install kubectl        # Kubectl is a command line tool for controlling Kubernetes clusters

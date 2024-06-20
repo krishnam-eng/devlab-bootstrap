@@ -1,0 +1,5 @@
+# Base environment for conda when creating new environments
+#    with `conda create --name <env>` when --file is not specified
+name: default
+dependencies:
+  - python=3.11

@@ -3,6 +3,7 @@ function load_system_utility_darwin_macos() {
     brew install ctop                # top-like interface for container metrics
 
     brew install ncdu
+    brew install telnet              # Telnet is an old network protocol that is used to connect to remote systems over a TCP/IP network.  data sent over the protocol is unencrypted.
 }
 
 function load_system_utility_ubuntu() {
@@ -20,4 +21,11 @@ function load_system_utility_ubuntu() {
     sudo apt install -y vsftpd         # very secure ftp daemon
     sudo apt install -y openssh-server # ssh server with sftp subsystem
     sudo apt install -y openssh-client # Pre-Installed in ubuntu 22.04: ssh client
+}
+
+function have_little_fun() {
+    brew install cowsay            # An ASCII cow in terminal that will say what ever you want
+    brew install figlet            # utility for creating ASCII text banners or large letters out of ordinary text
+    brew install lolcat            # rainbow view of the cat
+    brew install cmatrix           # shows a scrolling ‘Matrix‘ like screen in a Linux terminal [Not in venv setup]
 }

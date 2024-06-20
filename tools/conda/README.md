@@ -1,4 +1,21 @@
-## Prerequisites
+## Setup
+### Installing Conda
+```zsh
+  # Package and Environment Management
+  curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o Miniconda3/Miniconda3.sh
+  bash Miniconda3/Miniconda3.sh -b -u -p Miniconda3
+  ln -s $HOME/Paradigm/Development/Tools/Miniconda3/bin/conda $HOME/Paradigm/Development/Tools/bin/conda
+
+  # setup conda configuration
+  ln -s $HOME/Paradigm/Development/tools/conda/.condarc ~/.condarc
+  # or
+  export CONDARC=$HOME/Paradigm/Development/Root/tools/conda/.condarc
+
+  # setup package directory for miniconda
+  mkdir $HOME/Paradigm/Development/Libraries/miniconda3
+  # setup environment.yml for miniconda. It will be used when creating a new environment with conda env create --name myenv command when --file is not given
+  ln -s $HOME/Paradigm/Development/Root/tools/conda/environment.yml  $HOME/Paradigm/Development/Tools/Miniconda3/envs/environment.yml
+```
 ### Managing channels
 Use conda-forge as repo instead of default
 
@@ -6,7 +23,7 @@ Why: https://community.anaconda.cloud/t/is-conda-cli-free-for-use/14303
 
 How: 
 ```zsh
-ln -s /Users/balamurugan/hrt/boot/tools/conda/.condarc ~/.condarc
+ln -s $HOME/Paradigm/Development/tools/conda/.condarc ~/.condarc
 ```
 or
 

@@ -12,6 +12,9 @@
 #   Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
 export PATH=/usr/$HOME/.local/bin:${PATH}
 
+# All installed tools by me will be under development/tools and symlink to
+export PATH=$HOME/Paradigm/Development/Tools/bin:${PATH}
+
 # For compilers to find python@3.10 you may need to set:
 export LDFLAGS="-L/usr/local/opt/python3/lib"
 

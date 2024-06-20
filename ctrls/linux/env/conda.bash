@@ -1,0 +1,1 @@
+export CONDARC=$HOME/Paradigm/Development/Root/tools/conda/.condarc

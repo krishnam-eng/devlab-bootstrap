@@ -29,6 +29,8 @@ hash -d edu=$HOME/Paradigm/Projects/Academic
 hash -d pri=$HOME/Paradigm/Projects/Personal
 hash -d pro=$HOME/Paradigm/Projects/Product
 
+hash -d xdg=$HOME/Paradigm/Development/XDG
+
 hash -d log=~/log
 hash -d tmp=~/tmp
 hash -d bkp=~/hrt/ver

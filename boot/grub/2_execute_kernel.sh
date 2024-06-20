@@ -29,23 +29,30 @@ function _make_zsh_default_shell() {
 }
 
 function build_file_hierarchy_structure(){
-    cd /Users/${USER}/Paradigm/Development/
-    mkdir Extensions        # Extensions to zsh like theme, plugins, fonts, auto completes
-    mkdir Flags             # For storing flags to control default behavior with feature toggle
-    mkdir Version           # For taking backup version of config before overwriting
-    mkdir Volume            # For persistence volume to attach to container
-    mkdir Vault              # For storing sensitive alias
-    mkdir States            # For user-specific apps session data or history, which should be stored for future reuse;
+  # Create a directory structure for development
+  cd /Users/${USER}/Paradigm/Development/
+  mkdir Root              # Root directory cloning devlab configuration
+  mkdir Extensions        # Extensions to zsh like theme, plugins, fonts, auto completes
+  mkdir Flags             # For storing flags to control default behavior with feature toggle
+  mkdir Version           # For taking backup version of config before overwriting
+  mkdir Volume            # For persistence volume to attach to container
+  mkdir Vault             # For storing sensitive alias
+  mkdir States            # For user-specific apps session data or history, which should be stored for future reuse;
 
-    mkdir States/shell
-    mkdir -p /Users/${USER}/Paradigm/Development/Vault/alias
-    touch /Users/${USER}/Paradigm/Development/Vault/alias/base.zsh  # For storing sensitive alias
+  # XDG Base Directory Specification
+  mkdir -p "$HOME/Paradigm/Development/XDG/.config"
+  mkdir -p "$HOME/Paradigm/Development/XDG/.local/share"
+  mkdir -p "$HOME/Paradigm/Development/XDG/.cache"
 
-    tree -L 3 /Users/${USER}/Paradigm/Development
+  mkdir States/shell
+  mkdir -p /Users/${USER}/Paradigm/Development/Vault/alias
+  touch /Users/${USER}/Paradigm/Development/Vault/alias/base.zsh  # For storing sensitive alias
 
-	# Unclutter: remove default folders created by Ubuntu at $HOME
-	cd $HOME
-    \rm -rf -d Music Pictures Public Templates Videos
+
+  tree -L 3 /Users/${USER}/Paradigm/Development
+  # Unclutter: remove default folders created by Ubuntu at $HOME
+  cd $HOME
+  \rm -rf -d Music Pictures Public Templates Videos
 }
 
 function _configure_zsh() {

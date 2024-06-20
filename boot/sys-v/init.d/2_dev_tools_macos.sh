@@ -49,18 +49,45 @@ function _setup_python() {
   # Verify the version
   python --version
 
+  # ! Make sure it is pointing to conda-forge for packages
+  _setup_conda_rc_first_use_to_conda_forge
+  _install_conda_anaconda
+  # or
+  _install_conda_miniconda
+
+  # Jupyter Notebook
+  conda install -c conda-forge jupyterlab
+  # Or
+  # pip install jupyterlab
+
+}
+function _setup_conda_rc_first_use_to_conda_forge(){
+  # setup conda configuration
+  ln -s $HOME/Paradigm/Development/tools/conda/.condarc ~/.condarc
+  # or
+  export CONDARC=$HOME/Paradigm/Development/Root/tools/conda/.condarc
+}
+function _install_conda_anaconda(){
+  bash ~/Downloads/Anaconda3-<INSTALLER_VERSION>-MacOSX-x86_64.sh
+  source <PATH_TO_CONDA>/bin/activate
+  conda init zsh
+
+  # The base environment is activated by default
+  conda config --set auto_activate_base True
+
+  # The base environment is not activated by default
+  conda config --set auto_activate_base False
+}
+
+function _install_conda_miniconda() {
   # Package and Environment Management
   curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o Miniconda3/Miniconda3.sh
   bash Miniconda3/Miniconda3.sh -b -u -p Miniconda3
   ln -s $HOME/Paradigm/Development/Tools/Miniconda3/bin/conda $HOME/Paradigm/Development/Tools/bin/conda
 
-  # setup conda configuration
-  # ln -s $HOME/Paradigm/Development/tools/conda/.condarc ~/.condarc
-  # or
-  # export CONDARC=$HOME/Paradigm/Development/Root/tools/conda/.condarc
-
   # setup package directory for miniconda
   mkdir $HOME/Paradigm/Development/Libraries/miniconda3
+
   # setup environment.yml for miniconda. It will be used when creating a new environment with conda env create --name myenv command when --file is not given
   ln -s $HOME/Paradigm/Development/Root/tools/conda/environment.yml  $HOME/Paradigm/Development/Tools/Miniconda3/envs/environment.yml
 
@@ -70,8 +97,8 @@ function _setup_python() {
   conda env list
   conda config --show-sources
   conda config --show
-}
 
+}
 function _setup_nodejs() {
     # download and install Node.js
     brew install node@22

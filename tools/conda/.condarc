@@ -1,8 +1,8 @@
 channels:
   - conda-forge
 envs_dirs:
-  - $HOME/Paradigm/Development/Tools/Miniconda3/envs
+  - $HOME/Paradigm/Development/Libraries/Conda/envs
 pkgs_dirs:
-  - $HOME/Paradigm/Development/Libraries/miniconda3
+  - $HOME/Paradigm/Development/Libraries/Conda/pkgs
 create_default_packages:
   - jupyter

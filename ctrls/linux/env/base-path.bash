@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
+# All GNU commands have been installed with the prefix "g" (e.g. ggrep, gdate, gecho)
+#
+# If you need to use these commands with their normal names, add a "gnubin" directory to your PATH which
+# will then contain symlinks without the "g" prefix.
+if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
+  PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fi
+
 # Add Homebrew's executable directory to the front of the PATH
-export PATH=/usr/local/bin:${PATH}
+PATH="/usr/local/bin":${PATH}
 
 if [ -d "$HOME/bin" ] ; 
 then
@@ -14,9 +22,4 @@ then
   PATH="$PATH:$HOME/Paradigm/Development/Tools/bin"
 fi
 
-# All GNU commands have been installed with the prefix "g" (e.g. ggrep, gdate, gecho)
-# If you need to use these commands with their normal names, you
-# can add a "gnubin" directory to your PATH from your bashrc like:
-if [ -f /usr/local/opt/coreutils/libexec/gnubin ]; then
-  export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-fi
+export PATH

@@ -1,5 +1,10 @@
 # default bundled basic tools versions are outdated, so install latest version with brew
 function load_essential_darwin_macos(){
+    # While macOS does include many essential Unix-like utilities out of the box, this is install additional utilities (default is BSD version)
+    # Some utilities commonly found on Linux may not be installed by default on macOS.
+    # export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+    brew install coreutils
+
     # macOS already provides this software and installing another version in
     # ! parallel can cause all kinds of trouble. So, it installs keg-only version for some of the software
     brew install vim

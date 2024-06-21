@@ -21,35 +21,6 @@ export LDFLAGS="-L/usr/local/opt/python3/lib"
 # For pkg-config to find python@3.10 you may need to set:
 export PKG_CONFIG_PATH="/usr/local/opt/python3/lib/pkgconfig"
 
-# Build tools
-if [ -d "$HOME/Paradigm/Development/Libraries/maven" ]
-then
-  # maven is a link to a specific version of maven .e.g, apache-maven-3.6.3 
-  # >ln -sfn apache-maven-3.6.3 maven
-  export M2_HOME="$HOME/Paradigm/Development/Libraries/maven"
-  PATH="${PATH}:${M2_HOME}/bin"
-  # export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED"
-fi
-
-if [ -d "$HOME/Paradigm/Development/Libraries/gradle-7.1.1" ]
-then
-  export GRADLE_HOME="$HOME/Paradigm/Development/Libraries/gradle"
-  PATH=${PATH}:${GRADLE_HOME}/bin
-fi
-
-# package manager for kubectl plugins
-if [ -d "${HOME}/.krew/" ]
-then
-  PATH="${PATH}:${HOME}/.krew/bin"
-fi
-
-# mac /usr/libexec/java_home -v gives the jre path (after big sur update)
-# So, set it to jdk for mvn to work
-if [ -d /Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home ]
-then
-  export JAVA_HOME="${HOME}/Library/Java/JavaVirtualMachines/temurin-17.0.8/Contents/Home"
-  PATH="${PATH}:${JAVA_HOME}/bin"
-fi
 
 # use development mode as default for python flask project development
 export FLASK_ENV=development
@@ -82,17 +53,5 @@ export VIMDATA=~/.myvim
 # pipx
 export PIPX_BIN_DIR=$HOME/Paradigm/Development/Tools/bin
 export PIPX_HOME=$HOME/Paradigm/Development/Tools/pipx
-
-# executable awk programs
-if [ -d "$HOME/.myawk" ]
-then
-  PATH="$PATH:$HOME/.myawk"
-fi
-
-# executable tmux session
-if [ -d "$HOME/.mytmux/sessions" ]
-then
-  PATH="$PATH:$HOME/.mytmux/sessions"
-fi
 
 export HOMEBREW_NO_INSTALL_CLEANUP=TRUE

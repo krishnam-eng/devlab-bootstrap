@@ -24,8 +24,8 @@ function load_essential_darwin_macos(){
 
     # should have better navigation
     # ! exa has been disabled because it is not maintained upstream! Use `lsd` instead.
-    brew install exa                # more user-friendly version of ls [Not in venv setup - error: RHEL8 version `GLIBC_2.18 not found]
     brew install lsd                # The next gen ls command: Clone of ls with colorful output, file type icons, and more
+    brew install vivid              # A LS_COLORS generator with a rich interactive user interface
     brew install ranger             # File browser with VI key bindings
 }
 

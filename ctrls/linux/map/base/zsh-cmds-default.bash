@@ -6,6 +6,29 @@
 # author       : krishnam
 # sh version   : works with both bash and zsh
 #####################
+
+#####################
+# 1. Enable Color
+#   - set color with LS_COLOR  for ls, grep, tree
+# 2. Use GNU version instead BSD
+#####################
+alias ls="gls -h --color"
+alias tree="tree -C"
+alias grep='ggrep --color=auto'
+alias egrep='egrep --color=auto'
+
+#####################
+# Select default version
+#####################
+alias python=python3
+
+# create missing parents
+alias mkdir="mkdir -p"
+
+alias du="du -h"
+alias df="df -h"
+
+
 alias ps="ps -ef"
 
 # run in quite mode
@@ -30,8 +53,7 @@ alias autoload="autoload -Uz"
 #########
 #     Set Default Options
 #########
-alias grep='grep --color=auto -i'
-alias egrep='egrep --color=auto'
+
 alias ack='ack -i'  # case insensitive search
 alias watch="watch -d"
 alias ping='ping -c 5'
@@ -55,3 +77,40 @@ alias copy='pbcopy'
 #     Default App
 ##########
 alias e='nano'
+
+
+#########
+## sudo -  do action as substitute user  / super user
+#########
+# alias redo="sudo !!" - bug
+# Always run as super user  as substitute user do action
+alias apt='sudo apt'
+alias systemctl='sudo systemctl'
+
+alias chown='sudo chown'       # change owner
+alias chgrp='sudo chgrp'          # change group
+alias chmod='sudo chmod'      # change permissions
+alias passwd='sudo passwd'   # change password
+
+alias groupadd='sudo groupadd'
+alias groupdel='sudo groupdel'
+
+alias useradd='sudo useradd'   # low level useradd
+alias userdel='sudo userdel'     # delete user
+alias adduser='sudo adduser'   # interactive useradd
+alias usermod='sudo usermod' #
+
+alias chsh='sudo chsh' # change shell for a user account e.g., chsh -s /bin/bash sftpclt
+
+alias ufw='sudo ufw'
+
+# Don't make it default, but provide short way to do it
+alias scat='sudo cat'
+alias srm='sudo rm'
+alias srmd='sudo \rm -rf'
+alias smv='sudo mv'
+alias smkdir='sudo mkdir -p'
+alias stouch='sudo touch'
+alias svim='sudo vim'
+
+

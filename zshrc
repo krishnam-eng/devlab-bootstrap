@@ -1,5 +1,5 @@
 # To use this customized .zshrc, run the following command to create a symlink:
-# ln -sf /Users/balamurugan.k/sbrain/sys/hrt/zshrc ~/.zshrc
+# ln -sf /Users/balamurugan.k/sbrn/sys/hrt/zshrc ~/.zshrc
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 #! Initialization code that may require console input must go above this block; everything else may go below.
@@ -8,10 +8,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Path to your Oh My Zsh installation.
-export ZSH="$HOME/sbrain/sys/oh-my-zsh"
+export ZSH="$HOME/sbrn/sys/oh-my-zsh"
+export ZSH_CUSTOM="$ZSH/custom"
 
 # Set name of the theme to load
 ZSH_THEME="powerlevel10k/powerlevel10k"
+
+export PATH="$HOME/sbrn/sys/bin:$PATH"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -89,7 +92,6 @@ plugins=(
   gh                       # GitHub CLI integration
   git-auto-fetch           # Automatic background fetch of remotes
   git-lfs                  # Git Large File Storage support
-#   git-prompt               # Show git info in prompt
 
 #   # 3. Development Environments & Language Managers
 

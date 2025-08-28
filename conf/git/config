@@ -1,0 +1,13 @@
+# Default/fallback configuration
+[user]
+    name = krishnam
+    email = krishnam.balamurugan@outlook.com
+
+# Work projects
+[includeIf "gitdir:/Users/balamurugank/sbrn/proj/corp/"]
+    path = /Users/balamurugank/sbrn/sys/config/git/config-work
+
+# Work journal
+[includeIf "gitdir:/Users/balamurugank/sbrn/res/notes/work-journal/"]
+    path = /Users/balamurugank/sbrn/sys/config/git/config-work
+

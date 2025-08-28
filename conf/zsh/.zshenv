@@ -1,32 +1,19 @@
-#!/usr/bin/env zsh
+# Pre-steps
+# ln -sf "$HOME/sbrn/sys/hrt/conf/zsh" "$HOME/sbrn/sys/config/zsh"
+# ln -sf $HOME/sbrn/sys/hrt/conf/zsh/.zshenv ~/.zshenv
 
-##########
-# DOT DIR
-#
-# All zsh config will be read from here instead of ~ home
-# It is easy to create one sym link to conf gitrepo instead of creating for all files
-##########
+# XDG Base Directory Specification paths
+# Cross-Desktop Group standard for organizing user files
+export XDG_CONFIG_HOME="$HOME/sbrn/sys/config"
 
-export ZDOTDIR=$HOME/Paradigm/Development/Root/conf/zsh
+# Set zsh configuration directory
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
-##### When to Use
-# Note: This file is sourced on all invocations of the shell - for both interactive & non-interacttive
-# Right place for setting command search path and other improtnat env variables
-#####
-if [ "$(uname)" = "Linux" -o "$(uname)" = "Darwin" ]; then
-  for efile in $HOME/Paradigm/Development/Root/ctrls/linux/env/*.(bash|zsh)
-  do
-   source $efile
-  done
-  unset efile
-fi
+export XDG_DATA_HOME="$HOME/sbrn/sys/local/share" 
+export XDG_STATE_HOME="$HOME/sbrn/sys/local/state"
+export XDG_CACHE_HOME="$HOME/sbrn/sys/cache"
 
-# load from local vault - untracted files
-# Load machine specific environment variables
-if [[ -d $HOME/Paradigm/Development/Vault/env ]]; then
-	for vfile in $HOME/Paradigm/Development/Vault/env/*sh
-	do
-		source $vfile
-	done
-	unset vfile
-fi
+# Application-specific XDG compliance
+export LESSHISTFILE="$XDG_STATE_HOME/less_history"
+export ANDROID_HOME="$XDG_DATA_HOME/android"
+export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"

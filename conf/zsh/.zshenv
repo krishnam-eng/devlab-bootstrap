@@ -1,6 +1,7 @@
 # Pre-steps
+# ln -sf "$HOME/sbrn/sys/hrt/conf/zsh/.zshenv" ~/.zshenv
 # ln -sf "$HOME/sbrn/sys/hrt/conf/zsh" "$HOME/sbrn/sys/config/zsh"
-# ln -sf $HOME/sbrn/sys/hrt/conf/zsh/.zshenv ~/.zshenv
+# ln -sf "$HOME/sbrn/sys/hrt/conf/git" "$HOME/sbrn/sys/config/git"
 
 # XDG Base Directory Specification paths
 # Cross-Desktop Group standard for organizing user files

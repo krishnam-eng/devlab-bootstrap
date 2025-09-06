@@ -60,38 +60,45 @@ log_step() { echo -e "${CYAN}[STEP]${NC} $1"; }
 function main() {
     log_info " Starting Developer Environment Setup for macOS..."
     echo ""
-    
-    # Step 1: Setup SBRN Directory Structure
-    setup_sbrn_structure
-    
-    # Step 2: Install Homebrew
-    install_homebrew
-    
-    # Step 3: Setup Zsh Environment
-    setup_zsh_environment
-    
-    # Step 4: Install Essential CLI Tools
-    install_essential_cli_tools
-    
-    # Step 5: Install Development Tools
-    install_development_tools
-    
-    # Step 6: Install Programming Languages & Runtimes
-    install_programming_languages
-    
-    # Step 7: Install IDEs and Editors
-    install_ides_and_editors
-    
-    # Step 8: Setup Git and GitHub
-    setup_git_and_github
-    
-    # Step 9: Configure VS Code Extensions
-    configure_vscode_extensions
-    
-    # Step 10: Final Configuration
-    final_configuration
+
+    confirm_and_run_step "Setup Directory Structure Hierarchy" setup_dir_struct_hierarchy show_directory_impact
+    confirm_and_run_step "Install Homebrew" install_homebrew show_homebrew_impact
+    confirm_and_run_step "Setup Zsh Environment" setup_zsh_environment show_zsh_impact
+    confirm_and_run_step "Install Essential CLI Tools" install_essential_cli_tools show_cli_tools_impact
+    confirm_and_run_step "Install Development Tools" install_development_tools show_dev_tools_impact
+    confirm_and_run_step "Install Programming Languages & Runtimes" install_programming_languages show_languages_impact
+    confirm_and_run_step "Install IDEs and Editors" install_ides_and_editors show_ides_impact
+    confirm_and_run_step "Setup Git and GitHub" setup_git_and_github show_git_impact
+    confirm_and_run_step "Configure VS Code Extensions" configure_vscode_extensions show_vscode_impact
+    confirm_and_run_step "Final Configuration" final_configuration show_final_config_impact
     
     log_success "🎉 Developer Environment Setup completed successfully!"
+}
+
+function confirm_and_run_step() {
+    local step_description="$1"
+    local step_function="$2"
+    local summary_function="${3:-}"
+
+    echo "Proceed with $step_description? (y/N): "
+    read -r REPLY
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        $step_function
+        
+        # Show step impact summary
+        if [[ -n "$summary_function" ]]; then
+            echo ""
+            log_info "📋 Impact Summary for: $step_description"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            $summary_function
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+        fi
+        
+        log_success "$step_description completed successfully."
+    else
+        log_info "$step_description skipped."
+    fi
 }
 
 ################################################################################
@@ -163,7 +170,7 @@ function main() {
 #     FHS:  Universal standard ensuring cross-platform compatibility and long-term maintainability.
 #     This hybrid approach provides enterprise-grade organization with personal workflow flexibility.
 ################################################################################
-function setup_sbrn_structure() {
+function setup_dir_struct_hierarchy() {
     log_step "📁 Setting up SBRN (Second Brain) directory structure..."
 
     # Hide standard user folders to reduce clutter before creating SBRN structure
@@ -197,8 +204,53 @@ function setup_sbrn_structure() {
     # Create XDG config structure to keep the home directory clean of dotfiles and system clutter
     mkdir -p "$SBRN_HOME/sys"/{config,local/share,local/state,cache,bin}
 
-    if [[ -z "${XDG_CONFIG_HOME:-}" ]]; then
-        export XDG_CONFIG_HOME="$SBRN_HOME/sys/config"
+    # Clone the HRT (Home Runtime Tools) repository if it doesn't exist
+    if [[ ! -d "$SBRN_HOME/sys/hrt" ]]; then
+        log_info "Cloning HRT repository to $SBRN_HOME/sys/hrt..."
+        git clone --depth=1 https://github.com/krishnam-eng/sbrn-sys-hrt.git "$SBRN_HOME/sys/hrt"
+        log_success "HRT repository cloned successfully"
+    else
+        log_success "HRT repository already exists at $SBRN_HOME/sys/hrt"
+    fi
+
+    # Setup XDG Base Directory Specification environment variables
+    export XDG_CONFIG_HOME="$SBRN_HOME/sys/config"
+    export XDG_DATA_HOME="$SBRN_HOME/sys/local/share"
+    export XDG_STATE_HOME="$SBRN_HOME/sys/local/state"
+    export XDG_CACHE_HOME="$SBRN_HOME/sys/cache"
+    
+    # Set Zsh configuration directory
+    export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+    
+    # Create XDG-compliant directories
+    mkdir -p "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$XDG_CACHE_HOME"
+    
+    # Application-specific XDG compliance directories
+    export ANDROID_HOME="$XDG_DATA_HOME/android"
+    export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
+    mkdir -p "$ANDROID_HOME" "$GRADLE_USER_HOME"
+    
+    # Setup configuration symlinks if conf directory exists
+    if [[ -d "$SBRN_HOME/sys/hrt/conf" ]]; then
+        log_info "Setting up configuration symlinks..."
+        
+        # Symlink zsh configuration
+        if [[ -d "$SBRN_HOME/sys/hrt/conf/zsh" ]]; then
+            ln -sf "$SBRN_HOME/sys/hrt/conf/zsh" "$XDG_CONFIG_HOME/zsh"
+            log_success "Linked Zsh configuration"
+        fi
+        
+        # Symlink git configuration
+        if [[ -d "$SBRN_HOME/sys/hrt/conf/git" ]]; then
+            ln -sf "$SBRN_HOME/sys/hrt/conf/git" "$XDG_CONFIG_HOME/git"
+            log_success "Linked Git configuration"
+        fi
+        
+        # Symlink .zshenv if it exists
+        if [[ -f "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ]]; then
+            ln -sf "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ~/.zshenv
+            log_success "Linked .zshenv configuration"
+        fi
     fi
     
     log_success "SBRN directory structure setup completed"
@@ -776,6 +828,147 @@ EOF
 }
 
 ################################################################################
+# Impact Summary Functions
+################################################################################
+
+function show_directory_impact() {
+    echo "✅ Created SBRN directory structure at: $SBRN_HOME"
+    echo "   📁 Projects: $SBRN_HOME/proj/{corp,oss,learn,lab,exp}"
+    echo "   📁 Areas: $SBRN_HOME/area/{work,personal,community,academic}"
+    echo "   📁 Resources: $SBRN_HOME/rsrc/{notes,templates,refs}"
+    echo "   📁 Archives: $SBRN_HOME/arch/{proj,area}"
+    echo "   📁 System: $SBRN_HOME/sys/{config,local,cache,bin}"
+    echo "   📁 Cloud Drives: $HOME/Drives/{iCloud,GoogleDrive,OneDrive,Dropbox}"
+    if [[ -d "$SBRN_HOME/sys/hrt" ]]; then
+        echo "   📁 HRT Tools: $SBRN_HOME/sys/hrt (cloned from GitHub)"
+    fi
+    echo "✅ Hidden standard macOS folders (Movies, Music, Desktop, Public, Pictures, Library)"
+    echo "✅ XDG Base Directory Specification configured:"
+    echo "   • XDG_CONFIG_HOME=$XDG_CONFIG_HOME"
+    echo "   • XDG_DATA_HOME=$XDG_DATA_HOME"
+    echo "   • XDG_STATE_HOME=$XDG_STATE_HOME"
+    echo "   • XDG_CACHE_HOME=$XDG_CACHE_HOME"
+    echo "✅ ZSH configuration directory set to:"
+    echo "   • ZDOTDIR=$ZDOTDIR"
+    echo "✅ Application-specific directories:"
+    echo "   • ANDROID_HOME=$ANDROID_HOME"
+    echo "   • GRADLE_USER_HOME=$GRADLE_USER_HOME"
+    if [[ -L "$XDG_CONFIG_HOME/zsh" ]]; then
+        echo "✅ Configuration symlinks created (zsh, git, .zshenv)"
+    fi
+}
+
+function show_homebrew_impact() {
+    echo "✅ Package manager installed: $(brew --version | head -1)"
+    echo "✅ Homebrew location: $(which brew)"
+    echo "✅ Package database updated to latest versions"
+    if [[ $(uname -m) == "arm64" ]]; then
+        echo "✅ Apple Silicon configuration: Added /opt/homebrew/bin to PATH"
+    fi
+}
+
+function show_zsh_impact() {
+    echo "✅ Oh My Zsh installed at: $SBRN_HOME/sys/oh-my-zsh"
+    echo "✅ Powerlevel10k theme installed for enhanced prompt"
+    echo "✅ Essential plugins installed:"
+    echo "   • zsh-autosuggestions (command completion)"
+    echo "   • zsh-syntax-highlighting (syntax highlighting)"
+    echo "   • history-substring-search (better history search)"
+    echo "✅ Meslo Nerd Font installed for terminal icons"
+}
+
+function show_cli_tools_impact() {
+    echo "✅ Essential CLI tools installed and available:"
+    echo "   • tree, wget, jq, htop, tmux (system utilities)"
+    echo "   • fzf, ripgrep, bat, eza, fd (enhanced file operations)"
+    echo "   • gh, git-lfs, diff-so-fancy, tig, lazygit (Git tools)"
+    echo "   • tldr, httpie (documentation and HTTP tools)"
+    echo "✅ Git configured to use diff-so-fancy for better diffs"
+}
+
+function show_dev_tools_impact() {
+    echo "✅ Development tools installed:"
+    echo "   • Build tools: maven, gradle"
+    echo "   • Container tools: docker, docker-compose"
+    echo "   • Cloud tools: awscli, azure-cli, terraform, ansible"
+    echo "   • Kubernetes tools: kubectl, helm"
+    echo "   • Python tools: poetry, pipenv"
+    echo "   • JavaScript tools: yarn"
+}
+
+function show_languages_impact() {
+    echo "✅ Programming languages and runtimes installed:"
+    echo "   • Python: $(python3 --version 2>/dev/null || echo 'Not installed')"
+    echo "   • Node.js: $(node --version 2>/dev/null || echo 'Not installed')"
+    echo "   • Java: $(java --version 2>/dev/null | head -1 || echo 'Not installed')"
+    echo "   • Go: $(go version 2>/dev/null || echo 'Not installed')"
+    echo "   • Rust: $(rustc --version 2>/dev/null || echo 'Not installed')"
+    echo "   • Ruby: $(ruby --version 2>/dev/null || echo 'Not installed')"
+    echo "✅ Version managers: pyenv, nvm, jenv, rbenv"
+}
+
+function show_ides_impact() {
+    echo "✅ IDEs and editors installed:"
+    if [[ -d "/Applications/Visual Studio Code.app" ]]; then
+        echo "   • Visual Studio Code (GUI + CLI: code)"
+    fi
+    if [[ -d "/Applications/IntelliJ IDEA CE.app" ]]; then
+        echo "   • IntelliJ IDEA CE (GUI + CLI: idea)"
+    fi
+    if [[ -d "/Applications/Cursor.app" ]]; then
+        echo "   • Cursor AI Editor (GUI + CLI: cursor)"
+    fi
+    echo "   • Vim/Neovim (CLI editors)"
+    if command -v jupyter &>/dev/null; then
+        echo "   • JupyterLab (data science environment)"
+    fi
+    echo "✅ Command-line shortcuts created in: $SBRN_HOME/sys/bin"
+}
+
+function show_git_impact() {
+    echo "✅ Git configuration:"
+    echo "   • User name: $(git config --global user.name 2>/dev/null || echo 'Not configured')"
+    echo "   • User email: $(git config --global user.email 2>/dev/null || echo 'Not configured')"
+    if [[ -f ~/.ssh/id_ed25519 ]]; then
+        echo "✅ SSH key generated for GitHub authentication"
+    fi
+    if command -v gh &>/dev/null; then
+        if gh auth status &>/dev/null; then
+            echo "✅ GitHub CLI authenticated"
+        else
+            echo "⚠️  GitHub CLI installed but not authenticated"
+        fi
+    fi
+}
+
+function show_vscode_impact() {
+    if command -v code &>/dev/null; then
+        local ext_count=$(code --list-extensions | wc -l)
+        echo "✅ VS Code extensions installed: $ext_count total"
+        echo "   • AI: GitHub Copilot, Copilot Chat"
+        echo "   • Languages: Python, Java, TypeScript, YAML, Markdown"
+        echo "   • Tools: Docker, Kubernetes, Git, Remote SSH"
+        echo "   • Themes: Material Icons, GitHub Theme, Dracula"
+    else
+        echo "⚠️  VS Code not found, extensions skipped"
+    fi
+}
+
+function show_final_config_impact() {
+    echo "✅ Shell configuration files updated:"
+    if [[ -f "$HOME/.zshenv" ]]; then
+        echo "   • ~/.zshenv (SBRN and XDG environment variables)"
+    fi
+    if [[ -f "$HOME/.zshrc" ]]; then
+        echo "   • ~/.zshrc (SBRN paths and aliases)"
+    fi
+    echo "✅ Configuration files created:"
+    echo "   • $SBRN_HOME/sys/config/aliases (development shortcuts)"
+    echo "   • $SBRN_HOME/sys/config/dev-env (environment variables)"
+    echo "✅ PATH updated to include: $SBRN_HOME/sys/bin"
+}
+
+################################################################################
 # Utility Functions
 ################################################################################
 function show_system_summary() {
@@ -885,8 +1078,8 @@ if [[ "${BASH_SOURCE[0]:-$0}" == "${0}" ]] && [[ "$0" != *"zsh"* ]]; then
     fi
     
     # Ask for confirmation
-    read -p "Proceed with developer environment setup? (y/N): " -n 1 -r
-    echo ""
+    echo "Proceed with developer environment setup? (y/N): "
+    read -r REPLY
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         main
         echo ""

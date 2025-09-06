@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# brew install coreutils
 # All GNU commands have been installed with the prefix "g" (e.g. ggrep, gdate, gecho)
 #
 # If you need to use these commands with their normal names, add a "gnubin" directory to your PATH which

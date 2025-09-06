@@ -62,7 +62,7 @@ function main() {
     echo ""
 
     confirm_and_run_step "Setup Directory Structure Hierarchy" setup_dir_struct_hierarchy show_directory_impact
-    confirm_and_run_step "Install Homebrew" install_homebrew show_homebrew_impact
+    confirm_and_run_step "Install Homebrew" install_package_manager show_homebrew_impact
     confirm_and_run_step "Setup Zsh Environment" setup_zsh_environment show_zsh_impact
     confirm_and_run_step "Install Essential CLI Tools" install_essential_cli_tools show_cli_tools_impact
     confirm_and_run_step "Install Development Tools" install_development_tools show_dev_tools_impact
@@ -199,7 +199,7 @@ function setup_dir_struct_hierarchy() {
     # Create Cloud Drives directories for mounting cloud storage
     mkdir -p "$HOME/Drives"
     mkdir -p "$HOME/Drives"/{iCloud,GoogleDrive,OneDrive,Dropbox}
-    log_info "Please mount your cloud drives (iCloud, Google Drive, OneDrive, Dropbox) under $HOME/Drives"
+    log_info "Please manually mount your cloud drives (iCloud, Google Drive, OneDrive, Dropbox) under $HOME/Drives"
 
     # Create XDG config structure to keep the home directory clean of dotfiles and system clutter
     mkdir -p "$SBRN_HOME/sys"/{config,local/share,local/state,cache,bin}
@@ -219,9 +219,6 @@ function setup_dir_struct_hierarchy() {
     export XDG_STATE_HOME="$SBRN_HOME/sys/local/state"
     export XDG_CACHE_HOME="$SBRN_HOME/sys/cache"
     
-    # Set Zsh configuration directory
-    export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-    
     # Create XDG-compliant directories
     mkdir -p "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$XDG_CACHE_HOME"
     
@@ -229,6 +226,9 @@ function setup_dir_struct_hierarchy() {
     export ANDROID_HOME="$XDG_DATA_HOME/android"
     export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
     mkdir -p "$ANDROID_HOME" "$GRADLE_USER_HOME"
+    
+    # Set Zsh configuration directory
+    export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
     
     # Setup configuration symlinks if conf directory exists
     if [[ -d "$SBRN_HOME/sys/hrt/conf" ]]; then
@@ -259,7 +259,7 @@ function setup_dir_struct_hierarchy() {
 ################################################################################
 # Step 2: Install Homebrew
 ################################################################################
-function install_homebrew() {
+function install_package_manager() {
     log_step "🍺 Installing Homebrew package manager..."
     
     if ! command -v brew &>/dev/null; then
@@ -268,7 +268,16 @@ function install_homebrew() {
         
         # Add Homebrew to PATH for Apple Silicon
         if [[ $(uname -m) == "arm64" ]]; then
-            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+            local zprofile_file="$ZDOTDIR/.zprofile"
+            
+            # Only add if not already present
+            if [[ ! -f "$zprofile_file" ]] || ! grep -q "brew shellenv" "$zprofile_file"; then
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$zprofile_file"
+                log_success "Added Homebrew shellenv to .zprofile"
+            else
+                log_success "Homebrew shellenv already in .zprofile"
+            fi
+            
             eval "$(/opt/homebrew/bin/brew shellenv)"
         fi
     else
@@ -276,9 +285,12 @@ function install_homebrew() {
         brew --version | head -1
     fi
     
-    # Update Homebrew
+    # Update Homebrew and upgrade existing packages
     log_info "Updating Homebrew package lists..."
     brew update
+    
+    log_info "Upgrading existing Homebrew packages to latest versions..."
+    brew upgrade
     
     log_success "Homebrew setup completed"
 }
@@ -369,33 +381,17 @@ function install_meslo_font() {
 function install_essential_cli_tools() {
     log_step "🛠️ Installing essential CLI tools..."
     
-    # Essential CLI tools
-    local cli_tools=(
-        "tree:Directory tree visualization"
-        "wget:File downloader"
-        "curl:Data transfer tool (usually pre-installed)"
-        "jq:JSON processor"
-        "htop:System monitor"
-        "tmux:Terminal multiplexer"
-        "fzf:Fuzzy finder"
-        "ripgrep:Fast text search (rg)"
-        "bat:Better cat with syntax highlighting"
-        "eza:Better ls with colors and icons"
-        "fd:Better find"
-        "tldr:Simplified man pages"
-        "gh:GitHub CLI"
-        "git-lfs:Git Large File Storage"
-        "diff-so-fancy:Better Git diffs"
-        "tig:Text-mode Git repository browser"
-        "lazygit:Simple terminal UI for Git"
-        "httpie:User-friendly HTTP client"
-    )
+    # 🖥️ Shell Enhancements & CLI Productivity
+    install_shell_productivity_tools
     
-    for tool_info in "${cli_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
-    done
+    # 🌐 Networking, Security, & Transfer Tools
+    install_networking_security_tools
+    
+    # 🗜️ Compression, Archiving, & Storage Tools
+    install_compression_storage_tools
+    
+    # 📊 Text, Regex, JSON, Data Tools
+    install_text_data_tools
     
     # Configure Git to use diff-so-fancy
     if command -v diff-so-fancy &>/dev/null; then
@@ -405,36 +401,282 @@ function install_essential_cli_tools() {
     log_success "Essential CLI tools installation completed"
 }
 
+function install_shell_productivity_tools() {
+    log_info "Installing 🖥️ Shell Enhancements & CLI Productivity tools..."
+    
+    # Core shell enhancement tools
+    local shell_tools=(
+        "zsh-autosuggestions:Command autosuggestions for zsh"
+        "zsh-syntax-highlighting:Syntax highlighting for zsh commands"
+        "fzf:Command-line fuzzy finder"
+        "zoxide:Smarter cd command with frecency"
+        "tldr:Simplified and community-driven man pages"
+        "tree:Directory tree visualization"
+        "bat:Cat clone with syntax highlighting and Git integration"
+        "fd:Simple, fast and user-friendly alternative to find"
+        "lsd:LSd (LSDeluxe) - next gen ls command"
+        "eza:Modern replacement for ls with colors and icons"
+        "watch:Execute a program periodically, showing output fullscreen"
+        "ncdu:NCurses Disk Usage - disk usage analyzer"
+        "htop:Interactive process viewer"
+        "glances:System monitoring tool"
+        "ctop:Top-like interface for container metrics"
+        "lazygit:Simple terminal UI for git commands"
+        "tig:Text-mode interface for Git"
+        "diff-so-fancy:Good-lookin' diffs with diff-highlight and more"
+        "tmux:Terminal multiplexer"
+        "readline:Library for command-line editing"
+    )
+    
+    for tool_info in "${shell_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
+    
+    # Install zsh plugins if Oh My Zsh is available
+    if [[ -n "${ZSH:-}" ]] && [[ -d "$ZSH" ]]; then
+        install_zsh_productivity_plugins
+    fi
+}
+
+function install_zsh_productivity_plugins() {
+    log_info "Installing additional Zsh productivity plugins..."
+    
+    local custom_dir="${ZSH}/custom/plugins"
+    
+    # zsh-autosuggestions (if not already installed)
+    if [[ ! -d "$custom_dir/zsh-autosuggestions" ]]; then
+        git clone https://github.com/zsh-users/zsh-autosuggestions.git "$custom_dir/zsh-autosuggestions"
+        log_success "Installed zsh-autosuggestions"
+    fi
+    
+    # zsh-syntax-highlighting (if not already installed)
+    if [[ ! -d "$custom_dir/zsh-syntax-highlighting" ]]; then
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$custom_dir/zsh-syntax-highlighting"
+        log_success "Installed zsh-syntax-highlighting"
+    fi
+}
+
+function install_networking_security_tools() {
+    log_info "Installing 🌐 Networking, Security, & Transfer tools..."
+    
+    local network_tools=(
+        "curl:Command-line tool for transferring data with URL syntax"
+        "wget:Internet file retriever"
+        "httpie:User-friendly command-line HTTP client"
+        "openssl@3:Cryptography and SSL/TLS Toolkit"
+        "libsodium:Modern, portable, easy-to-use crypto library"
+        "libssh2:C library implementing the SSH2 protocol"
+        "libevent:Asynchronous event library"
+        "libb2:C library providing BLAKE2b, BLAKE2s, BLAKE2bp, BLAKE2sp"
+        "ca-certificates:Common CA certificates PEM files"
+        "certifi:Python package for providing Mozilla's CA Bundle"
+        "libnghttp2:HTTP/2 C Library"
+        "libnghttp3:HTTP/3 library written in C"
+        "libngtcp2:Implementation of QUIC and HTTP/3"
+        "netcat:Utility for reading/writing network connections"
+        "rtmpdump:Tool for downloading RTMP streaming media"
+    )
+    
+    for tool_info in "${network_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
+}
+
+function install_compression_storage_tools() {
+    log_info "Installing 🗜️ Compression, Archiving, & Storage tools..."
+    
+    local compression_tools=(
+        "xz:General-purpose data compression with high compression ratio"
+        "lz4:Extremely Fast Compression algorithm"
+        "zstd:Zstandard - Fast real-time compression algorithm"
+        "brotli:Generic-purpose lossless compression algorithm by Google"
+        "lzo:Real-time data compression library"
+        "libarchive:Multi-format archive and compression library"
+        "libzip:C library for reading, creating, and modifying zip archives"
+        "sqlite:Command-line interface for SQLite"
+        "berkeley-db@5:High performance, embedded database library"
+        "gdbm:GNU database manager"
+        "mpdecimal:Library for general decimal arithmetic"
+    )
+    
+    for tool_info in "${compression_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
+}
+
+function install_text_data_tools() {
+    log_info "Installing 📊 Text, Regex, JSON, Data tools..."
+    
+    local text_tools=(
+        "jq:Lightweight and flexible command-line JSON processor"
+        "ripgrep:Search tool like grep and The Silver Searcher"
+        "gettext:GNU internationalization (i18n) and localization (l10n) library"
+        "libunistring:C string library for manipulating Unicode strings"
+        "utf8proc:Clean C library for processing UTF-8 Unicode data"
+        "icu4c@77:C/C++ and Java libraries for Unicode and locale support"
+        "libidn:International domain name library"
+        "libidn2:International domain name library (IDNA2008, Punycode, TR46)"
+        "fribidi:Implementation of the Unicode Bidirectional Algorithm"
+        "oniguruma:Regular expressions library"
+        "pcre2:Perl compatible regular expressions library with a new API"
+    )
+    
+    for tool_info in "${text_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
+}
+
 ################################################################################
 # Step 5: Install Development Tools
 ################################################################################
 function install_development_tools() {
     log_step "🔧 Installing development tools..."
     
-    # Build tools and package managers
-    local dev_tools=(
-        "maven:Java build tool"
-        "gradle:Build automation tool"
-        "helm:Kubernetes package manager"
-        "kubectl:Kubernetes CLI"
-        "docker:Container platform CLI"
-        "docker-compose:Multi-container Docker applications"
-        "awscli:AWS Command Line Interface"
-        "azure-cli:Azure Command Line Interface"
-        "terraform:Infrastructure as Code"
-        "ansible:IT automation platform"
-        "poetry:Python dependency management"
-        "pipenv:Python development workflow"
-        "yarn:JavaScript package manager"
+    # 🔧 Developer Tools (VCS, Repos, Git Helpers)
+    install_git_and_vcs_tools
+    
+    # ☁️ Cloud & Containers
+    install_cloud_container_tools
+    
+    # 🎨 Graphics, Fonts, and UI Libraries
+    install_graphics_font_libraries
+    
+    # 👓 OCR & Document Processing
+    install_ocr_document_tools
+    
+    # 🖥️ System & Desktop Libraries
+    install_system_desktop_libraries
+    
+    log_success "Development tools installation completed"
+}
+
+function install_git_and_vcs_tools() {
+    log_info "Installing 🔧 Developer Tools (VCS, Repos, Git Helpers)..."
+    
+    local git_tools=(
+        "git:Distributed revision control system"
+        "git-lfs:Git extension for versioning large files"
+        "gh:GitHub command-line tool"
+        "libgit2:C library for Git core methods"
+        "git-extras:Small git utilities"
+        "gibo:Fast access to .gitignore boilerplates"
+        "ghq:Remote repository management made easy"
+        "lazygit:Simple terminal UI for git commands"
+        "tig:Text-mode interface for git"
+        "diff-so-fancy:Good-lookin' diffs with diff-highlight and more"
     )
     
-    for tool_info in "${dev_tools[@]}"; do
+    for tool_info in "${git_tools[@]}"; do
         local tool="${tool_info%%:*}"
         local description="${tool_info#*:}"
         brew_install "$tool" "$description"
     done
+}
+
+function install_cloud_container_tools() {
+    log_info "Installing ☁️ Cloud & Containers tools..."
     
-    log_success "Development tools installation completed"
+    local cloud_tools=(
+        "docker:Platform for developing, shipping, and running applications"
+        "docker-compose:Isolated development environments using Docker"
+        "docker-completion:Bash, Zsh and Fish completion for Docker"
+        "colima:Container runtimes on macOS (and Linux) with minimal setup"
+        "lima:Linux virtual machines (on macOS, in most cases)"
+        "kubernetes-cli:Kubernetes command-line interface"
+        "helm:Kubernetes package manager"
+        "awscli:Official Amazon AWS command-line interface"
+    )
+    
+    for tool_info in "${cloud_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
+}
+
+function install_graphics_font_libraries() {
+    log_info "Installing 🎨 Fonts, Graphics, Images libraries..."
+    
+    local graphics_tools=(
+        "freetype:Software library to render fonts"
+        "fontconfig:XML-based font configuration API for X Windows"
+        "harfbuzz:OpenType text shaping engine"
+        "pango:Framework for layout and rendering of i18n text"
+        "graphite2:Smart font technology"
+        "cairo:Vector graphics library with cross-device output support"
+        "pixman:Low-level library for pixel manipulation"
+        "glib:Core application library for C"
+        "gdk-pixbuf:Toolkit for image loading and pixel buffer manipulation"
+        "librsvg:Library to render SVG files using Cairo"
+        "gtk+3:Toolkit for creating graphical user interfaces"
+        "libepoxy:Library for handling OpenGL function pointer management"
+        "libpng:Library for manipulating PNG images"
+        "jpeg-turbo:JPEG image codec that uses SIMD instructions"
+        "giflib:Library and utilities for processing GIFs"
+        "libtiff:TIFF library and utilities"
+        "little-cms2:Color management engine supporting ICC profiles"
+        "jbig2dec:JBIG2 decoder library (for monochrome documents)"
+        "openjpeg:Library for JPEG-2000 image manipulation"
+        "webp:Image format providing lossless and lossy compression"
+        "leptonica:Image processing and image analysis library"
+    )
+    
+    for tool_info in "${graphics_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
+}
+
+function install_ocr_document_tools() {
+    log_info "Installing 👓 OCR & Document Processing tools..."
+    
+    local ocr_tools=(
+        "tesseract:OCR (Optical Character Recognition) engine"
+        "ghostscript:Interpreter for PostScript and PDF"
+    )
+    
+    for tool_info in "${ocr_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
+}
+
+function install_system_desktop_libraries() {
+    log_info "Installing 🖥️ System & Desktop libraries..."
+    
+    local system_tools=(
+        "dbus:Message bus system, providing inter-application communication"
+        "at-spi2-core:Protocol definitions and daemon for D-Bus at-spi"
+        "gsettings-desktop-schemas:GSettings schemas for desktop components"
+        "hicolor-icon-theme:Fallback theme for FreeDesktop.org icon themes"
+        "ncurses:Text-based UI library"
+        "libx11:X.Org: Core X11 protocol client library"
+        "libxcb:X.Org: Interface to the X Window System protocol"
+        "libxext:X.Org: Library for common extensions to the X11 protocol"
+        "libxrender:X.Org: Library for the Render Extension to the X11 protocol"
+        "libxau:X.Org: A Sample Authorization Protocol for X"
+        "libxdmcp:X.Org: X Display Manager Control Protocol library"
+        "libxfixes:X.Org: Header files for the XFIXES extension"
+        "libxi:X.Org: Library for the Input extension to the X11 protocol"
+        "libxtst:X.Org: Client API for the XTEST & RECORD extensions"
+        "xorgproto:X.Org: Protocol Headers"
+    )
+    
+    for tool_info in "${system_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
 }
 
 ################################################################################
@@ -443,15 +685,52 @@ function install_development_tools() {
 function install_programming_languages() {
     log_step "💻 Installing programming languages and runtimes..."
     
-    # Programming languages and runtimes
+    # 📦 Package, Env, and Build Tools
+    install_package_env_build_tools
+    
+    # Core Programming Languages & Runtimes
+    install_core_programming_languages
+    
+    # Version Managers
+    install_version_managers
+    
+    # Additional Build and Automation Tools
+    install_build_automation_tools
+    
+    log_success "Programming languages and runtimes installation completed"
+}
+
+function install_package_env_build_tools() {
+    log_info "Installing 📦 Package, Env, and Build Tools..."
+    
+    local package_tools=(
+        "nvm:Node.js version manager"
+        "python@3.13:Python 3.13 programming language"
+        "perl:Highly capable, feature-rich programming language"
+        "ruby:Powerful, clean, object-oriented scripting language"
+        "lua:Powerful, lightweight programming language"
+        "openjdk:Open-source implementation of Java Platform, Standard Edition"
+        "openjdk@17:Open-source implementation of Java Platform, Standard Edition (v17)"
+        "maven:Java-based project management"
+        "gradle:Build automation tool based on Groovy and Kotlin"
+        "certifi:Mozilla CA Bundle in Python"
+        "libyaml:YAML Parser"
+    )
+    
+    for tool_info in "${package_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
+}
+
+function install_core_programming_languages() {
+    log_info "Installing core programming languages and runtimes..."
+    
     local languages=(
-        "python@3.12:Python 3.12"
-        "node:Node.js JavaScript runtime"
-        "openjdk@17:OpenJDK 17"
-        "openjdk@21:OpenJDK 21"
-        "go:Go programming language"
-        "rust:Rust programming language"
-        "ruby:Ruby programming language"
+        "node:Platform built on V8 to build network applications"
+        "go:Open source programming language to build simple/reliable/efficient software"
+        "rust:Safe, concurrent, practical language"
     )
     
     for lang_info in "${languages[@]}"; do
@@ -459,11 +738,13 @@ function install_programming_languages() {
         local description="${lang_info#*:}"
         brew_install "$lang" "$description"
     done
+}
+
+function install_version_managers() {
+    log_info "Installing version managers..."
     
-    # Version managers
     local version_managers=(
         "pyenv:Python version management"
-        "nvm:Node.js version management"
         "jenv:Java version management"
         "rbenv:Ruby version management"
     )
@@ -474,7 +755,44 @@ function install_programming_languages() {
         brew_install "$vm" "$description"
     done
     
-    log_success "Programming languages and runtimes installation completed"
+    # Install NVM manually if not already installed (Homebrew version has issues)
+    install_nvm_manually
+}
+
+function install_nvm_manually() {
+    local nvm_dir="$SBRN_HOME/sys/nvm"
+    
+    if [[ ! -d "$nvm_dir" ]]; then
+        log_info "Installing NVM (Node Version Manager) manually..."
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | NVM_DIR="$nvm_dir" bash
+        
+        # Source NVM
+        export NVM_DIR="$nvm_dir"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+        
+        log_success "NVM installed to $nvm_dir"
+    else
+        log_success "NVM already installed at $nvm_dir"
+    fi
+}
+
+function install_build_automation_tools() {
+    log_info "Installing additional build and automation tools..."
+    
+    local build_tools=(
+        "terraform:Tool to build, change, and version infrastructure"
+        "ansible:Automate deployment, configuration, and upgrading"
+        "poetry:Python package and dependency manager"
+        "pipenv:Python development workflow for humans"
+        "yarn:JavaScript package manager"
+    )
+    
+    for tool_info in "${build_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
 }
 
 ################################################################################
@@ -483,41 +801,91 @@ function install_programming_languages() {
 function install_ides_and_editors() {
     log_step "📝 Installing IDEs and editors..."
     
-    # IDEs and Editors via Homebrew Cask
-    local ides=(
-        "visual-studio-code:Visual Studio Code"
-        "intellij-idea-ce:IntelliJ IDEA Community Edition"
-        "pycharm-ce:PyCharm Community Edition"
-        "cursor:Cursor AI-powered editor"
-        "sublime-text:Sublime Text editor"
-        "vim:Vim text editor (CLI)"
-        "neovim:Neovim - modern Vim"
-    )
+    # Core IDEs and Editors
+    install_core_ides_editors
     
-    for ide_info in "${ides[@]}"; do
-        local ide="${ide_info%%:*}"
-        local description="${ide_info#*:}"
-        if [[ "$ide" == "vim" || "$ide" == "neovim" ]]; then
-            brew_install "$ide" "$description"
-        else
-            brew_cask_install "$ide" "$description"
-        fi
-    done
-    
-    # Install Jupyter Lab
-    if command -v pip3 &>/dev/null; then
-        if ! pip3 list | grep -q jupyterlab; then
-            log_info "Installing JupyterLab..."
-            pip3 install jupyterlab notebook
-        else
-            log_success "JupyterLab already installed"
-        fi
-    fi
+    # Development Environment Tools
+    install_development_environment_tools
     
     # Create symbolic links for command-line access
     create_ide_symlinks
     
     log_success "IDEs and editors installation completed"
+}
+
+function install_core_ides_editors() {
+    log_info "Installing core IDEs and editors..."
+    
+    # IDEs and Editors via Homebrew Cask
+    local ides=(
+        "visual-studio-code:Visual Studio Code - Microsoft's free code editor"
+        "intellij-idea-ce:IntelliJ IDEA Community Edition - JetBrains Java IDE"
+        "pycharm-ce:PyCharm Community Edition - JetBrains Python IDE"
+        "cursor:Cursor - AI-powered code editor"
+        "sublime-text:Sublime Text - sophisticated text editor for code, markup and prose"
+        "zed:Zed - high-performance, multiplayer code editor"
+    )
+    
+    for ide_info in "${ides[@]}"; do
+        local ide="${ide_info%%:*}"
+        local description="${ide_info#*:}"
+        brew_cask_install "$ide" "$description"
+    done
+    
+    # CLI editors via Homebrew
+    local cli_editors=(
+        "vim:Vi IMproved - enhanced version of the vi editor"
+        "neovim:Ambitious Vim-fork focused on extensibility and agility"
+        "emacs:GNU Emacs text editor"
+        "nano:Free (GNU) replacement for the Pico text editor"
+    )
+    
+    for editor_info in "${cli_editors[@]}"; do
+        local editor="${editor_info%%:*}"
+        local description="${editor_info#*:}"
+        brew_install "$editor" "$description"
+    done
+}
+
+function install_development_environment_tools() {
+    log_info "Installing development environment and data science tools..."
+    
+    # Install Jupyter Lab and related tools
+    if command -v pip3 &>/dev/null; then
+        local jupyter_packages=(
+            "jupyterlab"
+            "notebook"
+            "ipywidgets"
+            "jupyter-console"
+            "nbconvert"
+            "ipykernel"
+        )
+        
+        for package in "${jupyter_packages[@]}"; do
+            if ! pip3 list | grep -q "^$package "; then
+                log_info "Installing $package..."
+                pip3 install "$package"
+            else
+                log_success "$package already installed"
+            fi
+        done
+    else
+        log_warning "pip3 not found, skipping Jupyter installation"
+    fi
+    
+    # Install additional development environment tools
+    local env_tools=(
+        "tmux:Terminal multiplexer for persistent sessions"
+        "screen:Terminal multiplexer with VT100/ANSI terminal emulation"
+        "git-gui:Tcl/Tk based graphical user interface to Git"
+        "gitk:The Git repository browser"
+    )
+    
+    for tool_info in "${env_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
 }
 
 function create_ide_symlinks() {
@@ -850,11 +1218,16 @@ function show_directory_impact() {
     echo "   • XDG_CACHE_HOME=$XDG_CACHE_HOME"
     echo "✅ ZSH configuration directory set to:"
     echo "   • ZDOTDIR=$ZDOTDIR"
+    echo "   • .zshenv symlinked from $SBRN_HOME/sys/hrt/conf/zsh/.zshenv"
     echo "✅ Application-specific directories:"
     echo "   • ANDROID_HOME=$ANDROID_HOME"
     echo "   • GRADLE_USER_HOME=$GRADLE_USER_HOME"
+    echo "✅ Configuration home created under $XDG_CONFIG_HOME:"
     if [[ -L "$XDG_CONFIG_HOME/zsh" ]]; then
-        echo "✅ Configuration symlinks created (zsh, git, .zshenv)"
+        echo "   • zsh"
+    fi
+    if [[ -L "$XDG_CONFIG_HOME/git" ]]; then
+        echo "   • git"
     fi
 }
 
@@ -878,50 +1251,98 @@ function show_zsh_impact() {
 }
 
 function show_cli_tools_impact() {
-    echo "✅ Essential CLI tools installed and available:"
-    echo "   • tree, wget, jq, htop, tmux (system utilities)"
-    echo "   • fzf, ripgrep, bat, eza, fd (enhanced file operations)"
-    echo "   • gh, git-lfs, diff-so-fancy, tig, lazygit (Git tools)"
-    echo "   • tldr, httpie (documentation and HTTP tools)"
-    echo "✅ Git configured to use diff-so-fancy for better diffs"
+    echo "✅ 🖥️ Shell Enhancements & CLI Productivity tools installed:"
+    echo "   • zsh-autosuggestions, zsh-syntax-highlighting (shell quality of life)"
+    echo "   • fzf, zoxide, tldr, tree, bat, fd, lsd, eza (navigation & search)"
+    echo "   • watch, ncdu, htop, glances, ctop (system monitoring)"
+    echo "   • lazygit, tig, diff-so-fancy (Git TUI and diffs)"
+    echo "   • tmux, readline (terminal multiplexing & editing)"
+    echo "✅ 🌐 Networking, Security, & Transfer tools:"
+    echo "   • curl, wget, httpie (HTTP clients)"
+    echo "   • openssl@3, libsodium, libssh2, libevent, libb2 (crypto & networking)"
+    echo "   • ca-certificates, certifi (root certificates)"
+    echo "   • libnghttp2, libnghttp3, libngtcp2 (HTTP/2, HTTP/3, QUIC)"
+    echo "   • netcat, rtmpdump (networking & streaming)"
+    echo "✅ 🗜️ Compression, Archiving, & Storage:"
+    echo "   • xz, lz4, zstd, brotli, lzo (compression libraries)"
+    echo "   • libarchive, libzip (archive handling)"
+    echo "   • sqlite, berkeley-db@5, gdbm (databases & storage)"
+    echo "✅ 📊 Text, Regex, JSON, Data tools:"
+    echo "   • jq, ripgrep (JSON and text search)"
+    echo "   • gettext, libunistring, utf8proc, icu4c@77 (i18n & Unicode)"
+    echo "   • oniguruma, pcre2 (regex engines)"
+    echo "✅ Git configured to use diff-so-fancy for enhanced diffs"
 }
 
 function show_dev_tools_impact() {
-    echo "✅ Development tools installed:"
-    echo "   • Build tools: maven, gradle"
-    echo "   • Container tools: docker, docker-compose"
-    echo "   • Cloud tools: awscli, azure-cli, terraform, ansible"
-    echo "   • Kubernetes tools: kubectl, helm"
-    echo "   • Python tools: poetry, pipenv"
-    echo "   • JavaScript tools: yarn"
+    echo "✅ 🔧 Developer Tools (VCS, Repos, Git Helpers):"
+    echo "   • git, git-lfs, gh, libgit2 (core Git tooling)"
+    echo "   • git-extras, gibo, ghq (Git workflow helpers)"
+    echo "   • lazygit, tig, diff-so-fancy (Git TUI and pretty diffs)"
+    echo "✅ ☁️ Cloud & Containers:"
+    echo "   • docker, docker-compose, docker-completion (container runtime)"
+    echo "   • colima, lima (container/VM backends for macOS)"
+    echo "   • kubernetes-cli, helm (Kubernetes control)"
+    echo "   • awscli (AWS management)"
+    echo "✅ 🎨 Fonts, Graphics, Images libraries:"
+    echo "   • freetype, fontconfig, harfbuzz, pango (font rendering)"
+    echo "   • cairo, pixman, glib, gdk-pixbuf, librsvg (graphics/UI)"
+    echo "   • libpng, jpeg-turbo, giflib, libtiff, webp (image codecs)"
+    echo "✅ 👓 OCR & Document Processing:"
+    echo "   • tesseract (OCR engine)"
+    echo "   • ghostscript (PDF & PostScript interpreter)"
+    echo "✅ 🖥️ System & Desktop libraries:"
+    echo "   • dbus, at-spi2-core, gsettings-desktop-schemas (desktop IPC)"
+    echo "   • ncurses (TUI base library)"
+    echo "   • libx11, libxcb, libxext, libxrender (X11 components)"
 }
 
 function show_languages_impact() {
-    echo "✅ Programming languages and runtimes installed:"
+    echo "✅ 📦 Package, Env, and Build Tools:"
+    echo "   • nvm (Node.js version manager)"
+    echo "   • python@3.13, perl, ruby, lua (language runtimes)"
+    echo "   • openjdk, openjdk@17, maven, gradle (Java ecosystem)"
+    echo "   • certifi, libyaml (Python ecosystem dependencies)"
+    echo "✅ Core Programming Languages:"
     echo "   • Python: $(python3 --version 2>/dev/null || echo 'Not installed')"
     echo "   • Node.js: $(node --version 2>/dev/null || echo 'Not installed')"
     echo "   • Java: $(java --version 2>/dev/null | head -1 || echo 'Not installed')"
     echo "   • Go: $(go version 2>/dev/null || echo 'Not installed')"
     echo "   • Rust: $(rustc --version 2>/dev/null || echo 'Not installed')"
     echo "   • Ruby: $(ruby --version 2>/dev/null || echo 'Not installed')"
-    echo "✅ Version managers: pyenv, nvm, jenv, rbenv"
+    echo "   • Perl: $(perl --version 2>/dev/null | head -2 | tail -1 || echo 'Not installed')"
+    echo "   • Lua: $(lua -v 2>/dev/null || echo 'Not installed')"
+    echo "✅ Version Managers: pyenv, nvm (custom install), jenv, rbenv"
+    echo "✅ Build & Automation: terraform, ansible, poetry, pipenv, yarn"
 }
 
 function show_ides_impact() {
-    echo "✅ IDEs and editors installed:"
+    echo "✅ Core IDEs and editors installed:"
     if [[ -d "/Applications/Visual Studio Code.app" ]]; then
         echo "   • Visual Studio Code (GUI + CLI: code)"
     fi
     if [[ -d "/Applications/IntelliJ IDEA CE.app" ]]; then
         echo "   • IntelliJ IDEA CE (GUI + CLI: idea)"
     fi
+    if [[ -d "/Applications/PyCharm CE.app" ]]; then
+        echo "   • PyCharm Community Edition"
+    fi
     if [[ -d "/Applications/Cursor.app" ]]; then
         echo "   • Cursor AI Editor (GUI + CLI: cursor)"
     fi
-    echo "   • Vim/Neovim (CLI editors)"
-    if command -v jupyter &>/dev/null; then
-        echo "   • JupyterLab (data science environment)"
+    if [[ -d "/Applications/Sublime Text.app" ]]; then
+        echo "   • Sublime Text"
     fi
+    if [[ -d "/Applications/Zed.app" ]]; then
+        echo "   • Zed (high-performance, multiplayer code editor)"
+    fi
+    echo "   • CLI editors: vim, neovim, emacs, nano"
+    echo "✅ Development Environment Tools:"
+    if command -v jupyter &>/dev/null; then
+        echo "   • JupyterLab with full data science stack (ipywidgets, nbconvert)"
+    fi
+    echo "   • tmux, screen (terminal multiplexers)"
+    echo "   • git-gui, gitk (Git graphical tools)"
     echo "✅ Command-line shortcuts created in: $SBRN_HOME/sys/bin"
 }
 

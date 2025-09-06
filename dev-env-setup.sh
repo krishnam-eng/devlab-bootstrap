@@ -1,18 +1,19 @@
 #!/bin/zsh
 
 ################################################################################
-# Portable Replicatable Scalable Developer Laboratory 
-# Environment Setup Script
+# Goal: Portable Replicatable Scalable Developer Laboratory 
+# Nature: Environment Setup Script
+# Author: Balamurugan Krishnamoorthy
 #
 # This script sets up a complete macOS development environment including:
 # 1. SBRN (Second Brain) directory structure
 # 2. Homebrew package manager
-# 3. Zsh with Oh My Zsh and customizations
+# 3. Zsh with customizations
 # 4. Essential development tools and applications
 # 5. Git and GitHub configuration
 # 6. Development IDEs and editors
 #
-# Philosophy: Leverage Industry-Tested Standards for Effortless Productivity
+# My Philosophy: Leverage Industry-Tested Standards for Effortless Productivity
 #     This setup harnesses well-established principles, standards, and specifications 
 #     that have been battle-tested across industries and proven effective for millions 
 #     of developers and knowledge workers daily. By adopting these acclaimed standards 
@@ -54,53 +55,10 @@ log_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 log_step() { echo -e "${CYAN}[STEP]${NC} $1"; }
 
-
-################################################################################
-# Script Entry Point
-################################################################################
-if [[ "${BASH_SOURCE[0]:-$0}" == "${0}" ]]; then
-    # Parse command line arguments
-    parse_arguments "$@"
-    
-    # Check if running on macOS
-    if [[ $(uname) != "Darwin" ]]; then
-        log_error "This script is designed for macOS only"
-        exit 1
-    fi
-    
-    # Show system summary before starting
-    show_system_summary
-    echo ""
-    
-    # Show configuration warnings
-    if [[ $SKIP_CASK_APPS == true ]]; then
-        log_warning "SKIP-CASK-APPS MODE: GUI applications will be skipped (manual install recommended)"
-        echo ""
-    fi
-    
-    # Ask for confirmation
-    read -p "Proceed with developer environment setup? (y/N): " -n 1 -r
-    echo ""
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        main
-        echo ""
-        show_system_summary
-    else
-        log_info "Installation cancelled"
-        exit 0
-    fi
-fi
-
 ################################################################################
 # Main execution flow
 function main() {
-    if [[ $DRY_RUN == true ]]; then
-        log_info "🔍 DRY-RUN MODE: Showing what would be executed..."
-        log_info "💡 This preview shows planned actions without making changes"
-        echo ""
-    fi
-    
-    log_info "🚀 Starting Developer Environment Setup for macOS..."
+    log_info " Starting Developer Environment Setup for macOS..."
     echo ""
     
     # Step 1: Setup SBRN Directory Structure
@@ -133,15 +91,6 @@ function main() {
     # Step 10: Final Configuration
     final_configuration
     
-    if [[ $DRY_RUN == true ]]; then
-        echo ""
-        log_info "🔍 DRY-RUN SUMMARY:"
-        log_info "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        log_dry_run "No actual changes were made to your system"
-        log_dry_run "To execute the real installation, run: ${0##*/}"
-        log_dry_run "To see this preview again, run: ${0##*/} --dry-run"
-        echo ""
-    fi
     log_success "🎉 Developer Environment Setup completed successfully!"
 }
 
@@ -217,47 +166,39 @@ function main() {
 function setup_sbrn_structure() {
     log_step "📁 Setting up SBRN (Second Brain) directory structure..."
 
+    # Hide standard user folders to reduce clutter before creating SBRN structure
+    chflags hidden ~/Movies
+    chflags hidden ~/Music
+    chflags hidden ~/Desktop
+    chflags hidden ~/Public
+    chflags hidden ~/Pictures
+    chflags hidden ~/Library
+
     # Set SBRN_HOME if not already set
     if [[ -z "${SBRN_HOME:-}" ]]; then
-        if [[ $DRY_RUN == true ]]; then
-            log_dry_run "Would set SBRN_HOME to $HOME/sbrn"
-        else
-            export SBRN_HOME="$HOME/sbrn"
-            log_info "Set SBRN_HOME to $SBRN_HOME"
-        fi
+        export SBRN_HOME="$HOME/sbrn"
+        log_info "Set SBRN_HOME to $SBRN_HOME"
     else
         log_success "SBRN_HOME already set: $SBRN_HOME"
     fi
 
     # Create primary PARA directories under sbrn home for Projects, Areas, Resources, Archives
-    dry_run_mkdir "$SBRN_HOME"
-    dry_run_mkdir "$SBRN_HOME/proj"/{corp,oss,learn,lab,exp}
-    dry_run_mkdir "$SBRN_HOME/area"/{work,personal,community,academic}
-    dry_run_mkdir "$SBRN_HOME/rsrc"/{notes,templates,refs}
-    dry_run_mkdir "$SBRN_HOME/arch"/{proj,area}
+    mkdir -p "$SBRN_HOME"
+    mkdir -p "$SBRN_HOME/proj"/{corp,oss,learn,lab,exp}
+    mkdir -p "$SBRN_HOME/area"/{work,personal,community,academic}
+    mkdir -p "$SBRN_HOME/rsrc"/{notes,templates,refs}
+    mkdir -p "$SBRN_HOME/arch"/{proj,area}
 
     # Create Cloud Drives directories for mounting cloud storage
-    dry_run_mkdir "$HOME/Drives"
-    dry_run_mkdir "$HOME/Drives"/{iCloud,GoogleDrive,OneDrive,Dropbox}
+    mkdir -p "$HOME/Drives"
+    mkdir -p "$HOME/Drives"/{iCloud,GoogleDrive,OneDrive,Dropbox}
     log_info "Please mount your cloud drives (iCloud, Google Drive, OneDrive, Dropbox) under $HOME/Drives"
 
     # Create XDG config structure to keep the home directory clean of dotfiles and system clutter
-    dry_run_mkdir "$SBRN_HOME/sys"/{config,local/share,local/state,cache,bin}
+    mkdir -p "$SBRN_HOME/sys"/{config,local/share,local/state,cache,bin}
 
-
-    # Create Cloud Drives directory
-    dry_run_mkdir "$HOME/Drives"
-    dry_run_mkdir "$HOME/Drives"/{iCloud,GoogleDrive,OneDrive,Dropbox}
-    log_info "Please mount your cloud drives (iCloud, Google Drive, OneDrive, Dropbox) under $HOME/Drives"
-
-    # Create XDG config structure to reduce clutter like .config, .local, .cache
-    # or any dotfiles in the home directory
-    dry_run_mkdir "$SBRN_HOME/sys"/{config,local/share,local/state,cache,bin}
-
-    if [[ $DRY_RUN == false ]]; then
-        if [[ -z "${XDG_CONFIG_HOME:-}" ]]; then
-            export XDG_CONFIG_HOME="$SBRN_HOME/sys/config"
-        fi
+    if [[ -z "${XDG_CONFIG_HOME:-}" ]]; then
+        export XDG_CONFIG_HOME="$SBRN_HOME/sys/config"
     fi
     
     log_success "SBRN directory structure setup completed"
@@ -270,31 +211,22 @@ function install_homebrew() {
     log_step "🍺 Installing Homebrew package manager..."
     
     if ! command -v brew &>/dev/null; then
-        if [[ $DRY_RUN == true ]]; then
-            log_dry_run "Would install Homebrew via:"
-            log_dry_run "/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-            if [[ $(uname -m) == "arm64" ]]; then
-                log_dry_run "Would add Homebrew to PATH for Apple Silicon"
-            fi
-        else
-            log_info "Installing Homebrew..."
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            
-            # Add Homebrew to PATH for Apple Silicon
-            if [[ $(uname -m) == "arm64" ]]; then
-                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-                eval "$(/opt/homebrew/bin/brew shellenv)"
-            fi
+        log_info "Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        
+        # Add Homebrew to PATH for Apple Silicon
+        if [[ $(uname -m) == "arm64" ]]; then
+            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+            eval "$(/opt/homebrew/bin/brew shellenv)"
         fi
     else
         log_success "Homebrew already installed"
-        if [[ $DRY_RUN == false ]]; then
-            brew --version | head -1
-        fi
+        brew --version | head -1
     fi
     
     # Update Homebrew
-    dry_run_command "brew update" "Update Homebrew package lists"
+    log_info "Updating Homebrew package lists..."
+    brew update
     
     log_success "Homebrew setup completed"
 }
@@ -308,38 +240,30 @@ function setup_zsh_environment() {
     # Set ZSH installation directory
     local zsh_dir="$SBRN_HOME/sys/oh-my-zsh"
     
-    if [[ $DRY_RUN == true ]]; then
-        log_dry_run "Would set ZSH environment variable to: $zsh_dir"
-        log_dry_run "Would install Oh My Zsh to custom directory"
-        log_dry_run "Would install Powerlevel10k theme"
-        log_dry_run "Would install essential Zsh plugins"
-        log_dry_run "Would install Meslo Nerd Font"
+    # Install Oh My Zsh to custom directory
+    if [[ ! -d "$zsh_dir" ]]; then
+        export ZSH="$zsh_dir"
+        log_info "Installing Oh My Zsh to $zsh_dir..."
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     else
-        # Install Oh My Zsh to custom directory
-        if [[ ! -d "$zsh_dir" ]]; then
-            export ZSH="$zsh_dir"
-            log_info "Installing Oh My Zsh to $zsh_dir..."
-            sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-        else
-            log_success "Oh My Zsh already installed"
-            export ZSH="$zsh_dir"
-        fi
-        
-        # Install Powerlevel10k theme
-        local p10k_dir="${ZSH}/custom/themes/powerlevel10k"
-        if [[ ! -d "$p10k_dir" ]]; then
-            log_info "Installing Powerlevel10k theme..."
-            git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
-        else
-            log_success "Powerlevel10k already installed"
-        fi
-        
-        # Install essential plugins
-        install_zsh_plugins
-        
-        # Install Meslo Nerd Font
-        install_meslo_font
+        log_success "Oh My Zsh already installed"
+        export ZSH="$zsh_dir"
     fi
+    
+    # Install Powerlevel10k theme
+    local p10k_dir="${ZSH}/custom/themes/powerlevel10k"
+    if [[ ! -d "$p10k_dir" ]]; then
+        log_info "Installing Powerlevel10k theme..."
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
+    else
+        log_success "Powerlevel10k already installed"
+    fi
+    
+    # Install essential plugins
+    install_zsh_plugins
+    
+    # Install Meslo Nerd Font
+    install_meslo_font
     
     log_success "Zsh environment setup completed"
 }
@@ -418,11 +342,11 @@ function install_essential_cli_tools() {
     for tool_info in "${cli_tools[@]}"; do
         local tool="${tool_info%%:*}"
         local description="${tool_info#*:}"
-        dry_run_brew_install "$tool" "$description"
+        brew_install "$tool" "$description"
     done
     
     # Configure Git to use diff-so-fancy
-    if [[ $DRY_RUN == false ]] && command -v diff-so-fancy &>/dev/null; then
+    if command -v diff-so-fancy &>/dev/null; then
         git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX" 2>/dev/null || true
     fi
     
@@ -455,7 +379,7 @@ function install_development_tools() {
     for tool_info in "${dev_tools[@]}"; do
         local tool="${tool_info%%:*}"
         local description="${tool_info#*:}"
-        dry_run_brew_install "$tool" "$description"
+        brew_install "$tool" "$description"
     done
     
     log_success "Development tools installation completed"
@@ -481,7 +405,7 @@ function install_programming_languages() {
     for lang_info in "${languages[@]}"; do
         local lang="${lang_info%%:*}"
         local description="${lang_info#*:}"
-        dry_run_brew_install "$lang" "$description"
+        brew_install "$lang" "$description"
     done
     
     # Version managers
@@ -495,7 +419,7 @@ function install_programming_languages() {
     for vm_info in "${version_managers[@]}"; do
         local vm="${vm_info%%:*}"
         local description="${vm_info#*:}"
-        dry_run_brew_install "$vm" "$description"
+        brew_install "$vm" "$description"
     done
     
     log_success "Programming languages and runtimes installation completed"
@@ -522,23 +446,19 @@ function install_ides_and_editors() {
         local ide="${ide_info%%:*}"
         local description="${ide_info#*:}"
         if [[ "$ide" == "vim" || "$ide" == "neovim" ]]; then
-            dry_run_brew_install "$ide" "$description"
+            brew_install "$ide" "$description"
         else
-            dry_run_brew_cask_install "$ide" "$description"
+            brew_cask_install "$ide" "$description"
         fi
     done
     
     # Install Jupyter Lab
-    if [[ $DRY_RUN == true ]]; then
-        log_dry_run "Would install JupyterLab via pip"
-    else
-        if command -v pip3 &>/dev/null; then
-            if ! pip3 list | grep -q jupyterlab; then
-                log_info "Installing JupyterLab..."
-                pip3 install jupyterlab notebook
-            else
-                log_success "JupyterLab already installed"
-            fi
+    if command -v pip3 &>/dev/null; then
+        if ! pip3 list | grep -q jupyterlab; then
+            log_info "Installing JupyterLab..."
+            pip3 install jupyterlab notebook
+        else
+            log_success "JupyterLab already installed"
         fi
     fi
     
@@ -553,36 +473,29 @@ function create_ide_symlinks() {
     
     local bin_dir="$SBRN_HOME/sys/bin"
     
-    if [[ $DRY_RUN == true ]]; then
-        log_dry_run "Would create symlinks in $bin_dir for:"
-        log_dry_run "  - Visual Studio Code (code)"
-        log_dry_run "  - IntelliJ IDEA CE (idea)"
-        log_dry_run "  - Cursor (cursor)"
-    else
-        # VS Code
-        if [[ -d "/Applications/Visual Studio Code.app" ]] && [[ ! -L "$bin_dir/code" ]]; then
-            ln -sf "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$bin_dir/code"
-            log_success "Created symlink for VS Code"
-        fi
-        
-        # IntelliJ IDEA CE
-        if [[ -d "/Applications/IntelliJ IDEA CE.app" ]] && [[ ! -L "$bin_dir/idea" ]]; then
-            ln -sf "/Applications/IntelliJ IDEA CE.app/Contents/MacOS/idea" "$bin_dir/idea"
-            log_success "Created symlink for IntelliJ IDEA CE"
-        fi
-        
-        # Cursor
-        if [[ -d "/Applications/Cursor.app" ]] && [[ ! -L "$bin_dir/cursor" ]]; then
-            ln -sf "/Applications/Cursor.app/Contents/MacOS/Cursor" "$bin_dir/cursor"
-            log_success "Created symlink for Cursor"
-        fi
-        
-        # Add bin directory to PATH if not already there
-        if [[ ":$PATH:" != *":$bin_dir:"* ]]; then
-            echo "export PATH=\"$bin_dir:\$PATH\"" >> ~/.zshrc
-            export PATH="$bin_dir:$PATH"
-            log_success "Added $bin_dir to PATH"
-        fi
+    # VS Code
+    if [[ -d "/Applications/Visual Studio Code.app" ]] && [[ ! -L "$bin_dir/code" ]]; then
+        ln -sf "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$bin_dir/code"
+        log_success "Created symlink for VS Code"
+    fi
+    
+    # IntelliJ IDEA CE
+    if [[ -d "/Applications/IntelliJ IDEA CE.app" ]] && [[ ! -L "$bin_dir/idea" ]]; then
+        ln -sf "/Applications/IntelliJ IDEA CE.app/Contents/MacOS/idea" "$bin_dir/idea"
+        log_success "Created symlink for IntelliJ IDEA CE"
+    fi
+    
+    # Cursor
+    if [[ -d "/Applications/Cursor.app" ]] && [[ ! -L "$bin_dir/cursor" ]]; then
+        ln -sf "/Applications/Cursor.app/Contents/MacOS/Cursor" "$bin_dir/cursor"
+        log_success "Created symlink for Cursor"
+    fi
+    
+    # Add bin directory to PATH if not already there
+    if [[ ":$PATH:" != *":$bin_dir:"* ]]; then
+        echo "export PATH=\"$bin_dir:\$PATH\"" >> ~/.zshrc
+        export PATH="$bin_dir:$PATH"
+        log_success "Added $bin_dir to PATH"
     fi
 }
 
@@ -592,37 +505,30 @@ function create_ide_symlinks() {
 function setup_git_and_github() {
     log_step "🔗 Setting up Git and GitHub..."
     
-    # Configure Git (basic setup)
-    if [[ $DRY_RUN == true ]]; then
-        log_dry_run "Would configure Git global settings"
-        log_dry_run "Would setup SSH key for GitHub"
-        log_dry_run "Would authenticate GitHub CLI"
+    # Check if Git is configured
+    if ! git config --global user.name &>/dev/null; then
+        log_warning "Git user.name not configured. Please run:"
+        log_warning "  git config --global user.name 'Your Name'"
     else
-        # Check if Git is configured
-        if ! git config --global user.name &>/dev/null; then
-            log_warning "Git user.name not configured. Please run:"
-            log_warning "  git config --global user.name 'Your Name'"
+        log_success "Git user.name configured: $(git config --global user.name)"
+    fi
+    
+    if ! git config --global user.email &>/dev/null; then
+        log_warning "Git user.email not configured. Please run:"
+        log_warning "  git config --global user.email 'your.email@example.com'"
+    else
+        log_success "Git user.email configured: $(git config --global user.email)"
+    fi
+    
+    # Setup SSH key if not exists
+    setup_ssh_key
+    
+    # GitHub CLI authentication
+    if command -v gh &>/dev/null; then
+        if ! gh auth status &>/dev/null; then
+            log_warning "GitHub CLI not authenticated. Please run: gh auth login"
         else
-            log_success "Git user.name configured: $(git config --global user.name)"
-        fi
-        
-        if ! git config --global user.email &>/dev/null; then
-            log_warning "Git user.email not configured. Please run:"
-            log_warning "  git config --global user.email 'your.email@example.com'"
-        else
-            log_success "Git user.email configured: $(git config --global user.email)"
-        fi
-        
-        # Setup SSH key if not exists
-        setup_ssh_key
-        
-        # GitHub CLI authentication
-        if command -v gh &>/dev/null; then
-            if ! gh auth status &>/dev/null; then
-                log_warning "GitHub CLI not authenticated. Please run: gh auth login"
-            else
-                log_success "GitHub CLI already authenticated"
-            fi
+            log_success "GitHub CLI already authenticated"
         fi
     fi
     
@@ -652,11 +558,6 @@ function setup_ssh_key() {
 ################################################################################
 function configure_vscode_extensions() {
     log_step "🔌 Installing VS Code extensions..."
-    
-    if [[ $DRY_RUN == true ]]; then
-        log_dry_run "Would install essential VS Code extensions"
-        return
-    fi
     
     if ! command -v code &>/dev/null; then
         log_warning "VS Code not found, skipping extension installation"
@@ -722,24 +623,17 @@ function configure_vscode_extensions() {
 function final_configuration() {
     log_step "⚙️ Performing final configuration..."
     
-    if [[ $DRY_RUN == true ]]; then
-        log_dry_run "Would create .zshenv with SBRN configuration"
-        log_dry_run "Would setup shell aliases and functions"
-        log_dry_run "Would configure development environment variables"
-        log_dry_run "Would set up .gitignore templates"
-    else
-        # Create/update .zshenv
-        create_zshenv
-        
-        # Setup basic shell configuration
-        setup_shell_config
-        
-        # Create useful aliases
-        create_aliases
-        
-        # Setup development environment variables
-        setup_dev_env_vars
-    fi
+    # Create/update .zshenv
+    create_zshenv
+    
+    # Setup basic shell configuration
+    setup_shell_config
+    
+    # Create useful aliases
+    create_aliases
+    
+    # Setup development environment variables
+    setup_dev_env_vars
     
     log_success "Final configuration completed"
 }
@@ -908,25 +802,18 @@ show_usage() {
     echo "Usage: $script_name [OPTIONS]"
     echo ""
     echo "OPTIONS:"
-    echo "  --dry-run, -n           Show what would be executed without making changes"
     echo "  --skip-cask-apps, -s    Skip Homebrew Cask app installations (recommend manual install)"
     echo "  --help, -h              Show this help message"
     echo ""
     echo "EXAMPLES:"
     echo "  $script_name                      Run the full developer environment setup"
-    echo "  $script_name --dry-run            Preview what would be executed"
     echo "  $script_name --skip-cask-apps     Skip GUI app installations"
-    echo "  $script_name -n -s                Dry-run with app skipping"
 }
 
 # Parse command line arguments
 parse_arguments() {
     while [[ $# -gt 0 ]]; do
         case $1 in
-            --dry-run|-n)
-                DRY_RUN=true
-                shift
-                ;;
             --skip-cask-apps|-s)
                 SKIP_CASK_APPS=true
                 shift
@@ -945,59 +832,67 @@ parse_arguments() {
 }
 
 
-# Dry-run helper functions
-dry_run_command() {
-    local cmd="$1"
-    local description="${2:-}"
-    if [[ $DRY_RUN == true ]]; then
-        if [[ -n "$description" ]]; then
-            log_dry_run "Would run: $description"
-        fi
-        log_dry_run "Command: $cmd"
-    else
-        eval "$cmd"
-    fi
-}
-
-dry_run_mkdir() {
-    local dirs="$1"
-    if [[ $DRY_RUN == true ]]; then
-        log_dry_run "Would create directories: $dirs"
-    else
-        mkdir -p "$dirs"
-    fi
-}
-
-dry_run_brew_install() {
+# Idempotent helper functions
+brew_install() {
     local package="$1"
     local description="${2:-$package}"
-    if [[ $DRY_RUN == true ]]; then
-        log_dry_run "Would install via Homebrew: $description"
+    
+    if ! command -v "$package" &>/dev/null && ! brew list "$package" &>/dev/null; then
+        log_info "Installing $description..."
+        brew install "$package"
     else
-        if ! command -v "$package" &>/dev/null && ! brew list "$package" &>/dev/null; then
+        log_success "$description already installed"
+    fi
+}
+
+brew_cask_install() {
+    local cask="$1"
+    local description="${2:-$cask}"
+    
+    if [[ $SKIP_CASK_APPS == false ]]; then
+        if ! brew list --cask "$cask" &>/dev/null; then
             log_info "Installing $description..."
-            brew install "$package"
+            brew install --cask "$cask"
         else
             log_success "$description already installed"
         fi
+    else
+        log_info "Skipping cask installation: $description (manual install recommended)"
     fi
 }
 
-dry_run_brew_cask_install() {
-    local cask="$1"
-    local description="${2:-$cask}"
-    if [[ $DRY_RUN == true ]]; then
-        log_dry_run "Would install via Homebrew Cask: $description"
-    else
-        if [[ $SKIP_CASK_APPS == false ]]; then
-            if ! brew list --cask "$cask" &>/dev/null; then
-                log_info "Installing $description..."
-                brew install --cask "$cask"
-            else
-                log_success "$description already installed"
-            fi
-        else
-            log_info "Skipping cask installation: $description (manual install recommended)"
-        fi
+################################################################################
+# Script Entry Point - Only execute when script is run directly, not sourced
+################################################################################
+if [[ "${BASH_SOURCE[0]:-$0}" == "${0}" ]] && [[ "$0" != *"zsh"* ]]; then
+    # Parse command line arguments
+    parse_arguments "$@"
+    
+    # Check if running on macOS
+    if [[ $(uname) != "Darwin" ]]; then
+        log_error "This script is designed for macOS only"
+        exit 1
     fi
-}
+    
+    # Show system summary before starting
+    show_system_summary
+    echo ""
+    
+    # Show configuration warnings
+    if [[ $SKIP_CASK_APPS == true ]]; then
+        log_warning "SKIP-CASK-APPS MODE: GUI applications will be skipped (manual install recommended)"
+        echo ""
+    fi
+    
+    # Ask for confirmation
+    read -p "Proceed with developer environment setup? (y/N): " -n 1 -r
+    echo ""
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        main
+        echo ""
+        show_system_summary
+    else
+        log_info "Installation cancelled"
+        exit 0
+    fi
+fi

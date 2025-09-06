@@ -9,24 +9,7 @@ fi
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/sbrn/sys/oh-my-zsh"
-export ZSH_CUSTOM="$ZSH/custom"
 
-# Many modern applications partially support the XDG [Cross Desktop Group] Base Directory Specification, which allows configuration, data, and cache files to be stored outside the home directory—usually in subfolders of ~/.config or configurable via environment variables.
-
-# Set base directory for user-specific data files
-export XDG_DATA_HOME="$HOME/sbrn/sys/local/share"
-
-# Set base directory for user-specific configuration files
-export XDG_CONFIG_HOME="$HOME/sbrn/sys/config"
-
-# Set base directory for user-specific state files
-export XDG_STATE_HOME="$HOME/sbrn/sys/local/state"
-
-# Set base directory for user-specific cache files
-export XDG_CACHE_HOME="$HOME/sbrn/sys/cache"
-
-# Make sure your directories exist:
-# mkdir -p "$XDG_DATA_HOME" "$XDG_CONFIG_HOME" "$XDG_STATE_HOME" "$XDG_CACHE_HOME"
 
 # Set name of the theme to load
 ZSH_THEME="powerlevel10k/powerlevel10k"

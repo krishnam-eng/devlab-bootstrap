@@ -18,7 +18,7 @@ export ANDROID_HOME="$XDG_DATA_HOME/android"
 export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
 
 # Homebrew paths for macOS on ARM
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+export PATH="$HOME/sbrn/sys/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 export PKG_CONFIG_PATH="/opt/homebrew/lib/pkgconfig"
 export DYLD_LIBRARY_PATH="/opt/homebrew/lib"
 

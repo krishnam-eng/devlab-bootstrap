@@ -449,9 +449,7 @@ function setup_zsh_configuration_links() {
     if [[ -d "$SBRN_HOME/sys/hrt/conf" ]]; then
         # Symlink zsh configuration directory
         if [[ -d "$SBRN_HOME/sys/hrt/conf/zsh" ]]; then
-            # Create parent directory if it doesn't exist
-            mkdir -p "$(dirname "$ZDOTDIR")"
-            ln -sf "$SBRN_HOME/sys/hrt/conf/zsh" "$ZDOTDIR"
+            ln -sf "$SBRN_HOME/sys/hrt/conf/zsh" "$XDG_CONFIG_HOME/zsh"
             log_success "Linked Zsh configuration directory"
         fi
         

@@ -94,7 +94,7 @@ export PATH="$HOME/sbrn/sys/bin:$PATH"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  # 1. Core Shell Experience & Navigation (Highly Recommended)
+# 1. Core Shell Experience & Navigation (Highly Recommended)
   zsh-autosuggestions      # Command suggestions based on your history as you type
   zsh-syntax-highlighting  # Real-time syntax highlighting for commands
   history-substring-search # Search history by any substring (more powerful)
@@ -104,111 +104,109 @@ plugins=(
   extract                  # Universal extractor for archives
   eza                      # Modern colorful alternative to ls
 
-#   # 2. Git & Version Control (Essential for Developers)
+# 2. Git & Version Control (Essential for Developers)
   git                      # Core git commands and helpers
   gh                       # GitHub CLI integration
   git-auto-fetch           # Automatic background fetch of remotes
   git-lfs                  # Git Large File Storage support
 
-#   # 3. Development Environments & Language Managers
+# 3. Development Environments & Language Managers
 
 #   ## Python (Most common python tools)
-#   pyenv                    # Python version management
-#   virtualenvwrapper        # Manage virtualenvs efficiently
-#   poetry                   # Modern Python packaging & dependency management
-#   pylint                   # Python linter
-#   autopep8                 # Automatic code formatting
-#   pip                      # Pip package manager wrapper
+  pylint                   # Python linter
+  autopep8                 # Automatic code formatting
+  pip                      # Pip package manager wrapper - if you mostly use uv or conda environment package management interfaces, this may be less useful but can keep for convenience.
+  pipenv                   # Python Pipenv environment manager
+  conda                    # Conda environment management
+  conda-env                # Conda env helpers
+  pyenv                    # Python version management - flexible Python version management independent of conda or uv’s Python versions
+  poetry                   # Modern Python packaging & dependency management - Useful if you use Poetry for packaging and dependencies; if uv handles all these well for you, this might be redundant but can keep it if you specifically use Poetry.
+  # virtualenvwrapper        # Manage virtualenvs efficiently - Since uv automates virtualenv management better and conda handles environments itself, you likely do not need this and can keep it disabled to avoid conflict or redundancy.
+
+#   ## Java, Go, Rust, Flutter
+  jenv                     # Java version manager
+  mvn                      # Maven Java build tool
+  gradle                   # Gradle build tool helpers
+  spring                   # Spring Java framework helpers  
+  golang                   # Go language helpers
+  rust                     # Rust environment helpers
+  flutter                  # Flutter development helpers
 
 #   ## Node.js / JavaScript
-#   nvm                      # Node Version Manager for switching Node versions
-#   npm                      # Node package manager interface
+  nvm                      # Node Version Manager for switching Node versions
+  npm                      # Node package manager interface
+  nodenv                   # Node.js version management
 
-#   ## Go, Java, Rust, Flutter
-#   golang                   # Go language helpers
-#   jenv                     # Java version manager
-#   rust                     # Rust environment helpers
-#   flutter                  # Flutter development helpers
+# 4. Cloud, Containers & DevOps (Critical for devops & cloud users)
+  docker                   # Docker CLI enhancements
+  docker-compose           # Docker Compose helpers
+  kubectl                  # Kubernetes CLI helper
+  helm                     # Kubernetes Helm package manager
+  aws                      # AWS CLI helpers
+  azure                    # Azure CLI helpers
+  vagrant                  # Vagrant environment helpers
+  minikube                 # Local Kubernetes cluster helper
+  kubectx                  # Kubernetes context switching
+  kube-ps1                 # Shows Kubernetes context in prompt
+  svcat                    # Kubernetes service catalog helpers
+  operator-sdk             # Operator SDK CLI tools
 
-#   # 4. Cloud, Containers & DevOps (Critical for devops & cloud users)
-#   docker                   # Docker CLI enhancements
-#   docker-compose           # Docker Compose helpers
-#   kubectl                  # Kubernetes CLI helper
-#   helm                     # Kubernetes Helm package manager
-#   aws                      # AWS CLI helpers
-#   azure                    # Azure CLI helpers
-#   vagrant                  # Vagrant environment helpers
-#   minikube                 # Local Kubernetes cluster helper
-#   kubectx                  # Kubernetes context switching
-#   kube-ps1                 # Shows Kubernetes context in prompt
+# 5. System & OS Utilities (Important for productivity)
+  gnu-utils                # Provides GNU versions of common cli utilities on macOS, which typically come with BSD versions by default. GNU utils offer more features and options, helping make macOS terminal commands behave more like Linux
+  macos                    # macOS-specific fixes and helpers: Contains macOS-specific fixes, shortcuts, and helper functions to improve the terminal experience tailored to macOS quirks and features
+  brew                     # Homebrew package manager helper: Adds shortcuts and helper aliases for Homebrew, the popular macOS package manager, making it easier to install, update, and manage packages from the terminal
+  iterm2                   # iTerm 2 integration helpers: Integrates with the iTerm2 terminal emulator on macOS to provide enhanced features like reporting the current directory, better paste behavior, and other usability improvements
+  tmux                     # Terminal multiplexer helpers: Provides helper functions and aliases to manage tmux sessions, windows, and panes, useful if you use tmux for terminal multiplexing 
+  ssh                      # SSH helpers & shortcuts: Adds useful SSH-related aliases and shortcuts to simplify connecting to and managing SSH sessions 
+  # ssh-agent                # Manages SSH keys easily - Creates console output-> Starting ssh-agent ...
 
-#   # 5. System & OS Utilities (Important for productivity)
-#   macos                    # macOS-specific fixes and helpers
-#   brew                     # Homebrew package manager helper
-#   iterm2                   # iTerm 2 integration helpers
-#   tmux                     # Terminal multiplexer helpers
-#   ssh                      # SSH helpers & shortcuts
-#   ssh-agent                # Manages SSH keys easily
-#   gnu-utils                # GNU utilities for macOS
+# 6. General Utilities & Tools (Useful daily helpers)
+  autoenv                  # Loads environment variables automatically
+  dotenv                   # Load .env files into environment
+  colorize                 # Colorizes command output
+  command-not-found        # Suggests install commands for unknown commands
+  httpie                   # HTTP client helpers
+  jsontools                # JSON processing utilities
+  qrcode                   # Generate QR codes in terminal
+  rsync                    # Rsync helpers for syncing
+  urltools                 # URL manipulation tools
+  encode64                 # Base64 encoding/decoding tools
+  copypath                 # Copy file paths helper
+  copyfile                 # Copy files helper
+  invoke                   # Task execution helpers
+  isodate                  # ISO date helpers
 
-#   # 6. Databases (For database-centric development)
-#   postgres                 # PostgreSQL helpers
-#   redis-cli                # Redis CLI helper
-#   dbt                      # Data Build Tool helpers
+# 7. Aliases & Productivity Enhancers
+  aliases                  # A collection of useful aliases
+  common-aliases           # Common alias shortcuts
+  alias-finder             # Find existing aliases easily
+  globalias                # Enable global aliases
 
-#   # 7. General Utilities & Tools (Useful daily helpers)
-#   autoenv                  # Loads environment variables automatically
-#   dotenv                   # Load .env files into environment
-#   colorize                 # Colorizes command output
-#   command-not-found        # Suggests install commands for unknown commands
-#   httpie                   # HTTP client helpers
-#   jsontools                # JSON processing utilities
-#   qrcode                   # Generate QR codes in terminal
-#   rsync                    # Rsync helpers for syncing
-#   urltools                 # URL manipulation tools
-#   jira                     # Jira CLI helpers
+# 8. Manual Pages & Help
+  colored-man-pages        # Colorize man pages for readability
+  man                      # Enhanced man command features
+  tldr                     # Simplified man pages with examples
+  fastfile                 # Fastlane fastfile helpers
 
-#   # 8. Aliases & Productivity Enhancers
-#   aliases                  # A collection of useful aliases
-#   common-aliases           # Common alias shortcuts
-#   alias-finder             # Find existing aliases easily
-#   globalias                # Enable global aliases
-
-#   # 9. Manual Pages & Help
-#   colored-man-pages        # Colorize man pages for readability
-#   man                      # Enhanced man command features
-#   tldr                     # Simplified man pages with examples
-#   fastfile                 # Fastlane fastfile helpers
-
-#   # 10. Directory Jumping & Navigation (Pick 1-2 from this group)
-#   z                        # Fast directory jumping by frecency
-#   fasd                     # Jump to files and dirs by usage frequency
+# 9. Directory Jumping & Navigation (Pick 1-2 from this group)
+  z                        # Fast directory jumping by frecency
+  fasd                     # Jump to files and dirs by usage frequency
 #   wd                       # Jump to recent directories
 #   jump                     # Jump to dirs by partial names
 #   scd                      # Smart cd with autosuggestions
 #   dirhistory               # Manage navigation history
   
-#   # Optional / Less Common (Add as needed)
-#   pipenv                   # Python Pipenv environment manager
-#   conda                    # Conda environment management
-#   conda-env                # Conda env helpers
-#   nodenv                   # Node.js version management
-#   mvn                      # Maven Java build tool
-#   gradle                   # Gradle build tool helpers
-#   spring                   # Spring Java framework helpers
-#   istioctl                 # Istio CLI helpers for service mesh
-#   argocd                   # ArgoCD CLI helpers
-#   svcat                    # Kubernetes service catalog helpers
-#   operator-sdk             # Operator SDK CLI tools
-#   screen                   # Screen terminal multiplexer support
-#   jfrog                    # JFrog CLI tools
-#   textmate                 # TextMate editor integration
-#   themes                   # Zsh theme helpers
-#   encode64                 # Base64 encoding/decoding tools
-#   copypath                 # Copy file paths helper
-#   copyfile                 # Copy files helper
-#   invoke                   # Task execution helpers
-#   isodate                  # ISO date helpers
+# 10. Optional / Less Common (Add as needed)
+# postgres                 # PostgreSQL helpers
+# redis-cli                # Redis CLI helper
+# dbt                      # Data Build Tool helpers
+# istioctl                 # Istio CLI helpers for service mesh
+# argocd                   # ArgoCD CLI helpers
+# screen                   # Screen terminal multiplexer support
+# jfrog                    # JFrog CLI tools
+# textmate                 # TextMate editor integration
+# themes                   # Zsh theme helpers
+# jira                     # Jira CLI helpers
 )
 
 

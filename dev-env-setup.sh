@@ -227,29 +227,14 @@ function setup_dir_struct_hierarchy() {
     export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
     mkdir -p "$ANDROID_HOME" "$GRADLE_USER_HOME"
     
-    # Set Zsh configuration directory
-    export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-    
-    # Setup configuration symlinks if conf directory exists
+    # Setup non-Zsh configuration symlinks if conf directory exists
     if [[ -d "$SBRN_HOME/sys/hrt/conf" ]]; then
         log_info "Setting up configuration symlinks..."
-        
-        # Symlink zsh configuration
-        if [[ -d "$SBRN_HOME/sys/hrt/conf/zsh" ]]; then
-            ln -sf "$SBRN_HOME/sys/hrt/conf/zsh" "$XDG_CONFIG_HOME/zsh"
-            log_success "Linked Zsh configuration"
-        fi
         
         # Symlink git configuration
         if [[ -d "$SBRN_HOME/sys/hrt/conf/git" ]]; then
             ln -sf "$SBRN_HOME/sys/hrt/conf/git" "$XDG_CONFIG_HOME/git"
             log_success "Linked Git configuration"
-        fi
-        
-        # Symlink .zshenv if it exists
-        if [[ -f "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ]]; then
-            ln -sf "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ~/.zshenv
-            log_success "Linked .zshenv configuration"
         fi
     fi
     
@@ -283,6 +268,9 @@ function install_package_manager() {
     else
         log_success "Homebrew already installed"
         brew --version | head -1
+        
+        # Show currently installed packages
+        show_installed_brew_packages
     fi
     
     # Update Homebrew and upgrade existing packages
@@ -295,11 +283,70 @@ function install_package_manager() {
     log_success "Homebrew setup completed"
 }
 
+function show_installed_brew_packages() {
+    log_info "📦 Currently installed Homebrew packages:"
+    
+    # Detect Homebrew installation path
+    local BREW
+    BREW="$(command -v brew || true)"
+    [[ -z "$BREW" ]] && [[ -x /opt/homebrew/bin/brew ]] && BREW=/opt/homebrew/bin/brew
+    [[ -z "$BREW" ]] && [[ -x /usr/local/bin/brew ]] && BREW=/usr/local/bin/brew || true
+    
+    if [[ -z "$BREW" ]]; then
+        log_warning "Homebrew not found in standard locations"
+        return 1
+    fi
+    
+    local CELLAR
+    CELLAR="$("$BREW" --cellar)"
+    
+    # Generate package list with installation timestamps
+    {
+        /usr/bin/printf "Formula\tVersion\tInstalledAt\tDescription\n"
+        "$BREW" info --json=v2 --installed --formula \
+        | jq -r '
+            .formulae[]
+            | [
+                .name,
+                (([.installed[]?.version] | select(length>0) | join(", "))
+                  // .versions.stable // "n/a"),
+                (.desc // "—")
+              ] | @tsv
+          ' \
+        | while IFS=$'\t' read -r name ver desc; do
+            local latest
+            latest=$(/bin/ls -dt "$CELLAR/$name"/* 2>/dev/null | /usr/bin/head -1)
+
+            local epoch human
+            if [[ -n "$latest" ]] && [[ -f "$latest/INSTALL_RECEIPT.json" ]]; then
+                epoch=$(/usr/bin/stat -f "%m" "$latest/INSTALL_RECEIPT.json")
+                human=$(/usr/bin/stat -f "%SB" -t "%Y-%m-%d %H:%M:%S" "$latest/INSTALL_RECEIPT.json")
+            elif [[ -n "$latest" ]]; then
+                epoch=$(/usr/bin/stat -f "%m" "$latest")
+                human=$(/usr/bin/stat -f "%SB" -t "%Y-%m-%d %H:%M:%S" "$latest")
+            else
+                local f
+                f=$("$BREW" list --verbose "$name" 2>/dev/null | /usr/bin/head -1)
+                epoch=$([ -n "$f" ] && /usr/bin/stat -f "%m" "$f" 2>/dev/null || echo 0)
+                human=$([ -n "$f" ] && /usr/bin/stat -f "%SB" -t "%Y-%m-%d %H:%M:%S" "$f" 2>/dev/null || echo "—")
+            fi
+
+            /usr/bin/printf "%s\t%s\t%s\t%s\t%s\n" "$epoch" "$name" "$ver" "$human" "$desc"
+        done
+    } \
+    | /usr/bin/sort -n -k1,1 \
+    | /usr/bin/awk 'BEGIN{FS=OFS="\t"} NR==1{print "Formula","Version","InstalledAt","Description"; next} {print $2,$3,$4,$5}' \
+    | /usr/bin/column -t -s $'\t'
+}
+
 ################################################################################
 # Step 3: Setup Zsh Environment
 ################################################################################
 function setup_zsh_environment() {
     log_step "🐚 Setting up Zsh environment with Oh My Zsh..."
+    
+    # Set Zsh configuration directory (must be set before Oh My Zsh installation)
+    export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
     
     # Set ZSH installation directory
     local zsh_dir="$SBRN_HOME/sys/oh-my-zsh"
@@ -329,6 +376,9 @@ function setup_zsh_environment() {
     # Install Meslo Nerd Font
     install_meslo_font
     
+    # Setup Zsh configuration symlinks from HRT if available
+    setup_zsh_configuration_links
+    
     log_success "Zsh environment setup completed"
 }
 
@@ -339,19 +389,36 @@ function install_zsh_plugins() {
     
     # zsh-autosuggestions
     if [[ ! -d "$custom_dir/plugins/zsh-autosuggestions" ]]; then
-        git clone https://github.com/zsh-users/zsh-autosuggestions.git "$custom_dir/plugins/zsh-autosuggestions"
+        git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git "$custom_dir/plugins/zsh-autosuggestions"
+        log_success "Autosuggestions plugin installed"
+    else
+        log_success "Autosuggestions plugin already installed"  
     fi
     
     # zsh-syntax-highlighting
     if [[ ! -d "$custom_dir/plugins/zsh-syntax-highlighting" ]]; then
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$custom_dir/plugins/zsh-syntax-highlighting"
+        git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git "$custom_dir/plugins/zsh-syntax-highlighting"
+        log_success "Syntax highlighting plugin installed"
+    else
+        log_success "Syntax highlighting plugin already installed"
     fi
     
     # history-substring-search
     if [[ ! -d "$custom_dir/plugins/history-substring-search" ]]; then
-        git clone https://github.com/zsh-users/zsh-history-substring-search.git "$custom_dir/plugins/history-substring-search"
+        git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search.git "$custom_dir/plugins/history-substring-search"
+        log_success "History substring search plugin installed"
+    else
+        log_success "History substring search plugin already installed"
     fi
     
+    # zsh-autoswitch-virtualenv
+    if [[ ! -d "$custom_dir/plugins/zsh-autoswitch-virtualenv" ]]; then
+        git clone --depth=1 https://github.com/MichaelAquilina/zsh-autoswitch-virtualenv.git "$custom_dir/plugins/zsh-autoswitch-virtualenv"
+        log_success "Autoswitch virtualenv plugin installed"
+    else
+        log_success "Autoswitch virtualenv plugin already installed"
+    fi
+
     log_success "Zsh plugins installed"
 }
 
@@ -372,6 +439,29 @@ function install_meslo_font() {
         log_success "Meslo Nerd Font installed"
     else
         log_success "Meslo Nerd Font already installed"
+    fi
+}
+
+function setup_zsh_configuration_links() {
+    log_info "Setting up Zsh configuration links from HRT..."
+    
+    # Setup Zsh configuration symlinks if HRT conf directory exists
+    if [[ -d "$SBRN_HOME/sys/hrt/conf" ]]; then
+        # Symlink zsh configuration directory
+        if [[ -d "$SBRN_HOME/sys/hrt/conf/zsh" ]]; then
+            # Create parent directory if it doesn't exist
+            mkdir -p "$(dirname "$ZDOTDIR")"
+            ln -sf "$SBRN_HOME/sys/hrt/conf/zsh" "$ZDOTDIR"
+            log_success "Linked Zsh configuration directory"
+        fi
+        
+        # Symlink .zshenv if it exists
+        if [[ -f "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ]]; then
+            ln -sf "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ~/.zshenv
+            log_success "Linked .zshenv configuration"
+        fi
+    else
+        log_info "HRT configuration directory not found, skipping Zsh config links"
     fi
 }
 
@@ -404,28 +494,26 @@ function install_essential_cli_tools() {
 function install_shell_productivity_tools() {
     log_info "Installing 🖥️ Shell Enhancements & CLI Productivity tools..."
     
-    # Core shell enhancement tools
+    # Core shell enhancement tools (ordered by popularity)
     local shell_tools=(
-        "zsh-autosuggestions:Command autosuggestions for zsh"
-        "zsh-syntax-highlighting:Syntax highlighting for zsh commands"
-        "fzf:Command-line fuzzy finder"
-        "zoxide:Smarter cd command with frecency"
-        "tldr:Simplified and community-driven man pages"
-        "tree:Directory tree visualization"
-        "bat:Cat clone with syntax highlighting and Git integration"
-        "fd:Simple, fast and user-friendly alternative to find"
-        "lsd:LSd (LSDeluxe) - next gen ls command"
-        "eza:Modern replacement for ls with colors and icons"
-        "watch:Execute a program periodically, showing output fullscreen"
-        "ncdu:NCurses Disk Usage - disk usage analyzer"
-        "htop:Interactive process viewer"
-        "glances:System monitoring tool"
-        "ctop:Top-like interface for container metrics"
-        "lazygit:Simple terminal UI for git commands"
-        "tig:Text-mode interface for Git"
-        "diff-so-fancy:Good-lookin' diffs with diff-highlight and more"
-        "tmux:Terminal multiplexer"
-        "readline:Library for command-line editing"
+        "fzf: Command-line fuzzy finder"
+        "tmux: Terminal multiplexer"
+        "htop: Interactive process viewer"
+        "tree: Directory tree visualization"
+        "bat: Cat clone with syntax highlighting and Git integration"
+        "zsh-autosuggestions: Command autosuggestions for zsh"
+        "zsh-syntax-highlighting: Syntax highlighting for zsh commands"
+        "fd: Simple, fast and user-friendly alternative to find"
+        "tldr: Simplified and community-driven man pages"
+        "eza: Modern replacement for ls with colors and icons"
+        "zoxide: Smarter cd command with frecency"
+        "watch: Execute a program periodically, showing output fullscreen"
+        "ncdu: NCurses Disk Usage - disk usage analyzer"
+        "glances: System monitoring tool"
+        "lsd: LSd (LSDeluxe) - next gen ls command"
+        "ctop: Top-like interface for container metrics"
+        "readline: Library for command-line editing"
+        "autoenv: Directory-based environments"
     )
     
     for tool_info in "${shell_tools[@]}"; do
@@ -462,21 +550,21 @@ function install_networking_security_tools() {
     log_info "Installing 🌐 Networking, Security, & Transfer tools..."
     
     local network_tools=(
-        "curl:Command-line tool for transferring data with URL syntax"
-        "wget:Internet file retriever"
-        "httpie:User-friendly command-line HTTP client"
-        "openssl@3:Cryptography and SSL/TLS Toolkit"
-        "libsodium:Modern, portable, easy-to-use crypto library"
-        "libssh2:C library implementing the SSH2 protocol"
-        "libevent:Asynchronous event library"
-        "libb2:C library providing BLAKE2b, BLAKE2s, BLAKE2bp, BLAKE2sp"
-        "ca-certificates:Common CA certificates PEM files"
-        "certifi:Python package for providing Mozilla's CA Bundle"
-        "libnghttp2:HTTP/2 C Library"
-        "libnghttp3:HTTP/3 library written in C"
-        "libngtcp2:Implementation of QUIC and HTTP/3"
-        "netcat:Utility for reading/writing network connections"
-        "rtmpdump:Tool for downloading RTMP streaming media"
+        "curl: Command-line tool for transferring data with URL syntax"
+        "wget: Internet file retriever"
+        "httpie: User-friendly command-line HTTP client"
+        "openssl@3: Cryptography and SSL/TLS Toolkit"
+        "libsodium: Modern, portable, easy-to-use crypto library"
+        "libssh2: C library implementing the SSH2 protocol"
+        "libevent: Asynchronous event library"
+        "libb2: C library providing BLAKE2b, BLAKE2s, BLAKE2bp, BLAKE2sp"
+        "ca-certificates: Common CA certificates PEM files"
+        "certifi: Python package for providing Mozilla's CA Bundle"
+        "libnghttp2: HTTP/2 C Library"
+        "libnghttp3: HTTP/3 library written in C"
+        "libngtcp2: Implementation of QUIC and HTTP/3"
+        "netcat: Utility for reading/writing network connections"
+        "rtmpdump: Tool for downloading RTMP streaming media"
     )
     
     for tool_info in "${network_tools[@]}"; do
@@ -490,17 +578,17 @@ function install_compression_storage_tools() {
     log_info "Installing 🗜️ Compression, Archiving, & Storage tools..."
     
     local compression_tools=(
-        "xz:General-purpose data compression with high compression ratio"
-        "lz4:Extremely Fast Compression algorithm"
-        "zstd:Zstandard - Fast real-time compression algorithm"
-        "brotli:Generic-purpose lossless compression algorithm by Google"
-        "lzo:Real-time data compression library"
-        "libarchive:Multi-format archive and compression library"
-        "libzip:C library for reading, creating, and modifying zip archives"
-        "sqlite:Command-line interface for SQLite"
-        "berkeley-db@5:High performance, embedded database library"
-        "gdbm:GNU database manager"
-        "mpdecimal:Library for general decimal arithmetic"
+        "xz: General-purpose data compression with high compression ratio"
+        "lz4: Extremely Fast Compression algorithm"
+        "zstd: Zstandard - Fast real-time compression algorithm"
+        "brotli: Generic-purpose lossless compression algorithm by Google"
+        "lzo: Real-time data compression library"
+        "libarchive: Multi-format archive and compression library"
+        "libzip: C library for reading, creating, and modifying zip archives"
+        "sqlite: Command-line interface for SQLite"
+        "berkeley-db@5: High performance, embedded database library"
+        "gdbm: GNU database manager"
+        "mpdecimal: Library for general decimal arithmetic"
     )
     
     for tool_info in "${compression_tools[@]}"; do
@@ -514,17 +602,17 @@ function install_text_data_tools() {
     log_info "Installing 📊 Text, Regex, JSON, Data tools..."
     
     local text_tools=(
-        "jq:Lightweight and flexible command-line JSON processor"
-        "ripgrep:Search tool like grep and The Silver Searcher"
-        "gettext:GNU internationalization (i18n) and localization (l10n) library"
-        "libunistring:C string library for manipulating Unicode strings"
-        "utf8proc:Clean C library for processing UTF-8 Unicode data"
-        "icu4c@77:C/C++ and Java libraries for Unicode and locale support"
-        "libidn:International domain name library"
-        "libidn2:International domain name library (IDNA2008, Punycode, TR46)"
-        "fribidi:Implementation of the Unicode Bidirectional Algorithm"
-        "oniguruma:Regular expressions library"
-        "pcre2:Perl compatible regular expressions library with a new API"
+        "jq: Lightweight and flexible command-line JSON processor"
+        "ripgrep: Search tool like grep and The Silver Searcher"
+        "gettext: GNU internationalization (i18n) and localization (l10n) library"
+        "libunistring: C string library for manipulating Unicode strings"
+        "utf8proc: Clean C library for processing UTF-8 Unicode data"
+        "icu4c@77: C/C++ and Java libraries for Unicode and locale support"
+        "libidn: International domain name library"
+        "libidn2: International domain name library (IDNA2008, Punycode, TR46)"
+        "fribidi: Implementation of the Unicode Bidirectional Algorithm"
+        "oniguruma: Regular expressions library"
+        "pcre2: Perl compatible regular expressions library with a new API"
     )
     
     for tool_info in "${text_tools[@]}"; do
@@ -562,16 +650,16 @@ function install_git_and_vcs_tools() {
     log_info "Installing 🔧 Developer Tools (VCS, Repos, Git Helpers)..."
     
     local git_tools=(
-        "git:Distributed revision control system"
-        "git-lfs:Git extension for versioning large files"
-        "gh:GitHub command-line tool"
-        "libgit2:C library for Git core methods"
-        "git-extras:Small git utilities"
-        "gibo:Fast access to .gitignore boilerplates"
-        "ghq:Remote repository management made easy"
-        "lazygit:Simple terminal UI for git commands"
-        "tig:Text-mode interface for git"
-        "diff-so-fancy:Good-lookin' diffs with diff-highlight and more"
+        "git: Distributed revision control system"
+        "git-lfs: Git extension for versioning large files"
+        "gh: GitHub command-line tool"
+        "libgit2: C library for Git core methods"
+        "git-extras: Small git utilities"
+        "gibo: Fast access to .gitignore boilerplates"
+        "ghq: Remote repository management made easy"
+        "lazygit: Simple terminal UI for git commands"
+        "tig: Text-mode interface for git"
+        "diff-so-fancy: Good-lookin' diffs with diff-highlight and more"
     )
     
     for tool_info in "${git_tools[@]}"; do
@@ -585,14 +673,14 @@ function install_cloud_container_tools() {
     log_info "Installing ☁️ Cloud & Containers tools..."
     
     local cloud_tools=(
-        "docker:Platform for developing, shipping, and running applications"
-        "docker-compose:Isolated development environments using Docker"
-        "docker-completion:Bash, Zsh and Fish completion for Docker"
-        "colima:Container runtimes on macOS (and Linux) with minimal setup"
-        "lima:Linux virtual machines (on macOS, in most cases)"
-        "kubernetes-cli:Kubernetes command-line interface"
-        "helm:Kubernetes package manager"
-        "awscli:Official Amazon AWS command-line interface"
+        "docker: Platform for developing, shipping, and running applications"
+        "docker-compose: Isolated development environments using Docker"
+        "docker-completion: Bash, Zsh and Fish completion for Docker"
+        "colima: Container runtimes on macOS (and Linux) with minimal setup"
+        "lima: Linux virtual machines (on macOS, in most cases)"
+        "kubernetes-cli: Kubernetes command-line interface"
+        "helm: Kubernetes package manager"
+        "awscli: Official Amazon AWS command-line interface"
     )
     
     for tool_info in "${cloud_tools[@]}"; do
@@ -606,27 +694,27 @@ function install_graphics_font_libraries() {
     log_info "Installing 🎨 Fonts, Graphics, Images libraries..."
     
     local graphics_tools=(
-        "freetype:Software library to render fonts"
-        "fontconfig:XML-based font configuration API for X Windows"
-        "harfbuzz:OpenType text shaping engine"
-        "pango:Framework for layout and rendering of i18n text"
-        "graphite2:Smart font technology"
-        "cairo:Vector graphics library with cross-device output support"
-        "pixman:Low-level library for pixel manipulation"
-        "glib:Core application library for C"
-        "gdk-pixbuf:Toolkit for image loading and pixel buffer manipulation"
-        "librsvg:Library to render SVG files using Cairo"
-        "gtk+3:Toolkit for creating graphical user interfaces"
-        "libepoxy:Library for handling OpenGL function pointer management"
-        "libpng:Library for manipulating PNG images"
-        "jpeg-turbo:JPEG image codec that uses SIMD instructions"
-        "giflib:Library and utilities for processing GIFs"
-        "libtiff:TIFF library and utilities"
-        "little-cms2:Color management engine supporting ICC profiles"
-        "jbig2dec:JBIG2 decoder library (for monochrome documents)"
-        "openjpeg:Library for JPEG-2000 image manipulation"
-        "webp:Image format providing lossless and lossy compression"
-        "leptonica:Image processing and image analysis library"
+        "freetype: Software library to render fonts"
+        "fontconfig: XML-based font configuration API for X Windows"
+        "harfbuzz: OpenType text shaping engine"
+        "pango: Framework for layout and rendering of i18n text"
+        "graphite2: Smart font technology"
+        "cairo: Vector graphics library with cross-device output support"
+        "pixman: Low-level library for pixel manipulation"
+        "glib: Core application library for C"
+        "gdk-pixbuf: Toolkit for image loading and pixel buffer manipulation"
+        "librsvg: Library to render SVG files using Cairo"
+        "gtk+3: Toolkit for creating graphical user interfaces"
+        "libepoxy: Library for handling OpenGL function pointer management"
+        "libpng: Library for manipulating PNG images"
+        "jpeg-turbo: JPEG image codec that uses SIMD instructions"
+        "giflib: Library and utilities for processing GIFs"
+        "libtiff: TIFF library and utilities"
+        "little-cms2: Color management engine supporting ICC profiles"
+        "jbig2dec: JBIG2 decoder library (for monochrome documents)"
+        "openjpeg: Library for JPEG-2000 image manipulation"
+        "webp: Image format providing lossless and lossy compression"
+        "leptonica: Image processing and image analysis library"
     )
     
     for tool_info in "${graphics_tools[@]}"; do
@@ -640,8 +728,8 @@ function install_ocr_document_tools() {
     log_info "Installing 👓 OCR & Document Processing tools..."
     
     local ocr_tools=(
-        "tesseract:OCR (Optical Character Recognition) engine"
-        "ghostscript:Interpreter for PostScript and PDF"
+        "tesseract: OCR (Optical Character Recognition) engine"
+        "ghostscript: Interpreter for PostScript and PDF"
     )
     
     for tool_info in "${ocr_tools[@]}"; do
@@ -655,21 +743,21 @@ function install_system_desktop_libraries() {
     log_info "Installing 🖥️ System & Desktop libraries..."
     
     local system_tools=(
-        "dbus:Message bus system, providing inter-application communication"
-        "at-spi2-core:Protocol definitions and daemon for D-Bus at-spi"
-        "gsettings-desktop-schemas:GSettings schemas for desktop components"
-        "hicolor-icon-theme:Fallback theme for FreeDesktop.org icon themes"
-        "ncurses:Text-based UI library"
-        "libx11:X.Org: Core X11 protocol client library"
-        "libxcb:X.Org: Interface to the X Window System protocol"
-        "libxext:X.Org: Library for common extensions to the X11 protocol"
-        "libxrender:X.Org: Library for the Render Extension to the X11 protocol"
-        "libxau:X.Org: A Sample Authorization Protocol for X"
-        "libxdmcp:X.Org: X Display Manager Control Protocol library"
-        "libxfixes:X.Org: Header files for the XFIXES extension"
-        "libxi:X.Org: Library for the Input extension to the X11 protocol"
-        "libxtst:X.Org: Client API for the XTEST & RECORD extensions"
-        "xorgproto:X.Org: Protocol Headers"
+        "dbus: Message bus system, providing inter-application communication"
+        "at-spi2-core: Protocol definitions and daemon for D-Bus at-spi"
+        "gsettings-desktop-schemas: GSettings schemas for desktop components"
+        "hicolor-icon-theme: Fallback theme for FreeDesktop.org icon themes"
+        "ncurses: Text-based UI library"
+        "libx11: X.Org: Core X11 protocol client library"
+        "libxcb: X.Org: Interface to the X Window System protocol"
+        "libxext: X.Org: Library for common extensions to the X11 protocol"
+        "libxrender: X.Org: Library for the Render Extension to the X11 protocol"
+        "libxau: X.Org: A Sample Authorization Protocol for X"
+        "libxdmcp: X.Org: X Display Manager Control Protocol library"
+        "libxfixes: X.Org: Header files for the XFIXES extension"
+        "libxi: X.Org: Library for the Input extension to the X11 protocol"
+        "libxtst: X.Org: Client API for the XTEST & RECORD extensions"
+        "xorgproto: X.Org: Protocol Headers"
     )
     
     for tool_info in "${system_tools[@]}"; do
@@ -704,17 +792,17 @@ function install_package_env_build_tools() {
     log_info "Installing 📦 Package, Env, and Build Tools..."
     
     local package_tools=(
-        "nvm:Node.js version manager"
-        "python@3.13:Python 3.13 programming language"
-        "perl:Highly capable, feature-rich programming language"
-        "ruby:Powerful, clean, object-oriented scripting language"
-        "lua:Powerful, lightweight programming language"
-        "openjdk:Open-source implementation of Java Platform, Standard Edition"
-        "openjdk@17:Open-source implementation of Java Platform, Standard Edition (v17)"
-        "maven:Java-based project management"
-        "gradle:Build automation tool based on Groovy and Kotlin"
-        "certifi:Mozilla CA Bundle in Python"
-        "libyaml:YAML Parser"
+        "nvm: Node.js version manager"
+        "python@3.13: Python 3.13 programming language"
+        "perl: Highly capable, feature-rich programming language"
+        "ruby: Powerful, clean, object-oriented scripting language"
+        "lua: Powerful, lightweight programming language"
+        "openjdk: Open-source implementation of Java Platform, Standard Edition"
+        "openjdk@17: Open-source implementation of Java Platform, Standard Edition (v17)"
+        "maven: Java-based project management"
+        "gradle: Build automation tool based on Groovy and Kotlin"
+        "certifi: Mozilla CA Bundle in Python"
+        "libyaml: YAML Parser"
     )
     
     for tool_info in "${package_tools[@]}"; do
@@ -728,9 +816,9 @@ function install_core_programming_languages() {
     log_info "Installing core programming languages and runtimes..."
     
     local languages=(
-        "node:Platform built on V8 to build network applications"
-        "go:Open source programming language to build simple/reliable/efficient software"
-        "rust:Safe, concurrent, practical language"
+        "node: Platform built on V8 to build network applications"
+        "go: Open source programming language to build simple/reliable/efficient software"
+        "rust: Safe, concurrent, practical language"
     )
     
     for lang_info in "${languages[@]}"; do
@@ -744,9 +832,9 @@ function install_version_managers() {
     log_info "Installing version managers..."
     
     local version_managers=(
-        "pyenv:Python version management"
-        "jenv:Java version management"
-        "rbenv:Ruby version management"
+        "pyenv: Python version management"
+        "jenv: Java version management"
+        "rbenv: Ruby version management"
     )
     
     for vm_info in "${version_managers[@]}"; do
@@ -781,11 +869,11 @@ function install_build_automation_tools() {
     log_info "Installing additional build and automation tools..."
     
     local build_tools=(
-        "terraform:Tool to build, change, and version infrastructure"
-        "ansible:Automate deployment, configuration, and upgrading"
-        "poetry:Python package and dependency manager"
-        "pipenv:Python development workflow for humans"
-        "yarn:JavaScript package manager"
+        "terraform: Tool to build, change, and version infrastructure"
+        "ansible: Automate deployment, configuration, and upgrading"
+        "poetry: Python package and dependency manager"
+        "pipenv: Python development workflow for humans"
+        "yarn: JavaScript package manager"
     )
     
     for tool_info in "${build_tools[@]}"; do
@@ -818,12 +906,12 @@ function install_core_ides_editors() {
     
     # IDEs and Editors via Homebrew Cask
     local ides=(
-        "visual-studio-code:Visual Studio Code - Microsoft's free code editor"
-        "intellij-idea-ce:IntelliJ IDEA Community Edition - JetBrains Java IDE"
-        "pycharm-ce:PyCharm Community Edition - JetBrains Python IDE"
-        "cursor:Cursor - AI-powered code editor"
-        "sublime-text:Sublime Text - sophisticated text editor for code, markup and prose"
-        "zed:Zed - high-performance, multiplayer code editor"
+        "visual-studio-code: Visual Studio Code - Microsoft's free code editor"
+        "intellij-idea-ce: IntelliJ IDEA Community Edition - JetBrains Java IDE"
+        "pycharm-ce: PyCharm Community Edition - JetBrains Python IDE"
+        "cursor: Cursor - AI-powered code editor"
+        "sublime-text: Sublime Text - sophisticated text editor for code, markup and prose"
+        "zed: Zed - high-performance, multiplayer code editor"
     )
     
     for ide_info in "${ides[@]}"; do
@@ -834,10 +922,10 @@ function install_core_ides_editors() {
     
     # CLI editors via Homebrew
     local cli_editors=(
-        "vim:Vi IMproved - enhanced version of the vi editor"
-        "neovim:Ambitious Vim-fork focused on extensibility and agility"
-        "emacs:GNU Emacs text editor"
-        "nano:Free (GNU) replacement for the Pico text editor"
+        "vim: Vi IMproved - enhanced version of the vi editor"
+        "neovim: Ambitious Vim-fork focused on extensibility and agility"
+        "emacs: GNU Emacs text editor"
+        "nano: Free (GNU) replacement for the Pico text editor"
     )
     
     for editor_info in "${cli_editors[@]}"; do
@@ -875,10 +963,9 @@ function install_development_environment_tools() {
     
     # Install additional development environment tools
     local env_tools=(
-        "tmux:Terminal multiplexer for persistent sessions"
-        "screen:Terminal multiplexer with VT100/ANSI terminal emulation"
-        "git-gui:Tcl/Tk based graphical user interface to Git"
-        "gitk:The Git repository browser"
+        "screen: Terminal multiplexer with VT100/ANSI terminal emulation"
+        "git-gui: Tcl/Tk based graphical user interface to Git"
+        "gitk: The Git repository browser"
     )
     
     for tool_info in "${env_tools[@]}"; do
@@ -1216,18 +1303,12 @@ function show_directory_impact() {
     echo "   • XDG_DATA_HOME=$XDG_DATA_HOME"
     echo "   • XDG_STATE_HOME=$XDG_STATE_HOME"
     echo "   • XDG_CACHE_HOME=$XDG_CACHE_HOME"
-    echo "✅ ZSH configuration directory set to:"
-    echo "   • ZDOTDIR=$ZDOTDIR"
-    echo "   • .zshenv symlinked from $SBRN_HOME/sys/hrt/conf/zsh/.zshenv"
     echo "✅ Application-specific directories:"
     echo "   • ANDROID_HOME=$ANDROID_HOME"
     echo "   • GRADLE_USER_HOME=$GRADLE_USER_HOME"
-    echo "✅ Configuration home created under $XDG_CONFIG_HOME:"
-    if [[ -L "$XDG_CONFIG_HOME/zsh" ]]; then
-        echo "   • zsh"
-    fi
+    echo "✅ Non-shell configuration symlinks:"
     if [[ -L "$XDG_CONFIG_HOME/git" ]]; then
-        echo "   • git"
+        echo "   • Git configuration linked"
     fi
 }
 
@@ -1247,7 +1328,16 @@ function show_zsh_impact() {
     echo "   • zsh-autosuggestions (command completion)"
     echo "   • zsh-syntax-highlighting (syntax highlighting)"
     echo "   • history-substring-search (better history search)"
+    echo "   • zsh-autoswitch-virtualenv (auto Python venv switch)"
     echo "✅ Meslo Nerd Font installed for terminal icons"
+    echo "✅ Zsh configuration setup:"
+    echo "   • ZDOTDIR set to: $XDG_CONFIG_HOME/zsh"
+    if [[ -L "$XDG_CONFIG_HOME/zsh" ]]; then
+        echo "   • Zsh configuration directory linked from HRT"
+    fi
+    if [[ -f ~/.zshenv ]]; then
+        echo "   • .zshenv symlinked from HRT configuration"
+    fi
 }
 
 function show_cli_tools_impact() {
@@ -1255,7 +1345,6 @@ function show_cli_tools_impact() {
     echo "   • zsh-autosuggestions, zsh-syntax-highlighting (shell quality of life)"
     echo "   • fzf, zoxide, tldr, tree, bat, fd, lsd, eza (navigation & search)"
     echo "   • watch, ncdu, htop, glances, ctop (system monitoring)"
-    echo "   • lazygit, tig, diff-so-fancy (Git TUI and diffs)"
     echo "   • tmux, readline (terminal multiplexing & editing)"
     echo "✅ 🌐 Networking, Security, & Transfer tools:"
     echo "   • curl, wget, httpie (HTTP clients)"
@@ -1271,7 +1360,6 @@ function show_cli_tools_impact() {
     echo "   • jq, ripgrep (JSON and text search)"
     echo "   • gettext, libunistring, utf8proc, icu4c@77 (i18n & Unicode)"
     echo "   • oniguruma, pcre2 (regex engines)"
-    echo "✅ Git configured to use diff-so-fancy for enhanced diffs"
 }
 
 function show_dev_tools_impact() {
@@ -1279,6 +1367,7 @@ function show_dev_tools_impact() {
     echo "   • git, git-lfs, gh, libgit2 (core Git tooling)"
     echo "   • git-extras, gibo, ghq (Git workflow helpers)"
     echo "   • lazygit, tig, diff-so-fancy (Git TUI and pretty diffs)"
+    echo "   • Git configured to use diff-so-fancy for enhanced diffs"
     echo "✅ ☁️ Cloud & Containers:"
     echo "   • docker, docker-compose, docker-completion (container runtime)"
     echo "   • colima, lima (container/VM backends for macOS)"
@@ -1341,7 +1430,7 @@ function show_ides_impact() {
     if command -v jupyter &>/dev/null; then
         echo "   • JupyterLab with full data science stack (ipywidgets, nbconvert)"
     fi
-    echo "   • tmux, screen (terminal multiplexers)"
+    echo "   • screen (terminal multiplexer)"
     echo "   • git-gui, gitk (Git graphical tools)"
     echo "✅ Command-line shortcuts created in: $SBRN_HOME/sys/bin"
 }

@@ -76,7 +76,7 @@ alias -s {swift}=code                     # Swift (macOS/iOS)
 alias -s {zig}=code                       # Zig language
 
 # Shell Scripting
-alias -s {sh,bash,zsh,fish}=code          # Shell scripts
+# alias -s {sh,bash,zsh,fish}=code          # Shell scripts
 alias -s {ps1,psm1}=code                  # PowerShell (cross-platform)
 
 # === CONFIGURATION FILES ===

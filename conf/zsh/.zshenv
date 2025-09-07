@@ -38,14 +38,21 @@ export KUBECONFIG="$XDG_CONFIG_HOME/kube/config"
 export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker"
 
 ## Home Brew
+# Install Homebrew Cask applications to a user-specific Applications directory instead of the global
+export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
+
 # Disable Homebrew's anonymous usage analytics/telemetry
 export HOMEBREW_NO_ANALYTICS=1
+
 # Enable Homebrew environment hints
-export HOMEBREW_NO_ENV_HINTS=0
+export HOMEBREW_NO_ENV_HINTS=
+
 # Auto-cleanup old versions of installed formulae and casks after upgrading
 export HOMEBREW_INSTALL_CLEANUP=1
+
 # Set Homebrew auto-update interval to 7 days (default is 24 hours)
 export HOMEBREW_AUTO_UPDATE_SECS="604800"
+
 # Set Homebrew directories to comply with XDG Base Directory Specification
 export HOMEBREW_CACHE="$XDG_CACHE_HOME/homebrew"
 export HOMEBREW_LOGS="$XDG_STATE_HOME/homebrew/logs"

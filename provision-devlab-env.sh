@@ -67,7 +67,7 @@ function main() {
     confirm_and_run_step "Install Essential CLI Tools" install_essential_cli_tools show_cli_tools_impact
     confirm_and_run_step "Install Development Tools" install_development_tools show_dev_tools_impact
     confirm_and_run_step "Install Programming Languages & Runtimes" install_programming_languages show_languages_impact
-    # confirm_and_run_step "Install IDEs and Editors" install_ides_and_editors show_ides_impact
+    confirm_and_run_step "Install IDEs and Editors" install_ides_and_editors show_ides_impact
     # confirm_and_run_step "Setup Git and GitHub" setup_git_and_github show_git_impact
     
     log_success "🎉 Developer Environment Setup completed successfully!"
@@ -513,113 +513,8 @@ function install_text_data_tools() {
         local description="${tool_info#*:}"
         brew_install "$tool" "$description"
     done
-    
-    # Setup ripgrep configuration
-    setup_ripgrep_config
-}
 
-function setup_ripgrep_config() {
-    log_info "Setting up ripgrep configuration..."
-    
-    local ripgrep_config="$XDG_CONFIG_HOME/ripgrep/config"
-    
-    ln -sf "$SBRN_HOME/sys/hrt/conf/ripgrep" "$ripgrep_config"
-    
-    # Create ripgrep config directory
-    mkdir -p "$(dirname "$ripgrep_config")"
-
-    
-    # Add RIPGREP_CONFIG_PATH to environment if not already set
-    local zshenv_file="$ZDOTDIR/.zshenv"
-    if [[ -f "$zshenv_file" ]] && ! grep -q "RIPGREP_CONFIG_PATH" "$zshenv_file"; then
-        echo "export RIPGREP_CONFIG_PATH=\"$ripgrep_config\"" >> "$zshenv_file"
-        log_success "Added RIPGREP_CONFIG_PATH to .zshenv"
-    elif [[ ! -f "$zshenv_file" ]]; then
-        log_info "Creating .zshenv with ripgrep configuration"
-        echo "export RIPGREP_CONFIG_PATH=\"$ripgrep_config\"" > "$zshenv_file"
-    fi
-    
-    # Setup useful aliases for search tools
-    setup_search_aliases
-}
-
-function setup_search_aliases() {
-    log_info "Setting up search tool aliases..."
-    
-    local aliases_file="$XDG_CONFIG_HOME/aliases"
-    
-    # Create aliases file if it doesn't exist
-    if [[ ! -f "$aliases_file" ]]; then
-        cat > "$aliases_file" << 'EOF'
-# Search tool aliases and functions
-# Source this file in your shell configuration
-
-# Ripgrep aliases
-alias rg='rg'                          # Standard ripgrep
-alias rgi='rg --ignore-case'           # Case insensitive search
-alias rgf='rg --files'                 # List files that would be searched
-alias rgl='rg --files-with-matches'    # Show only file names with matches
-alias rgv='rg --invert-match'          # Invert match (like grep -v)
-alias rgw='rg --word-regexp'           # Match whole words only
-alias rgj='rg --type json'             # Search only JSON files
-alias rgp='rg --type py'               # Search only Python files
-alias rgjs='rg --type js'              # Search only JavaScript files
-alias rgmd='rg --type md'              # Search only Markdown files
-alias rgy='rg --type yaml'             # Search only YAML files
-
-# Grep aliases
-alias grep='grep --color=auto'         # Colorize grep output
-alias egrep='egrep --color=auto'       # Colorize egrep output
-alias fgrep='fgrep --color=auto'       # Colorize fgrep output
-
-# Combined search functions
-rgcode() {
-    # Search in common code file types
-    rg --type py --type js --type ts --type java --type go --type rust --type c --type cpp "$@"
-}
-
-rgconfig() {
-    # Search in common config file types
-    rg --type yaml --type json --type toml --type ini --type xml "$@"
-}
-
-rglog() {
-    # Search in log files with context
-    rg --type log --context 5 "$@"
-}
-
-# Quick file finding
-ff() {
-    # Find files by name (case insensitive)
-    rg --files | rg -i "$1"
-}
-
-# Search and replace preview (requires fzf)
-if command -v fzf >/dev/null 2>&1; then
-    rgs() {
-        # Interactive ripgrep with fzf
-        rg --color=always --line-number --no-heading --smart-case "${*:-}" |
-            fzf --ansi \
-                --color "hl:-1:underline,hl+:-1:underline:reverse" \
-                --delimiter : \
-                --preview 'bat --color=always {1} --highlight-line {2}' \
-                --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
-    }
-fi
-EOF
-        log_success "Created search tool aliases"
-    else
-        log_success "Search tool aliases already exist"
-    fi
-    
-    # Add aliases to .zshrc if not already sourced
-    local zshrc_file="$ZDOTDIR/.zshrc"
-    if [[ -f "$zshrc_file" ]] && ! grep -q "source.*aliases" "$zshrc_file"; then
-        echo "" >> "$zshrc_file"
-        echo "# Source custom aliases" >> "$zshrc_file"
-        echo "source \"$aliases_file\"" >> "$zshrc_file"
-        log_success "Added aliases sourcing to .zshrc"
-    fi
+    ln -sf "$SBRN_HOME/sys/hrt/conf/ripgrep" "$XDG_CONFIG_HOME/ripgrep/config"
 }
 
 ################################################################################
@@ -817,6 +712,9 @@ function install_ides_and_editors() {
     # Core IDEs and Editors
     install_core_ides_editors
     
+    # Productivity and Development Support Apps
+    install_productivity_apps
+    
     # Development Environment Tools
     install_development_environment_tools
     
@@ -841,6 +739,60 @@ function install_core_ides_editors() {
         local ide="${ide_info%%:*}"
         local description="${ide_info#*:}"
         brew_cask_install "$ide" "$description"
+    done
+}
+
+function install_productivity_apps() {
+    log_info "Installing productivity and development support applications..."
+    
+    # Productivity and Development Support Apps via Homebrew Cask
+    local productivity_apps=(
+        "notion: Notion - All-in-one workspace for notes, docs, and collaboration"
+        "obsidian: Obsidian - Knowledge management and note-taking app"
+        "figma: Figma - Collaborative interface design tool"
+        "slack: Slack - Team communication and collaboration"
+        "zoom: Zoom - Video conferencing and online meetings"
+        "github: GitHub Desktop - Git GUI client for GitHub"
+        "postman: Postman - API development and testing platform"
+        "insomnia: Insomnia - REST API client and testing tool"
+        "dbeaver-community: DBeaver Community - Universal database tool"
+        "pgadmin4: pgAdmin 4 - PostgreSQL administration and development platform"
+        "rapidapi: RapidAPI - API testing and development tool"
+        "virtualbox: VirtualBox - Virtual machine software"
+        "microsoft-edge: Microsoft Edge - Web browser"
+    )
+    
+    for app_info in "${productivity_apps[@]}"; do
+        local app="${app_info%%:*}"
+        local description="${app_info#*:}"
+        brew_cask_install "$app" "$description"
+    done
+}
+
+function install_productivity_apps() {
+    log_info "Installing productivity and development support applications..."
+    
+    # Productivity and Development Support Apps via Homebrew Cask
+    local productivity_apps=(
+        "notion: Notion - All-in-one workspace for notes, docs, and collaboration"
+        "obsidian: Obsidian - Knowledge management and note-taking app"
+        "figma: Figma - Collaborative interface design tool"
+        "slack: Slack - Team communication and collaboration"
+        "github: GitHub Desktop - Git GUI client for GitHub"
+        "postman: Postman - API development and testing platform"
+        "insomnia: Insomnia - REST API client and testing tool"
+        "dbeaver-community: DBeaver Community - Universal database tool"
+        "pgadmin4: pgAdmin 4 - PostgreSQL administration and development platform"
+        "rapidapi: RapidAPI - API testing and development tool"
+        "microsoft-edge: Microsoft Edge - Web browser"
+        # "virtualbox: VirtualBox - Virtual machine software" # Sudoer rights needed
+        # "zoom: Zoom - Video conferencing and online meetings" # Sudoer rights needed
+    )
+    
+    for app_info in "${productivity_apps[@]}"; do
+        local app="${app_info%%:*}"
+        local description="${app_info#*:}"
+        brew_cask_install "$app" "$description"
     done
 }
 
@@ -905,6 +857,14 @@ function create_ide_symlinks() {
     if [[ -d "/Applications/Cursor.app" ]] && [[ ! -L "$bin_dir/cursor" ]]; then
         ln -sf "/Applications/Cursor.app/Contents/MacOS/Cursor" "$bin_dir/cursor"
         log_success "Created symlink for Cursor"
+    fi
+    
+    # GitHub Desktop CLI (if available)
+    if [[ -d "/Applications/GitHub Desktop.app" ]] && [[ ! -L "$bin_dir/github-desktop" ]]; then
+        if [[ -f "/Applications/GitHub Desktop.app/Contents/MacOS/GitHub Desktop" ]]; then
+            ln -sf "/Applications/GitHub Desktop.app/Contents/MacOS/GitHub Desktop" "$bin_dir/github-desktop"
+            log_success "Created symlink for GitHub Desktop"
+        fi
     fi
     
     # Add bin directory to PATH if not already there
@@ -1050,10 +1010,14 @@ function show_cli_tools_impact() {
     echo "   • wget (internet file retriever)"
     echo "   • httpie (user-friendly HTTP client)"
     echo "   • netcat (networking utility)"
-    echo "✅ 📊 Text, Regex, JSON, Data tools:"
+    echo "✅ 📊 Text, Regex, JSON, Data tools & CLI Editors:"
     echo "   • jq (lightweight JSON processor)"
     echo "   • ripgrep (fast text search tool with configuration and aliases)"
     echo "   • grep (GNU grep, egrep and fgrep with color aliases)"
+    echo "   • vim (Vi IMproved - enhanced version of the vi editor)"
+    echo "   • neovim (Ambitious Vim-fork focused on extensibility and agility)"
+    echo "   • emacs (GNU Emacs text editor)"
+    echo "   • nano (Free GNU replacement for the Pico text editor)"
 }
 
 function show_dev_tools_impact() {
@@ -1125,13 +1089,47 @@ function show_ides_impact() {
     if [[ -d "/Applications/Cursor.app" ]]; then
         echo "   • Cursor AI Editor (GUI + CLI: cursor)"
     fi
-    if [[ -d "/Applications/Sublime Text.app" ]]; then
-        echo "   • Sublime Text"
-    fi
-    if [[ -d "/Applications/Zed.app" ]]; then
-        echo "   • Zed (high-performance, multiplayer code editor)"
-    fi
     echo "   • CLI editors: vim, neovim, emacs, nano"
+    echo "✅ Productivity and Development Support Apps:"
+    if [[ -d "/Applications/Notion.app" ]]; then
+        echo "   • Notion (all-in-one workspace)"
+    fi
+    if [[ -d "/Applications/Obsidian.app" ]]; then
+        echo "   • Obsidian (knowledge management)"
+    fi
+    if [[ -d "/Applications/Figma.app" ]]; then
+        echo "   • Figma (collaborative design tool)"
+    fi
+    if [[ -d "/Applications/Slack.app" ]]; then
+        echo "   • Slack (team communication)"
+    fi
+    if [[ -d "/Applications/Zoom.app" ]]; then
+        echo "   • Zoom (video conferencing)"
+    fi
+    if [[ -d "/Applications/GitHub Desktop.app" ]]; then
+        echo "   • GitHub Desktop (Git GUI client)"
+    fi
+    if [[ -d "/Applications/Postman.app" ]]; then
+        echo "   • Postman (API development and testing)"
+    fi
+    if [[ -d "/Applications/Insomnia.app" ]]; then
+        echo "   • Insomnia (REST API client)"
+    fi
+    if [[ -d "/Applications/DBeaver.app" ]]; then
+        echo "   • DBeaver Community (universal database tool)"
+    fi
+    if [[ -d "/Applications/pgAdmin 4.app" ]]; then
+        echo "   • pgAdmin 4 (PostgreSQL administration)"
+    fi
+    if [[ -d "/Applications/RapidAPI.app" ]]; then
+        echo "   • RapidAPI (API testing tool)"
+    fi
+    if [[ -d "/Applications/VirtualBox.app" ]]; then
+        echo "   • VirtualBox (virtual machine software)"
+    fi
+    if [[ -d "/Applications/Microsoft Edge.app" ]]; then
+        echo "   • Microsoft Edge (web browser)"
+    fi
     echo "✅ Development Environment Tools:"
     if command -v jupyter &>/dev/null; then
         echo "   • JupyterLab with full data science stack (ipywidgets, nbconvert)"
@@ -1355,17 +1353,25 @@ function check_zsh_environment_status() {
 }
 
 function check_cli_tools_status() {
-    local shell_tools=("tree" "fzf" "tmux" "htop" "bat" "fd" "tldr" "eza" "zoxide" "watch" "ncdu" "glances")
+    # Shell productivity tools - matches install_shell_productivity_tools()
+    local shell_tools=("coreutils" "tree" "fzf" "tmux" "htop" "bat" "fd" "tldr" "eza" "zoxide" "watch" "ncdu" "glances" "lsd" "ctop" "autoenv")
+    # Network tools - matches install_networking_security_tools()
     local network_tools=("curl" "wget" "httpie" "netcat")
-    local text_tools=("jq" "ripgrep" "grep")
+    # Text/data tools and CLI editors - matches install_text_data_tools()
+    local text_tools=("jq" "ripgrep" "grep" "vim" "neovim" "emacs" "nano")
     
     # Check shell productivity tools
     local installed_count=0
     local total_count=${#shell_tools[@]}
     
     for tool in "${shell_tools[@]}"; do
-        if command -v "$tool" &>/dev/null; then
-            ((installed_count++))
+        # Special case for coreutils - check for gls which is part of coreutils
+        if [[ "$tool" == "coreutils" ]]; then
+            if command -v "gls" &>/dev/null; then
+                installed_count=$((installed_count + 1))
+            fi
+        elif command -v "$tool" &>/dev/null; then
+            installed_count=$((installed_count + 1))
         fi
     done
     echo "   Shell Tools: $installed_count/$total_count installed"
@@ -1376,7 +1382,7 @@ function check_cli_tools_status() {
     
     for tool in "${network_tools[@]}"; do
         if command -v "$tool" &>/dev/null; then
-            ((installed_count++))
+            installed_count=$((installed_count + 1))
         fi
     done
     echo "   Network Tools: $installed_count/$total_count installed"
@@ -1386,8 +1392,13 @@ function check_cli_tools_status() {
     total_count=${#text_tools[@]}
     
     for tool in "${text_tools[@]}"; do
-        if command -v "$tool" &>/dev/null; then
-            ((installed_count++))
+        # Special case for neovim - command is 'nvim'
+        if [[ "$tool" == "neovim" ]]; then
+            if command -v "nvim" &>/dev/null; then
+                installed_count=$((installed_count + 1))
+            fi
+        elif command -v "$tool" &>/dev/null; then
+            installed_count=$((installed_count + 1))
         fi
     done
     echo "   Text/Data Tools: $installed_count/$total_count installed"
@@ -1403,7 +1414,7 @@ function check_dev_tools_status() {
     
     for tool in "${git_tools[@]}"; do
         if command -v "$tool" &>/dev/null; then
-            ((installed_count++))
+            installed_count=$((installed_count + 1))
         fi
     done
     echo "   Git/VCS Tools: $installed_count/$total_count installed"
@@ -1414,7 +1425,7 @@ function check_dev_tools_status() {
     
     for tool in "${cloud_tools[@]}"; do
         if command -v "$tool" &>/dev/null; then
-            ((installed_count++))
+            installed_count=$((installed_count + 1))
         fi
     done
     echo "   Cloud/Container Tools: $installed_count/$total_count installed"
@@ -1459,7 +1470,7 @@ function check_programming_languages_status() {
     
     for vm in "${version_managers[@]}"; do
         if command -v "$vm" &>/dev/null; then
-            ((installed_count++))
+            installed_count=$((installed_count + 1))
         fi
     done
     echo "   Version Managers: $installed_count/${#version_managers[@]} installed"
@@ -1470,7 +1481,7 @@ function check_programming_languages_status() {
     
     for tool in "${build_tools[@]}"; do
         if command -v "$tool" &>/dev/null; then
-            ((installed_count++))
+            installed_count=$((installed_count + 1))
         fi
     done
     echo "   Build Tools: $installed_count/${#build_tools[@]} installed"
@@ -1609,7 +1620,7 @@ brew_cask_install() {
     if [[ $SKIP_CASK_APPS == false ]]; then
         if ! brew list --cask "$cask" &>/dev/null; then
             log_info "Installing $description..."
-            brew install --cask "$cask"
+            brew install --cask --appdir=~/Applications "$cask"
         else
             log_success "$description already installed"
         fi

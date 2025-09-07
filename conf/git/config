@@ -11,3 +11,5 @@
 [includeIf "gitdir:/Users/balamurugank/sbrn/res/notes/work-journal/"]
     path = /Users/balamurugank/sbrn/sys/config/git/config-work
 
+[core]
+	pager = diff-so-fancy | less --tabs=4 -RFX

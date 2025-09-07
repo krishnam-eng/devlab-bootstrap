@@ -494,16 +494,132 @@ function install_networking_security_tools() {
 function install_text_data_tools() {
     log_info "Installing 📊 Text, Regex, JSON, Data tools..."
     
+    # CLI editors via Homebrew
+    local cli_editors=(
+        "vim: Vi IMproved - enhanced version of the vi editor"
+        "neovim: Ambitious Vim-fork focused on extensibility and agility"
+        "emacs: GNU Emacs text editor"
+        "nano: Free (GNU) replacement for the Pico text editor"
+    )
+
     local text_tools=(
         "jq: Lightweight and flexible command-line JSON processor"
         "ripgrep: Search tool like grep and The Silver Searcher"
+        "grep: GNU grep, egrep and fgrep"
     )
     
-    for tool_info in "${text_tools[@]}"; do
+    for tool_info in "${text_tools[@]}" "${cli_editors[@]}"; do
         local tool="${tool_info%%:*}"
         local description="${tool_info#*:}"
         brew_install "$tool" "$description"
     done
+    
+    # Setup ripgrep configuration
+    setup_ripgrep_config
+}
+
+function setup_ripgrep_config() {
+    log_info "Setting up ripgrep configuration..."
+    
+    local ripgrep_config="$XDG_CONFIG_HOME/ripgrep/config"
+    
+    ln -sf "$SBRN_HOME/sys/hrt/conf/ripgrep" "$ripgrep_config"
+    
+    # Create ripgrep config directory
+    mkdir -p "$(dirname "$ripgrep_config")"
+
+    
+    # Add RIPGREP_CONFIG_PATH to environment if not already set
+    local zshenv_file="$ZDOTDIR/.zshenv"
+    if [[ -f "$zshenv_file" ]] && ! grep -q "RIPGREP_CONFIG_PATH" "$zshenv_file"; then
+        echo "export RIPGREP_CONFIG_PATH=\"$ripgrep_config\"" >> "$zshenv_file"
+        log_success "Added RIPGREP_CONFIG_PATH to .zshenv"
+    elif [[ ! -f "$zshenv_file" ]]; then
+        log_info "Creating .zshenv with ripgrep configuration"
+        echo "export RIPGREP_CONFIG_PATH=\"$ripgrep_config\"" > "$zshenv_file"
+    fi
+    
+    # Setup useful aliases for search tools
+    setup_search_aliases
+}
+
+function setup_search_aliases() {
+    log_info "Setting up search tool aliases..."
+    
+    local aliases_file="$XDG_CONFIG_HOME/aliases"
+    
+    # Create aliases file if it doesn't exist
+    if [[ ! -f "$aliases_file" ]]; then
+        cat > "$aliases_file" << 'EOF'
+# Search tool aliases and functions
+# Source this file in your shell configuration
+
+# Ripgrep aliases
+alias rg='rg'                          # Standard ripgrep
+alias rgi='rg --ignore-case'           # Case insensitive search
+alias rgf='rg --files'                 # List files that would be searched
+alias rgl='rg --files-with-matches'    # Show only file names with matches
+alias rgv='rg --invert-match'          # Invert match (like grep -v)
+alias rgw='rg --word-regexp'           # Match whole words only
+alias rgj='rg --type json'             # Search only JSON files
+alias rgp='rg --type py'               # Search only Python files
+alias rgjs='rg --type js'              # Search only JavaScript files
+alias rgmd='rg --type md'              # Search only Markdown files
+alias rgy='rg --type yaml'             # Search only YAML files
+
+# Grep aliases
+alias grep='grep --color=auto'         # Colorize grep output
+alias egrep='egrep --color=auto'       # Colorize egrep output
+alias fgrep='fgrep --color=auto'       # Colorize fgrep output
+
+# Combined search functions
+rgcode() {
+    # Search in common code file types
+    rg --type py --type js --type ts --type java --type go --type rust --type c --type cpp "$@"
+}
+
+rgconfig() {
+    # Search in common config file types
+    rg --type yaml --type json --type toml --type ini --type xml "$@"
+}
+
+rglog() {
+    # Search in log files with context
+    rg --type log --context 5 "$@"
+}
+
+# Quick file finding
+ff() {
+    # Find files by name (case insensitive)
+    rg --files | rg -i "$1"
+}
+
+# Search and replace preview (requires fzf)
+if command -v fzf >/dev/null 2>&1; then
+    rgs() {
+        # Interactive ripgrep with fzf
+        rg --color=always --line-number --no-heading --smart-case "${*:-}" |
+            fzf --ansi \
+                --color "hl:-1:underline,hl+:-1:underline:reverse" \
+                --delimiter : \
+                --preview 'bat --color=always {1} --highlight-line {2}' \
+                --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
+    }
+fi
+EOF
+        log_success "Created search tool aliases"
+    else
+        log_success "Search tool aliases already exist"
+    fi
+    
+    # Add aliases to .zshrc if not already sourced
+    local zshrc_file="$ZDOTDIR/.zshrc"
+    if [[ -f "$zshrc_file" ]] && ! grep -q "source.*aliases" "$zshrc_file"; then
+        echo "" >> "$zshrc_file"
+        echo "# Source custom aliases" >> "$zshrc_file"
+        echo "source \"$aliases_file\"" >> "$zshrc_file"
+        log_success "Added aliases sourcing to .zshrc"
+    fi
 }
 
 ################################################################################
@@ -632,7 +748,14 @@ function install_version_managers() {
         "uv: python virtual environment management"
         "nvm: Node Version Manager"
     )
-    
+    # Currently, jenv does not natively support using the XDG Base Directory Specification
+    # Move existing jenv configuration to XDG config directory if it exists
+    # This at least keeps the data physically away from your $HOME, but jenv itself still expects to “see” `~/.jenv`
+    [[ -d ~/.jenv ]] && {
+        mv ~/.jenv $XDG_CONFIG_HOME/jenv
+        ln -s $XDG_CONFIG_HOME/jenv ~/.jenv
+    }
+
     for vm_info in "${version_managers[@]}"; do
         local vm="${vm_info%%:*}"
         local description="${vm_info#*:}"
@@ -644,11 +767,12 @@ function install_version_managers() {
         log_info "Configuring jenv with Java versions..."
         
         # Initialize jenv
-        export PATH="$HOME/.jenv/bin:$PATH"
         eval "$(jenv init -)"
         
         # Enable essential plugins
         jenv enable-plugin export 2>/dev/null || true
+        jenv enable-plugin maven 2>/dev/null || true
+        jenv enable-plugin gradle 2>/dev/null || true
         
         # Add Java versions if they exist
         for java_version in 17 21; do
@@ -671,11 +795,10 @@ function install_build_automation_tools() {
     local build_tools=(
         "maven: Java-based project management"
         "gradle: Build automation tool based on Groovy and Kotlin"        
+        "poetry: Python package and dependency manager"
+        "yarn: JavaScript package manager"
         "terraform: Tool to build, change, and version infrastructure"
         "ansible: Automate deployment, configuration, and upgrading"
-        "poetry: Python package and dependency manager"
-        "pipenv: Python development workflow for humans"
-        "yarn: JavaScript package manager"
     )
     
     for tool_info in "${build_tools[@]}"; do
@@ -718,20 +841,6 @@ function install_core_ides_editors() {
         local ide="${ide_info%%:*}"
         local description="${ide_info#*:}"
         brew_cask_install "$ide" "$description"
-    done
-    
-    # CLI editors via Homebrew
-    local cli_editors=(
-        "vim: Vi IMproved - enhanced version of the vi editor"
-        "neovim: Ambitious Vim-fork focused on extensibility and agility"
-        "emacs: GNU Emacs text editor"
-        "nano: Free (GNU) replacement for the Pico text editor"
-    )
-    
-    for editor_info in "${cli_editors[@]}"; do
-        local editor="${editor_info%%:*}"
-        local description="${editor_info#*:}"
-        brew_install "$editor" "$description"
     done
 }
 
@@ -943,7 +1052,8 @@ function show_cli_tools_impact() {
     echo "   • netcat (networking utility)"
     echo "✅ 📊 Text, Regex, JSON, Data tools:"
     echo "   • jq (lightweight JSON processor)"
-    echo "   • ripgrep (fast text search tool)"
+    echo "   • ripgrep (fast text search tool with configuration and aliases)"
+    echo "   • grep (GNU grep, egrep and fgrep with color aliases)"
 }
 
 function show_dev_tools_impact() {
@@ -1071,7 +1181,12 @@ function show_final_config_impact() {
     echo "✅ Configuration files created:"
     echo "   • $SBRN_HOME/sys/config/aliases (development shortcuts)"
     echo "   • $SBRN_HOME/sys/config/dev-env (environment variables)"
+    echo "   • $SBRN_HOME/sys/config/ripgrep/config (ripgrep configuration)"
     echo "✅ PATH updated to include: $SBRN_HOME/sys/bin"
+    echo "✅ Search tool enhancements:"
+    echo "   • ripgrep with smart defaults and file type exclusions"
+    echo "   • grep with color output enabled"
+    echo "   • custom aliases for common search patterns (rg, rgcode, rgconfig, etc.)"
 }
 
 ################################################################################
@@ -1242,7 +1357,7 @@ function check_zsh_environment_status() {
 function check_cli_tools_status() {
     local shell_tools=("tree" "fzf" "tmux" "htop" "bat" "fd" "tldr" "eza" "zoxide" "watch" "ncdu" "glances")
     local network_tools=("curl" "wget" "httpie" "netcat")
-    local text_tools=("jq" "ripgrep")
+    local text_tools=("jq" "ripgrep" "grep")
     
     # Check shell productivity tools
     local installed_count=0

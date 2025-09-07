@@ -1,12 +1,11 @@
-# To use this customized .zshrc, run the following command to create a symlink:
-# ln -sf /Users/balamurugan.k/sbrn/sys/hrt/zshrc ~/.zshrc
-
+# ============================
+# Powerlevel10k Instant Prompt
+# ============================
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 #! Initialization code that may require console input must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
 
 # =============================
 # Zsh History Management
@@ -115,9 +114,8 @@ bindkey -v
 setopt NO_BEEP
 
 # =============================
-# Oh My Zsh Configuration
+# Zsh Configuration with Community Plugins
 # =============================
-# Path to your Oh My Zsh installation.
 export ZSH="$SBRN_HOME/sys/oh-my-zsh"
 
 export PATH="$SBRN_HOME/sys/bin:$PATH"
@@ -242,7 +240,37 @@ plugins=(
 # jira                     # Jira CLI helpers
 )
 
+# Alias-finder plugin settings (optional, uncomment to customize)
+zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
+zstyle ':omz:plugins:alias-finder' longer yes # disabled by default
+zstyle ':omz:plugins:alias-finder' exact yes # disabled by default
+zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
+
+## Jenv
+# Adds jenv shims to PATH; Unsets conflicting Java environment variables 
+# JAVA_HOME and JDK_HOME; Loads shell completions jenv
+eval "$(jenv init -)"
+
+# =============================
+# Load Custom RC Files
+# =============================
+# Load all .zsh files from the rc.d directory
+if [[ -d "$ZDOTDIR/rc.d" ]]; then
+  for rc_file in "$ZDOTDIR/rc.d"/*.zsh; do
+    if [[ -r "$rc_file" ]]; then
+      source "$rc_file"
+    fi
+  done
+  unset rc_file
+fi
+
+# =============================
+# Finalize Oh My Zsh Setup
+# =============================
 source $ZSH/oh-my-zsh.sh
 
+# =============================
+# Powerlevel10k Configuration
+# =============================
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

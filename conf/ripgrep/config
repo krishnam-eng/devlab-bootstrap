@@ -1,0 +1,49 @@
+# ripgrep configuration file
+# Use via: export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
+
+# Search hidden files and directories
+--hidden
+
+# Follow symbolic links
+--follow
+
+# Don't search in .git directories
+--glob=!.git/*
+
+# Don't search in node_modules
+--glob=!node_modules/*
+
+# Don't search in target directories (Rust/Java builds)
+--glob=!target/*
+
+# Don't search in build directories
+--glob=!build/*
+--glob=!dist/*
+
+# Don't search in cache directories
+--glob=!.cache/*
+--glob=!cache/*
+
+# Don't search in log files
+--glob=!*.log
+
+# Don't search in compiled files
+--glob=!*.pyc
+--glob=!*.class
+--glob=!*.jar
+--glob=!*.war
+
+# Use smart case (case insensitive unless uppercase present)
+--smart-case
+
+# Show line numbers
+--line-number
+
+# Show colors
+--color=always
+
+# Set max columns to avoid very long lines
+--max-columns=150
+
+# Set context lines
+--context=3

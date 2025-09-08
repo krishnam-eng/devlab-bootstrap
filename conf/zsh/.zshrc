@@ -1,11 +1,15 @@
 # ============================
-# Powerlevel10k Instant Prompt
+# Oh My Zsh & Powerlevel10k Instant Prompt
 # ============================
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 #! Initialization code that may require console input must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# Path to your Oh My Zsh installation.
+export ZSH="$SBRN_HOME/sys/etc/oh-my-zsh"
+export ZSH_CUSTOM="$ZSH/custom"
 
 # =============================
 # Zsh History Management
@@ -116,7 +120,7 @@ setopt NO_BEEP
 # =============================
 # Zsh Configuration with Community Plugins
 # =============================
-export ZSH="$SBRN_HOME/sys/oh-my-zsh"
+export ZSH="$SBRN_HOME/sys/etc/oh-my-zsh"
 
 export PATH="$SBRN_HOME/sys/bin:$PATH"
 
@@ -265,6 +269,29 @@ if [[ -d "$ZDOTDIR/rc.d" ]]; then
 fi
 
 # =============================
+# Version Managers & Tools
+# =============================
+
+# NVM (Node Version Manager) - Homebrew installation
+# Note: Managing nvm via Homebrew is unsupported by upstream nvm
+# Proper configuration to avoid destruction of node installations during upgrades
+if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
+  # Create NVM working directory if it doesn't exist
+  [[ ! -d "$NVM_DIR" ]] && mkdir -p "$NVM_DIR"
+  
+  # Load nvm
+  source "/opt/homebrew/opt/nvm/nvm.sh"
+  
+  # Load nvm bash completion
+  [[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ]] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+fi
+
+# Jenv (Java Environment Manager)
+if command -v jenv >/dev/null 2>&1; then
+  eval "$(jenv init -)"
+fi
+
+# =============================
 # Finalize Oh My Zsh Setup
 # =============================
 source $ZSH/oh-my-zsh.sh
@@ -274,6 +301,3 @@ source $ZSH/oh-my-zsh.sh
 # =============================
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Source custom aliases
-source "/Users/ariston/sbrn/sys/config/aliases"

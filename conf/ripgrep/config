@@ -39,7 +39,7 @@
 # Show line numbers
 --line-number
 
-# Show colors
+# Show colors (works well with eza integration)
 --color=always
 
 # Set max columns to avoid very long lines
@@ -47,3 +47,6 @@
 
 # Set context lines
 --context=3
+
+# Sort files for consistent output (helps with eza integration)
+--sort=path

@@ -41,6 +41,45 @@ function ff() {
     rg --files | rg -i "$1"
 }
 
+# Ripgrep + eza combinations
+function rgfiles() {
+    # List files that ripgrep would search, displayed with eza
+    rg --files "$@" | while read -r file; do
+        if [[ -f "$file" ]]; then
+            eza -al "$file"
+        fi
+    done
+}
+
+function rglist() {
+    # Find files matching pattern and list with eza
+    local pattern="$1"
+    shift
+    rg --files-with-matches "$pattern" "$@" | while read -r file; do
+        if [[ -f "$file" ]]; then
+            echo "📁 File: $file"
+            eza -al "$file"
+            echo ""
+        fi
+    done
+}
+
+function rgdir() {
+    # Search for pattern and group results by directory with eza
+    local pattern="$1"
+    shift
+    local dirs=($(rg --files-with-matches "$pattern" "$@" | xargs -I{} dirname {} | sort -u))
+    
+    for dir in "${dirs[@]}"; do
+        echo "📂 Directory: $dir"
+        eza -al "$dir"
+        echo "🔍 Matches in this directory:"
+        rg --color=always --line-number "$pattern" "$dir"/* 2>/dev/null || true
+        echo "────────────────────────────────────────"
+        echo ""
+    done
+}
+
 # Search and replace preview (requires fzf)
 if command -v fzf >/dev/null 2>&1; then
     function rgs() {
@@ -51,5 +90,10 @@ if command -v fzf >/dev/null 2>&1; then
                 --delimiter : \
                 --preview 'bat --color=always {1} --highlight-line {2}' \
                 --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
+    }
+    
+    function rgeza() {
+        # Interactive file finder with eza preview
+        rg --files | fzf --preview 'eza -al --color=always {}'
     }
 fi

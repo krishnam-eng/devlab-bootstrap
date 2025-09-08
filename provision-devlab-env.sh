@@ -78,7 +78,7 @@ function confirm_and_run_step() {
     local step_function="$2"
     local summary_function="${3:-}"
 
-    echo "Proceed with $step_description? (y/N): "
+    echo "Proceed with $step_description? [y/N]: "
     read -r REPLY
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         $step_function
@@ -200,7 +200,7 @@ function setup_dir_struct_hierarchy() {
     log_info "Please manually mount your cloud drives (iCloud, Google Drive, OneDrive, Dropbox) under $HOME/Drives"
 
     # Create XDG config structure to keep the home directory clean of dotfiles and system clutter
-    mkdir -p "$SBRN_HOME/sys"/{config,local/share,local/state,cache,bin}
+    mkdir -p "$SBRN_HOME/sys"/{config,local/share,local/state,cache,bin,etc}
 
     # Clone the HRT (Home Runtime Tools) repository if it doesn't exist
     if [[ ! -d "$SBRN_HOME/sys/hrt" ]]; then
@@ -276,7 +276,14 @@ function install_macos_package_manager() {
     brew update
     
     log_info "Upgrading existing Homebrew packages to latest versions..."
-    brew upgrade
+    echo "Do you want to run 'brew upgrade' to update all packages? [y/N]: "
+    read -r REPLY
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        brew upgrade
+        log_success "Homebrew packages upgraded."
+    else
+        log_info "brew upgrade skipped."
+    fi
     
     log_success "Homebrew setup completed"
 }
@@ -311,7 +318,7 @@ function setup_zsh_environment() {
     export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
     
     # Set ZSH installation directory
-    local zsh_dir="$SBRN_HOME/sys/oh-my-zsh"
+    local zsh_dir="$SBRN_HOME/sys/etc/oh-my-zsh"
     
     # Install Oh My Zsh to custom directory
     if [[ ! -d "$zsh_dir" ]]; then
@@ -514,7 +521,8 @@ function install_text_data_tools() {
         brew_install "$tool" "$description"
     done
 
-    ln -sf "$SBRN_HOME/sys/hrt/conf/ripgrep" "$XDG_CONFIG_HOME/ripgrep/config"
+    # Create ripgrep config directory and link configuration
+    ln -sf "$SBRN_HOME/sys/hrt/conf/ripgrep" "$XDG_CONFIG_HOME/ripgrep"
 }
 
 ################################################################################
@@ -682,6 +690,37 @@ function install_version_managers() {
     else
         log_warning "jenv not found, skipping Java version management setup"
     fi
+    
+    # Configure NVM (Node Version Manager)
+    if command -v nvm &>/dev/null || [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
+        log_info "Configuring NVM (Node Version Manager)..."
+        
+        # Create NVM working directory using XDG specification
+        # This prevents destruction during Homebrew upgrades
+        if [[ ! -d "$NVM_DIR" ]]; then
+            mkdir -p "$NVM_DIR"
+            log_success "Created NVM directory at $NVM_DIR"
+        fi
+        
+        # Source NVM if available (for immediate use in this script)
+        if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
+            source "/opt/homebrew/opt/nvm/nvm.sh"
+            log_success "NVM loaded from Homebrew installation"
+            
+            # Install latest LTS Node.js if no versions are installed
+            if ! nvm list | grep -q "v"; then
+                log_info "Installing latest LTS Node.js version..."
+                nvm install --lts
+                nvm use --lts
+                nvm alias default lts/*
+                log_success "Installed and set latest LTS Node.js as default"
+            else
+                log_success "Node.js versions already installed via NVM"
+            fi
+        fi
+    else
+        log_warning "NVM not found - install with: brew install nvm"
+    fi
 }
 
 function install_build_automation_tools() {
@@ -692,8 +731,6 @@ function install_build_automation_tools() {
         "gradle: Build automation tool based on Groovy and Kotlin"        
         "poetry: Python package and dependency manager"
         "yarn: JavaScript package manager"
-        "terraform: Tool to build, change, and version infrastructure"
-        "ansible: Automate deployment, configuration, and upgrading"
     )
     
     for tool_info in "${build_tools[@]}"; do
@@ -719,7 +756,7 @@ function install_ides_and_editors() {
     install_development_environment_tools
     
     # Create symbolic links for command-line access
-    create_ide_symlinks
+    create_app_cli_symlinks
     
     log_success "IDEs and editors installation completed"
 }
@@ -739,33 +776,6 @@ function install_core_ides_editors() {
         local ide="${ide_info%%:*}"
         local description="${ide_info#*:}"
         brew_cask_install "$ide" "$description"
-    done
-}
-
-function install_productivity_apps() {
-    log_info "Installing productivity and development support applications..."
-    
-    # Productivity and Development Support Apps via Homebrew Cask
-    local productivity_apps=(
-        "notion: Notion - All-in-one workspace for notes, docs, and collaboration"
-        "obsidian: Obsidian - Knowledge management and note-taking app"
-        "figma: Figma - Collaborative interface design tool"
-        "slack: Slack - Team communication and collaboration"
-        "zoom: Zoom - Video conferencing and online meetings"
-        "github: GitHub Desktop - Git GUI client for GitHub"
-        "postman: Postman - API development and testing platform"
-        "insomnia: Insomnia - REST API client and testing tool"
-        "dbeaver-community: DBeaver Community - Universal database tool"
-        "pgadmin4: pgAdmin 4 - PostgreSQL administration and development platform"
-        "rapidapi: RapidAPI - API testing and development tool"
-        "virtualbox: VirtualBox - Virtual machine software"
-        "microsoft-edge: Microsoft Edge - Web browser"
-    )
-    
-    for app_info in "${productivity_apps[@]}"; do
-        local app="${app_info%%:*}"
-        local description="${app_info#*:}"
-        brew_cask_install "$app" "$description"
     done
 }
 
@@ -836,43 +846,63 @@ function install_development_environment_tools() {
     done
 }
 
-function create_ide_symlinks() {
-    log_info "Creating symbolic links for IDE command-line access..."
-    
-    local bin_dir="$SBRN_HOME/sys/bin"
-    
-    # VS Code
-    if [[ -d "/Applications/Visual Studio Code.app" ]] && [[ ! -L "$bin_dir/code" ]]; then
-        ln -sf "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$bin_dir/code"
-        log_success "Created symlink for VS Code"
-    fi
-    
-    # IntelliJ IDEA CE
-    if [[ -d "/Applications/IntelliJ IDEA CE.app" ]] && [[ ! -L "$bin_dir/idea" ]]; then
-        ln -sf "/Applications/IntelliJ IDEA CE.app/Contents/MacOS/idea" "$bin_dir/idea"
-        log_success "Created symlink for IntelliJ IDEA CE"
-    fi
-    
-    # Cursor
-    if [[ -d "/Applications/Cursor.app" ]] && [[ ! -L "$bin_dir/cursor" ]]; then
-        ln -sf "/Applications/Cursor.app/Contents/MacOS/Cursor" "$bin_dir/cursor"
-        log_success "Created symlink for Cursor"
-    fi
-    
-    # GitHub Desktop CLI (if available)
-    if [[ -d "/Applications/GitHub Desktop.app" ]] && [[ ! -L "$bin_dir/github-desktop" ]]; then
-        if [[ -f "/Applications/GitHub Desktop.app/Contents/MacOS/GitHub Desktop" ]]; then
-            ln -sf "/Applications/GitHub Desktop.app/Contents/MacOS/GitHub Desktop" "$bin_dir/github-desktop"
-            log_success "Created symlink for GitHub Desktop"
+function create_app_cli_symlinks() {
+    log_info "Creating symbolic links for Application command-line access..."
+
+        local bin_dir="$SBRN_HOME/sys/bin"
+
+
+        # App symlink definitions: (relative app dir, cli_name, actual_executable)
+        local -A app_symlinks=(
+            ["Visual Studio Code.app"]="code:Contents/Resources/app/bin/code"
+            ["IntelliJ IDEA.app"]="idea-ultimate:Contents/MacOS/idea"
+            ["IntelliJ IDEA CE.app"]="idea:Contents/MacOS/idea"
+            ["PyCharm.app"]="pycharm:Contents/MacOS/pycharm"
+            ["Cursor.app"]="cursor:Contents/MacOS/Cursor"
+            ["DBeaver.app"]="dbeaver:Contents/MacOS/dbeaver"
+            ["DevToys.app"]="devtoys:Contents/MacOS/DevToys"
+            ["LM Studio.app"]="lmstudio:Contents/MacOS/LM Studio"
+            ["Figma.app"]="figma:Contents/MacOS/Figma"
+            ["Framer.app"]="framer:Contents/MacOS/Framer"
+            ["Obsidian.app"]="obsidian:Contents/MacOS/Obsidian"
+            ["Notion.app"]="notion:Contents/MacOS/Notion"
+            ["GitHub Desktop.app"]="github:Contents/MacOS/GitHub Desktop"
+            ["Insomnia.app"]="insomnia:Contents/MacOS/Insomnia"
+            ["Postman.app"]="postman:Contents/MacOS/Postman"
+            ["Rancher Desktop.app"]="rancher:Contents/MacOS/Rancher Desktop"
+            ["RapidAPI.app"]="rapidapi:Contents/MacOS/RapidAPI"
+            ["Slack.app"]="slack:Contents/MacOS/Slack"
+            ["VirtualBox.app"]="vbox:Contents/MacOS/VirtualBoxVM"
+            ["pgAdmin 4.app"]="pgadmin:Contents/MacOS/pgAdmin4"
+            ["zoom.us.app"]="zoom:Contents/MacOS/zoom.us"
+        )
+
+        # Check both /Applications and $HOME/Applications
+        for app_dir in "${!app_symlinks[@]}"; do
+            local cli_def="${app_symlinks[$app_dir]}"
+            local cli_name="${cli_def%%:*}"
+            local exec_rel_path="${cli_def#*:}"
+            local found_app_path=""
+            for base_dir in "/Applications" "$HOME/Applications"; do
+                local app_path="$base_dir/$app_dir"
+                local exec_path="$app_path/$exec_rel_path"
+                if [[ -d "$app_path" ]] && [[ -f "$exec_path" ]]; then
+                    found_app_path="$exec_path"
+                    break
+                fi
+            done
+            if [[ -n "$found_app_path" ]] && [[ ! -L "$bin_dir/$cli_name" ]]; then
+                ln -sf "$found_app_path" "$bin_dir/$cli_name"
+                log_success "Created symlink for $cli_name ($found_app_path)"
+            fi
+        done
+
+        # Add bin directory to PATH if not already there
+        if [[ ":$PATH:" != *":$bin_dir:"* ]]; then
+            echo "export PATH=\"$bin_dir:\$PATH\"" >> ~/.zshrc
+            export PATH="$bin_dir:$PATH"
+            log_success "Added $bin_dir to PATH"
         fi
-    fi
-    
-    # Add bin directory to PATH if not already there
-    if [[ ":$PATH:" != *":$bin_dir:"* ]]; then
-        echo "export PATH=\"$bin_dir:\$PATH\"" >> ~/.zshrc
-        export PATH="$bin_dir:$PATH"
-        log_success "Added $bin_dir to PATH"
-    fi
 }
 
 ################################################################################
@@ -969,7 +999,7 @@ function show_homebrew_impact() {
 }
 
 function show_zsh_impact() {
-    echo "✅ Oh My Zsh installed at: $SBRN_HOME/sys/oh-my-zsh"
+    echo "✅ Oh My Zsh installed at: $SBRN_HOME/sys/etc/oh-my-zsh"
     echo "✅ Powerlevel10k theme installed for enhanced prompt"
     echo "✅ Essential plugins installed:"
     echo "   • zsh-autosuggestions (command completion)"
@@ -1057,7 +1087,7 @@ function show_languages_impact() {
     echo "✅ Version Managers:"
     echo "   • jenv (Java version management)"
     echo "   • uv (Python virtual environment management)"
-    echo "   • nvm (Node Version Manager - custom install)"
+    echo "   • nvm (Node Version Manager - Homebrew install with XDG-compliant configuration)"
     echo "✅ Build & Automation Tools:"
     echo "   • maven (Java-based project management)"
     echo "   • gradle (build automation tool based on Groovy and Kotlin)"
@@ -1190,6 +1220,46 @@ function show_final_config_impact() {
 ################################################################################
 # Utility Functions
 ################################################################################
+
+# Helper function to install Homebrew packages
+function brew_install() {
+    local package="$1"
+    local description="${2:-}"
+    
+    if brew list "$package" &>/dev/null; then
+        log_success "$package already installed"
+    else
+        log_info "Installing $package..."
+        if [[ -n "$description" ]]; then
+            log_info "  → $description"
+        fi
+        brew install "$package"
+        log_success "$package installed successfully"
+    fi
+}
+
+# Helper function to install Homebrew Cask applications
+function brew_cask_install() {
+    local cask="$1"
+    local description="${2:-}"
+    
+    if [[ "$SKIP_CASK_APPS" == "true" ]]; then
+        log_info "Skipping cask $cask (SKIP_CASK_APPS=true)"
+        return
+    fi
+    
+    if brew list --cask "$cask" &>/dev/null; then
+        log_success "$cask already installed"
+    else
+        log_info "Installing $cask..."
+        if [[ -n "$description" ]]; then
+            log_info "  → $description"
+        fi
+        brew install --cask "$cask"
+        log_success "$cask installed successfully"
+    fi
+}
+
 function show_system_summary() {
     log_info "🖥️  Developer Environment Status Check"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -1198,6 +1268,7 @@ function show_system_summary() {
     echo "📊 System Information:"
     echo "   • macOS Version: $(sw_vers -productVersion)"
     echo "   • Hardware: $(sysctl -n hw.model)"
+    echo "   • Architecture: $(uname -m)"
     echo "   • CPU: $(sysctl -n machdep.cpu.brand_string)"
     echo "   • Memory: $(sysctl -n hw.memsize | awk '{print $1/1024/1024/1024 " GB"}')"
     echo "   • Shell: $SHELL"
@@ -1237,9 +1308,19 @@ function show_system_summary() {
     echo "📝 IDEs and Editors:"
     check_ides_status
     echo ""
+
+    # Productivity Apps Status
+    echo "📦 Productivity Apps:"
+    check_productivity_apps_status
+    echo ""
+    
+    # Application CLI Symlinks Status
+    echo "🔗 Application CLI Symlinks:"
+    check_app_cli_symlinks_status
+    echo ""
     
     # Git Configuration Status
-    echo "🔗 Git Configuration:"
+    echo "� Git Configuration:"
     check_git_status
     echo ""
     
@@ -1274,7 +1355,7 @@ function check_sbrn_structure() {
             fi
             
             # Check Oh My Zsh
-            if [[ -d "$sbrn_home/sys/oh-my-zsh" ]]; then
+            if [[ -d "$sbrn_home/sys/etc/oh-my-zsh" ]]; then
                 echo "   ✅ Oh My Zsh installed"
             else
                 echo "   ❌ Oh My Zsh not installed"
@@ -1314,11 +1395,11 @@ function check_zsh_environment_status() {
     local sbrn_home="${SBRN_HOME:-$HOME/sbrn}"
     
     # Check Oh My Zsh installation
-    if [[ -d "$sbrn_home/sys/oh-my-zsh" ]]; then
+    if [[ -d "$sbrn_home/sys/etc/oh-my-zsh" ]]; then
         echo "   ✅ Oh My Zsh installed"
         
         # Check Powerlevel10k theme
-        if [[ -d "$sbrn_home/sys/oh-my-zsh/custom/themes/powerlevel10k" ]]; then
+        if [[ -d "$sbrn_home/sys/etc/oh-my-zsh/custom/themes/powerlevel10k" ]]; then
             echo "   ✅ Powerlevel10k theme installed"
         else
             echo "   ❌ Powerlevel10k theme not installed"
@@ -1327,7 +1408,7 @@ function check_zsh_environment_status() {
         # Check essential plugins
         local plugins=("zsh-autosuggestions" "zsh-syntax-highlighting" "history-substring-search" "zsh-autoswitch-virtualenv")
         for plugin in "${plugins[@]}"; do
-            if [[ -d "$sbrn_home/sys/oh-my-zsh/custom/plugins/$plugin" ]]; then
+            if [[ -d "$sbrn_home/sys/etc/oh-my-zsh/custom/plugins/$plugin" ]]; then
                 echo "   ✅ $plugin plugin installed"
             else
                 echo "   ❌ $plugin plugin not installed"
@@ -1488,17 +1569,34 @@ function check_programming_languages_status() {
 }
 
 function check_ides_status() {
-    # Check GUI IDEs
-    local gui_ides=()
-    [[ -d "/Applications/Visual Studio Code.app" ]] && gui_ides+=("VS Code")
-    [[ -d "/Applications/IntelliJ IDEA CE.app" ]] && gui_ides+=("IntelliJ IDEA CE")
-    [[ -d "/Applications/PyCharm CE.app" ]] && gui_ides+=("PyCharm CE")
-    [[ -d "/Applications/Cursor.app" ]] && gui_ides+=("Cursor")
+    # Define core IDEs list - matches install_core_ides_editors()
+    local core_ides=(
+        "visual-studio-code:Visual Studio Code.app:VS Code"
+        "intellij-idea-ce:IntelliJ IDEA CE.app:IntelliJ IDEA CE"
+        "pycharm-ce:PyCharm CE.app:PyCharm CE" 
+        "cursor:Cursor.app:Cursor"
+    )
     
-    if [[ ${#gui_ides[@]} -gt 0 ]]; then
-        echo "   ✅ GUI IDEs: ${gui_ides[*]}"
+    # Check GUI IDEs based on actual installation list
+    local installed_ides=()
+    local total_ides=${#core_ides[@]}
+    
+    for ide_info in "${core_ides[@]}"; do
+        local cask_name="${ide_info%%:*}"
+        local app_name="${ide_info#*:}"
+        app_name="${app_name%%:*}"
+        local display_name="${ide_info##*:}"
+        
+        # Check both /Applications and $HOME/Applications
+        if [[ -d "/Applications/$app_name" ]] || [[ -d "$HOME/Applications/$app_name" ]]; then
+            installed_ides+=("$display_name")
+        fi
+    done
+    
+    if [[ ${#installed_ides[@]} -gt 0 ]]; then
+        echo "   ✅ Core IDEs ${#installed_ides[@]}/${total_ides}: ${installed_ides[*]}"
     else
-        echo "   ❌ No GUI IDEs installed"
+        echo "   ❌ No core IDEs installed 0/${total_ides}"
     fi
     
     # Check CLI editors
@@ -1512,9 +1610,9 @@ function check_ides_status() {
     done
     
     if [[ ${#installed_editors[@]} -gt 0 ]]; then
-        echo "   ✅ CLI Editors: ${installed_editors[*]}"
+        echo "   ✅ CLI Editors ${#installed_editors[@]}/${#cli_editors[@]}: ${installed_editors[*]}"
     else
-        echo "   ❌ No CLI editors installed"
+        echo "   ❌ No CLI editors installed 0/${#cli_editors[@]}"
     fi
     
     # Check Jupyter
@@ -1522,6 +1620,117 @@ function check_ides_status() {
         echo "   ✅ JupyterLab installed"
     else
         echo "   ❌ JupyterLab not installed"
+    fi
+}
+
+function check_productivity_apps_status() {
+    # Define productivity apps list - matches install_productivity_apps()
+    local productivity_apps=(
+        "notion:Notion.app:Notion"
+        "obsidian:Obsidian.app:Obsidian"
+        "figma:Figma.app:Figma"
+        "slack:Slack.app:Slack"
+        "github:GitHub Desktop.app:GitHub Desktop"
+        "postman:Postman.app:Postman"
+        "insomnia:Insomnia.app:Insomnia"
+        "dbeaver-community:DBeaver.app:DBeaver"
+        "pgadmin4:pgAdmin 4.app:pgAdmin 4"
+        "rapidapi:RapidAPI.app:RapidAPI"
+        "microsoft-edge:Microsoft Edge.app:Microsoft Edge"
+    )
+    
+    # Check installed productivity apps
+    local installed_apps=()
+    local total_apps=${#productivity_apps[@]}
+    
+    for app_info in "${productivity_apps[@]}"; do
+        local cask_name="${app_info%%:*}"
+        local app_name="${app_info#*:}"
+        app_name="${app_name%%:*}"
+        local display_name="${app_info##*:}"
+        
+        # Check both /Applications and $HOME/Applications
+        if [[ -d "/Applications/$app_name" ]] || [[ -d "$HOME/Applications/$app_name" ]]; then
+            installed_apps+=("$display_name")
+        fi
+    done
+    
+    if [[ ${#installed_apps[@]} -gt 0 ]]; then
+        echo "   ✅ Productivity Apps ${#installed_apps[@]}/${total_apps}: ${installed_apps[*]}"
+    else
+        echo "   ❌ No productivity apps installed 0/${total_apps}"
+    fi
+    
+    # Check commented out apps that require sudo rights
+    local sudo_apps=()
+    [[ -d "/Applications/VirtualBox.app" ]] && sudo_apps+=("VirtualBox")
+    [[ -d "/Applications/zoom.us.app" ]] && sudo_apps+=("Zoom")
+    
+    if [[ ${#sudo_apps[@]} -gt 0 ]]; then
+        echo "   ✅ Additional Apps manual install: ${sudo_apps[*]}"
+    fi
+}
+
+function check_app_cli_symlinks_status() {
+    local bin_dir="$SBRN_HOME/sys/bin"
+    
+    if [[ ! -d "$bin_dir" ]]; then
+        echo "   ❌ CLI symlinks directory not created: $bin_dir"
+        return
+    fi
+    
+    # Define CLI symlinks that should be created - matches create_app_cli_symlinks()
+    local expected_symlinks=(
+        "code:Visual Studio Code.app"
+        "idea:IntelliJ IDEA CE.app"
+        "cursor:Cursor.app"
+        "dbeaver:DBeaver.app"
+        "figma:Figma.app"
+        "obsidian:Obsidian.app"
+        "notion:Notion.app"
+        "github:GitHub Desktop.app"
+        "insomnia:Insomnia.app"
+        "postman:Postman.app"
+        "rapidapi:RapidAPI.app"
+        "slack:Slack.app"
+        "pgadmin:pgAdmin 4.app"
+    )
+    
+    local created_symlinks=()
+    local missing_apps=()
+    
+    for symlink_info in "${expected_symlinks[@]}"; do
+        local cli_name="${symlink_info%%:*}"
+        local app_name="${symlink_info#*:}"
+        
+        # Check if app is installed
+        if [[ -d "/Applications/$app_name" ]] || [[ -d "$HOME/Applications/$app_name" ]]; then
+            # Check if symlink exists
+            if [[ -L "$bin_dir/$cli_name" ]]; then
+                created_symlinks+=("$cli_name")
+            else
+                missing_apps+=("$cli_name")
+            fi
+        fi
+    done
+    
+    if [[ ${#created_symlinks[@]} -gt 0 ]]; then
+        echo "   ✅ CLI Symlinks Created: ${created_symlinks[*]}"
+    fi
+    
+    if [[ ${#missing_apps[@]} -gt 0 ]]; then
+        echo "   ⚠️  Missing CLI Symlinks: ${missing_apps[*]}"
+    fi
+    
+    if [[ ${#created_symlinks[@]} -eq 0 ]] && [[ ${#missing_apps[@]} -eq 0 ]]; then
+        echo "   ❌ No CLI symlinks available - no apps installed"
+    fi
+    
+    # Check if bin directory is in PATH
+    if [[ ":$PATH:" == *":$bin_dir:"* ]]; then
+        echo "   ✅ CLI symlinks directory added to PATH"
+    else
+        echo "   ⚠️  CLI symlinks directory not in PATH: $bin_dir"
     fi
 }
 
@@ -1570,7 +1779,7 @@ show_usage() {
     echo "Usage: $script_name [OPTIONS]"
     echo ""
     echo "OPTIONS:"
-    echo "  --skip-cask-apps, -s    Skip Homebrew Cask app installations (recommend manual install)"
+    echo "  --skip-cask-apps, -s    Skip Homebrew Cask app installations - recommend manual install"
     echo "  --help, -h              Show this help message"
     echo ""
     echo "EXAMPLES:"
@@ -1625,7 +1834,8 @@ brew_cask_install() {
             log_success "$description already installed"
         fi
     else
-        log_info "Skipping cask installation: $description (manual install recommended)"
+        log_info "Skipping cask installation: $description - manual install recommended"
+
     fi
 }
 
@@ -1648,12 +1858,12 @@ if [[ "${BASH_SOURCE[0]:-$0}" == "${0}" ]] && [[ "$0" != *"zsh"* ]]; then
     
     # Show configuration warnings
     if [[ $SKIP_CASK_APPS == true ]]; then
-        log_warning "SKIP-CASK-APPS MODE: GUI applications will be skipped (manual install recommended)"
+        log_warning "SKIP-CASK-APPS MODE: GUI applications will be skipped - manual install recommended"
         echo ""
     fi
     
     # Ask for confirmation
-    echo "Proceed with developer environment setup? (y/N): "
+    echo "Proceed with developer environment setup? [y/N]: "
     read -r REPLY
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         main

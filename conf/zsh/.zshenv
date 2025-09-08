@@ -6,15 +6,13 @@ export XDG_CONFIG_HOME="$HOME/sbrn/sys/config"
 # Zsh by default looks for its configuration files in the home directory.
 # By setting the ZDOTDIR environment variable, you can specify a different directory for Zsh
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export ZSH="$SBRN_HOME/sys/oh-my-zsh"
-export ZSH_CUSTOM="$ZSH/custom"
 
 export XDG_DATA_HOME="$HOME/sbrn/sys/local/share" 
 export XDG_STATE_HOME="$HOME/sbrn/sys/local/state"
 export XDG_CACHE_HOME="$HOME/sbrn/sys/cache"
 
 # Tool-specific configuration paths
-export NVM_DIR="$XDG_CONFIG_HOME/nvm"
+export NVM_DIR="$XDG_DATA_HOME/nvm"  # NVM working directory (prevents destruction during Homebrew upgrades)
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 
 # Python environment variables

@@ -1,0 +1,7 @@
+channels:
+  - conda-forge
+  - defaults
+
+channel_priority: strict
+
+# Verify with conda config --show

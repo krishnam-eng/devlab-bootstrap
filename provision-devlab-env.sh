@@ -219,19 +219,8 @@ function setup_dir_struct_hierarchy() {
     export ANDROID_HOME="$XDG_DATA_HOME/android"
     export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
     mkdir -p "$ANDROID_HOME" "$GRADLE_USER_HOME"
-    
-    # Setup non-Zsh configuration symlinks if conf directory exists
-    if [[ -d "$SBRN_HOME/sys/hrt/conf" ]]; then
-        log_info "Setting up configuration symlinks..."
-        
-        # Symlink git configuration
-        if [[ -d "$SBRN_HOME/sys/hrt/conf/git" ]]; then
-            ln -sf "$SBRN_HOME/sys/hrt/conf/git" "$XDG_CONFIG_HOME/git"
-            log_success "Linked Git configuration"
-        fi
-    fi
-    
-    log_success "SBRN directory structure setup completed"
+ 
+   log_success "SBRN directory structure setup completed"
 }
 
 ################################################################################
@@ -349,6 +338,16 @@ function setup_zsh_environment() {
         export ZSH="$zsh_dir"
         log_info "Installing Oh My Zsh to $zsh_dir..."
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        log_success "Oh My Zsh installed successfully"
+
+        # Restore original .zshrc file from Oh My Zsh backup
+        log_info "Restoring original .zshrc configuration..."
+        # Backup the Oh My Zsh generated file first
+        cp "$XDG_CONFIG_HOME/zsh/.zshrc" "$XDG_CONFIG_HOME/zsh/.zshrc.oh-my-zsh-generated"
+        # Restore the original configuration
+        cp "$XDG_CONFIG_HOME/zsh/.zshrc.pre-oh-my-zsh" "$XDG_CONFIG_HOME/zsh/.zshrc"
+        log_success "Original .zshrc configuration restored (Oh My Zsh version backed up as .zshrc.oh-my-zsh-generated)"
+        
     else
         log_success "Oh My Zsh already installed"
         export ZSH="$zsh_dir"
@@ -359,7 +358,7 @@ function setup_zsh_environment() {
     if [[ ! -d "$p10k_dir" ]]; then
         log_info "Installing Powerlevel10k theme..."
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
-        ln -sf  $SBRN_HOME/sys/hrt/conf/p10k $XDG_CONFIG_HOME/p10k
+        ln -sfn "$SBRN_HOME/sys/hrt/conf/p10k" "$XDG_CONFIG_HOME/p10k"
     else
         log_success "Powerlevel10k already installed"
     fi
@@ -443,13 +442,13 @@ function setup_zsh_configuration_links() {
     if [[ -d "$SBRN_HOME/sys/hrt/conf" ]]; then
         # Symlink zsh configuration directory
         if [[ -d "$SBRN_HOME/sys/hrt/conf/zsh" ]]; then
-            ln -sf "$SBRN_HOME/sys/hrt/conf/zsh" "$XDG_CONFIG_HOME/zsh"
+            ln -sfn "$SBRN_HOME/sys/hrt/conf/zsh" "$XDG_CONFIG_HOME/zsh"
             log_success "Linked Zsh configuration directory"
         fi
         
         # Symlink .zshenv if it exists
         if [[ -f "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ]]; then
-            ln -sf "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ~/.zshenv
+            ln -sfn "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ~/.zshenv
             log_success "Linked .zshenv configuration"
         fi
     else
@@ -548,7 +547,7 @@ function install_text_data_tools() {
     done
 
     # Create ripgrep config directory and link configuration
-    ln -sf "$SBRN_HOME/sys/hrt/conf/ripgrep" "$XDG_CONFIG_HOME/ripgrep"
+    ln -sfn "$SBRN_HOME/sys/hrt/conf/ripgrep" "$XDG_CONFIG_HOME/ripgrep"
 }
 
 ################################################################################
@@ -582,13 +581,14 @@ function install_git_and_vcs_tools() {
         "git-extras: Small git utilities"
         "git-lfs: Git extension for versioning large files"
         "gh: GitHub command-line tool"
-        "gibo: Fast access to .gitignore boilerplates"
         "ghq: Remote repository management made easy"
-        "lazygit: Simple terminal UI for git commands"
-        "tig: Text-mode interface for git"
         "diff-so-fancy: Good-lookin' diffs with diff-highlight and more"
+        "delta: Syntax-highlighting pager for git, diff, and grep output"
+        "tig: Text-mode interface for git"
+        "lazygit: Simple terminal UI for git commands"
         "git-gui: Tcl/Tk based graphical user interface to Git"
         "gitk: The Git repository browser"        
+        "gibo: Fast access to .gitignore boilerplates"
     )
     
     for tool_info in "${git_tools[@]}"; do
@@ -596,6 +596,8 @@ function install_git_and_vcs_tools() {
         local description="${tool_info#*:}"
         brew_install "$tool" "$description"
     done
+
+    ln -sfn "$SBRN_HOME/sys/hrt/conf/git" "$XDG_CONFIG_HOME/git"
 }
 
 function install_cloud_container_tools() {

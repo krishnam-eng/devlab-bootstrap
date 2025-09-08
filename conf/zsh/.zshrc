@@ -291,7 +291,14 @@ fi
 # =============================
 # Finalize Oh My Zsh Setup
 # =============================
-source $ZSH/oh-my-zsh.sh
+if [[ -f "$ZSH/oh-my-zsh.sh" ]]; then
+    source $ZSH/oh-my-zsh.sh
+else
+    echo "⚠️  Oh My Zsh not found at: $ZSH/oh-my-zsh.sh"
+    echo "📋 To install Oh My Zsh and complete your development environment setup:"
+    echo "   cd $SBRN_HOME/sys/hrt && ./provision-devlab-env.sh"
+    echo ""
+fi
 
 # =============================
 # Powerlevel10k Configuration

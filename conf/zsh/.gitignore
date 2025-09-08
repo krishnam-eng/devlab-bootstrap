@@ -5,6 +5,9 @@
 .zsh_history*
 .zsh_sessions/
 
+.zshrc.oh-my-zsh-generated*
+.zshrc.pre-oh-my-zsh*
+
 # Zsh completion cache (auto-generated)
 .zcompdump*
 *.zwc

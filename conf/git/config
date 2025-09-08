@@ -3,13 +3,190 @@
     name = krishnam
     email = krishnam.balamurugan@outlook.com
 
-# Work projects
-[includeIf "gitdir:/Users/balamurugank/sbrn/proj/corp/"]
-    path = /Users/balamurugank/sbrn/sys/config/git/config-work
+# Work projects - using environment variable for portability
+[includeIf "gitdir:~/sbrn/proj/corp/"]
+    path = ~/sbrn/sys/hrt/conf/git/config-work
 
-# Work journal
-[includeIf "gitdir:/Users/balamurugank/sbrn/res/notes/work-journal/"]
-    path = /Users/balamurugank/sbrn/sys/config/git/config-work
+# Work journal - using environment variable for portability  
+[includeIf "gitdir:~/sbrn/res/notes/work-journal/"]
+    path = ~/sbrn/sys/hrt/conf/git/config-work
 
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
+    editor = code --wait
+    autocrlf = input
+    excludesfile = ~/sbrn/sys/hrt/conf/git/gitignore_global
+    precomposeunicode = true
+    quotePath = false
+
+# modern standard
+[init]
+    defaultBranch = main
+
+[push]
+    default = simple
+    autoSetupRemote = true
+    followTags = true
+
+# cleaner history
+[pull]
+    rebase = true
+    ff = only
+
+[fetch]
+    prune = true
+    pruneTags = true
+
+[rebase]
+    autoStash = true
+    autoSquash = true
+
+# Better conflict resolution with zdiff3
+[merge]
+    ff = false
+    conflictStyle = zdiff3
+    tool = vscode
+
+[mergetool "vscode"]
+    cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+
+[diff]
+    algorithm = histogram
+    colorMoved = default
+    tool = vscode
+
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+[log]
+    date = relative
+
+[status]
+    showUntrackedFiles = all
+    submoduleSummary = true
+
+[color]
+    ui = auto
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
+[color "diff"]
+    meta = 11
+    frag = magenta bold
+    func = 146 bold
+    commit = yellow bold
+    old = red bold
+    new = green bold
+    whitespace = red reverse
+
+[rerere]
+    enabled = true
+
+[branch]
+    autoSetupMerge = always
+    autoSetupRebase = always
+
+[advice]
+    pushUpdateRejected = false
+    statusHints = false
+    commitBeforeMerge = false
+    resolveConflict = false
+    implicitIdentity = false
+    detachedHead = false
+
+# Performance optimizations
+[pack]
+    writeReverseIndex = true
+
+[feature]
+    manyFiles = true
+
+[index]
+    skipHash = false
+
+# Aliases - Essential productivity boosters
+[alias]
+    # Status and info
+    st = status
+    s = status --short --branch
+    
+    # Branching
+    co = checkout
+    cob = checkout -b
+    br = branch
+    bra = branch -a
+    brd = branch -d
+    brD = branch -D
+    
+    # Committing
+    cm = commit -m
+    cma = commit -am
+    ca = commit --amend
+    can = commit --amend --no-edit
+    
+    # Logging
+    l = log --oneline
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    lga = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+    ll = log --pretty=format:'%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]' --decorate --numstat
+    
+    # Diffing
+    d = diff
+    dc = diff --cached
+    dt = difftool
+    mt = mergetool
+    
+    # Stashing
+    st = stash
+    stp = stash pop
+    stl = stash list
+    sts = stash show
+    
+    # Remote operations
+    f = fetch
+    fa = fetch --all
+    fp = fetch --prune
+    pu = push
+    puf = push --force-with-lease
+    puo = push -u origin
+    pl = pull
+    
+    # Reset operations
+    unstage = reset HEAD --
+    undo = reset --soft HEAD~1
+    hard-reset = reset --hard HEAD~1
+    
+    # Useful shortcuts
+    aliases = config --get-regexp alias
+    remotes = remote -v
+    contributors = shortlog --summary --numbered
+    today = log --since="midnight" --author="$(git config user.name)" --oneline
+    yesterday = log --since="yesterday.midnight" --until="midnight" --author="$(git config user.name)" --oneline
+    
+    # Advanced workflows
+    squash-all = "!f(){ git reset $(git commit-tree HEAD^{tree} -m \"${1:-A new start}\");};f"
+    publish = "!git push -u origin $(git branch --show-current)"
+    unpublish = "!git push origin :$(git branch --show-current)"
+    
+    # Cleanup
+    cleanup = "!git branch --merged | grep -v '^*\\|main\\|master\\|develop' | xargs -n 1 git branch -d"
+    
+    # File operations
+    assume = update-index --assume-unchanged
+    unassume = update-index --no-assume-unchanged
+    assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+    
+    # Find and search
+    find = "!git ls-files | grep -i"
+    grep = grep -Ii
+    
+    # Workflow helpers
+    wip = commit -am "WIP"
+    unwip = reset HEAD~1

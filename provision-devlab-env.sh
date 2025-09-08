@@ -359,6 +359,7 @@ function setup_zsh_environment() {
     if [[ ! -d "$p10k_dir" ]]; then
         log_info "Installing Powerlevel10k theme..."
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
+        ln -sf  $SBRN_HOME/sys/hrt/conf/p10k $XDG_CONFIG_HOME/p10k
     else
         log_success "Powerlevel10k already installed"
     fi

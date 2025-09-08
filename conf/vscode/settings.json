@@ -13,5 +13,6 @@
   "workbench.iconTheme": "a-file-icon-vscode",
   "workbench.productIconTheme": "a-file-icon-vscode-product-icon-theme",
   "git.autofetch": true,
-  "git.confirmSync": false
+  "git.confirmSync": false,
+  "explorer.confirmDelete": false
 }

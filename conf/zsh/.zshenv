@@ -13,6 +13,11 @@ export XDG_DATA_HOME="$HOME/sbrn/sys/local/share"
 export XDG_STATE_HOME="$HOME/sbrn/sys/local/state"
 export XDG_CACHE_HOME="$HOME/sbrn/sys/cache"
 
+# Zsh XDG compliance - move Zsh files to appropriate XDG directories
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
+export ZSH_COMPDUMP="$XDG_CACHE_HOME/zsh/zcompdump-${ZSH_VERSION}"
+export ZSH_SESSIONS_DIR="$XDG_STATE_HOME/zsh/sessions"
+
 # Tool-specific configuration paths
 export NVM_DIR="$XDG_DATA_HOME/nvm"  # NVM working directory (prevents destruction during Homebrew upgrades)
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"

@@ -1,0 +1,17 @@
+{
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  "terminal.integrated.fontFamily": "MesloLGS NF, MesloLGS-NF-Regular, 'MesloLGS NF Regular', Menlo, Monaco, 'Courier New'",
+  "terminal.integrated.fontSize": 13,
+  "terminal.integrated.allowLigatures": true,
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "workbench.iconTheme": "a-file-icon-vscode",
+  "workbench.productIconTheme": "a-file-icon-vscode-product-icon-theme",
+  "git.autofetch": true,
+  "git.confirmSync": false
+}

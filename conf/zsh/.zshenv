@@ -1,7 +1,12 @@
 # Cross-Desktop Group (XDG) Specification for organizing user files to improve portability and reduce clutter in the home directory.
 # More info: https://specifications.freedesktop.org/basedir-spec/latest/
 export SBRN_HOME="$HOME/sbrn"
+
+# XDG Base Directories
 export XDG_CONFIG_HOME="$HOME/sbrn/sys/config"
+export XDG_DATA_HOME="$HOME/sbrn/sys/local/share" 
+export XDG_STATE_HOME="$HOME/sbrn/sys/local/state"
+export XDG_CACHE_HOME="$HOME/sbrn/sys/cache"
 
 # Zsh by default looks for its configuration files in the home directory.
 # By setting the ZDOTDIR environment variable, you can specify a different directory for Zsh
@@ -9,22 +14,22 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export ZSH="$SBRN_HOME/sys/etc/oh-my-zsh"
 export ZSH_CUSTOM="$ZSH/custom"
 
-export XDG_DATA_HOME="$HOME/sbrn/sys/local/share" 
-export XDG_STATE_HOME="$HOME/sbrn/sys/local/state"
-export XDG_CACHE_HOME="$HOME/sbrn/sys/cache"
-
 # Zsh XDG compliance - move Zsh files to appropriate XDG directories
-export HISTFILE="$XDG_STATE_HOME/zsh/history"
+export HISTFILE="$XDG_STATE_HOME/zsh/.zhistfile"
 export ZSH_COMPDUMP="$XDG_CACHE_HOME/zsh/zcompdump-${ZSH_VERSION}"
 export ZSH_SESSIONS_DIR="$XDG_STATE_HOME/zsh/sessions"
 
+## Application-specific XDG compliance
 # Tool-specific configuration paths
 export NVM_DIR="$XDG_DATA_HOME/nvm"  # NVM working directory (prevents destruction during Homebrew upgrades)
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 export JENV_ROOT="$XDG_DATA_HOME/jenv"  # jenv XDG-compliant configuration directory
 
 # Python environment variables
-export CONDARC="$SBRN_HOME/tools/conda/.condarc"
+export CONDARC="$XDG_CONFIG_HOME/conda/.condarc"
+export CONDA_ENVS_PATH="$XDG_DATA_HOME/conda/envs"
+export CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda/pkgs"
+export IPYTHONDIR="$XDG_CONFIG_HOME/ipython"
 
 # Application-specific XDG compliance
 export MAVEN_CONFIG="$XDG_CONFIG_HOME/maven"
@@ -35,6 +40,15 @@ export GIT_CONFIG_GLOBAL="$XDG_CONFIG_HOME/git/config"
 export GIT_TEMPLATE_DIR="$XDG_DATA_HOME/git/templates"
 
 export LESSHISTFILE="$XDG_STATE_HOME/less_history"
+export VIMINFOFILE="$XDG_STATE_HOME/vim/viminfo"
+
+# Node.js and NPM XDG compliance
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
+export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR/npm"
+
+# Z shell navigation tool
+export _Z_DATA="$XDG_STATE_HOME/z"
 
 # AWS, Kubernetes, and Docker configuration paths 
 # to comply with XDG Base Directory Specification

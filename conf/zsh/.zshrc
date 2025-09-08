@@ -15,7 +15,6 @@ export ZSH_CUSTOM="$ZSH/custom"
 # Zsh History Management
 # =============================
 # Location and size of history file
-HISTFILE=$XDG_STATE_HOME/.zhistfile  # History file location
 HISTSIZE=1000000  # Maximum number of history entries in memory
 SAVEHIST=1000000  # Maximum number of history entries saved to file
 

@@ -4,4 +4,13 @@ channels:
 
 channel_priority: strict
 
+# XDG Base Directory Specification compliance
+envs_dirs:
+  - $HOME/sbrn/sys/local/share/conda/envs
+pkgs_dirs:
+  - $HOME/sbrn/sys/cache/conda/pkgs
+
+create_default_packages:
+  - jupyter
+
 # Verify with conda config --show

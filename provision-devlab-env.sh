@@ -34,9 +34,6 @@
 #     - Consistency: Eliminates configuration drift and "works on my machine" issues
 ################################################################################
 
-# Bash strict mode for robust error handling
-set -euo pipefail
-
 # Global variables
 SKIP_CASK_APPS=false
 
@@ -49,11 +46,11 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Logging functions
-log_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
-log_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
-log_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
-log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
-log_step() { echo -e "${CYAN}[STEP]${NC} $1"; }
+log_info() { printf "${BLUE}[INFO]${NC} %s\n" "$1"; }
+log_success() { printf "${GREEN}[SUCCESS]${NC} %s\n" "$1"; }
+log_warning() { printf "${YELLOW}[WARNING]${NC} %s\n" "$1"; }
+log_error() { printf "${RED}[ERROR]${NC} %s\n" "$1"; }
+log_step() { printf "${CYAN}[STEP]${NC} %s\n" "$1"; }
 
 ################################################################################
 # Main execution flow
@@ -69,8 +66,6 @@ function main() {
     confirm_and_run_step "Install Programming Languages & Runtimes" install_programming_languages show_languages_impact
     confirm_and_run_step "Install IDEs and Editors" install_ides_and_editors show_ides_impact
     # confirm_and_run_step "Setup Git and GitHub" setup_git_and_github show_git_impact
-    
-    log_success "🎉 Developer Environment Setup completed successfully!"
 }
 
 function confirm_and_run_step() {
@@ -300,9 +295,32 @@ function show_installed_brew_packages() {
     leaves=$(brew leaves 2>/dev/null)
     
     if [[ -n "$leaves" ]]; then
-        echo "$leaves" | while read -r package; do
-            [[ -n "$package" ]] && echo "   • $package"
+        # Convert to array and display in columns
+        local packages_array=()
+        while IFS= read -r package; do
+            # Clean the package name and only add non-empty ones
+            package=$(echo "$package" | tr -d '\r\n' | xargs)
+            [[ -n "$package" ]] && packages_array+=("$package")
+        done <<< "$leaves"
+        
+        # Display packages in 4 columns, 15 characters each
+        local col_width=15
+        local cols=4
+        local total_packages=${#packages_array[@]}
+        
+        # Start fresh line and add initial padding
+        printf "\n   "
+        for ((i=1; i<=total_packages; i++)); do
+            printf "%-${col_width}s" "${packages_array[i]}"
+            
+            # Add new line every 4 packages or at the end
+            if (( i % cols == 0 )) || (( i == total_packages )); then
+                printf "\n"
+                # Add padding for next line if not the last
+                (( i != total_packages )) && printf "   "
+            fi
         done
+        printf "\n"  # Ensure we end with a newline
     else
         echo "   • No packages installed"
     fi
@@ -459,6 +477,7 @@ function install_shell_productivity_tools() {
         "tree: Directory tree visualization"
         "fzf: Command-line fuzzy finder"
         "tmux: Terminal multiplexer"
+        "screen: Terminal multiplexer with VT100/ANSI terminal emulation"        
         "htop: Interactive process viewer"
         "bat: Cat clone with syntax highlighting and Git integration"
         "fd: Simple, fast and user-friendly alternative to find"
@@ -561,6 +580,8 @@ function install_git_and_vcs_tools() {
         "lazygit: Simple terminal UI for git commands"
         "tig: Text-mode interface for git"
         "diff-so-fancy: Good-lookin' diffs with diff-highlight and more"
+        "git-gui: Tcl/Tk based graphical user interface to Git"
+        "gitk: The Git repository browser"        
     )
     
     for tool_info in "${git_tools[@]}"; do
@@ -590,7 +611,7 @@ function install_cloud_container_tools() {
 }
 
 function install_graphics_ocr_libraries() {
-    log_info "Installing 🎨 Fonts, Graphics, Images libraries..."
+    log_info "Installing 🎨 Graphics, Images, and UI libraries..."
     
     local graphics_tools=(
         "librsvg: Library to render SVG files using Cairo"
@@ -646,6 +667,26 @@ function install_core_programming_languages() {
 function install_version_managers() {
     log_info "Installing version managers..."
     
+    # Clean up any existing jenv home directory configuration
+    if [[ -d ~/.jenv ]] || [[ -L ~/.jenv ]]; then
+        log_info "Cleaning up existing jenv configuration in home directory..."
+        # Backup existing jenv data if it's a real directory
+        if [[ -d ~/.jenv ]] && [[ ! -L ~/.jenv ]]; then
+            if [[ ! -d "$XDG_DATA_HOME/jenv" ]]; then
+                mkdir -p "$XDG_DATA_HOME"
+                mv ~/.jenv "$XDG_DATA_HOME/jenv"
+                log_success "Moved existing jenv configuration to XDG data directory"
+            else
+                log_warning "XDG jenv directory already exists, removing home directory version"
+                rm -rf ~/.jenv
+            fi
+        else
+            # Remove symlink
+            rm ~/.jenv
+            log_success "Removed jenv symlink from home directory"
+        fi
+    fi
+    
     local version_managers=(
         "jenv: Java version management"
         "uv: python virtual environment management"
@@ -654,9 +695,11 @@ function install_version_managers() {
     # Currently, jenv does not natively support using the XDG Base Directory Specification
     # Move existing jenv configuration to XDG config directory if it exists
     # This at least keeps the data physically away from your $HOME, but jenv itself still expects to “see” `~/.jenv`
-    [[ -d ~/.jenv ]] && {
-        mv ~/.jenv $XDG_CONFIG_HOME/jenv
-        ln -s $XDG_CONFIG_HOME/jenv ~/.jenv
+    [[ -d ~/.jenv ]] && [[ ! -L ~/.jenv ]] && [[ ! -d "$XDG_CONFIG_HOME/jenv" ]] && {
+        mkdir -p "$XDG_CONFIG_HOME"
+        mv ~/.jenv "$XDG_CONFIG_HOME/jenv"
+        ln -s "$XDG_CONFIG_HOME/jenv" ~/.jenv
+        log_success "Moved jenv configuration to XDG-compliant location"
     }
 
     for vm_info in "${version_managers[@]}"; do
@@ -665,11 +708,15 @@ function install_version_managers() {
         brew_install "$vm" "$description"
     done
     
-    # Configure jenv with Java versions
+    # Configure jenv with Java versions using XDG-compliant paths
     if command -v jenv &>/dev/null; then
-        log_info "Configuring jenv with Java versions..."
+        log_info "Configuring jenv with Java versions (XDG-compliant)..."
         
-        # Initialize jenv
+        # Set jenv to use XDG data directory
+        export JENV_ROOT="$XDG_DATA_HOME/jenv"
+        mkdir -p "$JENV_ROOT"
+        
+        # Initialize jenv with XDG path
         eval "$(jenv init -)"
         
         # Enable essential plugins
@@ -687,6 +734,8 @@ function install_version_managers() {
             fi
         done
         jenv global 21 2>/dev/null && log_success "Set global Java version to 21"
+        
+        log_success "jenv configured with XDG-compliant path: $JENV_ROOT"
     else
         log_warning "jenv not found, skipping Java version management setup"
     fi
@@ -730,6 +779,7 @@ function install_build_automation_tools() {
         "maven: Java-based project management"
         "gradle: Build automation tool based on Groovy and Kotlin"        
         "poetry: Python package and dependency manager"
+        "pipx: Install and run Python applications in isolated environments"
         "yarn: JavaScript package manager"
     )
     
@@ -746,14 +796,14 @@ function install_build_automation_tools() {
 function install_ides_and_editors() {
     log_step "📝 Installing IDEs and editors..."
     
+    # Development Environment for Data Science and Notebooks
+    install_python_notebook_env_tools
+
     # Core IDEs and Editors
     install_core_ides_editors
     
     # Productivity and Development Support Apps
     install_productivity_apps
-    
-    # Development Environment Tools
-    install_development_environment_tools
     
     # Create symbolic links for command-line access
     create_app_cli_symlinks
@@ -794,7 +844,7 @@ function install_productivity_apps() {
         "dbeaver-community: DBeaver Community - Universal database tool"
         "pgadmin4: pgAdmin 4 - PostgreSQL administration and development platform"
         "rapidapi: RapidAPI - API testing and development tool"
-        "microsoft-edge: Microsoft Edge - Web browser"
+        # "microsoft-edge: Microsoft Edge - Web browser" # Pre-installed on corp machines
         # "virtualbox: VirtualBox - Virtual machine software" # Sudoer rights needed
         # "zoom: Zoom - Video conferencing and online meetings" # Sudoer rights needed
     )
@@ -806,43 +856,36 @@ function install_productivity_apps() {
     done
 }
 
-function install_development_environment_tools() {
+function install_python_notebook_env_tools() {
     log_info "Installing development environment and data science tools..."
     
-    # Install Jupyter Lab and related tools
-    if command -v pip3 &>/dev/null; then
-        local jupyter_packages=(
-            "jupyterlab"
-            "notebook"
-            "ipywidgets"
-            "jupyter-console"
-            "nbconvert"
-            "ipykernel"
-        )
-        
-        for package in "${jupyter_packages[@]}"; do
-            if ! pip3 list | grep -q "^$package "; then
-                log_info "Installing $package..."
-                pip3 install "$package"
-            else
-                log_success "$package already installed"
-            fi
-        done
-    else
-        log_warning "pip3 not found, skipping Jupyter installation"
-    fi
+    # Install pipx first for Python applications
+    brew_install "pipx" "Install and run Python applications in isolated environments"
+
+    log_info "Installing Jupyter ecosystem using pipx and Homebrew..."
     
-    # Install additional development environment tools
-    local env_tools=(
-        "screen: Terminal multiplexer with VT100/ANSI terminal emulation"
-        "git-gui: Tcl/Tk based graphical user interface to Git"
-        "gitk: The Git repository browser"
+    # Install core Jupyter applications via pipx (these are standalone applications)
+    local jupyter_apps=(
+        "jupyterlab"
+        "notebook"
     )
     
-    for tool_info in "${env_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
+    for app in "${jupyter_apps[@]}"; do
+        if ! pipx list | grep -q "^$app "; then
+            log_info "Installing $app via pipx..."
+            pipx install "$app" 2>/dev/null || {
+                log_warning "Failed to install $app via pipx, trying pip with virtual environment..."
+                # Fallback: create a temporary virtual environment
+                local temp_venv="/tmp/jupyter_install_$$"
+                python3 -m venv "$temp_venv"
+                source "$temp_venv/bin/activate"
+                pip install "$app"
+                deactivate
+                rm -rf "$temp_venv"
+            }
+        else
+            log_success "$app already installed via pipx"
+        fi
     done
 }
 
@@ -853,32 +896,33 @@ function create_app_cli_symlinks() {
 
 
         # App symlink definitions: (relative app dir, cli_name, actual_executable)
-        local -A app_symlinks=(
-            ["Visual Studio Code.app"]="code:Contents/Resources/app/bin/code"
-            ["IntelliJ IDEA.app"]="idea-ultimate:Contents/MacOS/idea"
-            ["IntelliJ IDEA CE.app"]="idea:Contents/MacOS/idea"
-            ["PyCharm.app"]="pycharm:Contents/MacOS/pycharm"
-            ["Cursor.app"]="cursor:Contents/MacOS/Cursor"
-            ["DBeaver.app"]="dbeaver:Contents/MacOS/dbeaver"
-            ["DevToys.app"]="devtoys:Contents/MacOS/DevToys"
-            ["LM Studio.app"]="lmstudio:Contents/MacOS/LM Studio"
-            ["Figma.app"]="figma:Contents/MacOS/Figma"
-            ["Framer.app"]="framer:Contents/MacOS/Framer"
-            ["Obsidian.app"]="obsidian:Contents/MacOS/Obsidian"
-            ["Notion.app"]="notion:Contents/MacOS/Notion"
-            ["GitHub Desktop.app"]="github:Contents/MacOS/GitHub Desktop"
-            ["Insomnia.app"]="insomnia:Contents/MacOS/Insomnia"
-            ["Postman.app"]="postman:Contents/MacOS/Postman"
-            ["Rancher Desktop.app"]="rancher:Contents/MacOS/Rancher Desktop"
-            ["RapidAPI.app"]="rapidapi:Contents/MacOS/RapidAPI"
-            ["Slack.app"]="slack:Contents/MacOS/Slack"
-            ["VirtualBox.app"]="vbox:Contents/MacOS/VirtualBoxVM"
-            ["pgAdmin 4.app"]="pgadmin:Contents/MacOS/pgAdmin4"
-            ["zoom.us.app"]="zoom:Contents/MacOS/zoom.us"
+        typeset -A app_symlinks
+        app_symlinks=(
+            "Visual Studio Code.app" "code:Contents/Resources/app/bin/code"
+            "IntelliJ IDEA.app" "idea-ultimate:Contents/MacOS/idea"
+            "IntelliJ IDEA CE.app" "idea:Contents/MacOS/idea"
+            "PyCharm.app" "pycharm:Contents/MacOS/pycharm"
+            "Cursor.app" "cursor:Contents/MacOS/Cursor"
+            "DBeaver.app" "dbeaver:Contents/MacOS/dbeaver"
+            "DevToys.app" "devtoys:Contents/MacOS/DevToys"
+            "LM Studio.app" "lmstudio:Contents/MacOS/LM Studio"
+            "Figma.app" "figma:Contents/MacOS/Figma"
+            "Framer.app" "framer:Contents/MacOS/Framer"
+            "Obsidian.app" "obsidian:Contents/MacOS/Obsidian"
+            "Notion.app" "notion:Contents/MacOS/Notion"
+            "GitHub Desktop.app" "github:Contents/MacOS/GitHub Desktop"
+            "Insomnia.app" "insomnia:Contents/MacOS/Insomnia"
+            "Postman.app" "postman:Contents/MacOS/Postman"
+            "Rancher Desktop.app" "rancher:Contents/MacOS/Rancher Desktop"
+            "RapidAPI.app" "rapidapi:Contents/MacOS/RapidAPI"
+            "Slack.app" "slack:Contents/MacOS/Slack"
+            "VirtualBox.app" "vbox:Contents/MacOS/VirtualBoxVM"
+            "pgAdmin 4.app" "pgadmin:Contents/MacOS/pgAdmin 4"
+            "zoom.us.app" "zoom:Contents/MacOS/zoom.us"
         )
 
         # Check both /Applications and $HOME/Applications
-        for app_dir in "${!app_symlinks[@]}"; do
+        for app_dir in "${(@k)app_symlinks}"; do
             local cli_def="${app_symlinks[$app_dir]}"
             local cli_name="${cli_def%%:*}"
             local exec_rel_path="${cli_def#*:}"
@@ -1023,6 +1067,7 @@ function show_cli_tools_impact() {
     echo "   • tree (directory tree visualization)"
     echo "   • fzf (command-line fuzzy finder)"
     echo "   • tmux (terminal multiplexer)"
+    echo "   • screen (terminal multiplexer with VT100/ANSI terminal emulation)"
     echo "   • htop (interactive process viewer)"
     echo "   • bat (cat clone with syntax highlighting)"
     echo "   • fd (fast alternative to find)"
@@ -1061,6 +1106,8 @@ function show_dev_tools_impact() {
     echo "   • lazygit (simple terminal UI for git commands)"
     echo "   • tig (text-mode interface for git)"
     echo "   • diff-so-fancy (good-lookin' diffs with diff-highlight)"
+    echo "   • git-gui (Tcl/Tk based graphical user interface to Git)"
+    echo "   • gitk (Git repository browser)"
     echo "   • Git configured to use diff-so-fancy for enhanced diffs"
     echo "✅ ☁️ Cloud & Containers:"
     echo "   • docker (platform for developing, shipping, and running applications)"
@@ -1069,7 +1116,7 @@ function show_dev_tools_impact() {
     echo "   • kubernetes-cli (Kubernetes command-line interface)"
     echo "   • helm (Kubernetes package manager)"
     echo "   • awscli (official Amazon AWS command-line interface)"
-    echo "✅ 🎨 Graphics, OCR, and UI Libraries:"
+    echo "✅ 🎨 Graphics, Images, and UI Libraries:"
     echo "   • librsvg (library to render SVG files using Cairo)"
     echo "   • gtk+3 (toolkit for creating graphical user interfaces)"
     echo "   • ghostscript (interpreter for PostScript and PDF)"
@@ -1091,10 +1138,8 @@ function show_languages_impact() {
     echo "✅ Build & Automation Tools:"
     echo "   • maven (Java-based project management)"
     echo "   • gradle (build automation tool based on Groovy and Kotlin)"
-    echo "   • terraform (tool to build, change, and version infrastructure)"
-    echo "   • ansible (automate deployment, configuration, and upgrading)"
     echo "   • poetry (Python package and dependency manager)"
-    echo "   • pipenv (Python development workflow for humans)"
+    echo "   • pipx (Install and run Python applications in isolated environments)"
     echo "   • yarn (JavaScript package manager)"
     echo "✅ Runtime Versions:"
     echo "   • Python: $(python3 --version 2>/dev/null || echo 'Not installed')"
@@ -1162,9 +1207,18 @@ function show_ides_impact() {
     fi
     echo "✅ Development Environment Tools:"
     if command -v jupyter &>/dev/null; then
-        echo "   • JupyterLab with full data science stack (ipywidgets, nbconvert)"
+        echo "   • JupyterLab installed via pipx (isolated Python environment)"
+    elif command -v pipx &>/dev/null; then
+        # Check if JupyterLab is already installed via pipx
+        if pipx list 2>/dev/null | grep -q jupyterlab; then
+            echo "   • JupyterLab already installed via pipx (isolated environment)"
+        else
+            echo "   • pipx available for installing Python applications (including JupyterLab)"
+            echo "   • Run 'pipx install jupyterlab' for isolated Jupyter installation"
+        fi
+    else
+        echo "   • Note: For Jupyter, create virtual environments to avoid system conflicts"
     fi
-    echo "   • screen (terminal multiplexer)"
     echo "   • git-gui, gitk (Git graphical tools)"
     echo "✅ Command-line shortcuts created in: $SBRN_HOME/sys/bin"
 }
@@ -1233,8 +1287,25 @@ function brew_install() {
         if [[ -n "$description" ]]; then
             log_info "  → $description"
         fi
-        brew install "$package"
-        log_success "$package installed successfully"
+        
+        local install_exit_code=0
+        brew install "$package" >/dev/null 2>&1 || install_exit_code=$?
+        
+        if [[ $install_exit_code -eq 0 ]]; then
+            log_success "$package installed successfully"
+        else
+            # Installation failed - log error but continue
+            log_warning "Failed to install $package via Homebrew"
+            log_info "  → You can manually install $package or check if it's already available"
+            
+            # Try to detect if the package was actually installed despite the error
+            sleep 1
+            if brew list "$package" &>/dev/null; then
+                log_success "$package installation completed (detected via brew list)"
+            elif command -v "$package" &>/dev/null; then
+                log_success "$package is available (found in system PATH)"
+            fi
+        fi
     fi
 }
 
@@ -1243,21 +1314,190 @@ function brew_cask_install() {
     local cask="$1"
     local description="${2:-}"
     
-    if [[ "$SKIP_CASK_APPS" == "true" ]]; then
+    # Early return if cask apps are disabled
+    [[ "$SKIP_CASK_APPS" == "true" ]] && {
         log_info "Skipping cask $cask (SKIP_CASK_APPS=true)"
-        return
+        return 0
+    }
+    
+    # Check if already installed via Homebrew first (fastest check)
+    if brew list --cask "$cask" &>/dev/null; then
+        log_success "$cask already installed via Homebrew"
+        return 0
     fi
     
-    if brew list --cask "$cask" &>/dev/null; then
-        log_success "$cask already installed"
-    else
-        log_info "Installing $cask..."
-        if [[ -n "$description" ]]; then
-            log_info "  → $description"
-        fi
-        brew install --cask "$cask"
-        log_success "$cask installed successfully"
+    # Get expected app name and check if manually installed
+    local app_name
+    app_name=$(get_app_name_for_cask "$cask")
+    
+    if [[ -n "$app_name" ]] && is_app_installed "$app_name"; then
+        log_success "$cask already installed manually (found $app_name)"
+        return 0
     fi
+    
+    # Proceed with installation
+    _install_cask "$cask" "$description" "$app_name"
+}
+
+# Helper function to map cask names to app names
+function get_app_name_for_cask() {
+    local cask="$1"
+    
+    # Use associative array for cleaner mapping
+    declare -A cask_to_app_map=(
+        ["visual-studio-code"]="Visual Studio Code.app"
+        ["intellij-idea-ce"]="IntelliJ IDEA CE.app" 
+        ["pycharm-ce"]="PyCharm CE.app"
+        ["cursor"]="Cursor.app"
+        ["notion"]="Notion.app"
+        ["obsidian"]="Obsidian.app"
+        ["figma"]="Figma.app"
+        ["slack"]="Slack.app"
+        ["github"]="GitHub Desktop.app"
+        ["postman"]="Postman.app"
+        ["insomnia"]="Insomnia.app"
+        ["dbeaver-community"]="DBeaver.app"
+        ["pgadmin4"]="pgAdmin 4.app"
+        ["rapidapi"]="RapidAPI.app"
+        ["microsoft-edge"]="Microsoft Edge.app"
+        ["virtualbox"]="VirtualBox.app"
+        ["zoom"]="zoom.us.app"
+    )
+    
+    echo "${cask_to_app_map[$cask]:-}"
+}
+
+# Helper function to check if app is installed in standard locations
+function is_app_installed() {
+    local app_name="$1"
+    [[ -z "$app_name" ]] && return 1
+    
+    local locations=("/Applications" "$HOME/Applications")
+    local location
+    
+    for location in "${locations[@]}"; do
+        [[ -d "$location/$app_name" ]] && return 0
+    done
+    
+    return 1
+}
+
+# Helper function to perform the actual cask installation
+function _install_cask() {
+    local cask="$1"
+    local description="$2"
+    local app_name="$3"
+    
+    log_info "Installing $cask..."
+    [[ -n "$description" ]] && log_info "  → $description"
+    
+    local install_output install_exit_code=0
+    install_output=$(brew install --cask "$cask" 2>&1) || install_exit_code=$?
+    
+    if [[ $install_exit_code -eq 0 ]]; then
+        log_success "$cask installed successfully"
+        return 0
+    fi
+    
+    # Handle installation failures gracefully
+    _handle_cask_install_failure "$cask" "$app_name" "$install_output"
+}
+
+# Helper function to handle cask installation failures
+function _handle_cask_install_failure() {
+    local cask="$1"
+    local app_name="$2" 
+    local install_output="$3"
+    
+    if [[ "$install_output" == *"already an App at"* ]]; then
+        log_success "$cask app already exists - installation skipped"
+        
+        # Extract and verify app location from error message
+        local existing_path
+        existing_path=$(echo "$install_output" | grep -o "'/[^']*\.app'" | tr -d "'")
+        [[ -n "$existing_path" && -d "$existing_path" ]] && 
+            log_info "  → Found existing app at: $existing_path"
+    else
+        log_warning "Failed to install $cask via Homebrew"
+        log_info "  → Error: $(echo "$install_output" | tail -1)"
+        log_info "  → You can manually install $cask or check if it's already installed"
+    fi
+    
+    # Final verification after failure
+    _verify_cask_post_failure "$cask" "$app_name"
+}
+
+# Helper function to verify cask installation after apparent failure
+function _verify_cask_post_failure() {
+    local cask="$1"
+    local app_name="$2"
+    
+    # Brief pause to allow filesystem to settle
+    sleep 1
+    
+    if brew list --cask "$cask" &>/dev/null; then
+        log_success "$cask installation completed (detected via brew list)"
+    elif [[ -n "$app_name" ]] && is_app_installed "$app_name"; then
+        log_success "$cask app is available: $app_name"
+    fi
+}
+
+# Helper function to create a Python development environment
+function create_python_dev_env() {
+    local env_name="${1:-jupyter-dev}"
+    local env_path="$HOME/.local/share/python-envs/$env_name"
+    
+    log_info "Creating Python development environment: $env_name"
+    
+    # Create directory if it doesn't exist
+    mkdir -p "$(dirname "$env_path")"
+    
+    # Create virtual environment
+    if [[ ! -d "$env_path" ]]; then
+        python3 -m venv "$env_path"
+        log_success "Created virtual environment at: $env_path"
+    else
+        log_info "Virtual environment already exists at: $env_path"
+    fi
+    
+    # Activate and install common packages
+    source "$env_path/bin/activate"
+    
+    # Upgrade pip first
+    pip install --upgrade pip
+    
+    # Install common data science and development packages
+    local packages=(
+        "jupyter"
+        "jupyterlab"
+        "notebook"
+        "ipywidgets"
+        "jupyter-console"
+        "nbconvert"
+        "ipykernel"
+        "matplotlib"
+        "pandas"
+        "numpy"
+        "requests"
+    )
+    
+    log_info "Installing Python packages in virtual environment..."
+    for package in "${packages[@]}"; do
+        pip install "$package"
+    done
+    
+    # Add kernel to Jupyter
+    python -m ipykernel install --user --name="$env_name" --display-name="Python ($env_name)"
+    
+    deactivate
+    
+    log_success "Python development environment '$env_name' created successfully!"
+    log_info "To use this environment:"
+    log_info "  source $env_path/bin/activate"
+    log_info "  # Your work here"
+    log_info "  deactivate"
+    log_info ""
+    log_info "Jupyter kernel '$env_name' is now available in JupyterLab"
 }
 
 function show_system_summary() {
@@ -1557,7 +1797,7 @@ function check_programming_languages_status() {
     echo "   Version Managers: $installed_count/${#version_managers[@]} installed"
     
     # Check build tools
-    local build_tools=("maven" "gradle" "terraform" "ansible" "poetry" "pipenv" "yarn")
+    local build_tools=("maven" "gradle" "poetry" "pipx" "yarn")
     installed_count=0
     
     for tool in "${build_tools[@]}"; do
@@ -1615,11 +1855,22 @@ function check_ides_status() {
         echo "   ❌ No CLI editors installed 0/${#cli_editors[@]}"
     fi
     
-    # Check Jupyter
+    # Check Jupyter and pipx
     if command -v jupyter &>/dev/null; then
-        echo "   ✅ JupyterLab installed"
+        if pipx list 2>/dev/null | grep -q jupyterlab; then
+            echo "   ✅ JupyterLab installed via pipx (isolated environment)"
+        else
+            echo "   ✅ JupyterLab installed (method unknown)"
+        fi
+    elif command -v pipx &>/dev/null; then
+        # Check if JupyterLab is already installed via pipx
+        if pipx list 2>/dev/null | grep -q jupyterlab; then
+            echo "   ✅ JupyterLab already installed via pipx (isolated environment)"
+        else
+            echo "   ⚠️  pipx available - can install JupyterLab with: pipx install jupyterlab"
+        fi
     else
-        echo "   ❌ JupyterLab not installed"
+        echo "   ❌ JupyterLab not installed (install pipx first)"
     fi
 }
 

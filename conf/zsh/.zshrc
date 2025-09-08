@@ -250,11 +250,6 @@ zstyle ':omz:plugins:alias-finder' longer yes # disabled by default
 zstyle ':omz:plugins:alias-finder' exact yes # disabled by default
 zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
 
-## Jenv
-# Adds jenv shims to PATH; Unsets conflicting Java environment variables 
-# JAVA_HOME and JDK_HOME; Loads shell completions jenv
-eval "$(jenv init -)"
-
 # =============================
 # Load Custom RC Files
 # =============================
@@ -286,8 +281,10 @@ if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
   [[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ]] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 fi
 
-# Jenv (Java Environment Manager)
+# Jenv (Java Environment Manager) - XDG-compliant configuration
 if command -v jenv >/dev/null 2>&1; then
+  # Ensure jenv uses XDG data directory
+  export JENV_ROOT="$XDG_DATA_HOME/jenv"
   eval "$(jenv init -)"
 fi
 

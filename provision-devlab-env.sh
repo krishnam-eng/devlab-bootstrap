@@ -335,6 +335,12 @@ function setup_zsh_environment() {
     # Set Zsh configuration directory (must be set before Oh My Zsh installation)
     export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
     
+    # Create XDG-compliant directories for Zsh files
+    log_info "Creating XDG-compliant directories for Zsh files..."
+    mkdir -p "$XDG_STATE_HOME/zsh/sessions"
+    mkdir -p "$XDG_CACHE_HOME/zsh"
+    log_success "Created Zsh XDG directories (state, cache, sessions)"
+    
     # Set ZSH installation directory
     local zsh_dir="$SBRN_HOME/sys/etc/oh-my-zsh"
     
@@ -827,6 +833,14 @@ function install_core_ides_editors() {
         local description="${ide_info#*:}"
         brew_cask_install "$ide" "$description"
     done
+
+    # Link VSCode settings from HRT configuration if available
+    mkdir -p "$SBRN_HOME/sys/config/code/user"
+    ln -sfn $SBRN_HOME/sys/hrt/conf/vscode/settings.json $SBRN_HOME/sys/config/code/user/settings.json
+    ln -sfn "${XDG_CONFIG_HOME:-$HOME/.config}/code/user" "$HOME/Library/Application Support/Code/User"
+    
+    # Install VSCode extensions from HRT configuration
+    setup_vscode_extensions
 }
 
 function install_productivity_apps() {
@@ -1053,6 +1067,10 @@ function show_zsh_impact() {
     echo "✅ Meslo Nerd Font installed for terminal icons"
     echo "✅ Zsh configuration setup:"
     echo "   • ZDOTDIR set to: $XDG_CONFIG_HOME/zsh"
+    echo "✅ XDG-compliant Zsh directories created:"
+    echo "   • History: $XDG_STATE_HOME/zsh/history"
+    echo "   • Completion dumps: $XDG_CACHE_HOME/zsh/zcompdump-\${ZSH_VERSION}"
+    echo "   • Sessions: $XDG_STATE_HOME/zsh/sessions/"
     if [[ -L "$XDG_CONFIG_HOME/zsh" ]]; then
         echo "   • Zsh configuration directory linked from HRT"
     fi
@@ -1239,16 +1257,63 @@ function show_git_impact() {
     fi
 }
 
+function setup_vscode_extensions() {
+    log_info "Setting up VS Code extensions from configuration..."
+    
+    # Check if VS Code CLI is available
+    if ! command -v code &> /dev/null; then
+        log_warning "VS Code CLI 'code' command not found. Skipping extension installation."
+        log_info "To enable: Open VS Code → Cmd+Shift+P → 'Shell Command: Install code command in PATH'"
+        return 0
+    fi
+    
+    local extensions_script="$SBRN_HOME/sys/hrt/conf/vscode/manage-extensions.sh"
+    local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
+    
+    # Check if extension configuration exists
+    if [[ ! -f "$extensions_file" ]]; then
+        log_warning "VS Code extensions.txt not found. Creating from current installations..."
+        if [[ -x "$extensions_script" ]]; then
+            "$extensions_script" capture
+        else
+            log_error "Extensions management script not found or not executable"
+            return 1
+        fi
+    fi
+    
+    # Install missing extensions
+    if [[ -x "$extensions_script" && -f "$extensions_file" ]]; then
+        log_info "Installing VS Code extensions from configuration..."
+        "$extensions_script" install
+        log_success "VS Code extensions setup completed"
+    else
+        log_error "VS Code extension setup failed - missing script or configuration"
+        return 1
+    fi
+}
+
 function show_vscode_impact() {
     if command -v code &>/dev/null; then
         local ext_count=$(code --list-extensions | wc -l)
-        echo "✅ VS Code extensions installed: $ext_count total"
-        echo "   • AI: GitHub Copilot, Copilot Chat"
-        echo "   • Languages: Python, Java, TypeScript, YAML, Markdown"
-        echo "   • Tools: Docker, Kubernetes, Git, Remote SSH"
-        echo "   • Themes: Material Icons, GitHub Theme, Dracula"
+        local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
+        local configured_count=0
+        
+        if [[ -f "$extensions_file" ]]; then
+            configured_count=$(grep -v '^#' "$extensions_file" | grep -v '^$' | wc -l)
+        fi
+        
+        echo "✅ VS Code extensions: $ext_count installed, $configured_count configured"
+        echo "   • Settings: Linked from $SBRN_HOME/sys/hrt/conf/vscode/settings.json"
+        echo "   • Extensions: Managed via $SBRN_HOME/sys/hrt/conf/vscode/manage-extensions.sh"
+        echo "   • Configuration: $extensions_file"
+        echo "   • Management commands:"
+        echo "     - Capture current: ./manage-extensions.sh capture"
+        echo "     - Install missing: ./manage-extensions.sh install" 
+        echo "     - Sync all: ./manage-extensions.sh sync"
     else
         echo "⚠️  VS Code not found, extensions skipped"
+        echo "   • Install VS Code and run provision script again"
+        echo "   • Or manually run: $SBRN_HOME/sys/hrt/conf/vscode/manage-extensions.sh install"
     fi
 }
 
@@ -1839,6 +1904,9 @@ function check_ides_status() {
         echo "   ❌ No core IDEs installed 0/${total_ides}"
     fi
     
+    # Check VS Code extensions if VS Code is installed
+    check_vscode_extensions_status
+    
     # Check CLI editors
     local cli_editors=("vim" "nvim" "emacs" "nano")
     local installed_editors=()
@@ -1871,6 +1939,38 @@ function check_ides_status() {
         fi
     else
         echo "   ❌ JupyterLab not installed (install pipx first)"
+    fi
+}
+
+function check_vscode_extensions_status() {
+    # Check if VS Code is installed and CLI is available
+    if command -v code &>/dev/null; then
+        local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
+        local installed_count=$(code --list-extensions 2>/dev/null | wc -l | tr -d ' ')
+        local configured_count=0
+        
+        # Count configured extensions (excluding comments and empty lines)
+        if [[ -f "$extensions_file" ]]; then
+            configured_count=$(grep -v '^#' "$extensions_file" | grep -v '^$' | wc -l | tr -d ' ')
+        fi
+        
+        if [[ $installed_count -gt 0 ]]; then
+            if [[ $configured_count -gt 0 ]]; then
+                if [[ $installed_count -eq $configured_count ]]; then
+                    echo "   ✅ VS Code Extensions ${installed_count}/${configured_count}: Fully synced"
+                elif [[ $installed_count -gt $configured_count ]]; then
+                    echo "   ⚠️  VS Code Extensions ${installed_count}/${configured_count}: $((installed_count - configured_count)) uncaptured"
+                else
+                    echo "   ⚠️  VS Code Extensions ${installed_count}/${configured_count}: $((configured_count - installed_count)) missing"
+                fi
+            else
+                echo "   ⚠️  VS Code Extensions ${installed_count}/0: Not managed (run: ./conf/vscode/manage-extensions.sh capture)"
+            fi
+        else
+            echo "   ❌ VS Code Extensions 0/${configured_count}: None installed"
+        fi
+    elif [[ -d "/Applications/Visual Studio Code.app" ]] || [[ -d "$HOME/Applications/Visual Studio Code.app" ]]; then
+        echo "   ⚠️  VS Code installed but CLI not available (Cmd+Shift+P → Install 'code' command)"
     fi
 }
 

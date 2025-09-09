@@ -829,6 +829,7 @@ function install_core_ides_editors() {
         "intellij-idea-ce: IntelliJ IDEA Community Edition - JetBrains Java IDE"
         "pycharm-ce: PyCharm Community Edition - JetBrains Python IDE"
         "cursor: Cursor - AI-powered code editor"
+        "iterm2: iTerm2 - Terminal emulator for macOS"
     )
     
     for ide_info in "${ides[@]}"; do
@@ -844,6 +845,9 @@ function install_core_ides_editors() {
     
     # Install VSCode extensions from HRT configuration
     setup_vscode_extensions
+    
+    # Setup iTerm2 profiles and color schemes from HRT configuration
+    setup_iterm_profiles
 }
 
 function install_productivity_apps() {
@@ -1185,6 +1189,9 @@ function show_ides_impact() {
     if [[ -d "/Applications/Cursor.app" ]]; then
         echo "   • Cursor AI Editor (GUI + CLI: cursor)"
     fi
+    if [[ -d "/Applications/iTerm.app" ]]; then
+        echo "   • iTerm2 Terminal Emulator"
+    fi
     echo "   • CLI editors: vim, neovim, emacs, nano"
     echo "✅ Productivity and Development Support Apps:"
     if [[ -d "/Applications/Notion.app" ]]; then
@@ -1242,6 +1249,31 @@ function show_ides_impact() {
     fi
     echo "   • git-gui, gitk (Git graphical tools)"
     echo "✅ Command-line shortcuts created in: $SBRN_HOME/sys/bin"
+    
+    # Show iTerm2 setup status
+    if [[ -d "/Applications/iTerm.app" ]]; then
+        echo "✅ iTerm2 terminal setup:"
+        local colors_dir="$SBRN_HOME/sys/hrt/conf/terminal/colors"
+        local profiles_dir="$SBRN_HOME/sys/hrt/conf/terminal/profiles"
+        local iterm_script="$SBRN_HOME/sys/hrt/conf/terminal/manage-iterm-profiles.sh"
+        
+        if [[ -d "$colors_dir" ]]; then
+            local color_count=$(find "$colors_dir" -name "*.itermcolors" 2>/dev/null | wc -l | tr -d ' ')
+            echo "   • Color schemes: $color_count themes available"
+        fi
+        
+        if [[ -d "$profiles_dir" ]]; then
+            local profile_count=$(find "$profiles_dir" -name "*.json" 2>/dev/null | wc -l | tr -d ' ')
+            echo "   • Profiles: $profile_count configurations available"
+        fi
+        
+        if [[ -x "$iterm_script" ]]; then
+            echo "   • Management: $iterm_script"
+            echo "   • Commands: install, import, export, backup, sync, list"
+        fi
+    else
+        echo "⚠️  iTerm2 not found - terminal configurations skipped"
+    fi
 }
 
 function show_git_impact() {
@@ -1292,6 +1324,87 @@ function setup_vscode_extensions() {
     else
         log_error "VS Code extension setup failed - missing script or configuration"
         return 1
+    fi
+}
+
+function setup_iterm_profiles() {
+    log_info "Setting up iTerm2 profiles and color schemes from configuration..."
+    
+    local iterm_script="$SBRN_HOME/sys/hrt/conf/terminal/manage-iterm-profiles.sh"
+    local colors_dir="$SBRN_HOME/sys/hrt/conf/terminal/colors"
+    local profiles_dir="$SBRN_HOME/sys/hrt/conf/terminal/profiles"
+    
+    # Check if iTerm2 is installed
+    if [[ ! -d "/Applications/iTerm.app" ]]; then
+        log_warning "iTerm2 not found. Installing via Homebrew..."
+        brew_cask_install "iterm2" "iTerm2 - Terminal emulator for macOS"
+    fi
+    
+    # Check if management script exists and is executable
+    if [[ ! -x "$iterm_script" ]]; then
+        log_warning "iTerm profile management script not found or not executable"
+        if [[ -f "$iterm_script" ]]; then
+            chmod +x "$iterm_script"
+            log_info "Made iTerm management script executable"
+        else
+            log_error "iTerm management script not found: $iterm_script"
+            return 1
+        fi
+    fi
+    
+    # Install color schemes if available
+    if [[ -d "$colors_dir" ]]; then
+        local color_count=$(find "$colors_dir" -name "*.itermcolors" | wc -l | tr -d ' ')
+        if [[ $color_count -gt 0 ]]; then
+            log_info "Installing $color_count iTerm2 color schemes..."
+            "$iterm_script" install
+            log_success "iTerm2 color schemes installed"
+        else
+            log_warning "No .itermcolors files found in $colors_dir"
+        fi
+    else
+        log_warning "Colors directory not found: $colors_dir"
+    fi
+    
+    # Ask user if they want to import profiles and show available profiles
+    if [[ -d "$profiles_dir" ]]; then
+        local profile_count=$(find "$profiles_dir" -name "*.json" | wc -l | tr -d ' ')
+        if [[ $profile_count -gt 0 ]]; then
+            log_info "Found $profile_count iTerm2 profile configurations:"
+            
+            # List available profile names from individual JSON files
+            for profile_file in "$profiles_dir"/*.json; do
+                if [[ -f "$profile_file" && "$(basename "$profile_file")" != "profiles.iterm2.json" ]]; then
+                    local profile_name=$(basename "$profile_file" .json)
+                    echo "   • $profile_name"
+                fi
+            done
+            
+            # Ask user if they want to import
+            echo ""
+            echo "Import iTerm2 profiles automatically? [y/N]: "
+            read -r REPLY
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                log_info "Importing iTerm2 profiles..."
+                if "$iterm_script" import; then
+                    log_success "iTerm2 profiles import completed"
+                    log_info "Profiles are now available in iTerm2 → Preferences → Profiles"
+                else
+                    log_warning "Automatic import failed. Manual import instructions:"
+                    echo "   1. Open iTerm2 → Preferences → Profiles"
+                    echo "   2. Click 'Other Actions...' → 'Import JSON Profiles'"
+                    echo "   3. Select: $profiles_dir/profiles.iterm2.json"
+                fi
+            else
+                log_info "Profile import skipped. To import later:"
+                echo "   • Run: $iterm_script import"
+                echo "   • Or manually: iTerm2 → Preferences → Profiles → Other Actions → Import JSON Profiles"
+            fi
+        else
+            log_warning "No profile .json files found in $profiles_dir"
+        fi
+    else
+        log_warning "Profiles directory not found: $profiles_dir"
     fi
 }
 

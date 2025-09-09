@@ -1,8 +1,8 @@
 #!/bin/zsh
 
 ################################################################################
-# Goal: Portable Replicatable Scalable Developer Laboratory 
-# Nature: Environment Setup Script
+# Goal: Portable Replicatable Scalable Developer Laboratory Setup for macOS
+#
 # Author: Balamurugan Krishnamoorthy
 #
 # This script sets up a complete macOS development environment including:
@@ -36,6 +36,7 @@
 
 # Global variables
 SKIP_CASK_APPS=false
+SKIP_ITERM_SETUP=false
 
 # Colors for output
 RED='\033[0;31m'
@@ -496,6 +497,19 @@ function install_shell_productivity_tools() {
         "lsd: LSDeluxe - next gen ls command"
         "ctop: Top-like interface for container metrics"
         "autoenv: Directory-based environments"
+        "atuin: Improved shell history for zsh, bash, fish and nushell"
+        "direnv: Load/unload environment variables based on PWD"
+        "ack: Search tool like grep, but optimized for programmers"
+        "broot: New way to see and navigate directory trees"
+        "figlet: Banner-like program prints strings as ASCII art"
+        "lolcat: Rainbows and unicorns in your console"
+        "ranger: File browser"
+        "as-tree: Print a list of paths as a tree of paths"
+        "agedu: Unix utility for tracking down wasted disk space"
+        "zsh-autosuggestions: Fish-like fast/unobtrusive autosuggestions for zsh"
+        "zsh-completions: Additional completion definitions for zsh"
+        "bash-completion: Programmable completion for Bash 3.2"
+        "fish: User-friendly command-line shell for UNIX-like operating systems"
     )
     
     for tool_info in "${shell_tools[@]}"; do
@@ -514,6 +528,9 @@ function install_networking_security_tools() {
         "wget: Internet file retriever"
         "httpie: User-friendly command-line HTTP client"
         "netcat: Utility for reading/writing network connections"
+        "gnupg: GNU Pretty Good Privacy (PGP) package"
+        "certbot: Tool to obtain certs from Let's Encrypt and autoenable HTTPS"
+        "telnet: User interface to the TELNET protocol"
     )
     
     for tool_info in "${network_tools[@]}"; do
@@ -538,6 +555,13 @@ function install_text_data_tools() {
         "jq: Lightweight and flexible command-line JSON processor"
         "ripgrep: Search tool like grep and The Silver Searcher"
         "grep: GNU grep, egrep and fgrep"
+        "fx: Terminal JSON viewer"
+        "jid: Json incremental digger"
+        "colordiff: Color-highlighted diff(1) output"
+        "base64: Encode and decode base64 files"
+        "base91: Utility to encode and decode base91 files"
+        "python-yq: Command-line YAML and XML processor that wraps jq"
+        "ccat: Like cat but displays content with syntax highlighting"
     )
     
     for tool_info in "${text_tools[@]}" "${cli_editors[@]}"; do
@@ -564,6 +588,9 @@ function install_development_tools() {
     
     # 🎨 Graphics, OCR, and UI Libraries
     install_graphics_ocr_libraries
+
+    # 🛠️ Additional Development & API tools
+    install_additional_dev_tools
 
     # Configure Git to use diff-so-fancy
     if command -v diff-so-fancy &>/dev/null; then
@@ -610,6 +637,18 @@ function install_cloud_container_tools() {
         "kubernetes-cli: Kubernetes command-line interface"
         "helm: Kubernetes package manager"
         "awscli: Official Amazon AWS command-line interface"
+        "dive: Tool for exploring each layer in a docker image"
+        "dockviz: Visualizing docker data"
+        "k9s: Kubernetes CLI To Manage Your Clusters In Style"
+        "kubecolor: Colorize your kubectl output"
+        "kompose: Tool to move from docker-compose to Kubernetes"
+        "krew: Package manager for kubectl plugins"
+        "kube-ps1: Kubernetes prompt info for bash and zsh"
+        "kubebuilder: SDK for building Kubernetes APIs using CRDs"
+        "kustomize: Template-free customization of Kubernetes YAML manifests"
+        "istioctl: Istio configuration command-line utility"
+        "minikube: Run a Kubernetes cluster locally"
+        "terraform: Tool to build, change, and version infrastructure"
     )
     
     for tool_info in "${cloud_tools[@]}"; do
@@ -626,9 +665,39 @@ function install_graphics_ocr_libraries() {
         "librsvg: Library to render SVG files using Cairo"
         "gtk+3: Toolkit for creating graphical user interfaces"
         "ghostscript: Interpreter for PostScript and PDF"
+        "graphviz: Graph visualization software from AT&T and Bell Labs"
+        "guile: GNU Ubiquitous Intelligent Language for Extensions"
+        "pcre: Perl compatible regular expressions library"
+        "xerces-c: Validating XML parser"
+        "pygobject3: GNOME Python bindings (based on GObject Introspection)"
     )
     
     for tool_info in "${graphics_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
+}
+
+function install_additional_dev_tools() {
+    log_info "Installing 🛠️ Additional Development & API tools..."
+    
+    local dev_tools=(
+        "jwt-cli: Super fast CLI tool to decode and encode JWTs built in Rust"
+        "newman: Command-line collection runner for Postman"
+        "openapi-generator: Generate clients, server & docs from an OpenAPI spec (v2, v3)"
+        "operator-sdk: SDK for building Kubernetes applications"
+        "hugo: Configurable static site generator"
+        "logrotate: Rotates, compresses, and mails system logs"
+        "rtmpdump: Tool for downloading RTMP streaming media"
+        "sftpgo: Fully featured SFTP server with optional HTTP/S, FTP/S and WebDAV support"
+        "etcd: Key value store for shared configuration and service discovery"
+        "postgresql@15: Object-relational database system"
+        "redis: Persistent key-value database, with built-in net interface"
+        "nginx: HTTP(S) server and reverse proxy, and IMAP/POP3 proxy server"
+    )
+    
+    for tool_info in "${dev_tools[@]}"; do
         local tool="${tool_info%%:*}"
         local description="${tool_info#*:}"
         brew_install "$tool" "$description"
@@ -1105,15 +1174,38 @@ function show_cli_tools_impact() {
     echo "   • lsd (LSDeluxe - next gen ls command)"
     echo "   • ctop (top-like interface for container metrics)"
     echo "   • autoenv (directory-based environments)"
+    echo "   • atuin (improved shell history for zsh, bash, fish and nushell)"
+    echo "   • direnv (load/unload environment variables based on PWD)"
+    echo "   • ack (search tool like grep, optimized for programmers)"
+    echo "   • broot (new way to see and navigate directory trees)"
+    echo "   • figlet (banner-like program prints strings as ASCII art)"
+    echo "   • lolcat (rainbows and unicorns in your console)"
+    echo "   • ranger (file browser)"
+    echo "   • as-tree (print a list of paths as a tree of paths)"
+    echo "   • agedu (Unix utility for tracking down wasted disk space)"
+    echo "   • zsh-autosuggestions (fish-like autosuggestions for zsh)"
+    echo "   • zsh-completions (additional completion definitions for zsh)"
+    echo "   • bash-completion (programmable completion for Bash 3.2)"
+    echo "   • fish (user-friendly command-line shell for UNIX-like operating systems)"
     echo "✅ 🌐 Networking, Security, & Transfer tools:"
     echo "   • curl (command-line data transfer tool)"
     echo "   • wget (internet file retriever)"
     echo "   • httpie (user-friendly HTTP client)"
     echo "   • netcat (networking utility)"
+    echo "   • gnupg (GNU Pretty Good Privacy PGP package)"
+    echo "   • certbot (tool to obtain certs from Let's Encrypt)"
+    echo "   • telnet (user interface to the TELNET protocol)"
     echo "✅ 📊 Text, Regex, JSON, Data tools & CLI Editors:"
     echo "   • jq (lightweight JSON processor)"
     echo "   • ripgrep (fast text search tool with configuration and aliases)"
     echo "   • grep (GNU grep, egrep and fgrep with color aliases)"
+    echo "   • fx (terminal JSON viewer)"
+    echo "   • jid (JSON incremental digger)"
+    echo "   • colordiff (color-highlighted diff output)"
+    echo "   • base64 (encode and decode base64 files)"
+    echo "   • base91 (utility to encode and decode base91 files)"
+    echo "   • python-yq (command-line YAML and XML processor that wraps jq)"
+    echo "   • ccat (like cat but displays content with syntax highlighting)"
     echo "   • vim (Vi IMproved - enhanced version of the vi editor)"
     echo "   • neovim (Ambitious Vim-fork focused on extensibility and agility)"
     echo "   • emacs (GNU Emacs text editor)"
@@ -1141,10 +1233,40 @@ function show_dev_tools_impact() {
     echo "   • kubernetes-cli (Kubernetes command-line interface)"
     echo "   • helm (Kubernetes package manager)"
     echo "   • awscli (official Amazon AWS command-line interface)"
+    echo "   • dive (tool for exploring each layer in a docker image)"
+    echo "   • dockviz (visualizing docker data)"
+    echo "   • k9s (Kubernetes CLI to manage clusters in style)"
+    echo "   • kubecolor (colorize your kubectl output)"
+    echo "   • kompose (tool to move from docker-compose to Kubernetes)"
+    echo "   • krew (package manager for kubectl plugins)"
+    echo "   • kube-ps1 (Kubernetes prompt info for bash and zsh)"
+    echo "   • kubebuilder (SDK for building Kubernetes APIs using CRDs)"
+    echo "   • kustomize (template-free customization of Kubernetes YAML manifests)"
+    echo "   • istioctl (Istio configuration command-line utility)"
+    echo "   • minikube (run a Kubernetes cluster locally)"
+    echo "   • terraform (tool to build, change, and version infrastructure)"
     echo "✅ 🎨 Graphics, Images, and UI Libraries:"
     echo "   • librsvg (library to render SVG files using Cairo)"
     echo "   • gtk+3 (toolkit for creating graphical user interfaces)"
     echo "   • ghostscript (interpreter for PostScript and PDF)"
+    echo "   • graphviz (graph visualization software from AT&T and Bell Labs)"
+    echo "   • guile (GNU Ubiquitous Intelligent Language for Extensions)"
+    echo "   • pcre (Perl compatible regular expressions library)"
+    echo "   • xerces-c (validating XML parser)"
+    echo "   • pygobject3 (GNOME Python bindings based on GObject Introspection)"
+    echo "✅ 🛠️ Additional Development & API tools:"
+    echo "   • jwt-cli (super fast CLI tool to decode and encode JWTs built in Rust)"
+    echo "   • newman (command-line collection runner for Postman)"
+    echo "   • openapi-generator (generate clients, server & docs from an OpenAPI spec)"
+    echo "   • operator-sdk (SDK for building Kubernetes applications)"
+    echo "   • hugo (configurable static site generator)"
+    echo "   • logrotate (rotates, compresses, and mails system logs)"
+    echo "   • rtmpdump (tool for downloading RTMP streaming media)"
+    echo "   • sftpgo (fully featured SFTP server with HTTP/S, FTP/S and WebDAV support)"
+    echo "   • etcd (key value store for shared configuration and service discovery)"
+    echo "   • postgresql@15 (object-relational database system)"
+    echo "   • redis (persistent key-value database, with built-in net interface)"
+    echo "   • nginx (HTTP(S) server and reverse proxy, and IMAP/POP3 proxy server)"
 }
 
 function show_languages_impact() {
@@ -1251,7 +1373,9 @@ function show_ides_impact() {
     echo "✅ Command-line shortcuts created in: $SBRN_HOME/sys/bin"
     
     # Show iTerm2 setup status
-    if [[ -d "/Applications/iTerm.app" ]]; then
+    if [[ "$SKIP_ITERM_SETUP" == "true" ]]; then
+        echo "⚠️  iTerm2 setup skipped (--skip-iterm-setup flag active)"
+    elif [[ -d "/Applications/iTerm.app" ]]; then
         echo "✅ iTerm2 terminal setup:"
         local colors_dir="$SBRN_HOME/sys/hrt/conf/terminal/colors"
         local profiles_dir="$SBRN_HOME/sys/hrt/conf/terminal/profiles"
@@ -1328,6 +1452,12 @@ function setup_vscode_extensions() {
 }
 
 function setup_iterm_profiles() {
+    # Skip iTerm setup if flag is set
+    if [[ "$SKIP_ITERM_SETUP" == "true" ]]; then
+        log_info "Skipping iTerm2 setup (SKIP_ITERM_SETUP=true)"
+        return 0
+    fi
+    
     log_info "Setting up iTerm2 profiles and color schemes from configuration..."
     
     local iterm_script="$SBRN_HOME/sys/hrt/conf/terminal/manage-iterm-profiles.sh"
@@ -1855,82 +1985,261 @@ function check_zsh_environment_status() {
 }
 
 function check_cli_tools_status() {
-    # Shell productivity tools - matches install_shell_productivity_tools()
-    local shell_tools=("coreutils" "tree" "fzf" "tmux" "htop" "bat" "fd" "tldr" "eza" "zoxide" "watch" "ncdu" "glances" "lsd" "ctop" "autoenv")
-    # Network tools - matches install_networking_security_tools()
-    local network_tools=("curl" "wget" "httpie" "netcat")
-    # Text/data tools and CLI editors - matches install_text_data_tools()
-    local text_tools=("jq" "ripgrep" "grep" "vim" "neovim" "emacs" "nano")
+    # Shell productivity tools - updated to match install_shell_productivity_tools()
+    local shell_tools=("coreutils" "tree" "fzf" "tmux" "htop" "bat" "fd" "tldr" "eza" "zoxide" "watch" "ncdu" "glances" "lsd" "ctop" "autoenv" "atuin" "direnv" "ack" "broot" "figlet" "lolcat" "ranger" "as-tree" "agedu" "zsh-autosuggestions" "zsh-completions" "bash-completion" "fish")
+    # Network tools - updated to match install_networking_security_tools()
+    local network_tools=("curl" "wget" "httpie" "netcat" "gnupg" "certbot" "telnet")
+    # Text/data tools and CLI editors - updated to match install_text_data_tools()
+    local text_tools=("jq" "ripgrep" "grep" "fx" "jid" "colordiff" "base64" "base91" "python-yq" "ccat" "vim" "neovim" "emacs" "nano")
     
     # Check shell productivity tools
     local installed_count=0
     local total_count=${#shell_tools[@]}
+    local missing_tools=()
     
     for tool in "${shell_tools[@]}"; do
-        # Special case for coreutils - check for gls which is part of coreutils
-        if [[ "$tool" == "coreutils" ]]; then
-            if command -v "gls" &>/dev/null; then
-                installed_count=$((installed_count + 1))
-            fi
-        elif command -v "$tool" &>/dev/null; then
-            installed_count=$((installed_count + 1))
-        fi
+        local is_installed=false
+        # Special cases for tools with different command names
+        case "$tool" in
+            "coreutils")
+                if command -v "gls" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            "autoenv")
+                # autoenv is a shell script, check if it's installed via homebrew
+                if [[ -f "/opt/homebrew/opt/autoenv/activate.sh" || -f "/usr/local/opt/autoenv/activate.sh" ]]; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            "zsh-autosuggestions"|"zsh-completions"|"bash-completion")
+                # These are shell plugins/completions, check for their existence differently
+                if [[ "$tool" == "zsh-autosuggestions" ]] && [[ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" || -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                elif [[ "$tool" == "zsh-completions" ]] && [[ -d "/opt/homebrew/share/zsh-completions" || -d "/usr/local/share/zsh-completions" ]]; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                elif [[ "$tool" == "bash-completion" ]] && [[ -f "/opt/homebrew/etc/profile.d/bash_completion.sh" || -f "/usr/local/etc/profile.d/bash_completion.sh" ]]; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            *)
+                if command -v "$tool" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+        esac
+        [[ "$is_installed" == false ]] && missing_tools+=("$tool")
     done
-    echo "   Shell Tools: $installed_count/$total_count installed"
+    
+    if [ $installed_count -eq $total_count ]; then
+        echo "   ✅ Shell Tools: $installed_count/$total_count installed"
+    else
+        echo "   ⚠️  Shell Tools: $installed_count/$total_count installed"
+    fi
+    if [[ ${#missing_tools[@]} -gt 0 ]]; then
+        echo "      Missing: ${missing_tools[*]}"
+    fi
     
     # Check networking tools
     installed_count=0
     total_count=${#network_tools[@]}
+    missing_tools=()
     
     for tool in "${network_tools[@]}"; do
-        if command -v "$tool" &>/dev/null; then
-            installed_count=$((installed_count + 1))
-        fi
+        local is_installed=false
+        # Special cases for tools with different command names
+        case "$tool" in
+            "gnupg")
+                if command -v "gpg" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            *)
+                if command -v "$tool" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+        esac
+        [[ "$is_installed" == false ]] && missing_tools+=("$tool")
     done
-    echo "   Network Tools: $installed_count/$total_count installed"
+    
+    if [ $installed_count -eq $total_count ]; then
+        echo "   ✅ Network Tools: $installed_count/$total_count installed"
+    else
+        echo "   ⚠️  Network Tools: $installed_count/$total_count installed"
+    fi
+    if [[ ${#missing_tools[@]} -gt 0 ]]; then
+        echo "      Missing: ${missing_tools[*]}"
+    fi
     
     # Check text/data tools
     installed_count=0
     total_count=${#text_tools[@]}
+    missing_tools=()
     
     for tool in "${text_tools[@]}"; do
-        # Special case for neovim - command is 'nvim'
-        if [[ "$tool" == "neovim" ]]; then
-            if command -v "nvim" &>/dev/null; then
-                installed_count=$((installed_count + 1))
-            fi
-        elif command -v "$tool" &>/dev/null; then
-            installed_count=$((installed_count + 1))
-        fi
+        local is_installed=false
+        # Special case for tools with different command names
+        case "$tool" in
+            "neovim")
+                if command -v "nvim" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            "ripgrep")
+                if command -v "rg" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            "python-yq")
+                if command -v "yq" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            *)
+                if command -v "$tool" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+        esac
+        [[ "$is_installed" == false ]] && missing_tools+=("$tool")
     done
-    echo "   Text/Data Tools: $installed_count/$total_count installed"
+    
+    if [ $installed_count -eq $total_count ]; then
+        echo "   ✅ Text/Data Tools: $installed_count/$total_count installed"
+    else
+        echo "   ⚠️  Text/Data Tools: $installed_count/$total_count installed"
+    fi
+    if [[ ${#missing_tools[@]} -gt 0 ]]; then
+        echo "      Missing: ${missing_tools[*]}"
+    fi
 }
 
 function check_dev_tools_status() {
-    local git_tools=("git" "git-extras" "git-lfs" "gh" "gibo" "ghq" "lazygit" "tig" "diff-so-fancy")
-    local cloud_tools=("docker" "docker-compose" "colima" "kubectl" "helm" "aws")
+    local git_tools=("git" "git-extras" "git-lfs" "gh" "ghq" "diff-so-fancy" "delta" "tig" "lazygit")
+    local cloud_tools=("docker" "docker-compose" "colima" "kubectl" "helm" "aws" "dive" "dockviz" "k9s" "kubecolor" "kompose" "krew" "kube-ps1" "kubebuilder" "kustomize" "istioctl" "minikube" "terraform")
+    local additional_dev_tools=("jwt-cli" "newman" "openapi-generator" "operator-sdk" "hugo" "logrotate" "rtmpdump" "sftpgo" "etcd" "postgresql@15" "redis" "nginx")
     
     # Check Git/VCS tools
     local installed_count=0
     local total_count=${#git_tools[@]}
+    local missing_tools=()
     
     for tool in "${git_tools[@]}"; do
         if command -v "$tool" &>/dev/null; then
             installed_count=$((installed_count + 1))
+        else
+            missing_tools+=("$tool")
         fi
     done
-    echo "   Git/VCS Tools: $installed_count/$total_count installed"
+    
+    if [ $installed_count -eq $total_count ]; then
+        echo "   ✅ Git/VCS Tools: $installed_count/$total_count installed"
+    else
+        echo "   ⚠️  Git/VCS Tools: $installed_count/$total_count installed"
+    fi
+    if [[ ${#missing_tools[@]} -gt 0 ]]; then
+        echo "      Missing: ${missing_tools[*]}"
+    fi
     
     # Check cloud/container tools
     installed_count=0
     total_count=${#cloud_tools[@]}
+    missing_tools=()
     
     for tool in "${cloud_tools[@]}"; do
-        if command -v "$tool" &>/dev/null; then
-            installed_count=$((installed_count + 1))
-        fi
+        local is_installed=false
+        # Special cases for tools with different command names
+        case "$tool" in
+            "krew")
+                if command -v "kubectl-krew" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            "kube-ps1")
+                # kube-ps1 is a shell script, check if it's installed via homebrew
+                if [[ -f "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh" || -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]]; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            *)
+                if command -v "$tool" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+        esac
+        [[ "$is_installed" == false ]] && missing_tools+=("$tool")
     done
-    echo "   Cloud/Container Tools: $installed_count/$total_count installed"
+    
+    if [ $installed_count -eq $total_count ]; then
+        echo "   ✅ Cloud/Container/K8s Tools: $installed_count/$total_count installed"
+    else
+        echo "   ⚠️  Cloud/Container/K8s Tools: $installed_count/$total_count installed"
+    fi
+    if [[ ${#missing_tools[@]} -gt 0 ]]; then
+        echo "      Missing: ${missing_tools[*]}"
+    fi
+    
+    # Check additional development tools
+    installed_count=0
+    total_count=${#additional_dev_tools[@]}
+    missing_tools=()
+    
+    for tool in "${additional_dev_tools[@]}"; do
+        local is_installed=false
+        # Special cases for tools with different command names
+        case "$tool" in
+            "jwt-cli")
+                if command -v "jwt" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            "postgresql@15")
+                if [[ -x "/opt/homebrew/opt/postgresql@15/bin/psql" ]] || [[ -x "/usr/local/opt/postgresql@15/bin/psql" ]] || command -v "psql" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            "redis")
+                if command -v "redis-server" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+            *)
+                if command -v "$tool" &>/dev/null; then
+                    installed_count=$((installed_count + 1))
+                    is_installed=true
+                fi
+                ;;
+        esac
+        [[ "$is_installed" == false ]] && missing_tools+=("$tool")
+    done
+    
+    if [ $installed_count -eq $total_count ]; then
+        echo "   ✅ Additional Dev/API Tools: $installed_count/$total_count installed"
+    else
+        echo "   ⚠️  Additional Dev/API Tools: $installed_count/$total_count installed"
+    fi
+    if [[ ${#missing_tools[@]} -gt 0 ]]; then
+        echo "      Missing: ${missing_tools[*]}"
+    fi
 }
 
 function check_programming_languages_status() {
@@ -1975,7 +2284,12 @@ function check_programming_languages_status() {
             installed_count=$((installed_count + 1))
         fi
     done
-    echo "   Version Managers: $installed_count/${#version_managers[@]} installed"
+    
+    if [ $installed_count -eq ${#version_managers[@]} ]; then
+        echo "   ✅ Version Managers: $installed_count/${#version_managers[@]} installed"
+    else
+        echo "   ⚠️  Version Managers: $installed_count/${#version_managers[@]} installed"
+    fi
     
     # Check build tools
     local build_tools=("maven" "gradle" "poetry" "pipx" "yarn")
@@ -1986,7 +2300,12 @@ function check_programming_languages_status() {
             installed_count=$((installed_count + 1))
         fi
     done
-    echo "   Build Tools: $installed_count/${#build_tools[@]} installed"
+    
+    if [ $installed_count -eq ${#build_tools[@]} ]; then
+        echo "   ✅ Build Tools: $installed_count/${#build_tools[@]} installed"
+    else
+        echo "   ⚠️  Build Tools: $installed_count/${#build_tools[@]} installed"
+    fi
 }
 
 function check_ides_status() {
@@ -2246,21 +2565,33 @@ show_usage() {
     echo "Usage: $script_name [OPTIONS]"
     echo ""
     echo "OPTIONS:"
-    echo "  --skip-cask-apps, -s    Skip Homebrew Cask app installations - recommend manual install"
+    echo "  --skip-cask-apps, -c    Skip Homebrew Cask app installations - recommend manual install"
+    echo "  --skip-iterm-setup, -i  Skip iTerm2 profile and color setup (avoids interactive prompts)"
+    echo "  --status, -s            Show current system and tools status without running setup"
     echo "  --help, -h              Show this help message"
     echo ""
     echo "EXAMPLES:"
     echo "  $script_name                      Run the full developer environment setup"
     echo "  $script_name --skip-cask-apps     Skip GUI app installations"
+    echo "  $script_name --skip-iterm-setup   Skip iTerm2 setup to avoid popups"
+    echo "  $script_name --status             Check current status of tools and environment"
 }
 
 # Parse command line arguments
 parse_arguments() {
     while [[ $# -gt 0 ]]; do
         case $1 in
-            --skip-cask-apps|-s)
+            --skip-cask-apps|-c)
                 SKIP_CASK_APPS=true
                 shift
+                ;;
+            --skip-iterm-setup|-i)
+                SKIP_ITERM_SETUP=true
+                shift
+                ;;
+            --status|-s)
+                show_system_summary
+                exit 0
                 ;;
             --help|-h)
                 show_usage
@@ -2326,6 +2657,13 @@ if [[ "${BASH_SOURCE[0]:-$0}" == "${0}" ]] && [[ "$0" != *"zsh"* ]]; then
     # Show configuration warnings
     if [[ $SKIP_CASK_APPS == true ]]; then
         log_warning "SKIP-CASK-APPS MODE: GUI applications will be skipped - manual install recommended"
+        echo ""
+    fi
+    
+    if [[ $SKIP_ITERM_SETUP == true ]]; then
+        printf "${YELLOW}[WARNING]${NC} SKIP-ITERM-SETUP MODE: iTerm2 profiles and colors setup will be skipped\n"
+        printf "${CYAN}[INFO]${NC} To setup iTerm2 later, run without --skip-iterm-setup flag or run:\n"
+        printf "${CYAN}[INFO]${NC}   %s/sys/hrt/conf/terminal/manage-iterm-profiles.sh install && import\n" "$SBRN_HOME"
         echo ""
     fi
     

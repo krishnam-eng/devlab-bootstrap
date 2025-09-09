@@ -1,0 +1,40 @@
+# Ollama Configuration
+# XDG-compliant configuration for Ollama LLM server
+
+# Server configuration
+host: "127.0.0.1:11434"
+origins: 
+  - "http://localhost"
+  - "http://127.0.0.1"
+  - "https://localhost"
+  - "https://127.0.0.1"
+
+# Model storage path (set via environment variable)
+# OLLAMA_MODELS will be set to $XDG_DATA_HOME/ollama/models
+
+# Logging configuration
+log_level: "info"
+
+# Performance settings
+num_parallel: 1
+num_gpu_layers: -1  # Use all available GPU layers
+num_thread: 0       # Use all available CPU threads
+
+# Model loading settings
+keep_alive: "5m"    # Keep models in memory for 5 minutes after last use
+max_loaded_models: 3 # Maximum number of models to keep loaded
+
+# Security settings
+allow_origin: true
+cors_origins:
+  - "http://localhost:*"
+  - "http://127.0.0.1:*"
+  - "https://localhost:*"
+  - "https://127.0.0.1:*"
+
+# Model download settings
+download_timeout: "10m"
+max_download_parts: 4
+
+# Memory management
+memory_limit: "80%"  # Use up to 80% of available memory

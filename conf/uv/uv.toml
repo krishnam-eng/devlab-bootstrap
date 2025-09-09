@@ -1,0 +1,70 @@
+# UV Python Package Manager Configuration
+# XDG-compliant configuration for UV
+
+[global]
+# Cache settings
+cache-dir = "$XDG_CACHE_HOME/uv"
+compile-bytecode = true
+
+# Index configuration
+index-url = "https://pypi.org/simple"
+extra-index-url = [
+    "https://download.pytorch.org/whl/cpu"
+]
+
+# Trusted hosts
+trusted-host = []
+
+# Resolution settings
+resolution = "highest"
+prerelease = "disallow"
+
+# Installation settings
+reinstall = false
+upgrade = false
+no-deps = false
+no-build-isolation = false
+
+# Environment settings
+system = false
+break-system-packages = false
+
+# Output settings
+quiet = false
+verbose = 0
+no-color = false
+
+# Build settings
+no-build = false
+no-binary = []
+only-binary = []
+
+# Configuration for virtual environments
+[venv]
+# Default Python version for new environments
+python = "3.11"
+
+# Package inclusion for new environments
+seed = true
+
+# Environment creation settings
+system-site-packages = false
+symlinks = true
+
+[pip]
+# Pip compatibility settings
+pip-args = []
+keyring-provider = "auto"
+
+# Progress settings
+progress-bar = "auto"
+
+[tool]
+# Tool-specific settings
+uv-lock = true
+uv-python = "3.11"
+
+[install]
+# Installation defaults
+compile = true
+no-compile = false

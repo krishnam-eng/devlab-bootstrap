@@ -66,6 +66,7 @@ function main() {
     confirm_and_run_step "Install Development Tools" install_development_tools show_dev_tools_impact
     confirm_and_run_step "Install Programming Languages & Runtimes" install_programming_languages show_languages_impact
     confirm_and_run_step "Install IDEs and Editors" install_ides_and_editors show_ides_impact
+    confirm_and_run_step "Setup Agentic AI Development Environment" setup_agentic_ai_development show_ai_development_impact
     # confirm_and_run_step "Setup Git and GitHub" setup_git_and_github show_git_impact
 }
 
@@ -510,6 +511,8 @@ function install_shell_productivity_tools() {
         "zsh-completions: Additional completion definitions for zsh"
         "bash-completion: Programmable completion for Bash 3.2"
         "fish: User-friendly command-line shell for UNIX-like operating systems"
+        "starship: Cross-shell prompt with AI-powered features"
+        "warp: AI-native terminal with modern features"
     )
     
     for tool_info in "${shell_tools[@]}"; do
@@ -649,6 +652,11 @@ function install_cloud_container_tools() {
         "istioctl: Istio configuration command-line utility"
         "minikube: Run a Kubernetes cluster locally"
         "terraform: Tool to build, change, and version infrastructure"
+        "pulumi: Modern infrastructure as code with real programming languages"
+        "railway: Deploy apps instantly to Railway cloud"
+        "vercel: Vercel deployment CLI for modern web applications"
+        "supabase: Open-source Firebase alternative CLI"
+        "planetscale: PlanetScale database CLI"
     )
     
     for tool_info in "${cloud_tools[@]}"; do
@@ -1040,7 +1048,694 @@ function create_app_cli_symlinks() {
 }
 
 ################################################################################
-# Step 8: Setup Git and GitHub
+# Step 8: Setup Agentic AI Development Environment
+################################################################################
+function setup_agentic_ai_development() {
+    log_step "🤖 Setting up Agentic AI Development Environment..."
+    
+    # AI/ML Core Tools & Frameworks
+    install_ai_development_tools
+    
+    # ML-Optimized Python Environment
+    setup_ml_python_environment
+    
+    # AI Agent Development Frameworks
+    install_ai_agent_frameworks
+    
+    # Local LLM Capabilities
+    setup_local_llm
+    
+    # Modern AI-Enhanced IDEs
+    install_modern_ai_ides
+    
+    # Vector Databases & Search
+    install_vector_databases
+    
+    # Modern Productivity & Automation Tools
+    install_modern_productivity_tools
+    
+    # AI-Enhanced VS Code Extensions
+    setup_ai_vscode_extensions
+    
+    log_success "Agentic AI Development Environment setup completed"
+}
+
+function install_ai_development_tools() {
+    log_info "Installing 🤖 AI/ML Core Tools & Frameworks..."
+    
+    # Create XDG-compliant directories for AI tools
+    mkdir -p "$XDG_CONFIG_HOME/ai-tools"
+    mkdir -p "$XDG_DATA_HOME/ai-tools"
+    mkdir -p "$XDG_CACHE_HOME/ai-tools"
+    mkdir -p "$XDG_STATE_HOME/ai-tools"
+    
+    local ai_tools=(
+        "ollama: Local LLM deployment and management"
+        "huggingface-cli: Hugging Face model hub CLI access"
+        "duckdb: Fast analytical database for data science"
+        "mlflow: ML experiment tracking and model registry"
+        "datasette: Data exploration and publishing tool"
+        "sqlite-utils: Command-line utilities for SQLite databases"
+        "polars-cli: Fast DataFrame operations via command line"
+        "uv: Fast Python package installer and resolver (AI/ML optimized)"
+        "pyenv: Python version management for ML projects"
+        "conda-forge::mamba: Fast conda package manager for ML"
+    )
+    
+    for tool_info in "${ai_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        
+        # Handle special cases for tools not available via standard brew
+        case "$tool" in
+            "huggingface-cli")
+                if ! command -v "huggingface-cli" &>/dev/null; then
+                    log_info "Installing $description via pip..."
+                    python3 -m pip install --user huggingface_hub[cli]
+                    # Set XDG-compliant cache directory for HuggingFace
+                    export HF_HOME="$XDG_CACHE_HOME/huggingface"
+                    mkdir -p "$HF_HOME"
+                    log_success "$description installed via pip with XDG cache: $HF_HOME"
+                else
+                    log_success "$description already installed"
+                fi
+                ;;
+            "polars-cli")
+                if ! command -v "polars" &>/dev/null; then
+                    log_info "Installing $description via pip..."
+                    python3 -m pip install --user polars[all]
+                    log_success "$description installed via pip"
+                else
+                    log_success "$description already installed"
+                fi
+                ;;
+            "conda-forge::mamba")
+                # Install via conda-forge if conda is available, otherwise skip
+                if command -v "conda" &>/dev/null; then
+                    if ! command -v "mamba" &>/dev/null; then
+                        log_info "Installing $description via conda..."
+                        conda install -c conda-forge mamba -y
+                        log_success "$description installed via conda"
+                    else
+                        log_success "$description already installed"
+                    fi
+                else
+                    log_info "Conda not available, skipping mamba installation"
+                fi
+                ;;
+            *)
+                brew_install "$tool" "$description"
+                ;;
+        esac
+    done
+    
+    # Configure XDG environment variables for AI tools
+    setup_ai_tools_xdg_config
+}
+
+function setup_ai_tools_xdg_config() {
+    log_info "Configuring XDG compliance for AI tools using HRT configuration files..."
+    
+    # Create symlinks for AI tool configurations from HRT to XDG locations
+    log_info "Creating symlinks for AI tool configurations..."
+    
+    # Symlink entire configuration directories instead of individual files
+    local config_dirs=(
+        "ollama"
+        "conda" 
+        "jupyter"
+        "uv"
+        "vector-databases"
+        "ai-tools"
+    )
+    
+    for config_dir in "${config_dirs[@]}"; do
+        local hrt_conf_dir="$SBRN_HOME/sys/hrt/conf/$config_dir"
+        local xdg_conf_link="$XDG_CONFIG_HOME/$config_dir"
+        
+        if [[ -d "$hrt_conf_dir" ]]; then
+            # Remove existing file/directory if it exists to avoid conflicts
+            [[ -e "$xdg_conf_link" ]] && rm -rf "$xdg_conf_link"
+            
+            # Create symlink to entire directory
+            ln -sfn "$hrt_conf_dir" "$xdg_conf_link"
+            log_success "Linked $config_dir configuration directory"
+        else
+            log_info "HRT configuration directory not found: $hrt_conf_dir"
+        fi
+    done
+    
+    # Create necessary XDG directories for AI tools data and cache
+    local xdg_dirs=(
+        "$XDG_CACHE_HOME/huggingface"
+        "$XDG_CACHE_HOME/torch"
+        "$XDG_CACHE_HOME/langchain"
+        "$XDG_CACHE_HOME/wandb"
+        "$XDG_CACHE_HOME/conda/pkgs"
+        "$XDG_CACHE_HOME/pip"
+        "$XDG_CACHE_HOME/uv"
+        "$XDG_DATA_HOME/mlflow"
+        "$XDG_DATA_HOME/jupyter"
+        "$XDG_DATA_HOME/ollama/models"
+        "$XDG_DATA_HOME/duckdb"
+        "$XDG_DATA_HOME/chromadb"
+        "$XDG_DATA_HOME/wandb"
+        "$XDG_DATA_HOME/tensorboard"
+        "$XDG_DATA_HOME/conda/envs"
+        "$XDG_DATA_HOME/pyenv"
+        "$XDG_DATA_HOME/vector-databases/chromadb"
+        "$XDG_DATA_HOME/vector-databases/qdrant"
+        "$XDG_DATA_HOME/vector-databases/weaviate"
+    )
+    
+    for dir in "${xdg_dirs[@]}"; do
+        mkdir -p "$dir"
+    done
+    
+    log_success "Created XDG-compliant directories for AI tools"
+    log_success "AI tools XDG configuration completed using HRT configuration files"
+}
+
+function setup_ml_python_environment() {
+    log_info "Setting up 🐍 ML-Optimized Python Environment with XDG compliance..."
+    
+    # Set XDG-compliant paths for conda before installation
+    # Configuration will be provided via symlink from HRT to $XDG_CONFIG_HOME/conda/condarc
+    export CONDA_ENVS_PATH="$XDG_DATA_HOME/conda/envs"
+    export CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda/pkgs"
+    export CONDARC="$XDG_CONFIG_HOME/conda/condarc"
+    
+    # Create conda directories
+    mkdir -p "$XDG_DATA_HOME/conda/envs"
+    mkdir -p "$XDG_CACHE_HOME/conda/pkgs"
+    mkdir -p "$XDG_CONFIG_HOME/conda"
+    
+    # Install miniconda for better ML package management
+    if ! command -v conda &>/dev/null; then
+        log_info "Installing Miniconda for ML environment management..."
+        brew_cask_install "miniconda" "Minimal conda installer for Python environments"
+        
+        # Note: XDG-compliant conda configuration will be available via symlink from HRT
+        
+        # Initialize conda for zsh with XDG paths
+        if command -v conda &>/dev/null; then
+            conda init zsh
+            log_success "Conda initialized for zsh shell with XDG configuration"
+        fi
+    else
+        log_success "Conda already installed"
+        
+        # Note: XDG configuration will be available via symlink from HRT conf directory
+    fi
+    
+    # Create ML development environment in XDG location
+    if command -v conda &>/dev/null; then
+        local env_name="ml-dev"
+        local env_path="$XDG_DATA_HOME/conda/envs/$env_name"
+        
+        if [[ ! -d "$env_path" ]]; then
+            log_info "Creating ML development environment: $env_name in XDG location"
+            conda create -p "$env_path" python=3.11 -y
+            
+            # Activate environment and install ML stack
+            log_info "Installing ML packages in $env_name environment..."
+            conda run -p "$env_path" pip install \
+                numpy pandas scikit-learn matplotlib seaborn plotly \
+                torch torchvision transformers datasets accelerate \
+                jupyter jupyterlab ipywidgets notebook \
+                langchain langchain-community langchain-openai \
+                chromadb qdrant-client \
+                streamlit gradio \
+                openai anthropic cohere \
+                mlflow wandb tensorboard
+            
+            # Register Jupyter kernel with XDG-compliant paths
+            export JUPYTER_DATA_DIR="$XDG_DATA_HOME/jupyter"
+            mkdir -p "$JUPYTER_DATA_DIR"
+            conda run -p "$env_path" python -m ipykernel install --user --name="$env_name" --display-name="Python (ML-Dev)"
+            
+            log_success "ML development environment '$env_name' created in XDG-compliant location: $env_path"
+            log_info "Activate with: conda activate $env_path"
+        else
+            log_success "ML development environment '$env_name' already exists in XDG location"
+        fi
+    else
+        log_warning "Conda not available, skipping ML environment creation"
+    fi
+}
+
+function install_ai_agent_frameworks() {
+    log_info "Installing 🤖 AI Agent Development Frameworks..."
+    
+    # Install agent frameworks via pip (these are Python packages)
+    local agent_frameworks=(
+        "langchain: LangChain framework for building LLM applications"
+        "crewai: Multi-agent AI framework for collaborative AI systems"
+        "autogen-agentchat: Microsoft AutoGen for multi-agent conversations"
+        "semantic-kernel: Microsoft Semantic Kernel for AI orchestration"
+        "haystack-ai: End-to-end LLM framework for search and QA"
+        "llama-index: Data framework for LLM applications"
+    )
+    
+    for framework_info in "${agent_frameworks[@]}"; do
+        local framework="${framework_info%%:*}"
+        local description="${framework_info#*:}"
+        
+        if ! python3 -c "import ${framework//-/_}" &>/dev/null; then
+            log_info "Installing $description via pip..."
+            python3 -m pip install --user "$framework"
+            log_success "$description installed via pip"
+        else
+            log_success "$description already installed"
+        fi
+    done
+    
+    # Install agent CLI tools if available
+    local agent_cli_tools=(
+        "openai: OpenAI CLI for API interactions"
+        "anthropic: Anthropic Claude CLI"
+    )
+    
+    for tool_info in "${agent_cli_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        
+        if ! command -v "$tool" &>/dev/null; then
+            log_info "Installing $description via pip..."
+            python3 -m pip install --user "$tool"
+            log_success "$description installed via pip"
+        else
+            log_success "$description already installed"
+        fi
+    done
+}
+
+function setup_local_llm() {
+    log_info "Setting up 🧠 Local LLM Capabilities with XDG compliance..."
+    
+    # Set XDG-compliant paths for Ollama
+    export OLLAMA_MODELS="$XDG_DATA_HOME/ollama/models"
+    mkdir -p "$OLLAMA_MODELS"
+    
+    # Install Ollama for local LLM hosting
+    if ! command -v ollama &>/dev/null; then
+        log_info "Installing Ollama for local LLM deployment..."
+        brew_install "ollama" "Local LLM deployment and management platform"
+        
+        # Start ollama service
+        if command -v ollama &>/dev/null; then
+            log_info "Starting Ollama service with XDG-compliant model storage..."
+            
+            # Create Ollama configuration file
+            local ollama_config="$XDG_CONFIG_HOME/ollama/config.yaml"
+            mkdir -p "$(dirname "$ollama_config")"
+            cat > "$ollama_config" << EOF
+# Ollama XDG-compliant configuration
+models_path: "$OLLAMA_MODELS"
+host: "127.0.0.1:11434"
+origins: ["http://localhost", "http://127.0.0.1", "https://localhost", "https://127.0.0.1"]
+EOF
+            
+            # Set environment variable for Ollama configuration
+            export OLLAMA_HOST="127.0.0.1:11434"
+            
+            ollama serve &
+            sleep 3  # Give service time to start
+            
+            # Download useful models for development
+            log_info "Downloading essential LLM models to XDG location: $OLLAMA_MODELS"
+            local models=(
+                "llama3.2:3b"
+                "codellama:7b"
+                "mistral:7b"
+                "phi3:mini"
+            )
+            
+            for model in "${models[@]}"; do
+                log_info "Downloading model: $model"
+                OLLAMA_MODELS="$OLLAMA_MODELS" ollama pull "$model" || log_warning "Failed to download $model - continuing..."
+            done
+            
+            log_success "Ollama configured with essential models in XDG location: $OLLAMA_MODELS"
+        fi
+    else
+        log_success "Ollama already installed"
+        
+        # Ensure XDG configuration
+        if [[ ! -f "$XDG_CONFIG_HOME/ollama/config.yaml" ]]; then
+            mkdir -p "$XDG_CONFIG_HOME/ollama"
+            cat > "$XDG_CONFIG_HOME/ollama/config.yaml" << EOF
+# Ollama XDG-compliant configuration
+models_path: "$OLLAMA_MODELS"
+host: "127.0.0.1:11434"
+origins: ["http://localhost", "http://127.0.0.1", "https://localhost", "https://127.0.0.1"]
+EOF
+            log_success "Created XDG-compliant Ollama configuration"
+        fi
+    fi
+    
+    # Install llamafile for single-file LLM deployment
+    if ! command -v llamafile &>/dev/null; then
+        log_info "Installing llamafile for portable LLM deployment..."
+        # llamafile needs to be downloaded from GitHub releases
+        local llamafile_url="https://github.com/Mozilla-Ocho/llamafile/releases/latest/download/llamafile"
+        curl -L -o "$SBRN_HOME/sys/bin/llamafile" "$llamafile_url"
+        chmod +x "$SBRN_HOME/sys/bin/llamafile"
+        
+        # Create XDG-compliant llamafile directory
+        mkdir -p "$XDG_DATA_HOME/llamafile/models"
+        mkdir -p "$XDG_CONFIG_HOME/llamafile"
+        
+        log_success "llamafile installed to $SBRN_HOME/sys/bin/llamafile with XDG data dir: $XDG_DATA_HOME/llamafile"
+    else
+        log_success "llamafile already installed"
+    fi
+}
+
+function install_modern_ai_ides() {
+    log_info "Installing 🚀 Modern AI-Enhanced IDEs..."
+    
+    local ai_ides=(
+        "cursor: AI-native code editor with advanced AI features"
+        "windsurf: AI-native IDE from Codeium with collaborative AI"
+        "zed: High-performance collaborative code editor with AI"
+        "continue: Open-source AI code assistant"
+    )
+    
+    for ide_info in "${ai_ides[@]}"; do
+        local ide="${ide_info%%:*}"
+        local description="${ide_info#*:}"
+        
+        case "$ide" in
+            "windsurf")
+                # Windsurf might not be available via brew, provide manual installation info
+                if [[ ! -d "/Applications/Windsurf.app" ]] && [[ ! -d "$HOME/Applications/Windsurf.app" ]]; then
+                    log_info "Windsurf not found - manual installation required"
+                    log_info "  → Download from: https://codeium.com/windsurf"
+                else
+                    log_success "Windsurf already installed"
+                fi
+                ;;
+            "continue")
+                # Continue is a VS Code extension, will be handled in AI VS Code extensions
+                log_info "Continue AI assistant will be installed as VS Code extension"
+                ;;
+            *)
+                brew_cask_install "$ide" "$description"
+                ;;
+        esac
+    done
+}
+
+function install_vector_databases() {
+    log_info "Installing 🔍 Vector Databases & Search Engines with XDG compliance..."
+    
+    # Create XDG-compliant directories for vector databases
+    mkdir -p "$XDG_DATA_HOME/vector-databases"
+    mkdir -p "$XDG_CONFIG_HOME/vector-databases"
+    mkdir -p "$XDG_CACHE_HOME/vector-databases"
+    
+    local vector_tools=(
+        "qdrant: Vector search engine for AI applications"
+        "chroma: AI-native open-source embedding database"
+        "weaviate: Cloud-native vector database"
+        "pinecone: Managed vector database service CLI"
+        "pgvector: Vector similarity search for PostgreSQL"
+    )
+    
+    for tool_info in "${vector_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        
+        case "$tool" in
+            "qdrant")
+                if ! command -v qdrant &>/dev/null; then
+                    log_info "Installing $description via Docker with XDG data persistence..."
+                    if command -v docker &>/dev/null; then
+                        # Create XDG-compliant data directory for Qdrant
+                        local qdrant_data="$XDG_DATA_HOME/vector-databases/qdrant"
+                        mkdir -p "$qdrant_data"
+                        
+                        docker pull qdrant/qdrant
+                        
+                        # Create docker-compose configuration for XDG persistence
+                        local qdrant_compose="$XDG_CONFIG_HOME/vector-databases/qdrant-docker-compose.yml"
+                        cat > "$qdrant_compose" << EOF
+version: '3.7'
+services:
+  qdrant:
+    image: qdrant/qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - "$qdrant_data:/qdrant/storage"
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+EOF
+                        
+                        log_success "$description Docker image pulled with XDG persistence config"
+                        log_info "Start with: docker-compose -f $qdrant_compose up -d"
+                        log_info "Data will be stored in: $qdrant_data"
+                    else
+                        log_warning "Docker not available, skipping Qdrant installation"
+                    fi
+                else
+                    log_success "$description already available"
+                fi
+                ;;
+            "chroma"|"pinecone")
+                if ! python3 -c "import ${tool}" &>/dev/null; then
+                    log_info "Installing $description via pip with XDG configuration..."
+                    python3 -m pip install --user "${tool}db" || python3 -m pip install --user "$tool"
+                    
+                    # Configure XDG paths for ChromaDB
+                    if [[ "$tool" == "chroma" ]]; then
+                        local chroma_config="$XDG_CONFIG_HOME/vector-databases/chromadb.conf"
+                        cat > "$chroma_config" << EOF
+# ChromaDB XDG-compliant configuration
+export CHROMA_DB_IMPL="duckdb+parquet"
+export CHROMA_PERSIST_DIRECTORY="$XDG_DATA_HOME/vector-databases/chromadb"
+EOF
+                        mkdir -p "$XDG_DATA_HOME/vector-databases/chromadb"
+                        log_success "$description installed with XDG data dir: $XDG_DATA_HOME/vector-databases/chromadb"
+                    else
+                        log_success "$description installed via pip"
+                    fi
+                else
+                    log_success "$description already installed"
+                fi
+                ;;
+            "weaviate")
+                if ! python3 -c "import weaviate" &>/dev/null; then
+                    log_info "Installing $description via pip with XDG configuration..."
+                    python3 -m pip install --user weaviate-client
+                    
+                    # Create XDG-compliant configuration for Weaviate
+                    local weaviate_config="$XDG_CONFIG_HOME/vector-databases/weaviate.conf"
+                    cat > "$weaviate_config" << EOF
+# Weaviate XDG-compliant configuration
+export WEAVIATE_DATA_PATH="$XDG_DATA_HOME/vector-databases/weaviate"
+export WEAVIATE_CONFIG_PATH="$XDG_CONFIG_HOME/vector-databases/weaviate"
+EOF
+                    mkdir -p "$XDG_DATA_HOME/vector-databases/weaviate"
+                    log_success "$description client installed with XDG configuration"
+                else
+                    log_success "$description already installed"
+                fi
+                ;;
+            "pgvector")
+                # pgvector is a PostgreSQL extension
+                if command -v pg_config &>/dev/null; then
+                    log_info "pgvector requires PostgreSQL - check if extension is available"
+                    log_info "  → Install via: CREATE EXTENSION vector; (in PostgreSQL)"
+                    
+                    # Create helper script for pgvector setup
+                    local pgvector_script="$XDG_CONFIG_HOME/vector-databases/setup-pgvector.sql"
+                    cat > "$pgvector_script" << EOF
+-- PostgreSQL pgvector setup script
+-- Run this in your PostgreSQL database
+
+-- Create the vector extension
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- Example table with vector column
+-- CREATE TABLE documents (
+--   id SERIAL PRIMARY KEY,
+--   content TEXT,
+--   embedding VECTOR(1536)  -- OpenAI embedding dimension
+-- );
+
+-- Example index for vector similarity search
+-- CREATE INDEX ON documents USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+EOF
+                    log_success "pgvector setup script created: $pgvector_script"
+                else
+                    log_info "PostgreSQL not found - pgvector requires PostgreSQL"
+                fi
+                ;;
+        esac
+    done
+    
+    # Create a unified vector database configuration script
+    local vector_db_script="$XDG_CONFIG_HOME/vector-databases/env-setup.sh"
+    cat > "$vector_db_script" << 'EOF'
+#!/bin/bash
+# Vector Database Environment Setup Script
+# Source this file to set up XDG-compliant paths for vector databases
+
+# ChromaDB
+export CHROMA_DB_IMPL="duckdb+parquet"
+export CHROMA_PERSIST_DIRECTORY="$XDG_DATA_HOME/vector-databases/chromadb"
+
+# Weaviate
+export WEAVIATE_DATA_PATH="$XDG_DATA_HOME/vector-databases/weaviate"
+export WEAVIATE_CONFIG_PATH="$XDG_CONFIG_HOME/vector-databases/weaviate"
+
+# Qdrant data directory
+export QDRANT_DATA_DIR="$XDG_DATA_HOME/vector-databases/qdrant"
+
+echo "Vector database XDG environment configured:"
+echo "  ChromaDB: $CHROMA_PERSIST_DIRECTORY"
+echo "  Weaviate: $WEAVIATE_DATA_PATH"
+echo "  Qdrant:   $QDRANT_DATA_DIR"
+EOF
+    
+    chmod +x "$vector_db_script"
+    log_success "Vector database XDG environment script created: $vector_db_script"
+}
+
+function install_modern_productivity_tools() {
+    log_info "Installing ⚡ Modern Productivity & Automation Tools..."
+    
+    local productivity_tools=(
+        "raycast: AI-powered launcher and productivity tool"
+        "rectangle: Window management for enhanced productivity"
+        "cleanmymac: System optimization and maintenance"
+        "bartender: Menu bar organization and management"
+        "alfred: Productivity app for macOS with workflows"
+        "karabiner-elements: Keyboard customization tool"
+        "hammerspoon: Desktop automation tool"
+        "brew-services: Manage background services via Homebrew"
+    )
+    
+    for tool_info in "${productivity_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        
+        case "$tool" in
+            "cleanmymac")
+                # CleanMyMac might require manual installation or App Store
+                if [[ ! -d "/Applications/CleanMyMac.app" ]]; then
+                    log_info "CleanMyMac requires manual installation from App Store or website"
+                    log_info "  → Download from: https://macpaw.com/cleanmymac"
+                else
+                    log_success "CleanMyMac already installed"
+                fi
+                ;;
+            "brew-services")
+                # This is a built-in brew command, not a separate package
+                if command -v brew &>/dev/null; then
+                    log_success "brew services available via Homebrew"
+                else
+                    log_warning "Homebrew not available"
+                fi
+                ;;
+            *)
+                brew_cask_install "$tool" "$description"
+                ;;
+        esac
+    done
+    
+    # Install command-line productivity tools
+    local cli_productivity=(
+        "terminal-notifier: Send macOS notifications from command line"
+        "mas: Mac App Store command line interface"
+        "duti: Set default applications for document types"
+        "trash: Move files to trash from command line"
+    )
+    
+    for tool_info in "${cli_productivity[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool" "$description"
+    done
+}
+
+function setup_ai_vscode_extensions() {
+    log_info "Setting up 🧠 AI-Enhanced VS Code Extensions..."
+    
+    # Check if VS Code CLI is available
+    if ! command -v code &> /dev/null; then
+        log_warning "VS Code CLI 'code' command not found. Skipping AI extension installation."
+        log_info "To enable: Open VS Code → Cmd+Shift+P → 'Shell Command: Install code command in PATH'"
+        return 0
+    fi
+    
+    # AI-enhanced extensions
+    local ai_extensions=(
+        "continue.continue"
+        "codeium.codeium"
+        "github.copilot-labs"
+        "ms-toolsai.vscode-ai"
+        "huggingface.huggingface-vscode"
+        "tabnine.tabnine-vscode"
+        "amazonwebservices.aws-toolkit-vscode"
+        "ms-toolsai.jupyter-ai"
+        "ms-toolsai.vscode-jupyter-cell-tags"
+        "charliermarsh.ruff"
+        "ms-python.black-formatter"
+        "ms-python.isort"
+        "bradlc.vscode-tailwindcss"
+        "prisma.prisma"
+        "graphql.vscode-graphql"
+        "rust-lang.rust-analyzer"
+        "golang.go"
+        "hashicorp.terraform"
+        "redhat.vscode-yaml"
+        "ms-vscode.vscode-json"
+    )
+    
+    log_info "Installing AI-enhanced VS Code extensions..."
+    for extension in "${ai_extensions[@]}"; do
+        if ! code --list-extensions | grep -q "^$extension$"; then
+            log_info "Installing extension: $extension"
+            code --install-extension "$extension" --force
+        else
+            log_success "Extension already installed: $extension"
+        fi
+    done
+    
+    # Update the extensions.txt file with new AI extensions
+    local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
+    if [[ -f "$extensions_file" ]]; then
+        # Backup current extensions file
+        cp "$extensions_file" "$extensions_file.backup.$(date +%Y%m%d_%H%M%S)"
+        
+        # Add AI extensions header and new extensions
+        {
+            echo "# AI Development Extensions - Added $(date +%Y-%m-%d)"
+            for extension in "${ai_extensions[@]}"; do
+                # Check if extension is not already in file
+                if ! grep -q "^$extension" "$extensions_file"; then
+                    echo "$extension"
+                fi
+            done
+            echo ""
+            echo "# Original Extensions"
+            grep -v "^#" "$extensions_file" | grep -v "^$"
+        } > "$extensions_file.new"
+        
+        mv "$extensions_file.new" "$extensions_file"
+        log_success "Updated extensions.txt with AI development extensions"
+    fi
+    
+    log_success "AI-enhanced VS Code extensions setup completed"
+}
+
+################################################################################
+# Step 9: Setup Git and GitHub
 ################################################################################
 function setup_git_and_github() {
     log_step "🔗 Setting up Git and GitHub..."
@@ -1398,6 +2093,98 @@ function show_ides_impact() {
     else
         echo "⚠️  iTerm2 not found - terminal configurations skipped"
     fi
+}
+
+function show_ai_development_impact() {
+    echo "✅ 🤖 AI/ML Core Tools & Frameworks (XDG-compliant):"
+    echo "   • ollama (local LLM deployment with XDG model storage: $XDG_DATA_HOME/ollama/models)"
+    echo "   • huggingface-cli (with XDG cache: $XDG_CACHE_HOME/huggingface)"
+    echo "   • duckdb (with XDG data: $XDG_DATA_HOME/duckdb)"
+    echo "   • mlflow (with XDG tracking: $XDG_DATA_HOME/mlflow)"
+    echo "   • datasette, sqlite-utils, polars-cli"
+    echo "   • pyenv (XDG root: $XDG_DATA_HOME/pyenv)"
+    if command -v conda &>/dev/null; then
+        echo "   • miniconda (XDG envs: $XDG_DATA_HOME/conda/envs, pkgs: $XDG_CACHE_HOME/conda/pkgs)"
+        if command -v mamba &>/dev/null; then
+            echo "   • mamba (fast conda package manager)"
+        fi
+    fi
+    echo "✅ 🐍 ML-Optimized Python Environment (XDG-compliant):"
+    if command -v conda &>/dev/null; then
+        local env_path="$XDG_DATA_HOME/conda/envs/ml-dev"
+        if [[ -d "$env_path" ]]; then
+            echo "   • ml-dev environment in XDG location: $env_path"
+            echo "   • Jupyter kernel 'Python (ML-Dev)' with XDG data: $XDG_DATA_HOME/jupyter"
+            echo "   • Packages: torch, transformers, langchain, chromadb, streamlit"
+            echo "   • Activate with: conda activate $env_path"
+        else
+            echo "   • Conda available for XDG-compliant ML environment creation"
+        fi
+    else
+        echo "   • Install miniconda for optimal XDG-compliant ML environment"
+    fi
+    echo "✅ 🤖 AI Agent Development Frameworks:"
+    echo "   • langchain (with XDG cache: $XDG_CACHE_HOME/langchain)"
+    echo "   • crewai, autogen-agentchat, semantic-kernel, haystack-ai, llama-index"
+    echo "   • openai CLI (config: $XDG_CONFIG_HOME/openai)"
+    echo "   • anthropic CLI (config: $XDG_CONFIG_HOME/anthropic)"
+    echo "✅ 🧠 Local LLM Capabilities (XDG-compliant):"
+    if command -v ollama &>/dev/null; then
+        echo "   • Ollama service with XDG model storage: $XDG_DATA_HOME/ollama/models"
+        echo "   • Models: llama3.2:3b, codellama:7b, mistral:7b, phi3:mini"
+        echo "   • Configuration: $XDG_CONFIG_HOME/ollama/config.yaml"
+    fi
+    if [[ -f "$SBRN_HOME/sys/bin/llamafile" ]]; then
+        echo "   • llamafile with XDG data dir: $XDG_DATA_HOME/llamafile"
+    fi
+    echo "✅ 🚀 Modern AI-Enhanced IDEs:"
+    if [[ -d "/Applications/Cursor.app" ]] || [[ -d "$HOME/Applications/Cursor.app" ]]; then
+        echo "   • Cursor (AI-native code editor)"
+    fi
+    if [[ -d "/Applications/Zed.app" ]] || [[ -d "$HOME/Applications/Zed.app" ]]; then
+        echo "   • Zed (high-performance collaborative editor)"
+    fi
+    if [[ -d "/Applications/Windsurf.app" ]] || [[ -d "$HOME/Applications/Windsurf.app" ]]; then
+        echo "   • Windsurf (Codeium AI-native IDE)"
+    fi
+    echo "✅ 🔍 Vector Databases & Search (XDG-compliant):"
+    if command -v docker &>/dev/null; then
+        echo "   • Qdrant (Docker with XDG persistence: $XDG_DATA_HOME/vector-databases/qdrant)"
+    fi
+    echo "   • ChromaDB (XDG data: $XDG_DATA_HOME/vector-databases/chromadb)"
+    echo "   • Weaviate client (XDG config: $XDG_CONFIG_HOME/vector-databases/weaviate)"
+    echo "   • Pinecone client, pgvector setup script"
+    echo "   • Environment setup: $XDG_CONFIG_HOME/vector-databases/env-setup.sh"
+    echo "✅ ⚡ Modern Productivity & Automation:"
+    if [[ -d "/Applications/Raycast.app" ]] || [[ -d "$HOME/Applications/Raycast.app" ]]; then
+        echo "   • Raycast (AI-powered launcher)"
+    fi
+    if [[ -d "/Applications/Rectangle.app" ]] || [[ -d "$HOME/Applications/Rectangle.app" ]]; then
+        echo "   • Rectangle (window management)"
+    fi
+    if [[ -d "/Applications/Alfred.app" ]] || [[ -d "$HOME/Applications/Alfred.app" ]]; then
+        echo "   • Alfred (productivity workflows)"
+    fi
+    if command -v terminal-notifier &>/dev/null; then
+        echo "   • terminal-notifier, mas CLI, trash CLI"
+    fi
+    echo "✅ 🧠 AI-Enhanced VS Code Extensions:"
+    if command -v code &>/dev/null; then
+        local ai_ext_count=$(code --list-extensions | grep -E "(continue|codeium|copilot|tabnine|huggingface)" | wc -l | tr -d ' ')
+        echo "   • $ai_ext_count AI extensions installed (Continue, Codeium, Copilot Labs, etc.)"
+        echo "   • Extensions updated in: $SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
+    else
+        echo "   • VS Code CLI not available - extensions pending"
+    fi
+    echo "✅ 🌐 Modern Cloud & Deployment Tools:"
+    if command -v pulumi &>/dev/null; then
+        echo "   • Pulumi, Railway, Vercel, Supabase CLIs"
+    fi
+    echo "✅ 📁 XDG Configuration:"
+    echo "   • AI tools config: $XDG_CONFIG_HOME/ai-tools/xdg-env.conf"
+    echo "   • Vector databases: $XDG_CONFIG_HOME/vector-databases/"
+    echo "   • All AI tool data in XDG-compliant locations"
+    echo "   • Source XDG config added to .zshrc for persistence"
 }
 
 function show_git_impact() {
@@ -1858,6 +2645,11 @@ function show_system_summary() {
     # IDEs and Editors Status
     echo "📝 IDEs and Editors:"
     check_ides_status
+    echo ""
+    
+    # AI Development Environment Status
+    echo "🤖 Agentic AI Development:"
+    check_ai_development_status
     echo ""
 
     # Productivity Apps Status
@@ -2406,6 +3198,97 @@ function check_vscode_extensions_status() {
         fi
     elif [[ -d "/Applications/Visual Studio Code.app" ]] || [[ -d "$HOME/Applications/Visual Studio Code.app" ]]; then
         echo "   ⚠️  VS Code installed but CLI not available (Cmd+Shift+P → Install 'code' command)"
+    fi
+}
+
+function check_ai_development_status() {
+    # Check AI/ML core tools
+    local ai_tools=("ollama" "duckdb" "mlflow" "datasette" "sqlite-utils" "pyenv")
+    local installed_count=0
+    local missing_tools=()
+    
+    for tool in "${ai_tools[@]}"; do
+        if command -v "$tool" &>/dev/null; then
+            installed_count=$((installed_count + 1))
+        else
+            missing_tools+=("$tool")
+        fi
+    done
+    
+    if [ $installed_count -eq ${#ai_tools[@]} ]; then
+        echo "   ✅ AI/ML Tools: $installed_count/${#ai_tools[@]} installed"
+    else
+        echo "   ⚠️  AI/ML Tools: $installed_count/${#ai_tools[@]} installed"
+    fi
+    if [[ ${#missing_tools[@]} -gt 0 ]]; then
+        echo "      Missing: ${missing_tools[*]}"
+    fi
+    
+    # Check Python AI packages
+    local ai_packages=("langchain" "transformers" "torch" "openai" "anthropic")
+    local installed_packages=()
+    
+    for package in "${ai_packages[@]}"; do
+        if python3 -c "import ${package//-/_}" &>/dev/null; then
+            installed_packages+=("$package")
+        fi
+    done
+    
+    if [[ ${#installed_packages[@]} -gt 0 ]]; then
+        echo "   ✅ Python AI Packages ${#installed_packages[@]}/${#ai_packages[@]}: ${installed_packages[*]}"
+    else
+        echo "   ❌ Python AI Packages 0/${#ai_packages[@]}: None installed"
+    fi
+    
+    # Check ML environment
+    if command -v conda &>/dev/null; then
+        if conda env list | grep -q "ml-dev"; then
+            echo "   ✅ ML Environment: ml-dev conda environment configured"
+        else
+            echo "   ⚠️  ML Environment: conda available, ml-dev environment not created"
+        fi
+    else
+        echo "   ❌ ML Environment: conda not installed"
+    fi
+    
+    # Check Local LLM setup
+    if command -v ollama &>/dev/null; then
+        local model_count=$(ollama list 2>/dev/null | grep -v "NAME" | wc -l | tr -d ' ')
+        if [[ $model_count -gt 0 ]]; then
+            echo "   ✅ Local LLMs: Ollama with $model_count models installed"
+        else
+            echo "   ⚠️  Local LLMs: Ollama installed, no models downloaded"
+        fi
+    else
+        echo "   ❌ Local LLMs: Ollama not installed"
+    fi
+    
+    # Check AI IDEs
+    local ai_ides=("Cursor.app" "Zed.app" "Windsurf.app")
+    local installed_ai_ides=()
+    
+    for ide in "${ai_ides[@]}"; do
+        if [[ -d "/Applications/$ide" ]] || [[ -d "$HOME/Applications/$ide" ]]; then
+            installed_ai_ides+=("${ide%.app}")
+        fi
+    done
+    
+    if [[ ${#installed_ai_ides[@]} -gt 0 ]]; then
+        echo "   ✅ AI IDEs ${#installed_ai_ides[@]}/${#ai_ides[@]}: ${installed_ai_ides[*]}"
+    else
+        echo "   ❌ AI IDEs 0/${#ai_ides[@]}: None installed"
+    fi
+    
+    # Check AI VS Code extensions
+    if command -v code &>/dev/null; then
+        local ai_extensions_count=$(code --list-extensions 2>/dev/null | grep -E "(continue|codeium|copilot|tabnine|huggingface)" | wc -l | tr -d ' ')
+        if [[ $ai_extensions_count -gt 0 ]]; then
+            echo "   ✅ AI VS Code Extensions: $ai_extensions_count installed"
+        else
+            echo "   ❌ AI VS Code Extensions: None installed"
+        fi
+    else
+        echo "   ⚠️  VS Code CLI not available for extension check"
     fi
 }
 

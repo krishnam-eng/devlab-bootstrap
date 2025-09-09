@@ -1,3 +1,24 @@
+# AI Development Extensions - Added 2025-01-09
+continue.continue
+codeium.codeium
+github.copilot-labs
+ms-toolsai.vscode-ai
+huggingface.huggingface-vscode
+tabnine.tabnine-vscode
+amazonwebservices.aws-toolkit-vscode
+ms-toolsai.jupyter-ai
+charliermarsh.ruff
+ms-python.black-formatter
+ms-python.isort
+bradlc.vscode-tailwindcss
+prisma.prisma
+graphql.vscode-graphql
+golang.go
+hashicorp.terraform
+redhat.vscode-yaml
+ms-vscode.vscode-json
+
+# Original Extensions
 aaron-bond.better-comments@3.0.2
 atommaterial.a-file-icon-vscode@2.0.1
 christian-kohler.path-intellisense@2.10.0

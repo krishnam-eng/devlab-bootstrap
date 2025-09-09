@@ -1,0 +1,50 @@
+# AI Development Tools Configuration
+# This file contains general settings for AI development tools
+
+[huggingface]
+# HuggingFace Hub configuration
+cache_dir = "$XDG_CACHE_HOME/huggingface"
+use_auth_token = true
+default_model_revision = "main"
+
+[openai]
+# OpenAI API configuration
+api_base = "https://api.openai.com/v1"
+max_retries = 3
+timeout = 60
+
+[anthropic]
+# Anthropic Claude API configuration
+api_base = "https://api.anthropic.com"
+max_retries = 3
+timeout = 120
+
+[langchain]
+# LangChain configuration
+cache_dir = "$XDG_CACHE_HOME/langchain"
+verbose = false
+debug = false
+
+[mlflow]
+# MLflow configuration
+tracking_uri = "file://$XDG_DATA_HOME/mlflow"
+registry_uri = "file://$XDG_DATA_HOME/mlflow"
+default_artifact_root = "$XDG_DATA_HOME/mlflow/artifacts"
+
+[wandb]
+# Weights & Biases configuration
+base_url = "https://api.wandb.ai"
+console = "auto"
+mode = "online"
+
+[tensorboard]
+# TensorBoard configuration
+logdir = "$XDG_DATA_HOME/tensorboard"
+host = "127.0.0.1"
+port = 6006
+
+[jupyter]
+# Jupyter configuration
+config_dir = "$XDG_CONFIG_HOME/jupyter"
+data_dir = "$XDG_DATA_HOME/jupyter"
+runtime_dir = "$XDG_RUNTIME_DIR/jupyter"

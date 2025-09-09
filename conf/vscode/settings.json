@@ -25,6 +25,7 @@
   "workbench.productIconTheme": "a-file-icon-vscode-product-icon-theme",
   "explorer.confirmDelete": false,
   "extensions.autoUpdate": true,
-  "python.defaultInterpreterPath": "~/sbrn/sys/local/share/conda/envs/base/bin/python",
-  "files.defaultLanguage": "markdown"
+  "python.defaultInterpreterPath": "/opt/homebrew/bin/python3",
+  "files.defaultLanguage": "markdown",
+  "tabnine.experimentalAutoImports": true
 }

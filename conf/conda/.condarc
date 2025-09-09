@@ -1,16 +1,64 @@
+# Conda XDG-compliant configuration
+# This file should be symlinked to $XDG_CONFIG_HOME/conda/.condarc
+
+# XDG Base Directory Specification compliance
+envs_dirs:
+  - $XDG_DATA_HOME/conda/envs
+
+pkgs_dirs:
+  - $XDG_CACHE_HOME/conda/pkgs
+
+# Channel configuration
 channels:
   - conda-forge
   - defaults
 
+# Channel priority
 channel_priority: strict
 
-# XDG Base Directory Specification compliance
-envs_dirs:
-  - $HOME/sbrn/sys/local/share/conda/envs
-pkgs_dirs:
-  - $HOME/sbrn/sys/cache/conda/pkgs
+# Auto activation settings
+auto_activate_base: false
+auto_update_conda: false
 
+# Display settings
+show_channel_urls: true
+quiet: false
+verbose: false
+
+# SSL verification
+ssl_verify: true
+
+# Offline mode
+offline: false
+
+# Environment creation settings
 create_default_packages:
-  - jupyter
+  - pip
+  - setuptools
+  - wheel
 
-# Verify with conda config --show
+# Solver settings
+solver: libmamba
+
+# Package validation
+safety_checks: warn
+extra_safety_checks: false
+
+# Download settings
+remote_connect_timeout_secs: 30
+remote_read_timeout_secs: 60
+remote_max_retries: 3
+
+# Proxy settings (if needed)
+# proxy_servers:
+#   http: http://user:pass@corp.com:8080
+#   https: https://user:pass@corp.com:8080
+
+# Reporting settings
+report_errors: true
+anaconda_upload: false
+
+# Environment variable expansion
+env_vars:
+  CONDA_ENVS_PATH: $XDG_DATA_HOME/conda/envs
+  CONDA_PKGS_DIRS: $XDG_CACHE_HOME/conda/pkgs

@@ -50,6 +50,68 @@ export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR/npm"
 # Z shell navigation tool
 export _Z_DATA="$XDG_STATE_HOME/z"
 
+## AI/ML Development Environment Variables (XDG-compliant)
+# HuggingFace
+export HF_HOME="$XDG_CACHE_HOME/huggingface"
+export TRANSFORMERS_CACHE="$XDG_CACHE_HOME/huggingface/transformers"
+export HF_DATASETS_CACHE="$XDG_CACHE_HOME/huggingface/datasets"
+
+# MLflow
+export MLFLOW_TRACKING_URI="file://$XDG_DATA_HOME/mlflow"
+export MLFLOW_REGISTRY_URI="file://$XDG_DATA_HOME/mlflow"
+
+# Jupyter
+export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
+export JUPYTER_DATA_DIR="$XDG_DATA_HOME/jupyter"
+export JUPYTER_RUNTIME_DIR="$XDG_RUNTIME_DIR/jupyter"
+
+# Ollama
+export OLLAMA_MODELS="$XDG_DATA_HOME/ollama/models"
+export OLLAMA_HOST="127.0.0.1:11434"
+
+# DuckDB
+export DUCKDB_HOME="$XDG_DATA_HOME/duckdb"
+
+# PyTorch
+export TORCH_HOME="$XDG_CACHE_HOME/torch"
+
+# OpenAI
+export OPENAI_CONFIG_HOME="$XDG_CONFIG_HOME/openai"
+
+# Anthropic
+export ANTHROPIC_CONFIG_HOME="$XDG_CONFIG_HOME/anthropic"
+
+# LangChain
+export LANGCHAIN_CACHE_DIR="$XDG_CACHE_HOME/langchain"
+
+# ChromaDB
+export CHROMA_DB_IMPL="duckdb+parquet"
+export CHROMA_PERSIST_DIRECTORY="$XDG_DATA_HOME/chromadb"
+
+# Weights & Biases
+export WANDB_CONFIG_DIR="$XDG_CONFIG_HOME/wandb"
+export WANDB_DATA_DIR="$XDG_DATA_HOME/wandb"
+export WANDB_CACHE_DIR="$XDG_CACHE_HOME/wandb"
+
+# TensorBoard
+export TENSORBOARD_LOG_DIR="$XDG_DATA_HOME/tensorboard"
+
+# UV (Python package manager)
+export UV_CACHE_DIR="$XDG_CACHE_HOME/uv"
+export UV_CONFIG_FILE="$XDG_CONFIG_HOME/uv/uv.toml"
+
+# Pyenv
+export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
+
+# Python package cache
+export PIP_CACHE_DIR="$XDG_CACHE_HOME/pip"
+export PYTHON_EGG_CACHE="$XDG_CACHE_HOME/python-eggs"
+
+# Vector Databases
+export QDRANT_DATA_DIR="$XDG_DATA_HOME/vector-databases/qdrant"
+export WEAVIATE_DATA_PATH="$XDG_DATA_HOME/vector-databases/weaviate"
+export WEAVIATE_CONFIG_PATH="$XDG_CONFIG_HOME/vector-databases/weaviate"
+
 # AWS, Kubernetes, and Docker configuration paths 
 # to comply with XDG Base Directory Specification
 export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"

@@ -1,5 +1,0 @@
-Host *
-	ConnectTimeout 5
-	StrictHostKeyChecking no
-    HashKnownHosts yes
-    GSSAPIAuthentication yes

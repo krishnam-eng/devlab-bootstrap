@@ -1,1 +1,0 @@
-export ATUIN_CONFIG_DIR=$HOME/Paradigm/Development/Root/settings/history/atuin/

@@ -1,0 +1,59 @@
+[project]
+name = "ml-dev"
+version = "0.1.0"
+description = "Machine Learning Development Environment"
+requires-python = ">=3.11"
+dependencies = [
+    # Core ML and data science packages
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "plotly",
+    "scikit-learn",
+    
+    # Jupyter ecosystem
+    "jupyter",
+    "jupyterlab",
+    "ipywidgets",
+    "notebook",
+    
+    # Deep learning (CPU versions by default)
+    "torch",
+    "torchvision",
+    "transformers",
+    "datasets",
+    
+    # HTTP and utilities
+    "requests",
+    "httpx",
+    "python-dotenv",
+    "pydantic",
+    "rich",
+    
+    # Basic ML tools
+    "chromadb",
+    "streamlit",
+    "mlflow",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "isort>=5.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py311', 'py312']
+
+[tool.isort]
+profile = "black"
+line_length = 100

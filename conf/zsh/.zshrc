@@ -186,7 +186,7 @@ plugins=(
   operator-sdk             # Operator SDK CLI tools
 
 # 5. System & OS Utilities (Important for productivity)
-  gnu-utils                # Provides GNU versions of common cli utilities on macOS, which typically come with BSD versions by default. GNU utils offer more features and options, helping make macOS terminal commands behave more like Linux
+  gnu-utils                # Provides GNU versions of common cli utilities on macOS, which typically come with BSD versions by default. GNU utils offer more features and options (e.g., gfind, gsed, gawk, gtar, gtimeout)
   macos                    # macOS-specific fixes and helpers: Contains macOS-specific fixes, shortcuts, and helper functions to improve the terminal experience tailored to macOS quirks and features
   brew                     # Homebrew package manager helper: Adds shortcuts and helper aliases for Homebrew, the popular macOS package manager, making it easier to install, update, and manage packages from the terminal
   iterm2                   # iTerm 2 integration helpers: Integrates with the iTerm2 terminal emulator on macOS to provide enhanced features like reporting the current directory, better paste behavior, and other usability improvements

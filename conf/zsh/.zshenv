@@ -96,9 +96,12 @@ export WANDB_CACHE_DIR="$XDG_CACHE_HOME/wandb"
 # TensorBoard
 export TENSORBOARD_LOG_DIR="$XDG_DATA_HOME/tensorboard"
 
-# UV (Python package manager)
-export UV_CACHE_DIR="$XDG_CACHE_HOME/uv"
+# UV (Python package manager) - XDG compliance
 export UV_CONFIG_FILE="$XDG_CONFIG_HOME/uv/uv.toml"
+export UV_CACHE_DIR="$XDG_CACHE_HOME/uv"
+export UV_TOOL_DIR="$XDG_DATA_HOME/uv/tools"
+export UV_TOOL_BIN_DIR="$XDG_DATA_HOME/uv/bin"
+export UV_PYTHON_INSTALL_DIR="$XDG_DATA_HOME/uv/python"
 
 # pipx (Python application installer) - XDG compliance
 export PIPX_HOME="$XDG_DATA_HOME/pipx"
@@ -151,7 +154,7 @@ export HOMEBREW_CACHE="$XDG_CACHE_HOME/homebrew"
 export HOMEBREW_LOGS="$XDG_STATE_HOME/homebrew/logs"
 export HOMEBREW_TEMP="$XDG_STATE_HOME/homebrew/tmp"
 
-export PATH="$HOME/sbrn/sys/bin:$PIPX_BIN_DIR:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+export PATH="$HOME/sbrn/sys/bin:$PIPX_BIN_DIR:$UV_TOOL_BIN_DIR:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 
 # Homebrew environment variables
 export PKG_CONFIG_PATH="/opt/homebrew/lib/pkgconfig"

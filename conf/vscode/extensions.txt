@@ -53,6 +53,7 @@ ms-python.black-formatter
 ms-python.isort
 charliermarsh.ruff
 njpwerner.autodocstring
+tamasfe.even-better-toml
 
 # Java Development
 redhat.java

@@ -8,11 +8,11 @@ envs_dirs:
 pkgs_dirs:
   - $XDG_CACHE_HOME/conda/pkgs
 
-# Channel configuration
+# Conda configuration - conda-forge only (license-safe)
 channels:
   - conda-forge
-  - defaults
-
+  - nodefaults
+  
 # Channel priority
 channel_priority: strict
 

@@ -1,0 +1,146 @@
+[project]
+name = "agentic-ai"
+version = "0.1.0"
+description = "Comprehensive AI Agent Development Environment"
+requires-python = ">=3.11"
+dependencies = [
+    # Core Python packages
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "seaborn", 
+    "plotly",
+    
+    # Jupyter ecosystem
+    "jupyter",
+    "jupyterlab",
+    "ipywidgets",
+    "notebook",
+    
+    # HTTP and async
+    "requests",
+    "httpx",
+    "aiohttp",
+    
+    # Configuration and utilities
+    "python-dotenv",
+    "pydantic",
+    "pyyaml",
+    "rich",
+    "typer",
+    "click",
+    
+    # LLM and AI frameworks
+    "langchain",
+    "langchain-core", 
+    "langchain-community",
+    "langchain-openai",
+    "langchain-anthropic",
+    "langchain-google-genai",
+    "langchain-huggingface",
+    "langchain-ollama",
+    "langsmith",
+    "langserve",
+    
+    # Multi-agent frameworks
+    "crewai",
+    "crewai-tools",
+    "autogen-agentchat",
+    "semantic-kernel",
+    "haystack-ai",
+    
+    # LlamaIndex ecosystem
+    "llama-index",
+    "llama-index-core",
+    "llama-index-llms-openai",
+    "llama-index-llms-ollama",
+    
+    # LLM clients
+    "openai",
+    "anthropic", 
+    "cohere",
+    "google-generativeai",
+    
+    # ML and transformers
+    "transformers",
+    "datasets",
+    "accelerate",
+    "torch",
+    "torchvision",
+    "sentence-transformers",
+    
+    # Vector databases and search
+    "chromadb",
+    "qdrant-client",
+    "weaviate-client", 
+    "pinecone-client",
+    "faiss-cpu",
+    "pgvector",
+    "elasticsearch",
+    "opensearch-py",
+    
+    # Web frameworks and deployment
+    "streamlit",
+    "gradio",
+    "chainlit",
+    "fastapi",
+    "uvicorn",
+    "flask",
+    "django",
+    "gunicorn",
+    
+    # Monitoring and observability
+    "mlflow",
+    "wandb",
+    "tensorboard",
+    "langfuse",
+    "arize-phoenix",
+    "traceloop-sdk",
+    
+    # Development and testing tools
+    "pytest",
+    "pytest-asyncio",
+    "pytest-mock",
+    "black",
+    "isort", 
+    "flake8",
+    "mypy",
+    "pre-commit",
+    
+    # Documentation
+    "jupyter-book",
+    "mkdocs",
+    "mkdocs-material",
+    
+    # CLI tools for AI development
+    "openai-cli",
+    "huggingface-hub",
+    "datasets-cli",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "isort>=5.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py311', 'py312']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

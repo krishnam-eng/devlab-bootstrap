@@ -491,7 +491,7 @@ function install_runtime_environment_managers() {
     log_info "Installing runtime environment managers..."
     
     local runtime_managers=(
-        "jenv" "uv" "nvm" "miniconda" "pipx"
+        "jenv" "uv" "nvm" "pipx"
     )
     
     for rm in "${runtime_managers[@]}"; do
@@ -502,8 +502,8 @@ function install_runtime_environment_managers() {
     configure_jenv
     configure_uv
     configure_nvm
-    configure_miniconda
     configure_pipx
+    create_ml_dev_environment
 }
 
 function configure_jenv() {
@@ -572,31 +572,51 @@ function configure_nvm() {
     fi
 }
 
-function configure_miniconda() {
-    log_info "Configuring Miniconda with XDG compliance..."
+function configure_uv() {
+    log_info "Configuring uv with XDG compliance for modern Python package management..."
+
+    # Set uv configuration to use XDG-compliant locations
+    export UV_CONFIG_FILE="$XDG_CONFIG_HOME/uv/uv.toml"
+    export UV_CACHE_DIR="$XDG_CACHE_HOME/uv"
+    export UV_TOOL_DIR="$XDG_DATA_HOME/uv/tools"
+    export UV_TOOL_BIN_DIR="$XDG_DATA_HOME/uv/bin"
+    export UV_PYTHON_INSTALL_DIR="$XDG_DATA_HOME/uv/python"
     
-    # Set XDG-compliant paths for conda
-    export CONDA_ENVS_PATH="$XDG_DATA_HOME/conda/envs"
-    export CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda/pkgs"
-    export CONDARC="$XDG_CONFIG_HOME/conda/.condarc"
+    # Create XDG-compliant directories for uv
+    mkdir -p "$UV_CACHE_DIR"
+    mkdir -p "$XDG_DATA_HOME/uv"/{tools,bin,python}
     
-    # Create conda directories
-    mkdir -p "$XDG_DATA_HOME/conda/envs"
-    mkdir -p "$XDG_CACHE_HOME/conda/pkgs"
-    mkdir -p "$XDG_CONFIG_HOME/conda"
-    
-    # Initialize conda for zsh with XDG paths if conda is available
-    if command -v conda &>/dev/null; then
-        conda init zsh
-        log_success "Conda initialized for zsh shell with XDG configuration"
+    # Link uv configuration directory from HRT repository
+    if [[ -d "$SBRN_HOME/sys/hrt/conf/uv" ]]; then
+        ln -sfn "$SBRN_HOME/sys/hrt/conf/uv" "$XDG_CONFIG_HOME/uv"
+        log_success "Linked uv configuration directory from HRT: $XDG_CONFIG_HOME/uv"
     else
-        log_info "Conda will be configured when available"
+        log_warning "HRT uv configuration directory not found, using default uv settings"
+        mkdir -p "$XDG_CONFIG_HOME/uv"
     fi
     
-    log_success "Miniconda configured with XDG-compliant paths:"
-    echo "   • CONDA_ENVS_PATH: $CONDA_ENVS_PATH"
-    echo "   • CONDA_PKGS_DIRS: $CONDA_PKGS_DIRS"
-    echo "   • CONDARC: $CONDARC"
+    # Add uv tool bin directory to PATH for current session
+    if [[ ":$PATH:" != *":$UV_TOOL_BIN_DIR:"* ]]; then
+        export PATH="$UV_TOOL_BIN_DIR:$PATH"
+        log_success "Added uv tool bin directory to current PATH: $UV_TOOL_BIN_DIR"
+    else
+        log_success "uv tool bin directory already in PATH"
+    fi
+    
+    # Install a modern Python version if not available
+    if command -v uv &>/dev/null; then
+        log_info "Installing Python 3.12 via uv for optimal AI/ML compatibility..."
+        uv python install 3.12 2>/dev/null || log_warning "Python 3.12 installation skipped (may already exist)"
+        log_success "uv Python management configured"
+    fi
+    
+    log_success "uv configured with XDG-compliant directories:"
+    echo "   • UV_CONFIG_FILE: $UV_CONFIG_FILE (linked from HRT)"
+    echo "   • UV_CACHE_DIR: $UV_CACHE_DIR"
+    echo "   • UV_TOOL_DIR: $UV_TOOL_DIR"
+    echo "   • UV_TOOL_BIN_DIR: $UV_TOOL_BIN_DIR (added to PATH)"
+    echo "   • UV_PYTHON_INSTALL_DIR: $UV_PYTHON_INSTALL_DIR"
+    echo "   • Configuration: Managed via HRT repository"
 }
 
 function configure_pipx() {
@@ -640,6 +660,83 @@ function configure_pipx() {
     echo "   • PIPX_CACHE_DIR: $PIPX_CACHE_DIR"
     echo "   • PIPX_LOG_DIR: $PIPX_LOG_DIR"
     echo "   • Configuration: Defined in HRT .zshenv for persistence across sessions"
+}
+
+function create_ml_dev_environment() {
+    log_info "Creating ML development environment using uv..."
+    
+    if ! command -v uv &>/dev/null; then
+        log_warning "uv not available - skipping ML environment creation"
+        return 1
+    fi
+    
+    # Create ml-dev project with uv in XDG location
+    local env_name="ml-dev"
+    local project_path="$XDG_DATA_HOME/python-projects/$env_name"
+    
+    if [[ ! -d "$project_path" ]]; then
+        log_info "Creating ML development project: $env_name in XDG location using uv"
+        
+        # Create project directory
+        mkdir -p "$project_path"
+        cd "$project_path"
+        
+        # Initialize uv project with Python 3.12
+        if ! uv init --python 3.12 .; then
+            log_warning "Failed to create uv ML project - continuing without ML environment"
+            cd - > /dev/null
+            return 1
+        fi
+        
+        # Copy pyproject.toml template from HRT configuration
+        log_info "Setting up ML development environment with essential packages..."
+        local ml_template="$SBRN_HOME/sys/hrt/conf/uv/ml-dev-pyproject.toml"
+        
+        if [[ -f "$ml_template" ]]; then
+            cp "$ml_template" pyproject.toml
+            log_success "Using ML development pyproject.toml template from HRT"
+        else
+            log_error "ML template not found at $ml_template"
+            log_error "Please ensure HRT repository is properly cloned and templates exist"
+            return 1
+        fi
+        
+        # Install all dependencies
+        log_info "Installing ML development packages via uv..."
+        if uv sync; then
+            log_success "ML development dependencies installed successfully"
+        else
+            log_warning "Some ML packages may have failed to install - check uv output"
+        fi
+        
+        # Register Jupyter kernel with XDG-compliant paths
+        export JUPYTER_DATA_DIR="$XDG_DATA_HOME/jupyter"
+        mkdir -p "$JUPYTER_DATA_DIR"
+        
+        # Install kernel using uv run
+        log_info "Registering Jupyter kernel for ml-dev environment..."
+        uv run python -m ipykernel install --user --name="$env_name" --display-name="Python (ML-Dev-UV)"
+        
+        log_success "ML development environment '$env_name' created in XDG-compliant location: $project_path"
+        log_info "Activate with: cd $project_path && uv shell"
+        log_info "Run Jupyter: cd $project_path && uv run jupyter lab"
+        log_info "Jupyter kernel 'Python (ML-Dev-UV)' is now available in JupyterLab"
+        
+        # Return to original directory
+        cd - > /dev/null
+        
+    else
+        log_success "ML development environment '$env_name' already exists in XDG location"
+        
+        # Check if dependencies are up to date
+        cd "$project_path"
+        if uv sync --dry-run &>/dev/null; then
+            log_success "All ML dependencies are up to date"
+        else
+            log_info "Some dependencies may need updating - run: cd $project_path && uv sync"
+        fi
+        cd - > /dev/null
+    fi
 }
 
 function install_build_automation_tools() {
@@ -744,6 +841,12 @@ function install_python_notebook_env_tools() {
 }
 
 function create_app_cli_symlinks() {
+    # Skip CLI symlinks creation if cask apps are disabled
+    if [[ "$SKIP_CASK_APPS" == "true" ]]; then
+        log_info "Skipping application CLI symlinks setup (SKIP_CASK_APPS=true)"
+        return 0
+    fi
+    
     log_info "Creating symbolic links for Application command-line access..."
 
         local bin_dir="$SBRN_HOME/sys/bin"
@@ -812,9 +915,6 @@ function setup_agentic_ai_development() {
     # AI/ML Core Tools & Frameworks
     install_ai_development_tools
     
-    # Conda Package Manager Setup
-    setup_conda_package_manager
-    
     # AI Agent Development Frameworks
     install_ai_agent_frameworks
     
@@ -830,8 +930,12 @@ function setup_agentic_ai_development() {
     # Modern Productivity & Automation Tools
     install_modern_productivity_tools
     
+    # AI-Enhanced VS Code Extensions
+    setup_ai_vscode_extensions
+    
     log_success "Agentic AI Development Environment setup completed"
 }
+
 
 function install_ai_development_tools() {
     log_info "Installing AI/ML Core Tools & Frameworks..."
@@ -863,7 +967,7 @@ function install_special_ai_tools() {
     fi
     
     # Create symlinks for AI tool configurations from HRT to XDG locations
-    local config_dirs=("ollama" "conda" "jupyter" "uv" "vector-databases" "ai-tools")
+    local config_dirs=("ollama" "jupyter" "uv" "vector-databases" "ai-tools")
     
     for config_dir in "${config_dirs[@]}"; do
         local hrt_conf_dir="$SBRN_HOME/sys/hrt/conf/$config_dir"
@@ -877,8 +981,8 @@ function install_special_ai_tools() {
     
     # Create necessary XDG directories for AI tools data and cache
     local xdg_dirs=(
-        "$XDG_CACHE_HOME"/{huggingface,torch,langchain,wandb,conda/pkgs,pip,uv}
-        "$XDG_DATA_HOME"/{mlflow,jupyter,ollama/models,duckdb,chromadb,wandb,tensorboard,conda/envs,pyenv}
+        "$XDG_CACHE_HOME"/{huggingface,torch,langchain,wandb,pip,uv}
+        "$XDG_DATA_HOME"/{mlflow,jupyter,ollama/models,duckdb,chromadb,wandb,tensorboard,pyenv}
         "$XDG_DATA_HOME/vector-databases"/{chromadb,qdrant,weaviate}
     )
     
@@ -887,134 +991,100 @@ function install_special_ai_tools() {
     done
 }
 
-function setup_conda_package_manager() {
-    log_info "Setting up � Conda Package Manager with XDG compliance..."
-    
-    # Set XDG-compliant paths for conda before installation
-    # Configuration will be provided via symlink from HRT to $XDG_CONFIG_HOME/conda/condarc
-    export CONDA_ENVS_PATH="$XDG_DATA_HOME/conda/envs"
-    export CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda/pkgs"
-    export CONDARC="$XDG_CONFIG_HOME/conda/.condarc"
-    
-    # Create conda directories
-    mkdir -p "$XDG_DATA_HOME/conda/envs"
-    mkdir -p "$XDG_CACHE_HOME/conda/pkgs"
-    mkdir -p "$XDG_CONFIG_HOME/conda"
-    
-    # Install miniconda for better package management
-    if ! command -v conda &>/dev/null; then
-        log_info "Installing Miniconda for package environment management..."
-        brew_install "miniconda" "Minimal conda installer for Python environments"
-        
-        # Note: XDG-compliant conda configuration will be available via symlink from HRT
-        
-        # Initialize conda for zsh with XDG paths
-        if command -v conda &>/dev/null; then
-            conda init zsh
-            log_success "Conda initialized for zsh shell with XDG configuration"
-        fi
-    else
-        log_success "Conda already installed"
-        
-        # Note: XDG configuration will be available via symlink from HRT conf directory
-    fi
-    
-    log_success "Conda package manager setup completed with XDG-compliant paths"
-}
 
 function install_ai_agent_frameworks() {
-    log_info "Installing 🤖 AI Agent Development Frameworks via conda environment..."
+    log_info "Installing 🤖 AI Agent Development Frameworks via uv environments..."
     
-    if ! command -v conda &>/dev/null; then
-        log_warning "Conda not available - skipping AI agent frameworks installation"
-        log_info "Install miniconda first to use this feature"
+    if ! command -v uv &>/dev/null; then
+        log_warning "uv not available - skipping AI agent frameworks installation"
+        log_info "Install uv first to use this feature"
         return 1
     fi
     
-    # Create agentic-ai conda environment in XDG location
+    # Create agentic-ai project with uv in XDG location
     local env_name="agentic-ai"
-    local env_path="$XDG_DATA_HOME/conda/envs/$env_name"
+    local project_path="$XDG_DATA_HOME/python-projects/$env_name"
     
-    if [[ ! -d "$env_path" ]]; then
-        log_info "Creating agentic AI environment: $env_name in XDG location"
-        conda create -p "$env_path" python=3.11 -y
+    if [[ ! -d "$project_path" ]]; then
+        log_info "Creating agentic AI project: $env_name in XDG location using uv"
         
-        # Activate environment and install comprehensive AI agent stack
-        log_info "Installing AI agent frameworks and tools in $env_name environment..."
+        # Create project directory
+        mkdir -p "$project_path"
+        cd "$project_path"
         
-        # Core AI/ML packages
-        conda run -p "$env_path" pip install \
-            numpy pandas matplotlib seaborn plotly \
-            jupyter jupyterlab ipywidgets notebook \
-            requests httpx aiohttp \
-            python-dotenv pydantic pyyaml \
-            rich typer click
+        # Initialize uv project with Python 3.12
+        if ! uv init --python 3.12 .; then
+            log_error "Failed to create uv project."
+            log_error "Please ensure uv is properly installed:"
+            log_error "  uv init --python 3.12 \"$project_path\""
+            return 1
+        fi
         
-        # LLM and AI frameworks
-        log_info "Installing LLM and AI frameworks..."
-        conda run -p "$env_path" pip install \
-            langchain langchain-core langchain-community langchain-openai langchain-anthropic \
-            langchain-google-genai langchain-huggingface langchain-ollama \
-            langsmith langserve \
-            crewai crewai-tools \
-            autogen-agentchat \
-            semantic-kernel \
-            haystack-ai \
-            llama-index llama-index-core llama-index-llms-openai llama-index-llms-ollama \
-            openai anthropic cohere google-generativeai \
-            transformers datasets accelerate torch torchvision \
-            sentence-transformers
+        # Create a comprehensive pyproject.toml for AI agent development
+        log_info "Setting up comprehensive AI agent development environment..."
         
-        # Vector databases and search
-        log_info "Installing vector databases and search tools..."
-        conda run -p "$env_path" pip install \
-            chromadb qdrant-client weaviate-client pinecone-client \
-            faiss-cpu pgvector \
-            elasticsearch opensearch-py
+        local agentic_template="$SBRN_HOME/sys/hrt/conf/uv/agentic-ai-pyproject.toml"
+        if [[ -f "$agentic_template" ]]; then
+            cp "$agentic_template" pyproject.toml
+            log_success "Using agentic AI pyproject.toml template from HRT"
+        else
+            log_error "Agentic AI template not found at $agentic_template"
+            log_error "Please ensure HRT repository is properly cloned and templates exist"
+            return 1
+        fi
         
-        # Web frameworks and deployment
-        log_info "Installing web frameworks and deployment tools..."
-        conda run -p "$env_path" pip install \
-            streamlit gradio chainlit \
-            fastapi uvicorn \
-            flask django \
-            gunicorn
+        # Install all dependencies
+        log_info "Installing AI agent frameworks and tools via uv..."
+        if uv sync; then
+            log_success "All AI agent dependencies installed successfully"
+        else
+            log_warning "Some packages may have failed to install - check uv output"
+        fi
         
-        # Monitoring and observability
-        log_info "Installing monitoring and observability tools..."
-        conda run -p "$env_path" pip install \
-            mlflow wandb tensorboard \
-            langfuse \
-            arize-phoenix \
-            traceloop-sdk
+        # Create a simple example script
+        mkdir -p examples
+        local simple_agent_template="$SBRN_HOME/sys/hrt/conf/uv/simple_agent.py"
+        if [[ -f "$simple_agent_template" ]]; then
+            cp "$simple_agent_template" examples/simple_agent.py
+            log_success "Using simple agent example from HRT template"
+        else
+            log_warning "Simple agent template not found, creating minimal placeholder"
+            echo '#!/usr/bin/env python3' > examples/simple_agent.py
+            echo '"""Simple AI Agent Example - Template missing, please check HRT repository"""' >> examples/simple_agent.py
+            echo 'print("Please update this file with actual agent code")' >> examples/simple_agent.py
+        fi
         
-        # Development and testing tools
-        log_info "Installing development and testing tools..."
-        conda run -p "$env_path" pip install \
-            pytest pytest-asyncio pytest-mock \
-            black isort flake8 mypy \
-            pre-commit \
-            jupyter-book \
-            mkdocs mkdocs-material
-        
-        # CLI tools for AI development
-        log_info "Installing AI CLI tools..."
-        conda run -p "$env_path" pip install \
-            openai-cli \
-            huggingface-hub \
-            datasets-cli
+        # Make example executable
+        chmod +x examples/simple_agent.py
         
         # Register Jupyter kernel with XDG-compliant paths
         export JUPYTER_DATA_DIR="$XDG_DATA_HOME/jupyter"
         mkdir -p "$JUPYTER_DATA_DIR"
-        conda run -p "$env_path" python -m ipykernel install --user --name="$env_name" --display-name="Python (Agentic-AI)"
         
-        log_success "Agentic AI environment '$env_name' created in XDG-compliant location: $env_path"
-        log_info "Activate with: conda activate $env_name"
-        log_info "Jupyter kernel 'Python (Agentic-AI)' is now available in JupyterLab"
+        # Install kernel using uv run
+        log_info "Registering Jupyter kernel for agentic-ai environment..."
+        uv run python -m ipykernel install --user --name="$env_name" --display-name="Python (Agentic-AI-UV)"
+        
+        log_success "Agentic AI environment '$env_name' created in XDG-compliant location: $project_path"
+        log_info "Activate with: cd $project_path && uv shell"
+        log_info "Run Jupyter: cd $project_path && uv run jupyter lab"
+        log_info "Example script: cd $project_path && uv run python examples/simple_agent.py"
+        log_info "Jupyter kernel 'Python (Agentic-AI-UV)' is now available in JupyterLab"
+        
+        # Return to original directory
+        cd - > /dev/null
         
     else
         log_success "Agentic AI environment '$env_name' already exists in XDG location"
+        
+        # Check if dependencies are up to date
+        cd "$project_path"
+        if uv sync --dry-run &>/dev/null; then
+            log_success "All dependencies are up to date"
+        else
+            log_info "Some dependencies may need updating - run: cd $project_path && uv sync"
+        fi
+        cd - > /dev/null
     fi
 }
 
@@ -1370,6 +1440,12 @@ function install_modern_productivity_tools() {
 }
 
 function setup_ai_vscode_extensions() {
+    # Skip AI VS Code extensions if cask apps are disabled
+    if [[ "$SKIP_CASK_APPS" == "true" ]]; then
+        log_info "Skipping AI VS Code extensions setup (SKIP_CASK_APPS=true)"
+        return 0
+    fi
+    
     log_info "Setting up 🧠 AI-Enhanced VS Code Extensions..."
     
     # Check if VS Code CLI is available
@@ -1405,11 +1481,13 @@ function setup_ai_vscode_extensions() {
     for extension in "${ai_extensions[@]}"; do
         if ! code --list-extensions | grep -q "^$extension$"; then
             log_info "Installing extension: $extension"
-            # Add timeout and error handling for VS Code CLI crashes
-            timeout 30 code --install-extension "$extension" --force || {
-                log_warning "Failed to install extension: $extension (timeout or crash)"
+            # Add error handling for VS Code CLI crashes
+            if code --install-extension "$extension" --force 2>/dev/null; then
+                log_success "Installed: $extension"
+            else
+                log_warning "Failed to install extension: $extension (installation failed)"
                 continue
-            }
+            fi
         else
             log_success "Extension already installed: $extension"
         fi
@@ -1623,7 +1701,7 @@ function show_dev_tools_impact() {
     echo "   • gh (GitHub command-line tool)"
     echo "   • gibo (fast access to .gitignore boilerplates)"
     echo "   • ghq (remote repository management)"
-    echo "   • lazygit (simple terminal UI for git commands)"
+    echo "   • lazygit (simple terminal UI for git)"
     echo "   • tig (text-mode interface for git)"
     echo "   • diff-so-fancy (good-lookin' diffs with diff-highlight)"
     echo "   • git-gui (Tcl/Tk based graphical user interface to Git)"
@@ -1685,7 +1763,6 @@ function show_languages_impact() {
     echo "   • jenv (Java runtime environment management)"
     echo "   • uv (Python virtual environment management)"
     echo "   • nvm (Node.js runtime environment management - Homebrew install with XDG-compliant configuration)"
-    echo "   • miniconda (Python package/environment management)"
     echo "   • pipx (Isolated Python application environments)"
     echo "✅ Build Automation Tools:"
     echo "   • maven (Java-based project management)"
@@ -1813,39 +1890,36 @@ function show_ides_impact() {
 }
 
 function show_ai_development_impact() {
-    echo "✅ 🤖 AI/ML Core Tools & Frameworks (XDG-compliant):"
+    echo "✅ 🤖 AI/ML Core Tools & Frameworks (XDG-compliant with uv):"
     echo "   • ollama (local LLM deployment with XDG model storage: $XDG_DATA_HOME/ollama/models)"
     echo "   • huggingface-cli (with XDG cache: $XDG_CACHE_HOME/huggingface)"
     echo "   • duckdb (with XDG data: $XDG_DATA_HOME/duckdb)"
     echo "   • mlflow (with XDG tracking: $XDG_DATA_HOME/mlflow)"
     echo "   • datasette, sqlite-utils"
-    echo "   • pyenv (XDG root: $XDG_DATA_HOME/pyenv)"
-    if command -v conda &>/dev/null; then
-        echo "   • miniconda (XDG envs: $XDG_DATA_HOME/conda/envs, pkgs: $XDG_CACHE_HOME/conda/pkgs)"
-        if command -v mamba &>/dev/null; then
-            echo "   • mamba (fast conda package manager)"
-        fi
+    echo "   • uv (modern Python package manager with XDG compliance)"
+    if command -v pyenv &>/dev/null; then
+        echo "   • pyenv (XDG root: $XDG_DATA_HOME/pyenv)"
     fi
-    echo "✅ 🐍 ML-Optimized Python Environment (XDG-compliant):"
-    if command -v conda &>/dev/null; then
-        local env_path="$XDG_DATA_HOME/conda/envs/ml-dev"
+    echo "✅ 🐍 ML-Optimized Python Environment (uv-based, XDG-compliant):"
+    if command -v uv &>/dev/null; then
+        local env_path="$XDG_DATA_HOME/python-projects/ml-dev"
         if [[ -d "$env_path" ]]; then
-            echo "   • ml-dev environment in XDG location: $env_path"
-            echo "   • Jupyter kernel 'Python (ML-Dev)' with XDG data: $XDG_DATA_HOME/jupyter"
-            echo "   • Packages: torch, transformers, langchain, chromadb, streamlit"
-            echo "   • Activate with: conda activate $env_path"
+            echo "   • ml-dev uv project in XDG location: $env_path"
+            echo "   • Jupyter kernel 'Python (ML-Dev-UV)' with XDG data: $XDG_DATA_HOME/jupyter"
+            echo "   • Packages: torch, transformers, scikit-learn, chromadb, streamlit"
+            echo "   • Activate with: cd $env_path && uv shell"
         else
-            echo "   • Conda available for XDG-compliant ML environment creation"
+            echo "   • uv available for XDG-compliant ML environment creation"
         fi
     else
-        echo "   • Install miniconda for optimal XDG-compliant ML environment"
+        echo "   • Install uv for optimal XDG-compliant ML environment"
     fi
-    echo "✅ 🤖 AI Agent Development Frameworks (conda environment):"
-    if command -v conda &>/dev/null; then
-        local env_path="$XDG_DATA_HOME/conda/envs/agentic-ai"
+    echo "✅ 🤖 AI Agent Development Frameworks (uv-based project):"
+    if command -v uv &>/dev/null; then
+        local env_path="$XDG_DATA_HOME/python-projects/agentic-ai"
         if [[ -d "$env_path" ]]; then
-            echo "   • agentic-ai environment in XDG location: $env_path"
-            echo "   • Jupyter kernel 'Python (Agentic-AI)' with XDG data: $XDG_DATA_HOME/jupyter"
+            echo "   • agentic-ai uv project in XDG location: $env_path"
+            echo "   • Jupyter kernel 'Python (Agentic-AI-UV)' with XDG data: $XDG_DATA_HOME/jupyter"
             echo "   • LangChain ecosystem: langchain, langsmith, langserve, langchain-community"
             echo "   • Multi-agent frameworks: crewai, autogen-agentchat, semantic-kernel"
             echo "   • Search & retrieval: haystack-ai, llama-index with extensions"
@@ -1853,12 +1927,12 @@ function show_ai_development_impact() {
             echo "   • Vector databases: chromadb, qdrant-client, weaviate-client, pinecone-client"
             echo "   • Web frameworks: streamlit, gradio, chainlit, fastapi"
             echo "   • Monitoring: mlflow, wandb, langfuse, arize-phoenix"
-            echo "   • Activate with: conda activate $env_name"
+            echo "   • Activate with: cd $env_path && uv shell"
         else
-            echo "   • Conda available for agentic AI environment creation"
+            echo "   • uv available for agentic AI environment creation"
         fi
     else
-        echo "   • Install miniconda for optimal agentic AI environment"
+        echo "   • Install uv for optimal agentic AI environment"
     fi
     echo "✅ 🧠 Local LLM Capabilities (XDG-compliant):"
     if command -v ollama &>/dev/null; then
@@ -1910,13 +1984,14 @@ function show_ai_development_impact() {
     fi
     echo "✅ 🌐 Modern Cloud & Deployment Tools:"
     if command -v pulumi &>/dev/null; then
-        echo "   • Pulumi, Railway, Vercel, Supabase CLIs"
+        echo "   • Pulumi, Railway, Vercel CLIs"
     fi
     echo "✅ 📁 XDG Configuration:"
-    echo "   • AI tools config: $XDG_CONFIG_HOME/ai-tools/xdg-env.conf"
+    echo "   • uv configuration: $XDG_CONFIG_HOME/uv/uv.toml"
+    echo "   • uv data directory: $XDG_DATA_HOME/uv"
+    echo "   • Python projects: $XDG_DATA_HOME/python-projects/{ml-dev,agentic-ai}"
     echo "   • Vector databases: $XDG_CONFIG_HOME/vector-databases/"
     echo "   • All AI tool data in XDG-compliant locations"
-    echo "   • Source XDG config added to .zshrc for persistence"
 }
 
 function show_git_impact() {
@@ -1936,6 +2011,12 @@ function show_git_impact() {
 }
 
 function setup_vscode_extensions() {
+    # Skip VS Code extensions setup if cask apps are disabled
+    if [[ "$SKIP_CASK_APPS" == "true" ]]; then
+        log_info "Skipping VS Code extensions setup (SKIP_CASK_APPS=true)"
+        return 0
+    fi
+    
     log_info "Setting up VS Code extensions from configuration..."
     
     # Check if VS Code CLI is available
@@ -1961,8 +2042,12 @@ function setup_vscode_extensions() {
         
         # Install missing extensions using the script
         log_info "Installing missing VS Code extensions..."
-        "$extensions_script" install
-        log_success "VS Code extensions setup completed using management script"
+        if "$extensions_script" install; then
+            log_success "VS Code extensions setup completed using management script"
+        else
+            log_warning "VS Code extension installation failed"
+            log_info "You can run this manually later: $extensions_script install"
+        fi
         
     else
         # Script should exist as part of the repository
@@ -2069,7 +2154,25 @@ function show_vscode_impact() {
         local configured_count=0
         
         if [[ -f "$extensions_file" ]]; then
-            configured_count=$(grep -v '^#' "$extensions_file" | grep -v '^$' | wc -l)
+            # Backup current extensions file
+            cp "$extensions_file" "$extensions_file.backup.$(date +%Y%m%d_%H%M%S)"
+            
+            # Add AI extensions header and new extensions
+            {
+                echo "# AI Development Extensions - Added $(date +%Y-%m-%d)"
+                for extension in "${ai_extensions[@]}"; do
+                    # Check if extension is not already in file
+                    if ! grep -q "^$extension" "$extensions_file"; then
+                        echo "$extension"
+                    fi
+                done
+                echo ""
+                echo "# Original Extensions"
+                grep -v "^#" "$extensions_file" | grep -v "^$"
+            } > "$extensions_file.new"
+            
+            mv "$extensions_file.new" "$extensions_file"
+            log_success "Updated extensions.txt with AI development extensions"
         fi
         
         echo "✅ VS Code extensions: $ext_count installed, $configured_count configured"
@@ -2099,16 +2202,42 @@ function show_final_config_impact() {
     echo "   • $SBRN_HOME/sys/config/aliases (development shortcuts)"
     echo "   • $SBRN_HOME/sys/config/dev-env (environment variables)"
     echo "   • $SBRN_HOME/sys/config/ripgrep/config (ripgrep configuration)"
-    echo "✅ PATH updated to include: $SBRN_HOME/sys/bin"
-    echo "✅ Search tool enhancements:"
-    echo "   • ripgrep with smart defaults and file type exclusions"
-    echo "   • grep with color output enabled"
-    echo "   • custom aliases for common search patterns (rg, rgcode, rgconfig, etc.)"
 }
 
 ################################################################################
 # Utility Functions
 ################################################################################
+
+# Shell-based timeout function for commands that don't have built-in timeout
+run_with_timeout() {
+    local timeout_duration="$1"
+    shift
+    local command=("$@")
+    
+    # Run command in background
+    "${command[@]}" &
+    local cmd_pid=$!
+    
+    # Start timeout counter in background
+    (
+        sleep "$timeout_duration"
+        if kill -0 "$cmd_pid" 2>/dev/null; then
+            kill "$cmd_pid" 2>/dev/null
+        fi
+    ) &
+    local timeout_pid=$!
+    
+    # Wait for command to complete
+    if wait "$cmd_pid" 2>/dev/null; then
+        # Command completed successfully, kill timeout process
+        kill "$timeout_pid" 2>/dev/null
+        return 0
+    else
+        # Command failed or was killed by timeout
+        kill "$timeout_pid" 2>/dev/null
+        return 1
+    fi
+}
 
 # Helper function to install Homebrew packages
 function brew_install() {
@@ -2118,1108 +2247,54 @@ function brew_install() {
         log_success "$package already installed"
     else
         log_info "Installing $package..."
-        if brew install "$package" >/dev/null 2>&1; then
-            log_success "$package installed successfully"
-        else
-            log_warning "Failed to install $package via Homebrew"
-            # Try to detect if the package was actually installed despite the error
-            sleep 1
-            if brew list "$package" &>/dev/null; then
-                log_success "$package installation completed (detected via brew list)"
-            elif command -v "$package" &>/dev/null; then
-                log_success "$package is available (found in system PATH)"
-            fi
-        fi
+        brew install "$package" >/dev/null 2>&1 && log_success "$package installed successfully" || log_warning "Failed to install $package"
     fi
 }
 
 # Helper function to install Homebrew Cask applications
 function brew_cask_install() {
     local cask="$1"
-    local description="${2:-}"
+    local description="${2:-$cask}"
     
-    # Early return if cask apps are disabled
-    [[ "$SKIP_CASK_APPS" == "true" ]] && {
-        log_info "Skipping cask $cask (SKIP_CASK_APPS=true)"
-        return 0
-    }
-    
-    # Check if already installed via Homebrew first (fastest check)
-    if brew list --cask "$cask" &>/dev/null; then
-        log_success "$cask already installed via Homebrew"
-        return 0
-    fi
-    
-    # Get expected app name and check if manually installed
-    local app_name
-    app_name=$(get_app_name_for_cask "$cask")
-    
-    if [[ -n "$app_name" ]] && is_app_installed "$app_name"; then
-        log_success "$cask already installed manually (found $app_name)"
-        return 0
-    fi
-    
-    # Proceed with installation
-    _install_cask "$cask" "$description" "$app_name"
-}
-
-# Helper function to map cask names to app names
-function get_app_name_for_cask() {
-    local cask="$1"
-    
-    # Use associative array for cleaner mapping
-    declare -A cask_to_app_map=(
-        ["visual-studio-code"]="Visual Studio Code.app"
-        ["intellij-idea-ce"]="IntelliJ IDEA CE.app" 
-        ["pycharm-ce"]="PyCharm CE.app"
-        ["cursor"]="Cursor.app"
-        ["notion"]="Notion.app"
-        ["obsidian"]="Obsidian.app"
-        ["figma"]="Figma.app"
-        ["slack"]="Slack.app"
-        ["github"]="GitHub Desktop.app"
-        ["postman"]="Postman.app"
-        ["insomnia"]="Insomnia.app"
-        ["dbeaver-community"]="DBeaver.app"
-        ["pgadmin4"]="pgAdmin 4.app"
-        ["rapidapi"]="RapidAPI.app"
-        ["microsoft-edge"]="Microsoft Edge.app"
-        ["virtualbox"]="VirtualBox.app"
-        ["zoom"]="zoom.us.app"
-    )
-    
-    echo "${cask_to_app_map[$cask]:-}"
-}
-
-# Helper function to check if app is installed in standard locations
-function is_app_installed() {
-    local app_name="$1"
-    [[ -z "$app_name" ]] && return 1
-    
-    local locations=("/Applications" "$HOME/Applications")
-    local location
-    
-    for location in "${locations[@]}"; do
-        [[ -d "$location/$app_name" ]] && return 0
-    done
-    
-    return 1
-}
-
-# Helper function to perform the actual cask installation
-function _install_cask() {
-    local cask="$1"
-    local description="$2"
-    local app_name="$3"
-    
-    log_info "Installing $cask..."
-    [[ -n "$description" ]] && log_info "  → $description"
-    
-    local install_output install_exit_code=0
-    install_output=$(brew install --cask "$cask" 2>&1) || install_exit_code=$?
-    
-    if [[ $install_exit_code -eq 0 ]]; then
-        log_success "$cask installed successfully"
-        return 0
-    fi
-    
-    # Handle installation failures gracefully
-    _handle_cask_install_failure "$cask" "$app_name" "$install_output"
-}
-
-# Helper function to handle cask installation failures
-function _handle_cask_install_failure() {
-    local cask="$1"
-    local app_name="$2" 
-    local install_output="$3"
-    
-    if [[ "$install_output" == *"already an App at"* ]]; then
-        log_success "$cask app already exists - installation skipped"
-        
-        # Extract and verify app location from error message
-        local existing_path
-        existing_path=$(echo "$install_output" | grep -o "'/[^']*\.app'" | tr -d "'")
-        [[ -n "$existing_path" && -d "$existing_path" ]] && 
-            log_info "  → Found existing app at: $existing_path"
-    else
-        log_warning "Failed to install $cask via Homebrew"
-        log_info "  → Error: $(echo "$install_output" | tail -1)"
-        log_info "  → You can manually install $cask or check if it's already installed"
-    fi
-    
-    # Final verification after failure
-    _verify_cask_post_failure "$cask" "$app_name"
-}
-
-# Helper function to verify cask installation after apparent failure
-function _verify_cask_post_failure() {
-    local cask="$1"
-    local app_name="$2"
-    
-    # Brief pause to allow filesystem to settle
-    sleep 1
-    
-    if brew list --cask "$cask" &>/dev/null; then
-        log_success "$cask installation completed (detected via brew list)"
-    elif [[ -n "$app_name" ]] && is_app_installed "$app_name"; then
-        log_success "$cask app is available: $app_name"
-    fi
-}
-
-# Helper function to create a Python development environment
-function create_python_dev_env() {
-    local env_name="${1:-jupyter-dev}"
-    local env_path="$HOME/.local/share/python-envs/$env_name"
-    
-    log_info "Creating Python development environment: $env_name"
-    
-    # Create directory if it doesn't exist
-    mkdir -p "$(dirname "$env_path")"
-    
-    # Create virtual environment
-    if [[ ! -d "$env_path" ]]; then
-        python3 -m venv "$env_path"
-        log_success "Created virtual environment at: $env_path"
-    else
-        log_info "Virtual environment already exists at: $env_path"
-    fi
-    
-    # Activate and install common packages
-    source "$env_path/bin/activate"
-    
-    # Upgrade pip first
-    pip install --upgrade pip
-    
-    # Install common data science and development packages
-    local packages=(
-        "jupyter"
-        "jupyterlab"
-        "notebook"
-        "ipywidgets"
-        "jupyter-console"
-        "nbconvert"
-        "ipykernel"
-        "matplotlib"
-        "pandas"
-        "numpy"
-        "requests"
-    )
-    
-    log_info "Installing Python packages in virtual environment..."
-    for package in "${packages[@]}"; do
-        pip install "$package"
-    done
-    
-    # Add kernel to Jupyter
-    python -m ipykernel install --user --name="$env_name" --display-name="Python ($env_name)"
-    
-    deactivate
-    
-    log_success "Python development environment '$env_name' created successfully!"
-    log_info "To use this environment:"
-    log_info "  source $env_path/bin/activate"
-    log_info "  # Your work here"
-    log_info "  deactivate"
-    log_info ""
-    log_info "Jupyter kernel '$env_name' is now available in JupyterLab"
-}
-
-function show_system_summary() {
-    log_info "🖥️  Developer Environment Status Check"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    
-    # System Information
-    echo "📊 System Information:"
-    echo "   • macOS Version: $(sw_vers -productVersion)"
-    echo "   • Hardware: $(sysctl -n hw.model)"
-    echo "   • Architecture: $(uname -m)"
-    echo "   • CPU: $(sysctl -n machdep.cpu.brand_string)"
-    echo "   • Memory: $(sysctl -n hw.memsize | awk '{print $1/1024/1024/1024 " GB"}')"
-    echo "   • Shell: $SHELL"
-    echo ""
-    
-    # SBRN Directory Structure Status
-    echo "📁 SBRN Directory Structure:"
-    check_sbrn_structure
-    echo ""
-    
-    # Package Manager Status
-    echo "📦 Package Manager:"
-    check_homebrew_status
-    echo ""
-    
-    # Shell Environment Status
-    echo "🐚 Shell Environment:"
-    check_zsh_environment_status
-    echo ""
-    
-    # Essential CLI Tools Status
-    echo "🛠️  Essential CLI Tools:"
-    check_cli_tools_status
-    echo ""
-    
-    # Development Tools Status
-    echo "🔧 Development Tools:"
-    check_dev_tools_status
-    echo ""
-    
-    # Programming Languages Status
-    echo "💻 Programming Languages & Runtimes:"
-    check_programming_languages_status
-    echo ""
-    
-    # IDEs and Editors Status
-    echo "📝 IDEs and Editors:"
-    check_ides_status
-    echo ""
-    
-    # AI Development Environment Status
-    echo "🤖 Agentic AI Development:"
-    check_ai_development_status
-    echo ""
-
-    # Productivity Apps Status
-    echo "📦 Productivity Apps:"
-    check_productivity_apps_status
-    echo ""
-    
-    # Application CLI Symlinks Status
-    echo "🔗 Application CLI Symlinks:"
-    check_app_cli_symlinks_status
-    echo ""
-    
-    # Git Configuration Status
-    echo "� Git Configuration:"
-    check_git_status
-    echo ""
-    
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-}
-
-function check_sbrn_structure() {
-    local sbrn_home="${SBRN_HOME:-$HOME/sbrn}"
-    
-    if [[ -d "$sbrn_home" ]]; then
-        echo "   ✅ SBRN_HOME: $sbrn_home"
-        
-        # Check main PARA directories
-        local para_dirs=("proj" "area" "rsrc" "arch")
-        for dir in "${para_dirs[@]}"; do
-            if [[ -d "$sbrn_home/$dir" ]]; then
-                echo "   ✅ $dir/ directory exists"
-            else
-                echo "   ❌ $dir/ directory missing"
-            fi
-        done
-        
-        # Check system directories
-        if [[ -d "$sbrn_home/sys" ]]; then
-            echo "   ✅ sys/ directory exists"
-            
-            # Check HRT repository
-            if [[ -d "$sbrn_home/sys/hrt" ]]; then
-                echo "   ✅ HRT repository cloned"
-            else
-                echo "   ❌ HRT repository not cloned"
-            fi
-            
-            # Check Oh My Zsh
-            if [[ -d "$sbrn_home/sys/etc/oh-my-zsh" ]]; then
-                echo "   ✅ Oh My Zsh installed"
-            else
-                echo "   ❌ Oh My Zsh not installed"
-            fi
+    if [[ $SKIP_CASK_APPS == false ]]; then
+        if ! brew list --cask "$cask" &>/dev/null; then
+            log_info "Installing $description..."
+            brew install --cask --appdir=~/Applications "$cask" >/dev/null 2>&1 && log_success "$description installed successfully" || log_warning "Failed to install $description"
         else
-            echo "   ❌ sys/ directory missing"
-        fi
-        
-        # Check Drives directory
-        if [[ -d "$HOME/Drives" ]]; then
-            echo "   ✅ Cloud Drives directory exists"
-        else
-            echo "   ❌ Cloud Drives directory missing"
+            log_success "$description already installed"
         fi
     else
-        echo "   ❌ SBRN directory structure not created"
+        log_info "Skipping cask installation: $description"
+
     fi
 }
 
-function check_homebrew_status() {
-    if command -v brew &>/dev/null; then
-        echo "   ✅ Homebrew: $(brew --version | head -1)"
-        echo "   ✅ Location: $(which brew)"
-        
-        # Check if Homebrew is properly configured for Apple Silicon
-        if [[ $(uname -m) == "arm64" ]] && [[ $(which brew) == "/opt/homebrew/bin/brew" ]]; then
-            echo "   ✅ Apple Silicon configuration: Correct"
-        elif [[ $(uname -m) == "x86_64" ]] && [[ $(which brew) == "/usr/local/bin/brew" ]]; then
-            echo "   ✅ Intel configuration: Correct"
-        fi
-    else
-        echo "   ❌ Homebrew not installed"
-    fi
-}
-
-function check_zsh_environment_status() {
-    local sbrn_home="${SBRN_HOME:-$HOME/sbrn}"
-    
-    # Check Oh My Zsh installation
-    if [[ -d "$sbrn_home/sys/etc/oh-my-zsh" ]]; then
-        echo "   ✅ Oh My Zsh installed"
-        
-        # Check Powerlevel10k theme
-        if [[ -d "$sbrn_home/sys/etc/oh-my-zsh/custom/themes/powerlevel10k" ]]; then
-            echo "   ✅ Powerlevel10k theme installed"
-        else
-            echo "   ❌ Powerlevel10k theme not installed"
-        fi
-        
-        # Check essential plugins
-        local plugins=("zsh-autosuggestions" "zsh-syntax-highlighting" "history-substring-search" "zsh-autoswitch-virtualenv")
-        for plugin in "${plugins[@]}"; do
-            if [[ -d "$sbrn_home/sys/etc/oh-my-zsh/custom/plugins/$plugin" ]]; then
-                echo "   ✅ $plugin plugin installed"
-            else
-                echo "   ❌ $plugin plugin not installed"
-            fi
-        done
-    else
-        echo "   ❌ Oh My Zsh not installed"
-    fi
-    
-    # Check Meslo Nerd Font
-    if [[ -f "$HOME/Library/Fonts/MesloLGS NF Regular.ttf" ]]; then
-        echo "   ✅ Meslo Nerd Font installed"
-    else
-        echo "   ❌ Meslo Nerd Font not installed"
-    fi
-    
-    # Check ZDOTDIR configuration
-    if [[ -n "${ZDOTDIR:-}" ]]; then
-        echo "   ✅ ZDOTDIR configured: $ZDOTDIR"
-    else
-        echo "   ❌ ZDOTDIR not configured"
-    fi
-}
-
-function check_cli_tools_status() {
-    # Shell productivity tools - updated to match install_shell_productivity_tools()
-    local shell_tools=("coreutils" "tree" "fzf" "tmux" "htop" "bat" "fd" "tldr" "eza" "zoxide" "watch" "ncdu" "glances" "lsd" "ctop" "autoenv" "atuin" "direnv" "ack" "broot" "figlet" "lolcat" "ranger" "as-tree" "agedu" "zsh-autosuggestions" "zsh-completions" "bash-completion" "fish")
-    # Network tools - updated to match install_networking_security_tools()
-    local network_tools=("curl" "wget" "httpie" "netcat" "gnupg" "certbot" "telnet")
-    # Text/data tools and CLI editors - updated to match install_text_data_tools()
-    local text_tools=("jq" "ripgrep" "grep" "fx" "jid" "colordiff" "base64" "base91" "python-yq" "ccat" "vim" "neovim" "emacs" "nano")
-    
-    # Check shell productivity tools
-    local installed_count=0
-    local total_count=${#shell_tools[@]}
-    local missing_tools=()
-    
-    for tool in "${shell_tools[@]}"; do
-        local is_installed=false
-        # Special cases for tools with different command names
-        case "$tool" in
-            "coreutils")
-                if command -v "gls" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            "autoenv")
-                # autoenv is a shell script, check if it's installed via homebrew
-                if [[ -f "/opt/homebrew/opt/autoenv/activate.sh" || -f "/usr/local/opt/autoenv/activate.sh" ]]; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            "zsh-autosuggestions"|"zsh-completions"|"bash-completion")
-                # These are shell plugins/completions, check for their existence differently
-                if [[ "$tool" == "zsh-autosuggestions" ]] && [[ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" || -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                elif [[ "$tool" == "zsh-completions" ]] && [[ -d "/opt/homebrew/share/zsh-completions" || -d "/usr/local/share/zsh-completions" ]]; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                elif [[ "$tool" == "bash-completion" ]] && [[ -f "/opt/homebrew/etc/profile.d/bash_completion.sh" || -f "/usr/local/etc/profile.d/bash_completion.sh" ]]; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            *)
-                if command -v "$tool" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-        esac
-        [[ "$is_installed" == false ]] && missing_tools+=("$tool")
-    done
-    
-    if [ $installed_count -eq $total_count ]; then
-        echo "   ✅ Shell Tools: $installed_count/$total_count installed"
-    else
-        echo "   ⚠️  Shell Tools: $installed_count/$total_count installed"
-    fi
-    if [[ ${#missing_tools[@]} -gt 0 ]]; then
-        echo "      Missing: ${missing_tools[*]}"
-    fi
-    
-    # Check networking tools
-    installed_count=0
-    total_count=${#network_tools[@]}
-    missing_tools=()
-    
-    for tool in "${network_tools[@]}"; do
-        local is_installed=false
-        # Special cases for tools with different command names
-        case "$tool" in
-            "gnupg")
-                if command -v "gpg" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            *)
-                if command -v "$tool" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-        esac
-        [[ "$is_installed" == false ]] && missing_tools+=("$tool")
-    done
-    
-    if [ $installed_count -eq $total_count ]; then
-        echo "   ✅ Network Tools: $installed_count/$total_count installed"
-    else
-        echo "   ⚠️  Network Tools: $installed_count/$total_count installed"
-    fi
-    if [[ ${#missing_tools[@]} -gt 0 ]]; then
-        echo "      Missing: ${missing_tools[*]}"
-    fi
-    
-    # Check text/data tools
-    installed_count=0
-    total_count=${#text_tools[@]}
-    missing_tools=()
-    
-    for tool in "${text_tools[@]}"; do
-        local is_installed=false
-        # Special case for tools with different command names
-        case "$tool" in
-            "neovim")
-                if command -v "nvim" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            "ripgrep")
-                if command -v "rg" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            "python-yq")
-                if command -v "yq" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            *)
-                if command -v "$tool" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-        esac
-        [[ "$is_installed" == false ]] && missing_tools+=("$tool")
-    done
-    
-    if [ $installed_count -eq $total_count ]; then
-        echo "   ✅ Text/Data Tools: $installed_count/$total_count installed"
-    else
-        echo "   ⚠️  Text/Data Tools: $installed_count/$total_count installed"
-    fi
-    if [[ ${#missing_tools[@]} -gt 0 ]]; then
-        echo "      Missing: ${missing_tools[*]}"
-    fi
-}
-
-function check_dev_tools_status() {
-    local git_tools=("git" "git-extras" "git-lfs" "gh" "ghq" "diff-so-fancy" "delta" "tig" "lazygit")
-    local cloud_tools=("docker" "docker-compose" "colima" "kubectl" "helm" "aws" "dive" "dockviz" "k9s" "kubecolor" "kompose" "krew" "kube-ps1" "kubebuilder" "kustomize" "istioctl" "minikube" "terraform")
-    local additional_dev_tools=("jwt-cli" "newman" "openapi-generator" "operator-sdk" "hugo" "logrotate" "rtmpdump" "sftpgo" "etcd" "postgresql@15" "redis" "nginx")
-    
-    # Check Git/VCS tools
-    local installed_count=0
-    local total_count=${#git_tools[@]}
-    local missing_tools=()
-    
-    for tool in "${git_tools[@]}"; do
-        if command -v "$tool" &>/dev/null; then
-            installed_count=$((installed_count + 1))
-        else
-            missing_tools+=("$tool")
-        fi
-    done
-    
-    if [ $installed_count -eq $total_count ]; then
-        echo "   ✅ Git/VCS Tools: $installed_count/$total_count installed"
-    else
-        echo "   ⚠️  Git/VCS Tools: $installed_count/$total_count installed"
-    fi
-    if [[ ${#missing_tools[@]} -gt 0 ]]; then
-        echo "      Missing: ${missing_tools[*]}"
-    fi
-    
-    # Check cloud/container tools
-    installed_count=0
-    total_count=${#cloud_tools[@]}
-    missing_tools=()
-    
-    for tool in "${cloud_tools[@]}"; do
-        local is_installed=false
-        # Special cases for tools with different command names
-        case "$tool" in
-            "krew")
-                if command -v "kubectl-krew" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            "kube-ps1")
-                # kube-ps1 is a shell script, check if it's installed via homebrew
-                if [[ -f "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh" || -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ]]; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            *)
-                if command -v "$tool" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-        esac
-        [[ "$is_installed" == false ]] && missing_tools+=("$tool")
-    done
-    
-    if [ $installed_count -eq $total_count ]; then
-        echo "   ✅ Cloud/Container/K8s Tools: $installed_count/$total_count installed"
-    else
-        echo "   ⚠️  Cloud/Container/K8s Tools: $installed_count/$total_count installed"
-    fi
-    if [[ ${#missing_tools[@]} -gt 0 ]]; then
-        echo "      Missing: ${missing_tools[*]}"
-    fi
-    
-    # Check additional development tools
-    installed_count=0
-    total_count=${#additional_dev_tools[@]}
-    missing_tools=()
-    
-    for tool in "${additional_dev_tools[@]}"; do
-        local is_installed=false
-        # Special cases for tools with different command names
-        case "$tool" in
-            "jwt-cli")
-                if command -v "jwt" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            "postgresql@15")
-                if [[ -x "/opt/homebrew/opt/postgresql@15/bin/psql" ]] || [[ -x "/usr/local/opt/postgresql@15/bin/psql" ]] || command -v "psql" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            "redis")
-                if command -v "redis-server" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-            *)
-                if command -v "$tool" &>/dev/null; then
-                    installed_count=$((installed_count + 1))
-                    is_installed=true
-                fi
-                ;;
-        esac
-        [[ "$is_installed" == false ]] && missing_tools+=("$tool")
-    done
-    
-    if [ $installed_count -eq $total_count ]; then
-        echo "   ✅ Additional Dev/API Tools: $installed_count/$total_count installed"
-    else
-        echo "   ⚠️  Additional Dev/API Tools: $installed_count/$total_count installed"
-    fi
-    if [[ ${#missing_tools[@]} -gt 0 ]]; then
-        echo "      Missing: ${missing_tools[*]}"
-    fi
-}
-
-function check_programming_languages_status() {
-    # Check core languages
-    if command -v python3 &>/dev/null; then
-        echo "   ✅ Python: $(python3 --version)"
-    else
-        echo "   ❌ Python not installed"
-    fi
-    
-    if command -v node &>/dev/null; then
-        echo "   ✅ Node.js: $(node --version)"
-    else
-        echo "   ❌ Node.js not installed"
-    fi
-    
-    # Check Java installation (handle macOS stub that exists but Java not installed)
-    if command -v java &>/dev/null; then
-        echo "   ✅ Java: $(java --version | head -1)"
-    else
-        echo "   ❌ Java not installed"
-    fi
-    
-    if command -v go &>/dev/null; then
-        echo "   ✅ Go: $(go version | cut -d' ' -f3)"
-    else
-        echo "   ❌ Go not installed"
-    fi
-    
-    if command -v rustc &>/dev/null; then
-        echo "   ✅ Rust: $(rustc --version | cut -d' ' -f2)"
-    else
-        echo "   ❌ Rust not installed"
-    fi
-    
-    # Check version managers
-    local version_managers=("jenv" "uv" "nvm")
-    local installed_count=0
-    
-    for vm in "${version_managers[@]}"; do
-        if command -v "$vm" &>/dev/null; then
-            installed_count=$((installed_count + 1))
-        fi
-    done
-    
-    if [ $installed_count -eq ${#version_managers[@]} ]; then
-        echo "   ✅ Version Managers: $installed_count/${#version_managers[@]} installed"
-    else
-        echo "   ⚠️  Version Managers: $installed_count/${#version_managers[@]} installed"
-    fi
-    
-    # Check build tools
-    local build_tools=("maven" "gradle" "poetry" "pipx" "yarn")
-    installed_count=0
-    
-    for tool in "${build_tools[@]}"; do
-        if command -v "$tool" &>/dev/null; then
-            installed_count=$((installed_count + 1))
-        fi
-    done
-    
-    if [ $installed_count -eq ${#build_tools[@]} ]; then
-        echo "   ✅ Build Tools: $installed_count/${#build_tools[@]} installed"
-    else
-        echo "   ⚠️  Build Tools: $installed_count/${#build_tools[@]} installed"
-    fi
-}
-
-function check_ides_status() {
-    # Define core IDEs list - matches install_core_ides_editors()
-    local core_ides=(
-        "visual-studio-code:Visual Studio Code.app:VS Code"
-        "intellij-idea-ce:IntelliJ IDEA CE.app:IntelliJ IDEA CE"
-        "pycharm-ce:PyCharm CE.app:PyCharm CE" 
-        "cursor:Cursor.app:Cursor"
-    )
-    
-    # Check GUI IDEs based on actual installation list
-    local installed_ides=()
-    local total_ides=${#core_ides[@]}
-    
-    for ide_info in "${core_ides[@]}"; do
-        local cask_name="${ide_info%%:*}"
-        local app_name="${ide_info#*:}"
-        app_name="${app_name%%:*}"
-        local display_name="${ide_info##*:}"
-        
-        # Check both /Applications and $HOME/Applications
-        if [[ -d "/Applications/$app_name" ]] || [[ -d "$HOME/Applications/$app_name" ]]; then
-            installed_ides+=("$display_name")
-        fi
-    done
-    
-    if [[ ${#installed_ides[@]} -gt 0 ]]; then
-        echo "   ✅ Core IDEs ${#installed_ides[@]}/${total_ides}: ${installed_ides[*]}"
-    else
-        echo "   ❌ No core IDEs installed 0/${total_ides}"
-    fi
-    
-    # Check VS Code extensions if VS Code is installed
-    check_vscode_extensions_status
-    
-    # Check CLI editors
-    local cli_editors=("vim" "nvim" "emacs" "nano")
-    local installed_editors=()
-    
-    for editor in "${cli_editors[@]}"; do
-        if command -v "$editor" &>/dev/null; then
-            installed_editors+=("$editor")
-        fi
-    done
-    
-    if [[ ${#installed_editors[@]} -gt 0 ]]; then
-        echo "   ✅ CLI Editors ${#installed_editors[@]}/${#cli_editors[@]}: ${installed_editors[*]}"
-    else
-        echo "   ❌ No CLI editors installed 0/${#cli_editors[@]}"
-    fi
-    
-    # Check Jupyter and pipx
-    if command -v jupyter &>/dev/null; then
-        if pipx list 2>/dev/null | grep -q jupyterlab; then
-            echo "   ✅ JupyterLab installed via pipx (isolated environment)"
-        else
-            echo "   ✅ JupyterLab installed (method unknown)"
-        fi
-    elif command -v pipx &>/dev/null; then
-        # Check if JupyterLab is already installed via pipx
-        if pipx list 2>/dev/null | grep -q jupyterlab; then
-            echo "   ✅ JupyterLab already installed via pipx (isolated environment)"
-        else
-            echo "   ⚠️  pipx available - can install JupyterLab with: pipx install jupyterlab"
-        fi
-    else
-        echo "   ❌ JupyterLab not installed (install pipx first)"
-    fi
-}
-
-function check_vscode_extensions_status() {
-    # Check if VS Code is installed and CLI is available
-    if command -v code &>/dev/null; then
-        local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
-        local installed_count=$(code --list-extensions 2>/dev/null | wc -l | tr -d ' ')
-        local configured_count=0
-        
-        # Count configured extensions (excluding comments and empty lines)
-        if [[ -f "$extensions_file" ]]; then
-            configured_count=$(grep -v '^#' "$extensions_file" | grep -v '^$' | wc -l | tr -d ' ')
-        fi
-        
-        if [[ $installed_count -gt 0 ]]; then
-            if [[ $configured_count -gt 0 ]]; then
-                if [[ $installed_count -eq $configured_count ]]; then
-                    echo "   ✅ VS Code Extensions ${installed_count}/${configured_count}: Fully synced"
-                elif [[ $installed_count -gt $configured_count ]]; then
-                    echo "   ⚠️  VS Code Extensions ${installed_count}/${configured_count}: $((installed_count - configured_count)) uncaptured"
-                else
-                    echo "   ⚠️  VS Code Extensions ${installed_count}/${configured_count}: $((configured_count - installed_count)) missing"
-                fi
-            else
-                echo "   ⚠️  VS Code Extensions ${installed_count}/0: Not managed (run: ./conf/vscode/manage-extensions.sh capture)"
-            fi
-        else
-            echo "   ❌ VS Code Extensions 0/${configured_count}: None installed"
-        fi
-    elif [[ -d "/Applications/Visual Studio Code.app" ]] || [[ -d "$HOME/Applications/Visual Studio Code.app" ]]; then
-        echo "   ⚠️  VS Code installed but CLI not available (Cmd+Shift+P → Install 'code' command)"
-    fi
-}
-
-function check_ai_development_status() {
-    # Check AI/ML core tools
-    local ai_tools=("ollama" "duckdb" "mlflow" "datasette" "sqlite-utils" "pyenv")
-    local installed_count=0
-    local missing_tools=()
-    
-    for tool in "${ai_tools[@]}"; do
-        if command -v "$tool" &>/dev/null; then
-            installed_count=$((installed_count + 1))
-        else
-            missing_tools+=("$tool")
-        fi
-    done
-    
-    if [ $installed_count -eq ${#ai_tools[@]} ]; then
-        echo "   ✅ AI/ML Tools: $installed_count/${#ai_tools[@]} installed"
-    else
-        echo "   ⚠️  AI/ML Tools: $installed_count/${#ai_tools[@]} installed"
-    fi
-    if [[ ${#missing_tools[@]} -gt 0 ]]; then
-        echo "      Missing: ${missing_tools[*]}"
-    fi
-    
-    # Check AI agent frameworks environment
-    if command -v conda &>/dev/null; then
-        local agentic_env_path="$XDG_DATA_HOME/conda/envs/agentic-ai"
-        if [[ -d "$agentic_env_path" ]]; then
-            echo "   ✅ AI Agent Frameworks: agentic-ai conda environment configured"
-            echo "      Location: $agentic_env_path"
-            
-            # Check if some key packages are installed in the environment
-            local key_packages=("langchain" "crewai" "autogen-agentchat" "streamlit")
-            local installed_packages=()
-            
-            for package in "${key_packages[@]}"; do
-                if conda run -p "$agentic_env_path" python -c "import ${package//-/_}" &>/dev/null; then
-                    installed_packages+=("$package")
-                fi
-            done
-            
-            if [[ ${#installed_packages[@]} -gt 0 ]]; then
-                echo "      Verified packages: ${installed_packages[*]}"
-            fi
-        else
-            echo "   ⚠️  AI Agent Frameworks: conda available, agentic-ai environment not created"
-        fi
-    else
-        echo "   ❌ AI Agent Frameworks: conda not installed"
-    fi
-    
-    # Check ML environment
-    if command -v conda &>/dev/null; then
-        if conda env list | grep -q "ml-dev"; then
-            echo "   ✅ ML Environment: ml-dev conda environment configured"
-        else
-            echo "   ⚠️  ML Environment: conda available, ml-dev environment not created"
-        fi
-    else
-        echo "   ❌ ML Environment: conda not installed"
-    fi
-    
-    # Check Local LLM setup
-    if command -v ollama &>/dev/null; then
-        local model_count=$(ollama list 2>/dev/null | grep -v "NAME" | wc -l | tr -d ' ')
-        if [[ $model_count -gt 0 ]]; then
-            echo "   ✅ Local LLMs: Ollama with $model_count models installed"
-        else
-            echo "   ⚠️  Local LLMs: Ollama installed, no models downloaded"
-        fi
-    else
-        echo "   ❌ Local LLMs: Ollama not installed"
-    fi
-    
-    # Check AI IDEs
-    local ai_ides=("Cursor.app" "Zed.app" "Windsurf.app")
-    local installed_ai_ides=()
-    
-    for ide in "${ai_ides[@]}"; do
-        if [[ -d "/Applications/$ide" ]] || [[ -d "$HOME/Applications/$ide" ]]; then
-            installed_ai_ides+=("${ide%.app}")
-        fi
-    done
-    
-    if [[ ${#installed_ai_ides[@]} -gt 0 ]]; then
-        echo "   ✅ AI IDEs ${#installed_ai_ides[@]}/${#ai_ides[@]}: ${installed_ai_ides[*]}"
-    else
-        echo "   ❌ AI IDEs 0/${#ai_ides[@]}: None installed"
-    fi
-    
-    # Check AI VS Code extensions
-    if command -v code &>/dev/null; then
-        local ai_extensions_count=$(code --list-extensions 2>/dev/null | grep -E "(continue|codeium|copilot|tabnine|huggingface)" | wc -l | tr -d ' ')
-        if [[ $ai_extensions_count -gt 0 ]]; then
-            echo "   ✅ AI VS Code Extensions: $ai_extensions_count installed"
-        else
-            echo "   ❌ AI VS Code Extensions: None installed"
-        fi
-    else
-        echo "   ⚠️  VS Code CLI not available for extension check"
-    fi
-}
-
-function check_productivity_apps_status() {
-    # Define productivity apps list - matches install_productivity_apps()
-    local productivity_apps=(
-        "notion:Notion.app:Notion"
-        "obsidian:Obsidian.app:Obsidian"
-        "figma:Figma.app:Figma"
-        "slack:Slack.app:Slack"
-        "github:GitHub Desktop.app:GitHub Desktop"
-        "postman:Postman.app:Postman"
-        "insomnia:Insomnia.app:Insomnia"
-        "dbeaver-community:DBeaver.app:DBeaver"
-        "pgadmin4:pgAdmin 4.app:pgAdmin 4"
-        "rapidapi:RapidAPI.app:RapidAPI"
-        "microsoft-edge:Microsoft Edge.app:Microsoft Edge"
-    )
-    
-    # Check installed productivity apps
-    local installed_apps=()
-    local total_apps=${#productivity_apps[@]}
-    
-    for app_info in "${productivity_apps[@]}"; do
-        local cask_name="${app_info%%:*}"
-        local app_name="${app_info#*:}"
-        app_name="${app_name%%:*}"
-        local display_name="${app_info##*:}"
-        
-        # Check both /Applications and $HOME/Applications
-        if [[ -d "/Applications/$app_name" ]] || [[ -d "$HOME/Applications/$app_name" ]]; then
-            installed_apps+=("$display_name")
-        fi
-    done
-    
-    if [[ ${#installed_apps[@]} -gt 0 ]]; then
-        echo "   ✅ Productivity Apps ${#installed_apps[@]}/${total_apps}: ${installed_apps[*]}"
-    else
-        echo "   ❌ No productivity apps installed 0/${total_apps}"
-    fi
-    
-    # Check commented out apps that require sudo rights
-    local sudo_apps=()
-    [[ -d "/Applications/VirtualBox.app" ]] && sudo_apps+=("VirtualBox")
-    [[ -d "/Applications/zoom.us.app" ]] && sudo_apps+=("Zoom")
-    
-    if [[ ${#sudo_apps[@]} -gt 0 ]]; then
-        echo "   ✅ Additional Apps manual install: ${sudo_apps[*]}"
-    fi
-}
-
-function check_app_cli_symlinks_status() {
-    local bin_dir="$SBRN_HOME/sys/bin"
-    
-    if [[ ! -d "$bin_dir" ]]; then
-        echo "   ❌ CLI symlinks directory not created: $bin_dir"
-        return
-    fi
-    
-    # Define CLI symlinks that should be created - matches create_app_cli_symlinks()
-    local expected_symlinks=(
-        "code:Visual Studio Code.app"
-        "idea:IntelliJ IDEA CE.app"
-        "cursor:Cursor.app"
-        "dbeaver:DBeaver.app"
-        "figma:Figma.app"
-        "obsidian:Obsidian.app"
-        "notion:Notion.app"
-        "github:GitHub Desktop.app"
-        "insomnia:Insomnia.app"
-        "postman:Postman.app"
-        "rapidapi:RapidAPI.app"
-        "slack:Slack.app"
-        "pgadmin:pgAdmin 4.app"
-    )
-    
-    local created_symlinks=()
-    local missing_apps=()
-    
-    for symlink_info in "${expected_symlinks[@]}"; do
-        local cli_name="${symlink_info%%:*}"
-        local app_name="${symlink_info#*:}"
-        
-        # Check if app is installed
-        if [[ -d "/Applications/$app_name" ]] || [[ -d "$HOME/Applications/$app_name" ]]; then
-            # Check if symlink exists
-            if [[ -L "$bin_dir/$cli_name" ]]; then
-                created_symlinks+=("$cli_name")
-            else
-                missing_apps+=("$cli_name")
-            fi
-        fi
-    done
-    
-    if [[ ${#created_symlinks[@]} -gt 0 ]]; then
-        echo "   ✅ CLI Symlinks Created: ${created_symlinks[*]}"
-    fi
-    
-    if [[ ${#missing_apps[@]} -gt 0 ]]; then
-        echo "   ⚠️  Missing CLI Symlinks: ${missing_apps[*]}"
-    fi
-    
-    if [[ ${#created_symlinks[@]} -eq 0 ]] && [[ ${#missing_apps[@]} -eq 0 ]]; then
-        echo "   ❌ No CLI symlinks available - no apps installed"
-    fi
-    
-    # Check if bin directory is in PATH
-    if [[ ":$PATH:" == *":$bin_dir:"* ]]; then
-        echo "   ✅ CLI symlinks directory added to PATH"
-    else
-        echo "   ⚠️  CLI symlinks directory not in PATH: $bin_dir"
-    fi
-}
-
-function check_git_status() {
-    if command -v git &>/dev/null; then
-        echo "   ✅ Git: $(git --version)"
-        
-        # Check Git configuration
-        if git config --global user.name &>/dev/null; then
-            echo "   ✅ Git user.name: $(git config --global user.name)"
-        else
-            echo "   ❌ Git user.name not configured"
-        fi
-        
-        if git config --global user.email &>/dev/null; then
-            echo "   ✅ Git user.email: $(git config --global user.email)"
-        else
-            echo "   ❌ Git user.email not configured"
-        fi
-        
-        # Check SSH key
-        if [[ -f ~/.ssh/id_ed25519 ]]; then
-            echo "   ✅ SSH key exists"
-        else
-            echo "   ❌ SSH key not generated"
-        fi
-        
-        # Check GitHub CLI
-        if command -v gh &>/dev/null; then
-            if gh auth status &>/dev/null; then
-                echo "   ✅ GitHub CLI authenticated"
-            else
-                echo "   ❌ GitHub CLI not authenticated"
-            fi
-        else
-            echo "   ❌ GitHub CLI not installed"
-        fi
-    else
-        echo "   ❌ Git not installed"
-    fi
-}
-
-# Function to show usage
-show_usage() {
-    local script_name="${0##*/}"
-    echo "Usage: $script_name [OPTIONS]"
-    echo ""
-    echo "OPTIONS:"
-    echo "  --skip-cask-apps, -c    Skip Homebrew Cask app installations - recommend manual install"
-    echo "  --skip-iterm-setup, -i  Skip iTerm2 profile and color setup (avoids interactive prompts)"
-    echo "  --yes, -y               Auto-answer 'yes' to all prompts (fully automated run)"
-    echo "  --status, -s            Show current system and tools status without running setup"
-    echo "  --help, -h              Show this help message"
-    echo ""
-    echo "EXAMPLES:"
-    echo "  $script_name                      Run the full developer environment setup"
-    echo "  $script_name --yes                Run fully automated setup (no prompts)"
-    echo "  $script_name --skip-cask-apps     Skip GUI app installations"
-    echo "  $script_name --skip-iterm-setup   Skip iTerm2 setup to avoid popups"
-    echo "  $script_name --status             Check current status of tools and environment"
-}
-
-# Parse command line arguments
-parse_arguments() {
+################################################################################
+# Argument Parsing
+################################################################################
+function parse_arguments() {
     while [[ $# -gt 0 ]]; do
         case $1 in
-            --skip-cask-apps|-c)
+            -c|--skip-cask-apps)
                 SKIP_CASK_APPS=true
+                log_info "SKIP-CASK-APPS mode enabled: GUI applications will be skipped"
                 shift
                 ;;
-            --skip-iterm-setup|-i)
+            -i|--skip-iterm-setup)
                 SKIP_ITERM_SETUP=true
+                log_info "SKIP-ITERM-SETUP mode enabled: iTerm2 profiles setup will be skipped"
                 shift
                 ;;
-            --yes|-y)
+            -y|--yes)
                 AUTO_YES=true
+                log_info "Auto-mode enabled: All confirmations will be automatically accepted"
                 shift
                 ;;
-            --status|-s)
+            --status)
                 show_system_summary
                 exit 0
                 ;;
-            --help|-h)
+            -h|--help)
                 show_usage
                 exit 0
                 ;;
@@ -3232,43 +2307,49 @@ parse_arguments() {
     done
 }
 
-
-# Idempotent helper functions
-brew_install() {
-    local package="$1"
-    local description="${2:-$package}"
-    
-    if ! command -v "$package" &>/dev/null && ! brew list "$package" &>/dev/null; then
-        log_info "Installing $description..."
-        brew install "$package"
-    else
-        log_success "$description already installed"
-    fi
+function show_usage() {
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Portable Replicatable Scalable Developer Laboratory Setup for macOS"
+    echo ""
+    echo "Options:"
+    echo "  -c, --skip-cask-apps     Skip GUI application installations (brew cask apps)"
+    echo "  -i, --skip-iterm-setup   Skip iTerm2 profiles and color schemes setup"
+    echo "  -y, --yes               Auto-accept all confirmations (non-interactive mode)"
+    echo "      --status            Show current system status and exit"
+    echo "  -h, --help              Show this help message and exit"
+    echo ""
+    echo "Examples:"
+    echo "  $0                      # Interactive setup with all options"
+    echo "  $0 --yes               # Automated setup with all options"
+    echo "  $0 -c -y               # Automated setup, skip GUI apps"
+    echo "  $0 --skip-iterm-setup  # Interactive setup, skip iTerm2 setup"
+    echo "  $0 --status            # Check current installation status"
 }
 
-brew_cask_install() {
-    local cask="$1"
-    local description="${2:-$cask}"
-    
-    if [[ $SKIP_CASK_APPS == false ]]; then
-        if ! brew list --cask "$cask" &>/dev/null; then
-            log_info "Installing $description..."
-            brew install --cask --appdir=~/Applications "$cask"
-        else
-            log_success "$description already installed"
-        fi
+function show_system_summary() {
+    echo "════════════════════════════════════════════════════════════════════════════════"
+    echo "🖥️  SYSTEM SUMMARY"
+    echo "════════════════════════════════════════════════════════════════════════════════"
+    echo "macOS Version: $(sw_vers -productVersion)"
+    echo "Architecture: $(uname -m)"
+    echo "Hostname: $(hostname)"
+    echo "User: $(whoami)"
+    echo "Shell: $SHELL"
+    echo "Home Directory: $HOME"
+    if [[ -n "${SBRN_HOME:-}" ]]; then
+        echo "SBRN Home: $SBRN_HOME"
     else
-        log_info "Skipping cask installation: $description"
-
+        echo "SBRN Home: Not yet configured"
     fi
+    echo "════════════════════════════════════════════════════════════════════════════════"
 }
 
 ################################################################################
 # Script Entry Point - Only execute when script is run directly, not sourced
 ################################################################################
-if [[ "${BASH_SOURCE[0]:-$0}" == "${0}" ]] && [[ "$0" != *"zsh"* ]]; then
-    # Parse command line arguments
-    parse_arguments "$@"
+# Parse command line arguments
+parse_arguments "$@"
     
     # Check if running on macOS
     if [[ $(uname) != "Darwin" ]]; then
@@ -3309,4 +2390,3 @@ if [[ "${BASH_SOURCE[0]:-$0}" == "${0}" ]] && [[ "$0" != *"zsh"* ]]; then
         log_info "Installation cancelled"
         exit 0
     fi
-fi

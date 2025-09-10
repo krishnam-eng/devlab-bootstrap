@@ -1,70 +1,30 @@
-# UV Python Package Manager Configuration
-# XDG-compliant configuration for UV
+# UV Configuration File
+# XDG-compliant Python package management
 
-[global]
-# Cache settings
+# Cache configuration
 cache-dir = "$XDG_CACHE_HOME/uv"
+
+# Global tool installation directory
+global-tool-dir = "$XDG_DATA_HOME/uv/tools"
+global-bin-dir = "$XDG_DATA_HOME/uv/bin"
+
+# Python installation directory for UV-managed Pythons
+python-install-dir = "$XDG_DATA_HOME/uv/python"
+
+# Default Python version for new projects
+default-python = "3.12"
+
+# Package index configuration
+index-url = "https://pypi.org/simple/"
+
+# Resolution strategy - prefer latest compatible versions
+resolution = "highest"
+
+# Compile bytecode for faster startup
 compile-bytecode = true
 
-# Index configuration
-index-url = "https://pypi.org/simple"
-extra-index-url = [
-    "https://download.pytorch.org/whl/cpu"
-]
+# Link mode for installations (copy, hardlink, or symlink)
+link-mode = "copy"
 
-# Trusted hosts
-trusted-host = []
-
-# Resolution settings
-resolution = "highest"
-prerelease = "disallow"
-
-# Installation settings
-reinstall = false
-upgrade = false
-no-deps = false
-no-build-isolation = false
-
-# Environment settings
-system = false
-break-system-packages = false
-
-# Output settings
-quiet = false
-verbose = 0
-no-color = false
-
-# Build settings
-no-build = false
-no-binary = []
-only-binary = []
-
-# Configuration for virtual environments
-[venv]
-# Default Python version for new environments
-python = "3.11"
-
-# Package inclusion for new environments
-seed = true
-
-# Environment creation settings
-system-site-packages = false
-symlinks = true
-
-[pip]
-# Pip compatibility settings
-pip-args = []
+# Enable keyring for credential storage
 keyring-provider = "auto"
-
-# Progress settings
-progress-bar = "auto"
-
-[tool]
-# Tool-specific settings
-uv-lock = true
-uv-python = "3.11"
-
-[install]
-# Installation defaults
-compile = true
-no-compile = false

@@ -4,7 +4,7 @@
 # This script helps capture, backup, and install VS Code extensions
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-EXTENSIONS_FILE="$SCRIPT_DIR/extensions.txt"
+EXTENSIONS_FILE="$SCRIPT_DIR/../conf/vscode/extensions.txt"
 EXTENSIONS_BACKUP_FILE="$SCRIPT_DIR/extensions-backup-$(date +%Y%m%d-%H%M%S).txt"
 
 # Colors for output
@@ -58,8 +58,9 @@ install_missing_extensions() {
     echo -e "${BLUE}Installing missing VS Code extensions...${NC}"
     
     if [[ ! -f "$EXTENSIONS_FILE" ]]; then
-        echo -e "${RED}Error: extensions.txt not found. Run 'capture' first.${NC}"
-        exit 1
+        echo -e "${YELLOW}extensions.txt not found. Capturing current extensions first...${NC}"
+        capture_extensions
+        echo ""
     fi
     
     local installed_count=0

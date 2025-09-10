@@ -1,32 +1,50 @@
-# AI Development Extensions - Added 2025-09-10
+# VS Code Extensions Configuration
+# This file lists VS Code extensions to be managed by the installation script
+# Run: ../scripts/manage-vscode-extensions.sh install
 
-# Original Extensions
-codeium.codeium
-github.copilot-labs
-tabnine.tabnine-vscode
-amazonwebservices.aws-toolkit-vscode
-hashicorp.terraform
-aaron-bond.better-comments
-atommaterial.a-file-icon-vscode
-christian-kohler.path-intellisense
-oderwat.indent-rainbow
-redhat.vscode-yaml
-ms-vscode.vscode-json
-davidanson.vscode-markdownlint
-yzhang.markdown-all-in-one
-eamodio.gitlens
-dbaeumer.vscode-eslint
-esbenp.prettier-vscode
-stylelint.vscode-stylelint
+# AI Development Extensions
 continue.continue
+tabnine.tabnine-vscode
 github.copilot
 github.copilot-chat
 ms-toolsai.vscode-ai
 huggingface.huggingface-vscode
 danielsanmedium.dscodegpt
+codeium.codeium
+
+# Cloud & Infrastructure
+amazonwebservices.aws-toolkit-vscode
+hashicorp.terraform
+
+# Code Quality & Formatting
+aaron-bond.better-comments
+davidanson.vscode-markdownlint
+yzhang.markdown-all-in-one
+dbaeumer.vscode-eslint
+esbenp.prettier-vscode
+stylelint.vscode-stylelint
+
+# File Management & Navigation
+atommaterial.a-file-icon-vscode
+christian-kohler.path-intellisense
+
+# Visual Enhancements
+oderwat.indent-rainbow
+
+# Data & Configuration
+redhat.vscode-yaml
+
+# Version Control
+eamodio.gitlens
+
+# IntelliCode & API Usage
 visualstudioexptteam.intellicode-api-usage-examples
 visualstudioexptteam.vscodeintellicode
+
+# HTTP & REST
 humao.rest-client
+
+# Python Development
 ms-python.python
 ms-python.vscode-pylance
 ms-python.debugpy
@@ -35,6 +53,8 @@ ms-python.black-formatter
 ms-python.isort
 charliermarsh.ruff
 njpwerner.autodocstring
+
+# Java Development
 redhat.java
 vscjava.vscode-java-pack
 vscjava.vscode-java-debug
@@ -43,14 +63,23 @@ vscjava.vscode-java-test
 vscjava.vscode-maven
 vscjava.vscode-gradle
 vmware.vscode-spring-boot
+
+# Go Development
 golang.go
+
+# Rust Development
 rust-lang.rust-analyzer
+
+# Web Development
 bradlc.vscode-tailwindcss
 prisma.prisma
 graphql.vscode-graphql
+
+# Template Languages
 samuelcolvin.jinjahtml
+
+# Jupyter & Data Science
 ms-toolsai.jupyter
-ms-toolsai.jupyter-ai
 ms-toolsai.jupyter-keymap
 ms-toolsai.jupyter-renderers
 ms-toolsai.vscode-jupyter-cell-tags

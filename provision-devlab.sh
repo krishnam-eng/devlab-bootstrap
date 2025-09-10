@@ -1,37 +1,16 @@
 #!/bin/zsh
 
 ################################################################################
-# Goal: Portable Replicatable Scalable Developer Laboratory Setup for macOS
-#
+# Portable Replicatable Scalable Developer Laboratory Setup for macOS
+# 
 # Author: Balamurugan Krishnamoorthy
+# Documentation: See PROVISION-DEVLAB.md for complete details
 #
-# This script sets up a complete macOS development environment including:
-# 1. SBRN (Second Brain) directory structure
-# 2. Homebrew package manager
-# 3. Zsh with customizations
-# 4. Essential development tools and applications
-# 5. Git and GitHub configuration
-# 6. Development IDEs and editors
-#
-# My Philosophy: Leverage Industry-Tested Standards for Effortless Productivity
-#     This setup harnesses well-established principles, standards, and specifications 
-#     that have been battle-tested across industries and proven effective for millions 
-#     of developers and knowledge workers daily. By adopting these acclaimed standards 
-#     (PARA, XDG, DAM, FHS), we eliminate the complexity of reinventing organizational 
-#     systems and instead build upon decades of refinement.
-#     
-#     The result is a development environment that transforms file organization, 
-#     tool management, and workflow efficiency from conscious decisions into second nature—
-#     automating good practices by design, reducing cognitive overhead, and creating 
-#     muscle memory for peak productivity. Each component becomes an unconscious habit 
-#     that compounds productivity gains over time.
-#
-#     Key Benefits:
-#     - Portability: Environment replicates identically across machines
-#     - Scalability: Handles simple scripts to complex enterprise projects
-#     - Maintainability: Industry standards ensure long-term compatibility
-#     - Speed: Reduces setup time from days to minutes
-#     - Consistency: Eliminates configuration drift and "works on my machine" issues
+# Quick Start:
+#   ./provision-devlab.sh                 # Interactive setup
+#   ./provision-devlab.sh --yes           # Automated setup
+#   ./provision-devlab.sh --status        # Check current status
+#   ./provision-devlab.sh --help          # Show usage options
 ################################################################################
 
 # Global variables
@@ -60,8 +39,12 @@ function main() {
     log_info "Starting Developer Environment Setup for macOS..."
     echo ""
 
-    confirm_and_run_step "Setup Directory Structure" setup_dir_struct_hierarchy
-    confirm_and_run_step "Install Homebrew" install_macos_package_manager
+    # Prerequisites: Essential setup steps
+    confirm_and_run_step "Setup Second Brain Directory Root with HRT Repository (Prerequisites)" setup_prerequisites
+    confirm_and_run_step "Install Homebrew (Prerequisite)" install_macos_package_manager
+    
+    # Main setup steps (7 steps)
+    confirm_and_run_step "Setup Developer Laboratory Directory Structure" setup_dir_struct_hierarchy
     confirm_and_run_step "Setup Zsh Environment" setup_zsh_environment
     confirm_and_run_step "Install Essential CLI Tools" install_essential_cli_tools
     confirm_and_run_step "Install Development Tools" install_development_tools
@@ -91,74 +74,61 @@ function confirm_and_run_step() {
 }
 
 ################################################################################
-# Step 1: Setup SBRN Directory Structure
-# This model creates a scalable, portable directory structure following PARA (PKMS),
-# DAM, FHS, and XDG principles and patterns.
-#
-# My Principle - Leveraging Industry-Tested Standards:
-#     Harness well-established principles, standards, and specifications that have been 
-#     battle-tested across industries and proven effective for millions of users daily.
-#     By adopting these acclaimed standards (PARA, XDG, DAM, FHS), we eliminate the complexity 
-#     of reinventing organizational systems and instead build upon decades of refinement.
-#     
-#     This approach transforms file organization from a conscious decision into second nature—
-#     automating good practices by design, reducing cognitive overhead, and creating 
-#     muscle memory for efficiency. The Home directory becomes a clean, purposeful space 
-#     containing only system defaults plus dedicated management directories (Drives, sbrn),
-#     while complex configurations and personal projects flow naturally into their 
-#     designated hierarchies.
-#     
-#     The result: Speed, time savings, and mental clarity through systematic automation 
-#     rather than ad-hoc complexity. These principles become unconscious habits that 
-#     compound productivity gains over time.
-# 
-# PARA Principle (Created 2017 by Tiago Forte):
-#     Problem Solved: Information overload and scattered digital assets causing wasted time
-#                     (average knowledge worker spends 26% of day looking for information, 
-#                     76 hours/year on misplaced files).
-#     Core Principle: Organize by actionability, not subject - Projects (most actionable), 
-#                     Areas (ongoing responsibilities), Resources (future reference), 
-#                     Archives (inactive items).
-#     Created during Forte's consulting work to manage knowledge efficiently in fast-paced environments.
-#
-# DAM Principle (Evolved from 1990s-2000s digital asset management):
-#     Problem Solved: Organizations losing track of digital assets, version confusion, 
-#                     inconsistent branding, and duplicated creative work causing millions 
-#                     in wasted resources.
-#     Core Principle: Centralized storage with metadata, version control, search capabilities, 
-#                     and access permissions for all digital media and creative assets.
-#     Developed as businesses transitioned from analog to digital workflows.
-#
-# XDG Principle (Created August 10, 2003 by freedesktop.org):
-#     Problem Solved: Messy home directories cluttered with dotfiles (.config, .cache, .local)
-#                     scattered inconsistently across UNIX-like systems, making user 
-#                     environments unmanageable.
-#     Core Principle: Define standardized base directories for config, cache, data, state, 
-#                     and runtime files, ensuring clean separation and cross-application consistency.
-#     Created to bring order to desktop Linux environments during the desktop wars era.
-#
-#
-# FHS Principle (Created February 14, 1994 as FSSTND, renamed FHS 1997):
-#     Problem Solved: Inconsistent filesystem layouts across UNIX variants causing compatibility 
-#                     issues, software installation problems, and system administration complexity.
-#     Core Principle: Standardize directory hierarchy (/bin, /etc, /usr, /var, /opt) ensuring
-#                     predictable file locations, read-only system partitions, and 
-#                     cross-distribution compatibility.
-#     Created during early Linux distribution fragmentation to establish universal standards.
-#
-# Target Persona:
-#     Knowledge workers, researchers, developers, creatives, consultants, and digital professionals
-#     managing complex information workflows who require organized, searchable, and portable systems.
-#     Organizations report 1.5 workdays monthly saved from improved information retrieval.
-#
-# Industry Adoption and Tool Support:
-#     PARA: Supported by Notion, Obsidian, Logseq, Roam Research, implemented at 
-#           World Bank, Genentech, Sunrun.
-#     DAM:  Market leaders include Adobe Experience Manager, Bynder, Canto, with 88% cloud adoption rate.
-#     XDG:  Native support in all major Linux distributions, libraries for Python, C++, Haskell, Qt.
-#     FHS:  Universal standard ensuring cross-platform compatibility and long-term maintainability.
-#     This hybrid approach provides enterprise-grade organization with personal workflow flexibility.
+# Prerequisites: Setup Second Brain Directory Root with HRT Repository
 ################################################################################
+function setup_prerequisites() {
+    log_step "🏗️ Setting up prerequisites (Second Brain directory & HRT repository)..."
+    
+    # Prompt user for second brain directory name
+    local sbrn_name="sbrn"
+    if [[ "$AUTO_YES" != "true" ]]; then
+        echo "Enter your Second Brain directory name [default: sbrn]: "
+        read -r user_input
+        if [[ -n "$user_input" ]]; then
+            sbrn_name="$user_input"
+        fi
+    fi
+    
+    # Set SBRN_HOME based on user input
+    export SBRN_HOME="$HOME/$sbrn_name"
+    log_info "Second Brain directory set to: $SBRN_HOME"
+    
+    # Create the base Second Brain directory
+    mkdir -p "$SBRN_HOME"
+    
+    # Create essential sys directory structure
+    mkdir -p "$SBRN_HOME/sys"
+    
+    # Clone the HRT (Home Runtime Tools) repository if it doesn't exist
+    if [[ ! -d "$SBRN_HOME/sys/hrt" ]]; then
+        log_info "Cloning HRT repository to $SBRN_HOME/sys/hrt..."
+        git clone --depth=1 https://github.com/krishnam-eng/sbrn-sys-hrt.git "$SBRN_HOME/sys/hrt"
+        log_success "HRT repository cloned successfully"
+    else
+        log_success "HRT repository already exists at $SBRN_HOME/sys/hrt"
+    fi
+    
+    log_success "Prerequisites setup completed"
+}
+
+
+function install_macos_package_manager() {
+    log_step "🍺 Installing Homebrew package manager..."
+    
+    if ! command -v brew &>/dev/null; then
+        log_info "Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        log_info "Homebrew PATH configuration is managed by HRT .zprofile"
+    else
+        log_success "Homebrew already installed"
+    fi
+    brew update
+    log_success "Homebrew setup completed"
+}
+
+#################################################################################
+# Step 1: Setup Developer Laboratory Directory Structure
+#################################################################################
 function setup_dir_struct_hierarchy() {
     log_step "📁 Setting up SBRN (Second Brain) directory structure..."
 
@@ -169,14 +139,6 @@ function setup_dir_struct_hierarchy() {
     chflags hidden ~/Public
     chflags hidden ~/Pictures
     chflags hidden ~/Library
-
-    # Set SBRN_HOME if not already set
-    if [[ -z "${SBRN_HOME:-}" ]]; then
-        export SBRN_HOME="$HOME/sbrn"
-        log_info "Set SBRN_HOME to $SBRN_HOME"
-    else
-        log_success "SBRN_HOME already set: $SBRN_HOME"
-    fi
 
     # Create primary PARA directories under sbrn home for Projects, Areas, Resources, Archives
     mkdir -p "$SBRN_HOME"
@@ -190,18 +152,6 @@ function setup_dir_struct_hierarchy() {
     mkdir -p "$HOME/Drives"/{iCloud,GoogleDrive,OneDrive,Dropbox}
     log_info "Please manually mount your cloud drives (iCloud, Google Drive, OneDrive, Dropbox) under $HOME/Drives"
 
-    # Create XDG config structure to keep the home directory clean of dotfiles and system clutter
-    mkdir -p "$SBRN_HOME/sys"/{config,local/share,local/state,cache,bin,etc}
-
-    # Clone the HRT (Home Runtime Tools) repository if it doesn't exist
-    if [[ ! -d "$SBRN_HOME/sys/hrt" ]]; then
-        log_info "Cloning HRT repository to $SBRN_HOME/sys/hrt..."
-        git clone --depth=1 https://github.com/krishnam-eng/sbrn-sys-hrt.git "$SBRN_HOME/sys/hrt"
-        log_success "HRT repository cloned successfully"
-    else
-        log_success "HRT repository already exists at $SBRN_HOME/sys/hrt"
-    fi
-
     # Setup XDG Base Directory Specification environment variables
     export XDG_CONFIG_HOME="$SBRN_HOME/sys/config"
     export XDG_DATA_HOME="$SBRN_HOME/sys/local/share"
@@ -211,40 +161,14 @@ function setup_dir_struct_hierarchy() {
     # Create XDG-compliant directories
     mkdir -p "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$XDG_CACHE_HOME"
     
-    # Application-specific XDG compliance directories
-    export ANDROID_HOME="$XDG_DATA_HOME/android"
-    export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
-    mkdir -p "$ANDROID_HOME" "$GRADLE_USER_HOME"
+    # Create FSH config structure under SBRN_HOME/sys
+    mkdir -p "$SBRN_HOME/sys"/{bin,etc}
  
    log_success "SBRN directory structure setup completed"
 }
 
-function install_macos_package_manager() {
-    log_step "🍺 Installing Homebrew package manager..."
-    
-    if ! command -v brew &>/dev/null; then
-        log_info "Installing Homebrew..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        
-        # Add Homebrew to PATH for Apple Silicon
-        if [[ $(uname -m) == "arm64" ]]; then
-            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$ZDOTDIR/.zprofile"
-            eval "$(/opt/homebrew/bin/brew shellenv)"
-        fi
-    else
-        log_success "Homebrew already installed"
-    fi
-    
-    # Update and upgrade
-    brew update
-    brew upgrade
-    
-    log_success "Homebrew setup completed"
-}
-
-
 ################################################################################
-# Step 3: Setup Zsh Environment
+# Step 2: Setup Zsh Environment
 ################################################################################
 function setup_zsh_environment() {
     log_step "🐚 Setting up Zsh environment with Oh My Zsh..."
@@ -253,43 +177,13 @@ function setup_zsh_environment() {
     export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
     
     # Create XDG-compliant directories for Zsh files
-    log_info "Creating XDG-compliant directories for Zsh files..."
-    mkdir -p "$XDG_STATE_HOME/zsh/sessions"
-    mkdir -p "$XDG_CACHE_HOME/zsh"
-    log_success "Created Zsh XDG directories (state, cache, sessions)"
-    
-    # Set ZSH installation directory
-    local zsh_dir="$SBRN_HOME/sys/etc/oh-my-zsh"
+    create_zsh_xdg_directories
     
     # Install Oh My Zsh to custom directory
-    if [[ ! -d "$zsh_dir" ]]; then
-        export ZSH="$zsh_dir"
-        log_info "Installing Oh My Zsh to $zsh_dir..."
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-        log_success "Oh My Zsh installed successfully"
-
-        # Restore original .zshrc file from Oh My Zsh backup
-        log_info "Restoring original .zshrc configuration..."
-        # Backup the Oh My Zsh generated file first
-        cp "$XDG_CONFIG_HOME/zsh/.zshrc" "$XDG_CONFIG_HOME/zsh/.zshrc.oh-my-zsh-generated"
-        # Restore the original configuration
-        cp "$XDG_CONFIG_HOME/zsh/.zshrc.pre-oh-my-zsh" "$XDG_CONFIG_HOME/zsh/.zshrc"
-        log_success "Original .zshrc configuration restored (Oh My Zsh version backed up as .zshrc.oh-my-zsh-generated)"
-        
-    else
-        log_success "Oh My Zsh already installed"
-        export ZSH="$zsh_dir"
-    fi
+    install_oh_my_zsh
     
     # Install Powerlevel10k theme
-    local p10k_dir="${ZSH}/custom/themes/powerlevel10k"
-    if [[ ! -d "$p10k_dir" ]]; then
-        log_info "Installing Powerlevel10k theme..."
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
-        ln -sfn "$SBRN_HOME/sys/hrt/conf/p10k" "$XDG_CONFIG_HOME/p10k"
-    else
-        log_success "Powerlevel10k already installed"
-    fi
+    install_powerlevel10k_theme
     
     # Install essential plugins
     install_zsh_plugins
@@ -303,9 +197,50 @@ function setup_zsh_environment() {
     log_success "Zsh environment setup completed"
 }
 
-function install_zsh_plugins() {
-    log_info "Installing essential Zsh plugins..."
+function create_zsh_xdg_directories() {
+    log_info "Creating XDG-compliant directories for Zsh files..."
+    mkdir -p "$XDG_STATE_HOME/zsh/sessions"
+    mkdir -p "$XDG_CACHE_HOME/zsh"
+    log_success "Created Zsh XDG directories (state, cache, sessions)"
+}
+
+function install_oh_my_zsh() {
+    local zsh_dir="$SBRN_HOME/sys/etc/oh-my-zsh"
     
+    if [[ ! -d "$zsh_dir" ]]; then
+        export ZSH="$zsh_dir"
+        log_info "Installing Oh My Zsh to $zsh_dir..."
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        log_success "Oh My Zsh installed successfully"
+
+        # Restore original .zshrc file from Oh My Zsh backup
+        log_info "Restoring original .zshrc configuration..."
+        cp "$XDG_CONFIG_HOME/zsh/.zshrc" "$XDG_CONFIG_HOME/zsh/.zshrc.oh-my-zsh-generated"
+        cp "$XDG_CONFIG_HOME/zsh/.zshrc.pre-oh-my-zsh" "$XDG_CONFIG_HOME/zsh/.zshrc"
+        log_success "Original .zshrc configuration restored (Oh My Zsh version backed up as .zshrc.oh-my-zsh-generated)"
+        
+    else
+        log_success "Oh My Zsh already installed"
+        export ZSH="$zsh_dir"
+    fi
+}
+
+function install_powerlevel10k_theme() {
+    local p10k_dir="${ZSH}/custom/themes/powerlevel10k"
+    
+    if [[ ! -d "$p10k_dir" ]]; then
+        log_info "Installing Powerlevel10k theme..."
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
+        ln -sfn "$SBRN_HOME/sys/hrt/conf/p10k" "$XDG_CONFIG_HOME/p10k"
+        log_success "Powerlevel10k theme installed"
+    else
+        log_success "Powerlevel10k already installed"
+    fi
+}
+
+function install_zsh_plugins() {
+    log_info "Installing essential Zsh plugins that are not part of Oh My Zsh repo..."
+
     local custom_dir="${ZSH}/custom"
     
     # zsh-autosuggestions
@@ -366,37 +301,28 @@ function install_meslo_font() {
 function setup_zsh_configuration_links() {
     log_info "Setting up Zsh configuration links from HRT..."
     
-    # Setup Zsh configuration symlinks if HRT conf directory exists
-    if [[ -d "$SBRN_HOME/sys/hrt/conf" ]]; then
-        # Symlink zsh configuration directory
-        if [[ -d "$SBRN_HOME/sys/hrt/conf/zsh" ]]; then
-            ln -sfn "$SBRN_HOME/sys/hrt/conf/zsh" "$XDG_CONFIG_HOME/zsh"
-            log_success "Linked Zsh configuration directory"
-        fi
-        
-        # Symlink .zshenv if it exists
-        if [[ -f "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ]]; then
-            ln -sfn "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ~/.zshenv
-            log_success "Linked .zshenv configuration"
-        fi
-    else
-        log_info "HRT configuration directory not found, skipping Zsh config links"
-    fi
+    # Symlink .zshenv
+    ln -sfn "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ~/.zshenv
+    log_success "Linked .zshenv configuration"
+
+    # Symlink zsh configuration directory
+    ln -sfn "$SBRN_HOME/sys/hrt/conf/zsh" "$XDG_CONFIG_HOME/zsh"
+    log_success "Linked Zsh configuration directory"
 }
 
 ################################################################################
-# Step 4: Install Essential CLI Tools
+# Step 3: Install Essential CLI Tools
 ################################################################################
 function install_essential_cli_tools() {
     log_step "🛠️ Installing essential CLI tools..."
     
-    # 🖥️ Shell Enhancements & CLI Productivity
+    # Shell Enhancements & CLI Productivity
     install_shell_productivity_tools
     
-    # 🌐 Networking, Security, & Transfer Tools
+    # Networking, Security, & Transfer Tools
     install_networking_security_tools
     
-    # 📊 Text, Regex, JSON, Data Tools
+    # Text, Regex, JSON, Data Tools
     install_text_data_tools
     
     log_success "Essential CLI tools installation completed"
@@ -420,53 +346,27 @@ function install_shell_productivity_tools() {
 
 
 function install_networking_security_tools() {
-    log_info "Installing 🌐 Networking, Security, & Transfer tools..."
+    log_info "Installing Networking, Security, & Transfer tools..."
     
     local network_tools=(
-        "curl: Command-line tool for transferring data with URL syntax"
-        "wget: Internet file retriever"
-        "httpie: User-friendly command-line HTTP client"
-        "netcat: Utility for reading/writing network connections"
-        "gnupg: GNU Pretty Good Privacy (PGP) package"
-        "certbot: Tool to obtain certs from Let's Encrypt and autoenable HTTPS"
-        "telnet: User interface to the TELNET protocol"
+        "curl" "wget" "httpie" "netcat" "gnupg" "certbot" "telnet"
     )
     
-    for tool_info in "${network_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
+    for tool in "${network_tools[@]}"; do
+        brew_install "$tool"
     done
 }
 
 function install_text_data_tools() {
-    log_info "Installing 📊 Text, Regex, JSON, Data tools..."
+    log_info "Installing text, regex, JSON, data tools..."
     
-    # CLI editors via Homebrew
-    local cli_editors=(
-        "vim: Vi IMproved - enhanced version of the vi editor"
-        "neovim: Ambitious Vim-fork focused on extensibility and agility"
-        "emacs: GNU Emacs text editor"
-        "nano: Free (GNU) replacement for the Pico text editor"
-    )
-
     local text_tools=(
-        "jq: Lightweight and flexible command-line JSON processor"
-        "ripgrep: Search tool like grep and The Silver Searcher"
-        "grep: GNU grep, egrep and fgrep"
-        "fx: Terminal JSON viewer"
-        "jid: Json incremental digger"
-        "colordiff: Color-highlighted diff(1) output"
-        "base64: Encode and decode base64 files"
-        "base91: Utility to encode and decode base91 files"
-        "python-yq: Command-line YAML and XML processor that wraps jq"
-        "ccat: Like cat but displays content with syntax highlighting"
+        "vim" "neovim" "emacs" "nano" "jq" "ripgrep" "grep" 
+        "fx" "jid" "colordiff" "base64" "base91" "python-yq" "ccat"
     )
     
-    for tool_info in "${text_tools[@]}" "${cli_editors[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
+    for tool in "${text_tools[@]}"; do
+        brew_install "$tool"
     done
 
     # Create ripgrep config directory and link configuration
@@ -474,21 +374,21 @@ function install_text_data_tools() {
 }
 
 ################################################################################
-# Step 5: Install Development Tools
+# Step 4: Install Development Tools
 ################################################################################
 function install_development_tools() {
-    log_step "🔧 Installing development tools..."
+    log_step "🔧 Installing general development tools..."
     
-    # 🔧 Developer Tools (VCS, Repos, Git Helpers)
-    install_git_and_vcs_tools
+    # Developer Tools (VCS, Repos, Git Helpers)
+    install_vcs_tools
     
-    # ☁️ Cloud & Containers
+    # Cloud & Containers
     install_cloud_container_tools
     
-    # 🎨 Graphics, OCR, and UI Libraries
+    # Graphics, OCR, and UI Libraries
     install_graphics_ocr_libraries
 
-    # 🛠️ Additional Development & API tools
+    # Additional Development & API tools
     install_additional_dev_tools
 
     # Configure Git to use diff-so-fancy
@@ -499,8 +399,8 @@ function install_development_tools() {
     log_success "Development tools installation completed"
 }
 
-function install_git_and_vcs_tools() {
-    log_info "Installing Git and VCS tools..."
+function install_vcs_tools() {
+    log_info "Installing VCS tools..."
     
     local git_tools=(
         "git" "git-extras" "git-lfs" "gh" "ghq" "diff-so-fancy" 
@@ -515,367 +415,194 @@ function install_git_and_vcs_tools() {
 }
 
 function install_cloud_container_tools() {
-    log_info "Installing ☁️ Cloud & Containers tools..."
+    log_info "Installing cloud & containers tools..."
     
     local cloud_tools=(
-        "docker: Platform for developing, shipping, and running applications"
-        "docker-compose: Isolated development environments using Docker"
-        "colima: Container runtimes on macOS (and Linux) with minimal setup"
-        "kubernetes-cli: Kubernetes command-line interface"
-        "helm: Kubernetes package manager"
-        "awscli: Official Amazon AWS command-line interface"
-        "dive: Tool for exploring each layer in a docker image"
-        "dockviz: Visualizing docker data"
-        "k9s: Kubernetes CLI To Manage Your Clusters In Style"
-        "kubecolor: Colorize your kubectl output"
-        "kompose: Tool to move from docker-compose to Kubernetes"
-        "krew: Package manager for kubectl plugins"
-        "kube-ps1: Kubernetes prompt info for bash and zsh"
-        "kubebuilder: SDK for building Kubernetes APIs using CRDs"
-        "kustomize: Template-free customization of Kubernetes YAML manifests"
-        "istioctl: Istio configuration command-line utility"
-        "minikube: Run a Kubernetes cluster locally"
-        "terraform: Tool to build, change, and version infrastructure"
-        "pulumi: Modern infrastructure as code with real programming languages"
-        "railway: Deploy apps instantly to Railway cloud"
-        "vercel-cli: Vercel deployment CLI for modern web applications"
+        "docker" "docker-compose" "colima" "kubernetes-cli" "helm" 
+        "awscli" "dive" "dockviz" "k9s" "kubecolor" "kompose" "krew" 
+        "kube-ps1" "kubebuilder" "kustomize" "istioctl" "minikube" 
+        "terraform" "pulumi" "railway" "vercel-cli"
     )
     
-    for tool_info in "${cloud_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
+    for tool in "${cloud_tools[@]}"; do
+        brew_install "$tool"
     done
 }
 
 function install_graphics_ocr_libraries() {
-    log_info "Installing 🎨 Graphics, Images, and UI libraries..."
+    log_info "Installing graphics, images, and UI libraries..."
     
     local graphics_tools=(
-        "librsvg: Library to render SVG files using Cairo"
-        "gtk+3: Toolkit for creating graphical user interfaces"
-        "ghostscript: Interpreter for PostScript and PDF"
-        "graphviz: Graph visualization software from AT&T and Bell Labs"
-        "guile: GNU Ubiquitous Intelligent Language for Extensions"
-        "pcre: Perl compatible regular expressions library"
-        "xerces-c: Validating XML parser"
-        "pygobject3: GNOME Python bindings (based on GObject Introspection)"
+        "librsvg" "gtk+3" "ghostscript" "graphviz" "guile" 
+        "pcre" "xerces-c" "pygobject3"
     )
     
-    for tool_info in "${graphics_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
+    for tool in "${graphics_tools[@]}"; do
+        brew_install "$tool"
     done
 }
 
 function install_additional_dev_tools() {
-    log_info "Installing 🛠️ Additional Development & API tools..."
+    log_info "Installing additional development & API tools..."
     
     local dev_tools=(
-        "jwt-cli: Super fast CLI tool to decode and encode JWTs built in Rust"
-        "newman: Command-line collection runner for Postman"
-        "openapi-generator: Generate clients, server & docs from an OpenAPI spec (v2, v3)"
-        "operator-sdk: SDK for building Kubernetes applications"
-        "hugo: Configurable static site generator"
-        "logrotate: Rotates, compresses, and mails system logs"
-        "rtmpdump: Tool for downloading RTMP streaming media"
-        "sftpgo: Fully featured SFTP server with optional HTTP/S, FTP/S and WebDAV support"
-        "etcd: Key value store for shared configuration and service discovery"
-        "postgresql@15: Object-relational database system"
-        "redis: Persistent key-value database, with built-in net interface"
-        "nginx: HTTP(S) server and reverse proxy, and IMAP/POP3 proxy server"
+        "jwt-cli" "newman" "openapi-generator" "operator-sdk" "hugo" 
+        "logrotate" "rtmpdump" "sftpgo" "etcd" "postgresql@15" 
+        "redis" "nginx"
     )
     
-    for tool_info in "${dev_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
+    for tool in "${dev_tools[@]}"; do
+        brew_install "$tool"
     done
 }
 
 ################################################################################
-# Step 6: Install Programming Languages & Runtimes
+# Step 5: Install Core Programming Languages & Runtimes
 ################################################################################
 function install_programming_languages() {
-    log_step "💻 Installing programming languages and runtimes..."
-    
+    log_step "Installing core programming languages, runtime environment managers, and build tools..."
+
     # Core Programming Languages & Runtimes
     install_core_programming_languages
     
-    # Version Managers
-    install_version_managers
+    # Runtime Environment Managers
+    install_runtime_environment_managers
     
-    # Package, and Build Tools
+    # Build Automation Tools
     install_build_automation_tools
     
-    log_success "Programming languages and runtimes installation completed"
+    log_success "Programming languages, runtime environment managers, and build tools installation completed"
 }
 
 function install_core_programming_languages() {
     log_info "Installing core programming languages and runtimes..."
     
     local languages=(
-        "openjdk@17: Open-source implementation of Java Platform, Standard Edition (v17)"
-        "openjdk@21: Open-source implementation of Java Platform, Standard Edition (v21)"
-        "python@3.13: Python 3.13 programming language"
-        "perl: Highly capable, feature-rich programming language"
-        "node: Platform built on V8 to build network applications"
-        "go: Open source programming language to build simple/reliable/efficient software"
-        "rust: Safe, concurrent, practical language"
+        "openjdk@17" "openjdk@21" "python@3.13" "perl" 
+        "node" "go" "rust"
     )
     
-    for lang_info in "${languages[@]}"; do
-        local lang="${lang_info%%:*}"
-        local description="${lang_info#*:}"
-        brew_install "$lang" "$description"
+    for lang in "${languages[@]}"; do
+        brew_install "$lang"
     done
 }
 
-function install_version_managers() {
-    log_info "Installing version managers..."
+function install_runtime_environment_managers() {
+    log_info "Installing runtime environment managers..."
     
-    # Clean up any existing jenv home directory configuration
-    if [[ -d ~/.jenv ]] || [[ -L ~/.jenv ]]; then
-        log_info "Cleaning up existing jenv configuration in home directory..."
-        # Backup existing jenv data if it's a real directory
-        if [[ -d ~/.jenv ]] && [[ ! -L ~/.jenv ]]; then
-            if [[ ! -d "$XDG_DATA_HOME/jenv" ]]; then
-                mkdir -p "$XDG_DATA_HOME"
-                mv ~/.jenv "$XDG_DATA_HOME/jenv"
-                log_success "Moved existing jenv configuration to XDG data directory"
-            else
-                log_warning "XDG jenv directory already exists, removing home directory version"
-                rm -rf ~/.jenv
-            fi
-        else
-            # Remove symlink
-            rm ~/.jenv
-            log_success "Removed jenv symlink from home directory"
-        fi
-    fi
-    
-    local version_managers=(
-        "jenv: Java version management"
-        "uv: python virtual environment management"
-        "nvm: Node Version Manager"
+    local runtime_managers=(
+        "jenv" "uv" "nvm" "miniconda" "pipx"
     )
+    
+    for rm in "${runtime_managers[@]}"; do
+        brew_install "$rm"
+    done
+    
+    # Configure runtime environment managers
+    configure_jenv
+    configure_uv
+    configure_nvm
+    configure_miniconda
+    configure_pipx
+}
+
+function configure_jenv() {
+    log_info "Configuring jenv with Java versions (XDG-compliant)..."
+    
     # Currently, jenv does not natively support using the XDG Base Directory Specification
     # Move existing jenv configuration to XDG config directory if it exists
-    # This at least keeps the data physically away from your $HOME, but jenv itself still expects to “see” `~/.jenv`
     [[ -d ~/.jenv ]] && [[ ! -L ~/.jenv ]] && [[ ! -d "$XDG_CONFIG_HOME/jenv" ]] && {
         mkdir -p "$XDG_CONFIG_HOME"
         mv ~/.jenv "$XDG_CONFIG_HOME/jenv"
         ln -s "$XDG_CONFIG_HOME/jenv" ~/.jenv
         log_success "Moved jenv configuration to XDG-compliant location"
     }
-
-    for vm_info in "${version_managers[@]}"; do
-        local vm="${vm_info%%:*}"
-        local description="${vm_info#*:}"
-        brew_install "$vm" "$description"
+    
+    # Set jenv to use XDG data directory
+    export JENV_ROOT="$XDG_DATA_HOME/jenv"
+    mkdir -p "$JENV_ROOT"
+    
+    # Initialize jenv with XDG path
+    eval "$(jenv init -)"
+    
+    # Enable essential plugins
+    jenv enable-plugin export 2>/dev/null || true
+    jenv enable-plugin maven 2>/dev/null || true
+    jenv enable-plugin gradle 2>/dev/null || true
+    
+    # Add Java versions if they exist
+    for java_version in 17 21; do
+        local java_path="/opt/homebrew/opt/openjdk@${java_version}"
+        [[ ! -d "$java_path" ]] && java_path="/usr/local/opt/openjdk@${java_version}"
+        
+        if [[ -d "$java_path" ]] && ! jenv versions | grep -q "$java_version"; then
+            jenv add "$java_path" 2>/dev/null && log_success "Added Java $java_version to jenv"
+        fi
     done
+    jenv global 21 2>/dev/null && log_success "Set global Java version to 21"
+
+    # Application-specific XDG compliance directories
+    export ANDROID_HOME="$XDG_DATA_HOME/android"
+    export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
+    mkdir -p "$ANDROID_HOME" "$GRADLE_USER_HOME"
     
-    # Configure jenv with Java versions using XDG-compliant paths
-    if command -v jenv &>/dev/null; then
-        log_info "Configuring jenv with Java versions (XDG-compliant)..."
-        
-        # Set jenv to use XDG data directory
-        export JENV_ROOT="$XDG_DATA_HOME/jenv"
-        mkdir -p "$JENV_ROOT"
-        
-        # Initialize jenv with XDG path
-        eval "$(jenv init -)"
-        
-        # Enable essential plugins
-        jenv enable-plugin export 2>/dev/null || true
-        jenv enable-plugin maven 2>/dev/null || true
-        jenv enable-plugin gradle 2>/dev/null || true
-        
-        # Add Java versions if they exist
-        for java_version in 17 21; do
-            local java_path="/opt/homebrew/opt/openjdk@${java_version}"
-            [[ ! -d "$java_path" ]] && java_path="/usr/local/opt/openjdk@${java_version}"
-            
-            if [[ -d "$java_path" ]] && ! jenv versions | grep -q "$java_version"; then
-                jenv add "$java_path" 2>/dev/null && log_success "Added Java $java_version to jenv"
-            fi
-        done
-        jenv global 21 2>/dev/null && log_success "Set global Java version to 21"
-        
-        log_success "jenv configured with XDG-compliant path: $JENV_ROOT"
-    else
-        log_warning "jenv not found, skipping Java version management setup"
-    fi
+    log_success "jenv configured with XDG-compliant path: $JENV_ROOT"
+}
+
+function configure_nvm() {
+    log_info "Configuring NVM (Node Version Manager)..."
     
-    # Configure NVM (Node Version Manager)
-    if command -v nvm &>/dev/null || [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
-        log_info "Configuring NVM (Node Version Manager)..."
-        
-        # Create NVM working directory using XDG specification
-        # This prevents destruction during Homebrew upgrades
-        if [[ ! -d "$NVM_DIR" ]]; then
-            mkdir -p "$NVM_DIR"
-            log_success "Created NVM directory at $NVM_DIR"
-        fi
-        
-        # Source NVM if available (for immediate use in this script)
-        if [[ -s "/opt/homebrew/opt/nvm/nvm.sh" ]]; then
-            source "/opt/homebrew/opt/nvm/nvm.sh"
-            log_success "NVM loaded from Homebrew installation"
-            
-            # Install latest LTS Node.js if no versions are installed
-            if ! nvm list | grep -q "v"; then
-                log_info "Installing latest LTS Node.js version..."
-                nvm install --lts
-                nvm use --lts
-                nvm alias default lts/*
-                log_success "Installed and set latest LTS Node.js as default"
-            else
-                log_success "Node.js versions already installed via NVM"
-            fi
-        fi
+    # Set NVM_DIR to XDG-compliant location
+    export NVM_DIR="$XDG_DATA_HOME/nvm"
+    mkdir -p "$NVM_DIR"
+    
+    # Source NVM from Homebrew installation
+    source "/opt/homebrew/opt/nvm/nvm.sh"
+    log_success "NVM loaded from Homebrew installation"
+    
+    # Install latest LTS Node.js if no versions are installed
+    if ! nvm list | grep -q "v"; then
+        log_info "Installing latest LTS Node.js version..."
+        nvm install --lts
+        nvm use --lts
+        nvm alias default lts/*
+        log_success "Installed and set latest LTS Node.js as default"
     else
-        log_warning "NVM not found - install with: brew install nvm"
+        log_success "Node.js versions already installed via NVM"
     fi
 }
 
-function install_build_automation_tools() {
-    log_info "Installing additional build and automation tools..."
+function configure_miniconda() {
+    log_info "Configuring Miniconda with XDG compliance..."
     
-    local build_tools=(
-        "maven: Java-based project management"
-        "gradle: Build automation tool based on Groovy and Kotlin"        
-        "poetry: Python package and dependency manager"
-        "pipx: Install and run Python applications in isolated environments"
-        "yarn: JavaScript package manager"
-    )
+    # Set XDG-compliant paths for conda
+    export CONDA_ENVS_PATH="$XDG_DATA_HOME/conda/envs"
+    export CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda/pkgs"
+    export CONDARC="$XDG_CONFIG_HOME/conda/.condarc"
     
-    for tool_info in "${build_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
-    done
+    # Create conda directories
+    mkdir -p "$XDG_DATA_HOME/conda/envs"
+    mkdir -p "$XDG_CACHE_HOME/conda/pkgs"
+    mkdir -p "$XDG_CONFIG_HOME/conda"
+    
+    # Initialize conda for zsh with XDG paths if conda is available
+    if command -v conda &>/dev/null; then
+        conda init zsh
+        log_success "Conda initialized for zsh shell with XDG configuration"
+    else
+        log_info "Conda will be configured when available"
+    fi
+    
+    log_success "Miniconda configured with XDG-compliant paths:"
+    echo "   • CONDA_ENVS_PATH: $CONDA_ENVS_PATH"
+    echo "   • CONDA_PKGS_DIRS: $CONDA_PKGS_DIRS"
+    echo "   • CONDARC: $CONDARC"
 }
 
-################################################################################
-# Step 7: Install IDEs and Editors
-################################################################################
-function install_ides_and_editors() {
-    log_step "📝 Installing IDEs and editors..."
-    
-    # Development Environment for Data Science and Notebooks
-    install_python_notebook_env_tools
-
-    # Core IDEs and Editors
-    install_core_ides_editors
-    
-    # Productivity and Development Support Apps
-    install_productivity_apps
-    
-    # Create symbolic links for command-line access
-    create_app_cli_symlinks
-    
-    log_success "IDEs and editors installation completed"
-}
-
-function install_core_ides_editors() {
-    log_info "Installing core IDEs and editors..."
-    
-    # IDEs and Editors via Homebrew Cask
-    local ides=(
-        "visual-studio-code: Visual Studio Code - Microsoft's free code editor"
-        "intellij-idea-ce: IntelliJ IDEA Community Edition - JetBrains Java IDE"
-        "pycharm-ce: PyCharm Community Edition - JetBrains Python IDE"
-        "cursor: Cursor - AI-powered code editor"
-        "iterm2: iTerm2 - Terminal emulator for macOS"
-    )
-    
-    for ide_info in "${ides[@]}"; do
-        local ide="${ide_info%%:*}"
-        local description="${ide_info#*:}"
-        brew_cask_install "$ide" "$description"
-    done
-
-    # Link VSCode settings from HRT configuration if available
-    mkdir -p "$SBRN_HOME/sys/config/code/user"
-    ln -sfn $SBRN_HOME/sys/hrt/conf/vscode/settings.json $SBRN_HOME/sys/config/code/user/settings.json
-    ln -sfn "${XDG_CONFIG_HOME:-$HOME/.config}/code/user" "$HOME/Library/Application Support/Code/User"
-    
-    # Install VSCode extensions from HRT configuration
-    setup_vscode_extensions
-    
-    # Setup iTerm2 profiles and color schemes from HRT configuration
-    setup_iterm_profiles
-}
-
-function install_productivity_apps() {
-    log_info "Installing productivity and development support applications..."
-    
-    # Productivity and Development Support Apps via Homebrew Cask
-    local productivity_apps=(
-        "notion: Notion - All-in-one workspace for notes, docs, and collaboration"
-        "obsidian: Obsidian - Knowledge management and note-taking app"
-        "figma: Figma - Collaborative interface design tool"
-        "slack: Slack - Team communication and collaboration"
-        "github: GitHub Desktop - Git GUI client for GitHub"
-        "postman: Postman - API development and testing platform"
-        "insomnia: Insomnia - REST API client and testing tool"
-        "dbeaver-community: DBeaver Community - Universal database tool"
-        "pgadmin4: pgAdmin 4 - PostgreSQL administration and development platform"
-        "rapidapi: RapidAPI - API testing and development tool"
-        # "microsoft-edge: Microsoft Edge - Web browser" # Pre-installed on corp machines
-        # "virtualbox: VirtualBox - Virtual machine software" # Sudoer rights needed
-        # "zoom: Zoom - Video conferencing and online meetings" # Sudoer rights needed
-    )
-    
-    for app_info in "${productivity_apps[@]}"; do
-        local app="${app_info%%:*}"
-        local description="${app_info#*:}"
-        brew_cask_install "$app" "$description"
-    done
-}
-
-function install_python_notebook_env_tools() {
-    log_info "Installing development environment and data science tools..."
-    
-    # Configure pipx to use XDG Base Directory Specification
-    setup_pipx_xdg_configuration
-    
-    # Install pipx first for Python applications
-    brew_install "pipx" "Install and run Python applications in isolated environments"
-    
-    log_info "Installing Jupyter ecosystem using pipx and Homebrew..."
-    
-    # Install core Jupyter applications via pipx (these are standalone applications)
-    local jupyter_apps=(
-        "jupyterlab"
-        "notebook"
-    )
-    
-    for app in "${jupyter_apps[@]}"; do
-        if ! pipx list | grep -q "^$app "; then
-            log_info "Installing $app via pipx..."
-            pipx install "$app" 2>/dev/null || {
-                log_warning "Failed to install $app via pipx, trying pip with virtual environment..."
-                # Fallback: create a temporary virtual environment
-                local temp_venv="/tmp/jupyter_install_$$"
-                python3 -m venv "$temp_venv"
-                source "$temp_venv/bin/activate"
-                pip install "$app"
-                deactivate
-                rm -rf "$temp_venv"
-            }
-        else
-            log_success "$app already installed via pipx"
-        fi
-    done
-}
-
-function setup_pipx_xdg_configuration() {
+function configure_pipx() {
     log_info "Configuring pipx to use XDG Base Directory Specification..."
     
-    # Set XDG-compliant environment variables for pipx (these are also defined in .zshenv)
+    # Set XDG-compliant environment variables for pipx
     export PIPX_HOME="$XDG_DATA_HOME/pipx"
     export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
     export PIPX_MAN_DIR="$XDG_DATA_HOME/pipx/man"
@@ -913,6 +640,107 @@ function setup_pipx_xdg_configuration() {
     echo "   • PIPX_CACHE_DIR: $PIPX_CACHE_DIR"
     echo "   • PIPX_LOG_DIR: $PIPX_LOG_DIR"
     echo "   • Configuration: Defined in HRT .zshenv for persistence across sessions"
+}
+
+function install_build_automation_tools() {
+    log_info "Installing build automation tools..."
+    
+    local build_tools=("maven" "gradle" "poetry" "yarn")
+    
+    for tool in "${build_tools[@]}"; do
+        brew_install "$tool"
+    done
+}
+
+################################################################################
+# Step 6: Install IDEs and Editors
+################################################################################
+function install_ides_and_editors() {
+    log_step "📝 Installing IDEs and editors..."
+    
+    # Development Environment for Data Science and Notebooks
+    install_python_notebook_env_tools
+
+    # Core IDEs and Editors
+    install_core_ides_editors
+    
+    # Productivity and Development Support Apps
+    install_productivity_apps
+    
+    # Create symbolic links for command-line access
+    create_app_cli_symlinks
+    
+    log_success "IDEs and editors installation completed"
+}
+
+function install_core_ides_editors() {
+    log_info "Installing core IDEs and editors..."
+    
+    local ides=(
+        "visual-studio-code" "intellij-idea-ce" "pycharm-ce" "cursor" "iterm2"
+    )
+    
+    for ide in "${ides[@]}"; do
+        brew_cask_install "$ide"
+    done
+
+    # Link VSCode settings from HRT configuration if available
+    mkdir -p "$SBRN_HOME/sys/config/code/user"
+    ln -sfn $SBRN_HOME/sys/hrt/conf/vscode/settings.json $SBRN_HOME/sys/config/code/user/settings.json
+    ln -sfn "${XDG_CONFIG_HOME:-$HOME/.config}/code/user" "$HOME/Library/Application Support/Code/User"
+    
+    setup_vscode_extensions
+    setup_iterm_profiles
+}
+
+function install_productivity_apps() {
+    log_info "Installing productivity and development support applications..."
+    
+    local productivity_apps=(
+        "notion" "obsidian" "figma" "slack" "github" "postman" 
+        "insomnia" "dbeaver-community" "pgadmin4" "rapidapi"
+    )
+    
+    for app in "${productivity_apps[@]}"; do
+        brew_cask_install "$app"
+    done
+}
+
+function install_python_notebook_env_tools() {
+    log_info "Installing development environment and data science tools..."
+    
+    # Note: pipx installation and XDG configuration is handled in configure_pipx()
+    # Verify pipx is available for Jupyter installation
+    if ! command -v pipx &>/dev/null; then
+        log_warning "pipx not yet available - it should be configured in runtime environment managers step"
+        return 1
+    fi
+    
+    log_info "Installing Jupyter ecosystem using pipx..."
+    
+    # Install core Jupyter applications via pipx (these are standalone applications)
+    local jupyter_apps=(
+        "jupyterlab"
+        "notebook"
+    )
+    
+    for app in "${jupyter_apps[@]}"; do
+        if ! pipx list | grep -q "^$app "; then
+            log_info "Installing $app via pipx..."
+            pipx install "$app" 2>/dev/null || {
+                log_warning "Failed to install $app via pipx, trying pip with virtual environment..."
+                # Fallback: create a temporary virtual environment
+                local temp_venv="/tmp/jupyter_install_$$"
+                python3 -m venv "$temp_venv"
+                source "$temp_venv/bin/activate"
+                pip install "$app"
+                deactivate
+                rm -rf "$temp_venv"
+            }
+        else
+            log_success "$app already installed via pipx"
+        fi
+    done
 }
 
 function create_app_cli_symlinks() {
@@ -976,7 +804,7 @@ function create_app_cli_symlinks() {
 }
 
 ################################################################################
-# Step 8: Setup Agentic AI Development Environment
+# Step 7: Setup Agentic AI Development Environment
 ################################################################################
 function setup_agentic_ai_development() {
     log_step "🤖 Setting up Agentic AI Development Environment..."
@@ -1006,123 +834,57 @@ function setup_agentic_ai_development() {
 }
 
 function install_ai_development_tools() {
-    log_info "Installing 🤖 AI/ML Core Tools & Frameworks..."
+    log_info "Installing AI/ML Core Tools & Frameworks..."
     
-    # Create XDG-compliant directories for AI tools
-    mkdir -p "$XDG_CONFIG_HOME/ai-tools"
-    mkdir -p "$XDG_DATA_HOME/ai-tools"
-    mkdir -p "$XDG_CACHE_HOME/ai-tools"
-    mkdir -p "$XDG_STATE_HOME/ai-tools"
+    mkdir -p "$XDG_CONFIG_HOME/ai-tools" "$XDG_DATA_HOME/ai-tools" "$XDG_CACHE_HOME/ai-tools" "$XDG_STATE_HOME/ai-tools"
     
-    # Ensure pipx is configured with XDG before installing AI tools
-    setup_pipx_xdg_configuration
+    # Note: pipx configuration is handled in configure_pipx()
     
     local ai_tools=(
-        "ollama: Local LLM deployment and management"
-        "huggingface-cli: Hugging Face Hub command-line interface"
-        "duckdb: Fast analytical database for data science"
-        "datasette: Data exploration and publishing tool"
-        "sqlite-utils: Command-line utilities for SQLite databases"
-        "uv: Fast Python package installer and resolver (AI/ML optimized)"
-        "pyenv: Python version management for ML projects"
+        "ollama" "huggingface-cli" "duckdb" "datasette" 
+        "sqlite-utils" "uv" "pyenv"
     )
     
-    for tool_info in "${ai_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
+    for tool in "${ai_tools[@]}"; do
+        brew_install "$tool"
     done
     
-    # Install additional AI tools that require special handling
     install_special_ai_tools
-    
-    # Configure XDG environment variables for AI tools (if function exists)
-    if declare -f setup_ai_tools_xdg_config >/dev/null; then
-        setup_ai_tools_xdg_config
-    else
-        log_info "AI tools XDG configuration function not defined - skipping"
-    fi
 }
 
 function install_special_ai_tools() {
     log_info "Installing additional AI tools that require special handling..."
     
-    # Install mlflow via pipx (isolated environment)
+    # Install mlflow via pipx
     if ! command -v "mlflow" &>/dev/null; then
-        log_info "Installing MLflow via pipx..."
-        pipx install mlflow || {
-            log_warning "Failed to install mlflow via pipx"
-        }
-        # Set XDG-compliant data directory for MLflow
+        pipx install mlflow || log_warning "Failed to install mlflow via pipx"
         export MLFLOW_TRACKING_URI="file://$XDG_DATA_HOME/mlflow"
         mkdir -p "$XDG_DATA_HOME/mlflow"
-        log_success "MLflow setup with XDG data: $XDG_DATA_HOME/mlflow"
-    else
-        log_success "MLflow already installed"
     fi
     
-
-
-    log_info "Configuring XDG compliance for AI tools using HRT configuration files..."
-    
     # Create symlinks for AI tool configurations from HRT to XDG locations
-    log_info "Creating symlinks for AI tool configurations..."
-    
-    # Symlink entire configuration directories instead of individual files
-    local config_dirs=(
-        "ollama"
-        "conda" 
-        "jupyter"
-        "uv"
-        "vector-databases"
-        "ai-tools"
-    )
+    local config_dirs=("ollama" "conda" "jupyter" "uv" "vector-databases" "ai-tools")
     
     for config_dir in "${config_dirs[@]}"; do
         local hrt_conf_dir="$SBRN_HOME/sys/hrt/conf/$config_dir"
         local xdg_conf_link="$XDG_CONFIG_HOME/$config_dir"
         
         if [[ -d "$hrt_conf_dir" ]]; then
-            # Remove existing file/directory if it exists to avoid conflicts
             [[ -e "$xdg_conf_link" ]] && rm -rf "$xdg_conf_link"
-            
-            # Create symlink to entire directory
             ln -sfn "$hrt_conf_dir" "$xdg_conf_link"
-            log_success "Linked $config_dir configuration directory"
-        else
-            log_info "HRT configuration directory not found: $hrt_conf_dir"
         fi
     done
     
     # Create necessary XDG directories for AI tools data and cache
     local xdg_dirs=(
-        "$XDG_CACHE_HOME/huggingface"
-        "$XDG_CACHE_HOME/torch"
-        "$XDG_CACHE_HOME/langchain"
-        "$XDG_CACHE_HOME/wandb"
-        "$XDG_CACHE_HOME/conda/pkgs"
-        "$XDG_CACHE_HOME/pip"
-        "$XDG_CACHE_HOME/uv"
-        "$XDG_DATA_HOME/mlflow"
-        "$XDG_DATA_HOME/jupyter"
-        "$XDG_DATA_HOME/ollama/models"
-        "$XDG_DATA_HOME/duckdb"
-        "$XDG_DATA_HOME/chromadb"
-        "$XDG_DATA_HOME/wandb"
-        "$XDG_DATA_HOME/tensorboard"
-        "$XDG_DATA_HOME/conda/envs"
-        "$XDG_DATA_HOME/pyenv"
-        "$XDG_DATA_HOME/vector-databases/chromadb"
-        "$XDG_DATA_HOME/vector-databases/qdrant"
-        "$XDG_DATA_HOME/vector-databases/weaviate"
+        "$XDG_CACHE_HOME"/{huggingface,torch,langchain,wandb,conda/pkgs,pip,uv}
+        "$XDG_DATA_HOME"/{mlflow,jupyter,ollama/models,duckdb,chromadb,wandb,tensorboard,conda/envs,pyenv}
+        "$XDG_DATA_HOME/vector-databases"/{chromadb,qdrant,weaviate}
     )
     
     for dir in "${xdg_dirs[@]}"; do
         mkdir -p "$dir"
     done
-    
-    log_success "Created XDG-compliant directories for AI tools"
-    log_success "AI tools XDG configuration completed using HRT configuration files"
 }
 
 function setup_conda_package_manager() {
@@ -1681,7 +1443,7 @@ function setup_ai_vscode_extensions() {
 }
 
 ################################################################################
-# Step 9: Setup Git and GitHub
+# Step 8: Setup Git and GitHub
 ################################################################################
 function setup_git_and_github() {
     log_step "🔗 Setting up Git and GitHub..."
@@ -1797,7 +1559,7 @@ function show_zsh_impact() {
 }
 
 function show_cli_tools_impact() {
-    echo "✅ 🖥️ Shell Enhancements & CLI Productivity tools installed:"
+    echo "✅ Shell Enhancements & CLI Productivity tools installed:"
     echo "   • coreutils (GNU core utilities with g- prefix)"
     echo "   • tree (directory tree visualization)"
     echo "   • fzf (command-line fuzzy finder)"
@@ -1828,7 +1590,7 @@ function show_cli_tools_impact() {
     echo "   • zsh-completions (additional completion definitions for zsh)"
     echo "   • bash-completion (programmable completion for Bash 3.2)"
     echo "   • fish (user-friendly command-line shell for UNIX-like operating systems)"
-    echo "✅ 🌐 Networking, Security, & Transfer tools:"
+    echo "✅ Networking, Security, & Transfer tools:"
     echo "   • curl (command-line data transfer tool)"
     echo "   • wget (internet file retriever)"
     echo "   • httpie (user-friendly HTTP client)"
@@ -1836,7 +1598,7 @@ function show_cli_tools_impact() {
     echo "   • gnupg (GNU Pretty Good Privacy PGP package)"
     echo "   • certbot (tool to obtain certs from Let's Encrypt)"
     echo "   • telnet (user interface to the TELNET protocol)"
-    echo "✅ 📊 Text, Regex, JSON, Data tools & CLI Editors:"
+    echo "✅ Text, Regex, JSON, Data tools & CLI Editors:"
     echo "   • jq (lightweight JSON processor)"
     echo "   • ripgrep (fast text search tool with configuration and aliases)"
     echo "   • grep (GNU grep, egrep and fgrep with color aliases)"
@@ -1854,7 +1616,7 @@ function show_cli_tools_impact() {
 }
 
 function show_dev_tools_impact() {
-    echo "✅ 🔧 Developer Tools (VCS, Repos, Git Helpers):"
+    echo "✅ Developer Tools (VCS, Repos, Git Helpers):"
     echo "   • git (distributed revision control system)"
     echo "   • git-extras (small git utilities)"
     echo "   • git-lfs (Git extension for versioning large files)"
@@ -1867,7 +1629,7 @@ function show_dev_tools_impact() {
     echo "   • git-gui (Tcl/Tk based graphical user interface to Git)"
     echo "   • gitk (Git repository browser)"
     echo "   • Git configured to use diff-so-fancy for enhanced diffs"
-    echo "✅ ☁️ Cloud & Containers:"
+    echo "✅ Cloud & Containers:"
     echo "   • docker (platform for developing, shipping, and running applications)"
     echo "   • docker-compose (isolated development environments using Docker)"
     echo "   • colima (container runtimes on macOS with minimal setup)"
@@ -1886,7 +1648,7 @@ function show_dev_tools_impact() {
     echo "   • istioctl (Istio configuration command-line utility)"
     echo "   • minikube (run a Kubernetes cluster locally)"
     echo "   • terraform (tool to build, change, and version infrastructure)"
-    echo "✅ 🎨 Graphics, Images, and UI Libraries:"
+    echo "✅ Graphics, Images, and UI Libraries:"
     echo "   • librsvg (library to render SVG files using Cairo)"
     echo "   • gtk+3 (toolkit for creating graphical user interfaces)"
     echo "   • ghostscript (interpreter for PostScript and PDF)"
@@ -1895,7 +1657,7 @@ function show_dev_tools_impact() {
     echo "   • pcre (Perl compatible regular expressions library)"
     echo "   • xerces-c (validating XML parser)"
     echo "   • pygobject3 (GNOME Python bindings based on GObject Introspection)"
-    echo "✅ 🛠️ Additional Development & API tools:"
+    echo "✅ Additional Development & API tools:"
     echo "   • jwt-cli (super fast CLI tool to decode and encode JWTs built in Rust)"
     echo "   • newman (command-line collection runner for Postman)"
     echo "   • openapi-generator (generate clients, server & docs from an OpenAPI spec)"
@@ -1919,15 +1681,16 @@ function show_languages_impact() {
     echo "   • node (platform built on V8 to build network applications)"
     echo "   • go (open source programming language)"
     echo "   • rust (safe, concurrent, practical language)"
-    echo "✅ Version Managers:"
-    echo "   • jenv (Java version management)"
+    echo "✅ Runtime Environment Managers:"
+    echo "   • jenv (Java runtime environment management)"
     echo "   • uv (Python virtual environment management)"
-    echo "   • nvm (Node Version Manager - Homebrew install with XDG-compliant configuration)"
-    echo "✅ Build & Automation Tools:"
+    echo "   • nvm (Node.js runtime environment management - Homebrew install with XDG-compliant configuration)"
+    echo "   • miniconda (Python package/environment management)"
+    echo "   • pipx (Isolated Python application environments)"
+    echo "✅ Build Automation Tools:"
     echo "   • maven (Java-based project management)"
     echo "   • gradle (build automation tool based on Groovy and Kotlin)"
     echo "   • poetry (Python package and dependency manager)"
-    echo "   • pipx (Install and run Python applications in isolated environments)"
     echo "   • yarn (JavaScript package manager)"
     echo "✅ Runtime Versions:"
     echo "   • Python: $(python3 --version 2>/dev/null || echo 'Not installed')"
@@ -2350,26 +2113,15 @@ function show_final_config_impact() {
 # Helper function to install Homebrew packages
 function brew_install() {
     local package="$1"
-    local description="${2:-}"
     
     if brew list "$package" &>/dev/null; then
         log_success "$package already installed"
     else
         log_info "Installing $package..."
-        if [[ -n "$description" ]]; then
-            log_info "  → $description"
-        fi
-        
-        local install_exit_code=0
-        brew install "$package" >/dev/null 2>&1 || install_exit_code=$?
-        
-        if [[ $install_exit_code -eq 0 ]]; then
+        if brew install "$package" >/dev/null 2>&1; then
             log_success "$package installed successfully"
         else
-            # Installation failed - log error but continue
             log_warning "Failed to install $package via Homebrew"
-            log_info "  → You can manually install $package or check if it's already available"
-            
             # Try to detect if the package was actually installed despite the error
             sleep 1
             if brew list "$package" &>/dev/null; then

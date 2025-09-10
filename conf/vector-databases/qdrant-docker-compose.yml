@@ -1,35 +1,12 @@
-version: '3.8'
-
+version: '3.7'
 services:
   qdrant:
-    image: qdrant/qdrant:latest
-    container_name: qdrant-vector-db
+    image: qdrant/qdrant
     ports:
-      - "6333:6333"  # HTTP API
-      - "6334:6334"  # gRPC API
+      - "6333:6333"
+      - "6334:6334"
     volumes:
-      - "$XDG_DATA_HOME/vector-databases/qdrant:/qdrant/storage"
+      - "/Users/balamurugank/sbrn/sys/local/share/vector-databases/qdrant:/qdrant/storage"
     environment:
       - QDRANT__SERVICE__HTTP_PORT=6333
       - QDRANT__SERVICE__GRPC_PORT=6334
-      - QDRANT__LOG_LEVEL=INFO
-      - QDRANT__STORAGE__PERFORMANCE__MAX_SEARCH_THREADS=0
-      - QDRANT__STORAGE__OPTIMIZERS__MEMMAP_THRESHOLD_KB=200000
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    restart: unless-stopped
-    networks:
-      - qdrant-network
-
-networks:
-  qdrant-network:
-    driver: bridge
-
-# Usage:
-# Start: docker-compose -f qdrant-docker-compose.yml up -d
-# Stop:  docker-compose -f qdrant-docker-compose.yml down
-# Logs:  docker-compose -f qdrant-docker-compose.yml logs -f qdrant

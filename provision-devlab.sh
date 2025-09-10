@@ -37,6 +37,7 @@
 # Global variables
 SKIP_CASK_APPS=false
 SKIP_ITERM_SETUP=false
+AUTO_YES=false
 
 # Colors for output
 RED='\033[0;31m'
@@ -56,40 +57,33 @@ log_step() { printf "${CYAN}[STEP]${NC} %s\n" "$1"; }
 ################################################################################
 # Main execution flow
 function main() {
-    log_info " Starting Developer Environment Setup for macOS..."
+    log_info "Starting Developer Environment Setup for macOS..."
     echo ""
 
-    confirm_and_run_step "Setup Directory Structure Hierarchy" setup_dir_struct_hierarchy show_directory_impact
-    confirm_and_run_step "Install Homebrew" install_macos_package_manager show_homebrew_impact
-    confirm_and_run_step "Setup Zsh Environment" setup_zsh_environment show_zsh_impact
-    confirm_and_run_step "Install Essential CLI Tools" install_essential_cli_tools show_cli_tools_impact
-    confirm_and_run_step "Install Development Tools" install_development_tools show_dev_tools_impact
-    confirm_and_run_step "Install Programming Languages & Runtimes" install_programming_languages show_languages_impact
-    confirm_and_run_step "Install IDEs and Editors" install_ides_and_editors show_ides_impact
-    confirm_and_run_step "Setup Agentic AI Development Environment" setup_agentic_ai_development show_ai_development_impact
-    # confirm_and_run_step "Setup Git and GitHub" setup_git_and_github show_git_impact
+    confirm_and_run_step "Setup Directory Structure" setup_dir_struct_hierarchy
+    confirm_and_run_step "Install Homebrew" install_macos_package_manager
+    confirm_and_run_step "Setup Zsh Environment" setup_zsh_environment
+    confirm_and_run_step "Install Essential CLI Tools" install_essential_cli_tools
+    confirm_and_run_step "Install Development Tools" install_development_tools
+    confirm_and_run_step "Install Programming Languages" install_programming_languages
+    confirm_and_run_step "Install IDEs and Editors" install_ides_and_editors
+    confirm_and_run_step "Setup AI Development Environment" setup_agentic_ai_development
 }
 
 function confirm_and_run_step() {
     local step_description="$1"
     local step_function="$2"
-    local summary_function="${3:-}"
 
-    echo "Proceed with $step_description? [y/N]: "
-    read -r REPLY
+    if [[ "$AUTO_YES" == "true" ]]; then
+        log_info "Auto-running: $step_description"
+        REPLY="y"
+    else
+        echo "Proceed with $step_description? [y/N]: "
+        read -r REPLY
+    fi
+    
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         $step_function
-        
-        # Show step impact summary
-        if [[ -n "$summary_function" ]]; then
-            echo ""
-            log_info "📋 Impact Summary for: $step_description"
-            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            $summary_function
-            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            echo ""
-        fi
-        
         log_success "$step_description completed successfully."
     else
         log_info "$step_description skipped."
@@ -225,9 +219,6 @@ function setup_dir_struct_hierarchy() {
    log_success "SBRN directory structure setup completed"
 }
 
-################################################################################
-# Step 2: Install Homebrew
-################################################################################
 function install_macos_package_manager() {
     log_step "🍺 Installing Homebrew package manager..."
     
@@ -237,85 +228,20 @@ function install_macos_package_manager() {
         
         # Add Homebrew to PATH for Apple Silicon
         if [[ $(uname -m) == "arm64" ]]; then
-            local zprofile_file="$ZDOTDIR/.zprofile"
-            
-            # Only add if not already present
-            if [[ ! -f "$zprofile_file" ]] || ! grep -q "brew shellenv" "$zprofile_file"; then
-                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$zprofile_file"
-                log_success "Added Homebrew shellenv to .zprofile"
-            else
-                log_success "Homebrew shellenv already in .zprofile"
-            fi
-            
+            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$ZDOTDIR/.zprofile"
             eval "$(/opt/homebrew/bin/brew shellenv)"
         fi
     else
         log_success "Homebrew already installed"
-        brew --version | head -1
-        
-        # Show currently installed packages
-        show_installed_brew_packages
     fi
     
-    # Update Homebrew and upgrade existing packages
-    log_info "Updating Homebrew package lists..."
+    # Update and upgrade
     brew update
-    
-    log_info "Upgrading existing Homebrew packages to latest versions..."
-    echo "Do you want to run 'brew upgrade' to update all packages? [y/N]: "
-    read -r REPLY
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        brew upgrade
-        log_success "Homebrew packages upgraded."
-    else
-        log_info "brew upgrade skipped."
-    fi
+    brew upgrade
     
     log_success "Homebrew setup completed"
 }
 
-function show_installed_brew_packages() {
-    log_info "📦 Currently installed Homebrew packages (leaf packages only):"
-    
-    if ! command -v brew &>/dev/null; then
-        log_warning "Homebrew not found"
-        return 1
-    fi
-    
-    local leaves
-    leaves=$(brew leaves 2>/dev/null)
-    
-    if [[ -n "$leaves" ]]; then
-        # Convert to array and display in columns
-        local packages_array=()
-        while IFS= read -r package; do
-            # Clean the package name and only add non-empty ones
-            package=$(echo "$package" | tr -d '\r\n' | xargs)
-            [[ -n "$package" ]] && packages_array+=("$package")
-        done <<< "$leaves"
-        
-        # Display packages in 4 columns, 15 characters each
-        local col_width=15
-        local cols=4
-        local total_packages=${#packages_array[@]}
-        
-        # Start fresh line and add initial padding
-        printf "\n   "
-        for ((i=1; i<=total_packages; i++)); do
-            printf "%-${col_width}s" "${packages_array[i]}"
-            
-            # Add new line every 4 packages or at the end
-            if (( i % cols == 0 )) || (( i == total_packages )); then
-                printf "\n"
-                # Add padding for next line if not the last
-                (( i != total_packages )) && printf "   "
-            fi
-        done
-        printf "\n"  # Ensure we end with a newline
-    else
-        echo "   • No packages installed"
-    fi
-}
 
 ################################################################################
 # Step 3: Setup Zsh Environment
@@ -477,48 +403,18 @@ function install_essential_cli_tools() {
 }
 
 function install_shell_productivity_tools() {
-    log_info "Installing 🖥️ Shell Enhancements & CLI Productivity tools..."
+    log_info "Installing shell enhancement & productivity tools..."
     
-    # Core shell enhancement tools (ordered by popularity)
     local shell_tools=(
-        "coreutils: GNU core utilities (g-prefixed)"
-        "tree: Directory tree visualization"
-        "fzf: Command-line fuzzy finder"
-        "tmux: Terminal multiplexer"
-        "screen: Terminal multiplexer with VT100/ANSI terminal emulation"        
-        "htop: Interactive process viewer"
-        "bat: Cat clone with syntax highlighting and Git integration"
-        "fd: Simple, fast and user-friendly alternative to find"
-        "tldr: Simplified and community-driven man pages"
-        "eza: Modern replacement for ls with colors and icons"
-        "zoxide: Smarter cd command with frecency"
-        "watch: Execute a program periodically, showing output fullscreen"
-        "ncdu: NCurses Disk Usage - disk usage analyzer"
-        "glances: System monitoring tool"
-        "lsd: LSDeluxe - next gen ls command"
-        "ctop: Top-like interface for container metrics"
-        "autoenv: Directory-based environments"
-        "atuin: Improved shell history for zsh, bash, fish and nushell"
-        "direnv: Load/unload environment variables based on PWD"
-        "ack: Search tool like grep, but optimized for programmers"
-        "broot: New way to see and navigate directory trees"
-        "figlet: Banner-like program prints strings as ASCII art"
-        "lolcat: Rainbows and unicorns in your console"
-        "ranger: File browser"
-        "as-tree: Print a list of paths as a tree of paths"
-        "agedu: Unix utility for tracking down wasted disk space"
-        "zsh-autosuggestions: Fish-like fast/unobtrusive autosuggestions for zsh"
-        "zsh-completions: Additional completion definitions for zsh"
-        "bash-completion: Programmable completion for Bash 3.2"
-        "fish: User-friendly command-line shell for UNIX-like operating systems"
-        "starship: Cross-shell prompt with AI-powered features"
-        "warp: AI-native terminal with modern features"
+        "coreutils" "tree" "fzf" "tmux" "screen" "htop" "bat" "fd" "tldr" 
+        "eza" "zoxide" "watch" "ncdu" "glances" "lsd" "ctop" "autoenv" 
+        "atuin" "direnv" "ack" "broot" "figlet" "lolcat" "ranger" 
+        "as-tree" "agedu" "zsh-autosuggestions" "zsh-completions" 
+        "bash-completion" "fish" "starship"
     )
     
-    for tool_info in "${shell_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
+    for tool in "${shell_tools[@]}"; do
+        brew_install "$tool"
     done
 }
 
@@ -604,27 +500,15 @@ function install_development_tools() {
 }
 
 function install_git_and_vcs_tools() {
-    log_info "Installing 🔧 Developer Tools (VCS, Repos, Git Helpers)..."
+    log_info "Installing Git and VCS tools..."
     
     local git_tools=(
-        "git: Distributed revision control system"
-        "git-extras: Small git utilities"
-        "git-lfs: Git extension for versioning large files"
-        "gh: GitHub command-line tool"
-        "ghq: Remote repository management made easy"
-        "diff-so-fancy: Good-lookin' diffs with diff-highlight and more"
-        "delta: Syntax-highlighting pager for git, diff, and grep output"
-        "tig: Text-mode interface for git"
-        "lazygit: Simple terminal UI for git commands"
-        "git-gui: Tcl/Tk based graphical user interface to Git"
-        "gitk: The Git repository browser"        
-        "gibo: Fast access to .gitignore boilerplates"
+        "git" "git-extras" "git-lfs" "gh" "ghq" "diff-so-fancy" 
+        "delta" "tig" "lazygit" "git-gui" "gitk" "gibo"
     )
     
-    for tool_info in "${git_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
+    for tool in "${git_tools[@]}"; do
+        brew_install "$tool"
     done
 
     ln -sfn "$SBRN_HOME/sys/hrt/conf/git" "$XDG_CONFIG_HOME/git"
@@ -654,9 +538,7 @@ function install_cloud_container_tools() {
         "terraform: Tool to build, change, and version infrastructure"
         "pulumi: Modern infrastructure as code with real programming languages"
         "railway: Deploy apps instantly to Railway cloud"
-        "vercel: Vercel deployment CLI for modern web applications"
-        "supabase: Open-source Firebase alternative CLI"
-        "planetscale: PlanetScale database CLI"
+        "vercel-cli: Vercel deployment CLI for modern web applications"
     )
     
     for tool_info in "${cloud_tools[@]}"; do
@@ -957,9 +839,12 @@ function install_productivity_apps() {
 function install_python_notebook_env_tools() {
     log_info "Installing development environment and data science tools..."
     
+    # Configure pipx to use XDG Base Directory Specification
+    setup_pipx_xdg_configuration
+    
     # Install pipx first for Python applications
     brew_install "pipx" "Install and run Python applications in isolated environments"
-
+    
     log_info "Installing Jupyter ecosystem using pipx and Homebrew..."
     
     # Install core Jupyter applications via pipx (these are standalone applications)
@@ -985,6 +870,49 @@ function install_python_notebook_env_tools() {
             log_success "$app already installed via pipx"
         fi
     done
+}
+
+function setup_pipx_xdg_configuration() {
+    log_info "Configuring pipx to use XDG Base Directory Specification..."
+    
+    # Set XDG-compliant environment variables for pipx (these are also defined in .zshenv)
+    export PIPX_HOME="$XDG_DATA_HOME/pipx"
+    export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
+    export PIPX_MAN_DIR="$XDG_DATA_HOME/pipx/man"
+    export PIPX_SHARED_LIBS="$XDG_DATA_HOME/pipx/pyvenv"
+    export PIPX_LOCAL_VENVS="$XDG_DATA_HOME/pipx/venvs"
+    export PIPX_LOG_DIR="$XDG_STATE_HOME/pipx/logs"
+    export PIPX_CACHE_DIR="$XDG_CACHE_HOME/pipx"
+    
+    # Create XDG-compliant directories
+    local pipx_dirs=(
+        "$PIPX_HOME"
+        "$PIPX_BIN_DIR" 
+        "$PIPX_MAN_DIR"
+        "$PIPX_SHARED_LIBS"
+        "$PIPX_LOCAL_VENVS"
+        "$PIPX_LOG_DIR"
+        "$PIPX_CACHE_DIR"
+    )
+    
+    for dir in "${pipx_dirs[@]}"; do
+        mkdir -p "$dir"
+    done
+    
+    # Add pipx bin directory to PATH for current session
+    if [[ ":$PATH:" != *":$PIPX_BIN_DIR:"* ]]; then
+        export PATH="$PIPX_BIN_DIR:$PATH"
+        log_success "Added XDG pipx bin directory to current PATH: $PIPX_BIN_DIR"
+    else
+        log_success "pipx XDG bin directory already in PATH"
+    fi
+    
+    log_success "pipx configured with XDG-compliant directories:"
+    echo "   • PIPX_HOME: $PIPX_HOME"
+    echo "   • PIPX_BIN_DIR: $PIPX_BIN_DIR (added to PATH)"
+    echo "   • PIPX_CACHE_DIR: $PIPX_CACHE_DIR"
+    echo "   • PIPX_LOG_DIR: $PIPX_LOG_DIR"
+    echo "   • Configuration: Defined in HRT .zshenv for persistence across sessions"
 }
 
 function create_app_cli_symlinks() {
@@ -1056,8 +984,8 @@ function setup_agentic_ai_development() {
     # AI/ML Core Tools & Frameworks
     install_ai_development_tools
     
-    # ML-Optimized Python Environment
-    setup_ml_python_environment
+    # Conda Package Manager Setup
+    setup_conda_package_manager
     
     # AI Agent Development Frameworks
     install_ai_agent_frameworks
@@ -1074,9 +1002,6 @@ function setup_agentic_ai_development() {
     # Modern Productivity & Automation Tools
     install_modern_productivity_tools
     
-    # AI-Enhanced VS Code Extensions
-    setup_ai_vscode_extensions
-    
     log_success "Agentic AI Development Environment setup completed"
 }
 
@@ -1089,71 +1014,55 @@ function install_ai_development_tools() {
     mkdir -p "$XDG_CACHE_HOME/ai-tools"
     mkdir -p "$XDG_STATE_HOME/ai-tools"
     
+    # Ensure pipx is configured with XDG before installing AI tools
+    setup_pipx_xdg_configuration
+    
     local ai_tools=(
         "ollama: Local LLM deployment and management"
-        "huggingface-cli: Hugging Face model hub CLI access"
+        "huggingface-cli: Hugging Face Hub command-line interface"
         "duckdb: Fast analytical database for data science"
-        "mlflow: ML experiment tracking and model registry"
         "datasette: Data exploration and publishing tool"
         "sqlite-utils: Command-line utilities for SQLite databases"
-        "polars-cli: Fast DataFrame operations via command line"
         "uv: Fast Python package installer and resolver (AI/ML optimized)"
         "pyenv: Python version management for ML projects"
-        "conda-forge::mamba: Fast conda package manager for ML"
     )
     
     for tool_info in "${ai_tools[@]}"; do
         local tool="${tool_info%%:*}"
         local description="${tool_info#*:}"
-        
-        # Handle special cases for tools not available via standard brew
-        case "$tool" in
-            "huggingface-cli")
-                if ! command -v "huggingface-cli" &>/dev/null; then
-                    log_info "Installing $description via pip..."
-                    python3 -m pip install --user huggingface_hub[cli]
-                    # Set XDG-compliant cache directory for HuggingFace
-                    export HF_HOME="$XDG_CACHE_HOME/huggingface"
-                    mkdir -p "$HF_HOME"
-                    log_success "$description installed via pip with XDG cache: $HF_HOME"
-                else
-                    log_success "$description already installed"
-                fi
-                ;;
-            "polars-cli")
-                if ! command -v "polars" &>/dev/null; then
-                    log_info "Installing $description via pip..."
-                    python3 -m pip install --user polars[all]
-                    log_success "$description installed via pip"
-                else
-                    log_success "$description already installed"
-                fi
-                ;;
-            "conda-forge::mamba")
-                # Install via conda-forge if conda is available, otherwise skip
-                if command -v "conda" &>/dev/null; then
-                    if ! command -v "mamba" &>/dev/null; then
-                        log_info "Installing $description via conda..."
-                        conda install -c conda-forge mamba -y
-                        log_success "$description installed via conda"
-                    else
-                        log_success "$description already installed"
-                    fi
-                else
-                    log_info "Conda not available, skipping mamba installation"
-                fi
-                ;;
-            *)
-                brew_install "$tool" "$description"
-                ;;
-        esac
+        brew_install "$tool" "$description"
     done
     
-    # Configure XDG environment variables for AI tools
-    setup_ai_tools_xdg_config
+    # Install additional AI tools that require special handling
+    install_special_ai_tools
+    
+    # Configure XDG environment variables for AI tools (if function exists)
+    if declare -f setup_ai_tools_xdg_config >/dev/null; then
+        setup_ai_tools_xdg_config
+    else
+        log_info "AI tools XDG configuration function not defined - skipping"
+    fi
 }
 
-function setup_ai_tools_xdg_config() {
+function install_special_ai_tools() {
+    log_info "Installing additional AI tools that require special handling..."
+    
+    # Install mlflow via pipx (isolated environment)
+    if ! command -v "mlflow" &>/dev/null; then
+        log_info "Installing MLflow via pipx..."
+        pipx install mlflow || {
+            log_warning "Failed to install mlflow via pipx"
+        }
+        # Set XDG-compliant data directory for MLflow
+        export MLFLOW_TRACKING_URI="file://$XDG_DATA_HOME/mlflow"
+        mkdir -p "$XDG_DATA_HOME/mlflow"
+        log_success "MLflow setup with XDG data: $XDG_DATA_HOME/mlflow"
+    else
+        log_success "MLflow already installed"
+    fi
+    
+
+
     log_info "Configuring XDG compliance for AI tools using HRT configuration files..."
     
     # Create symlinks for AI tool configurations from HRT to XDG locations
@@ -1216,24 +1125,24 @@ function setup_ai_tools_xdg_config() {
     log_success "AI tools XDG configuration completed using HRT configuration files"
 }
 
-function setup_ml_python_environment() {
-    log_info "Setting up 🐍 ML-Optimized Python Environment with XDG compliance..."
+function setup_conda_package_manager() {
+    log_info "Setting up � Conda Package Manager with XDG compliance..."
     
     # Set XDG-compliant paths for conda before installation
     # Configuration will be provided via symlink from HRT to $XDG_CONFIG_HOME/conda/condarc
     export CONDA_ENVS_PATH="$XDG_DATA_HOME/conda/envs"
     export CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda/pkgs"
-    export CONDARC="$XDG_CONFIG_HOME/conda/condarc"
+    export CONDARC="$XDG_CONFIG_HOME/conda/.condarc"
     
     # Create conda directories
     mkdir -p "$XDG_DATA_HOME/conda/envs"
     mkdir -p "$XDG_CACHE_HOME/conda/pkgs"
     mkdir -p "$XDG_CONFIG_HOME/conda"
     
-    # Install miniconda for better ML package management
+    # Install miniconda for better package management
     if ! command -v conda &>/dev/null; then
-        log_info "Installing Miniconda for ML environment management..."
-        brew_cask_install "miniconda" "Minimal conda installer for Python environments"
+        log_info "Installing Miniconda for package environment management..."
+        brew_install "miniconda" "Minimal conda installer for Python environments"
         
         # Note: XDG-compliant conda configuration will be available via symlink from HRT
         
@@ -1248,86 +1157,103 @@ function setup_ml_python_environment() {
         # Note: XDG configuration will be available via symlink from HRT conf directory
     fi
     
-    # Create ML development environment in XDG location
-    if command -v conda &>/dev/null; then
-        local env_name="ml-dev"
-        local env_path="$XDG_DATA_HOME/conda/envs/$env_name"
-        
-        if [[ ! -d "$env_path" ]]; then
-            log_info "Creating ML development environment: $env_name in XDG location"
-            conda create -p "$env_path" python=3.11 -y
-            
-            # Activate environment and install ML stack
-            log_info "Installing ML packages in $env_name environment..."
-            conda run -p "$env_path" pip install \
-                numpy pandas scikit-learn matplotlib seaborn plotly \
-                torch torchvision transformers datasets accelerate \
-                jupyter jupyterlab ipywidgets notebook \
-                langchain langchain-community langchain-openai \
-                chromadb qdrant-client \
-                streamlit gradio \
-                openai anthropic cohere \
-                mlflow wandb tensorboard
-            
-            # Register Jupyter kernel with XDG-compliant paths
-            export JUPYTER_DATA_DIR="$XDG_DATA_HOME/jupyter"
-            mkdir -p "$JUPYTER_DATA_DIR"
-            conda run -p "$env_path" python -m ipykernel install --user --name="$env_name" --display-name="Python (ML-Dev)"
-            
-            log_success "ML development environment '$env_name' created in XDG-compliant location: $env_path"
-            log_info "Activate with: conda activate $env_path"
-        else
-            log_success "ML development environment '$env_name' already exists in XDG location"
-        fi
-    else
-        log_warning "Conda not available, skipping ML environment creation"
-    fi
+    log_success "Conda package manager setup completed with XDG-compliant paths"
 }
 
 function install_ai_agent_frameworks() {
-    log_info "Installing 🤖 AI Agent Development Frameworks..."
+    log_info "Installing 🤖 AI Agent Development Frameworks via conda environment..."
     
-    # Install agent frameworks via pip (these are Python packages)
-    local agent_frameworks=(
-        "langchain: LangChain framework for building LLM applications"
-        "crewai: Multi-agent AI framework for collaborative AI systems"
-        "autogen-agentchat: Microsoft AutoGen for multi-agent conversations"
-        "semantic-kernel: Microsoft Semantic Kernel for AI orchestration"
-        "haystack-ai: End-to-end LLM framework for search and QA"
-        "llama-index: Data framework for LLM applications"
-    )
+    if ! command -v conda &>/dev/null; then
+        log_warning "Conda not available - skipping AI agent frameworks installation"
+        log_info "Install miniconda first to use this feature"
+        return 1
+    fi
     
-    for framework_info in "${agent_frameworks[@]}"; do
-        local framework="${framework_info%%:*}"
-        local description="${framework_info#*:}"
+    # Create agentic-ai conda environment in XDG location
+    local env_name="agentic-ai"
+    local env_path="$XDG_DATA_HOME/conda/envs/$env_name"
+    
+    if [[ ! -d "$env_path" ]]; then
+        log_info "Creating agentic AI environment: $env_name in XDG location"
+        conda create -p "$env_path" python=3.11 -y
         
-        if ! python3 -c "import ${framework//-/_}" &>/dev/null; then
-            log_info "Installing $description via pip..."
-            python3 -m pip install --user "$framework"
-            log_success "$description installed via pip"
-        else
-            log_success "$description already installed"
-        fi
-    done
-    
-    # Install agent CLI tools if available
-    local agent_cli_tools=(
-        "openai: OpenAI CLI for API interactions"
-        "anthropic: Anthropic Claude CLI"
-    )
-    
-    for tool_info in "${agent_cli_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
+        # Activate environment and install comprehensive AI agent stack
+        log_info "Installing AI agent frameworks and tools in $env_name environment..."
         
-        if ! command -v "$tool" &>/dev/null; then
-            log_info "Installing $description via pip..."
-            python3 -m pip install --user "$tool"
-            log_success "$description installed via pip"
-        else
-            log_success "$description already installed"
-        fi
-    done
+        # Core AI/ML packages
+        conda run -p "$env_path" pip install \
+            numpy pandas matplotlib seaborn plotly \
+            jupyter jupyterlab ipywidgets notebook \
+            requests httpx aiohttp \
+            python-dotenv pydantic pyyaml \
+            rich typer click
+        
+        # LLM and AI frameworks
+        log_info "Installing LLM and AI frameworks..."
+        conda run -p "$env_path" pip install \
+            langchain langchain-core langchain-community langchain-openai langchain-anthropic \
+            langchain-google-genai langchain-huggingface langchain-ollama \
+            langsmith langserve \
+            crewai crewai-tools \
+            autogen-agentchat \
+            semantic-kernel \
+            haystack-ai \
+            llama-index llama-index-core llama-index-llms-openai llama-index-llms-ollama \
+            openai anthropic cohere google-generativeai \
+            transformers datasets accelerate torch torchvision \
+            sentence-transformers
+        
+        # Vector databases and search
+        log_info "Installing vector databases and search tools..."
+        conda run -p "$env_path" pip install \
+            chromadb qdrant-client weaviate-client pinecone-client \
+            faiss-cpu pgvector \
+            elasticsearch opensearch-py
+        
+        # Web frameworks and deployment
+        log_info "Installing web frameworks and deployment tools..."
+        conda run -p "$env_path" pip install \
+            streamlit gradio chainlit \
+            fastapi uvicorn \
+            flask django \
+            gunicorn
+        
+        # Monitoring and observability
+        log_info "Installing monitoring and observability tools..."
+        conda run -p "$env_path" pip install \
+            mlflow wandb tensorboard \
+            langfuse \
+            arize-phoenix \
+            traceloop-sdk
+        
+        # Development and testing tools
+        log_info "Installing development and testing tools..."
+        conda run -p "$env_path" pip install \
+            pytest pytest-asyncio pytest-mock \
+            black isort flake8 mypy \
+            pre-commit \
+            jupyter-book \
+            mkdocs mkdocs-material
+        
+        # CLI tools for AI development
+        log_info "Installing AI CLI tools..."
+        conda run -p "$env_path" pip install \
+            openai-cli \
+            huggingface-hub \
+            datasets-cli
+        
+        # Register Jupyter kernel with XDG-compliant paths
+        export JUPYTER_DATA_DIR="$XDG_DATA_HOME/jupyter"
+        mkdir -p "$JUPYTER_DATA_DIR"
+        conda run -p "$env_path" python -m ipykernel install --user --name="$env_name" --display-name="Python (Agentic-AI)"
+        
+        log_success "Agentic AI environment '$env_name' created in XDG-compliant location: $env_path"
+        log_info "Activate with: conda activate $env_name"
+        log_info "Jupyter kernel 'Python (Agentic-AI)' is now available in JupyterLab"
+        
+    else
+        log_success "Agentic AI environment '$env_name' already exists in XDG location"
+    fi
 }
 
 function setup_local_llm() {
@@ -1397,16 +1323,24 @@ EOF
     # Install llamafile for single-file LLM deployment
     if ! command -v llamafile &>/dev/null; then
         log_info "Installing llamafile for portable LLM deployment..."
-        # llamafile needs to be downloaded from GitHub releases
-        local llamafile_url="https://github.com/Mozilla-Ocho/llamafile/releases/latest/download/llamafile"
-        curl -L -o "$SBRN_HOME/sys/bin/llamafile" "$llamafile_url"
-        chmod +x "$SBRN_HOME/sys/bin/llamafile"
+        # Download the actual llamafile binary
+        local llamafile_url="https://github.com/Mozilla-Ocho/llamafile/releases/download/0.8.13/llamafile-0.8.13"
+        local llamafile_path="$SBRN_HOME/sys/bin/llamafile"
         
-        # Create XDG-compliant llamafile directory
-        mkdir -p "$XDG_DATA_HOME/llamafile/models"
-        mkdir -p "$XDG_CONFIG_HOME/llamafile"
+        # Create bin directory if it doesn't exist
+        mkdir -p "$(dirname "$llamafile_path")"
         
-        log_success "llamafile installed to $SBRN_HOME/sys/bin/llamafile with XDG data dir: $XDG_DATA_HOME/llamafile"
+        if curl -L -o "$llamafile_path" "$llamafile_url"; then
+            chmod +x "$llamafile_path"
+            
+            # Create XDG-compliant llamafile directory
+            mkdir -p "$XDG_DATA_HOME/llamafile/models"
+            mkdir -p "$XDG_CONFIG_HOME/llamafile"
+            
+            log_success "llamafile installed to $llamafile_path with XDG data dir: $XDG_DATA_HOME/llamafile"
+        else
+            log_warning "Failed to download llamafile - continuing..."
+        fi
     else
         log_success "llamafile already installed"
     fi
@@ -1470,17 +1404,19 @@ function install_vector_databases() {
         case "$tool" in
             "qdrant")
                 if ! command -v qdrant &>/dev/null; then
-                    log_info "Installing $description via Docker with XDG data persistence..."
                     if command -v docker &>/dev/null; then
-                        # Create XDG-compliant data directory for Qdrant
-                        local qdrant_data="$XDG_DATA_HOME/vector-databases/qdrant"
-                        mkdir -p "$qdrant_data"
-                        
-                        docker pull qdrant/qdrant
-                        
-                        # Create docker-compose configuration for XDG persistence
-                        local qdrant_compose="$XDG_CONFIG_HOME/vector-databases/qdrant-docker-compose.yml"
-                        cat > "$qdrant_compose" << EOF
+                        # Check if Docker daemon is running
+                        if docker info &>/dev/null; then
+                            log_info "Installing $description via Docker with XDG data persistence..."
+                            # Create XDG-compliant data directory for Qdrant
+                            local qdrant_data="$XDG_DATA_HOME/vector-databases/qdrant"
+                            mkdir -p "$qdrant_data"
+                            
+                            docker pull qdrant/qdrant
+                            
+                            # Create docker-compose configuration for XDG persistence
+                            local qdrant_compose="$XDG_CONFIG_HOME/vector-databases/qdrant-docker-compose.yml"
+                            cat > "$qdrant_compose" << EOF
 version: '3.7'
 services:
   qdrant:
@@ -1494,10 +1430,14 @@ services:
       - QDRANT__SERVICE__HTTP_PORT=6333
       - QDRANT__SERVICE__GRPC_PORT=6334
 EOF
-                        
-                        log_success "$description Docker image pulled with XDG persistence config"
-                        log_info "Start with: docker-compose -f $qdrant_compose up -d"
-                        log_info "Data will be stored in: $qdrant_data"
+                            
+                            log_success "$description Docker image pulled with XDG persistence config"
+                            log_info "Start with: docker-compose -f $qdrant_compose up -d"
+                            log_info "Data will be stored in: $qdrant_data"
+                        else
+                            log_warning "Docker daemon not running - cannot install Qdrant via Docker"
+                            log_info "Start Docker and run the script again for Qdrant installation"
+                        fi
                     else
                         log_warning "Docker not available, skipping Qdrant installation"
                     fi
@@ -1506,9 +1446,13 @@ EOF
                 fi
                 ;;
             "chroma"|"pinecone")
-                if ! python3 -c "import ${tool}" &>/dev/null; then
-                    log_info "Installing $description via pip with XDG configuration..."
-                    python3 -m pip install --user "${tool}db" || python3 -m pip install --user "$tool"
+                if ! pipx list | grep -q "^${tool}db" && ! pipx list | grep -q "^$tool"; then
+                    log_info "Installing $description via pipx..."
+                    if [[ "$tool" == "chroma" ]]; then
+                        pipx install chromadb || log_warning "Failed to install chromadb via pipx"
+                    else
+                        pipx install pinecone-client || log_warning "Failed to install pinecone-client via pipx"
+                    fi
                     
                     # Configure XDG paths for ChromaDB
                     if [[ "$tool" == "chroma" ]]; then
@@ -1521,16 +1465,16 @@ EOF
                         mkdir -p "$XDG_DATA_HOME/vector-databases/chromadb"
                         log_success "$description installed with XDG data dir: $XDG_DATA_HOME/vector-databases/chromadb"
                     else
-                        log_success "$description installed via pip"
+                        log_success "$description installed via pipx"
                     fi
                 else
                     log_success "$description already installed"
                 fi
                 ;;
             "weaviate")
-                if ! python3 -c "import weaviate" &>/dev/null; then
-                    log_info "Installing $description via pip with XDG configuration..."
-                    python3 -m pip install --user weaviate-client
+                if ! pipx list | grep -q "weaviate"; then
+                    log_info "Installing $description via pipx..."
+                    pipx install weaviate-client || log_warning "Failed to install weaviate-client via pipx"
                     
                     # Create XDG-compliant configuration for Weaviate
                     local weaviate_config="$XDG_CONFIG_HOME/vector-databases/weaviate.conf"
@@ -1677,12 +1621,11 @@ function setup_ai_vscode_extensions() {
     local ai_extensions=(
         "continue.continue"
         "codeium.codeium"
-        "github.copilot-labs"
+        "github.copilot"
         "ms-toolsai.vscode-ai"
         "huggingface.huggingface-vscode"
         "tabnine.tabnine-vscode"
         "amazonwebservices.aws-toolkit-vscode"
-        "ms-toolsai.jupyter-ai"
         "ms-toolsai.vscode-jupyter-cell-tags"
         "charliermarsh.ruff"
         "ms-python.black-formatter"
@@ -1694,14 +1637,17 @@ function setup_ai_vscode_extensions() {
         "golang.go"
         "hashicorp.terraform"
         "redhat.vscode-yaml"
-        "ms-vscode.vscode-json"
     )
     
     log_info "Installing AI-enhanced VS Code extensions..."
     for extension in "${ai_extensions[@]}"; do
         if ! code --list-extensions | grep -q "^$extension$"; then
             log_info "Installing extension: $extension"
-            code --install-extension "$extension" --force
+            # Add timeout and error handling for VS Code CLI crashes
+            timeout 30 code --install-extension "$extension" --force || {
+                log_warning "Failed to install extension: $extension (timeout or crash)"
+                continue
+            }
         else
             log_success "Extension already installed: $extension"
         fi
@@ -2052,13 +1998,13 @@ function show_ides_impact() {
     fi
     echo "✅ Development Environment Tools:"
     if command -v jupyter &>/dev/null; then
-        echo "   • JupyterLab installed via pipx (isolated Python environment)"
+        echo "   • JupyterLab installed via pipx (XDG-compliant: $XDG_DATA_HOME/pipx)"
     elif command -v pipx &>/dev/null; then
         # Check if JupyterLab is already installed via pipx
         if pipx list 2>/dev/null | grep -q jupyterlab; then
-            echo "   • JupyterLab already installed via pipx (isolated environment)"
+            echo "   • JupyterLab already installed via pipx (XDG-compliant: $XDG_DATA_HOME/pipx)"
         else
-            echo "   • pipx available for installing Python applications (including JupyterLab)"
+            echo "   • pipx available for installing Python applications (XDG-compliant: $XDG_DATA_HOME/pipx)"
             echo "   • Run 'pipx install jupyterlab' for isolated Jupyter installation"
         fi
     else
@@ -2066,6 +2012,14 @@ function show_ides_impact() {
     fi
     echo "   • git-gui, gitk (Git graphical tools)"
     echo "✅ Command-line shortcuts created in: $SBRN_HOME/sys/bin"
+    echo "✅ pipx configured with XDG Base Directory Specification:"
+    if [[ -n "${PIPX_HOME:-}" ]]; then
+        echo "   • PIPX_HOME: $PIPX_HOME"
+        echo "   • PIPX_BIN_DIR: $PIPX_BIN_DIR (added to PATH)"
+        echo "   • PIPX_CACHE_DIR: $PIPX_CACHE_DIR"
+    else
+        echo "   • pipx will use XDG directories when configured"
+    fi
     
     # Show iTerm2 setup status
     if [[ "$SKIP_ITERM_SETUP" == "true" ]]; then
@@ -2074,7 +2028,7 @@ function show_ides_impact() {
         echo "✅ iTerm2 terminal setup:"
         local colors_dir="$SBRN_HOME/sys/hrt/conf/terminal/colors"
         local profiles_dir="$SBRN_HOME/sys/hrt/conf/terminal/profiles"
-        local iterm_script="$SBRN_HOME/sys/hrt/conf/terminal/manage-iterm-profiles.sh"
+        local iterm_script="$SBRN_HOME/sys/hrt/scripts/manage-iterm-profiles.sh"
         
         if [[ -d "$colors_dir" ]]; then
             local color_count=$(find "$colors_dir" -name "*.itermcolors" 2>/dev/null | wc -l | tr -d ' ')
@@ -2101,7 +2055,7 @@ function show_ai_development_impact() {
     echo "   • huggingface-cli (with XDG cache: $XDG_CACHE_HOME/huggingface)"
     echo "   • duckdb (with XDG data: $XDG_DATA_HOME/duckdb)"
     echo "   • mlflow (with XDG tracking: $XDG_DATA_HOME/mlflow)"
-    echo "   • datasette, sqlite-utils, polars-cli"
+    echo "   • datasette, sqlite-utils"
     echo "   • pyenv (XDG root: $XDG_DATA_HOME/pyenv)"
     if command -v conda &>/dev/null; then
         echo "   • miniconda (XDG envs: $XDG_DATA_HOME/conda/envs, pkgs: $XDG_CACHE_HOME/conda/pkgs)"
@@ -2123,11 +2077,26 @@ function show_ai_development_impact() {
     else
         echo "   • Install miniconda for optimal XDG-compliant ML environment"
     fi
-    echo "✅ 🤖 AI Agent Development Frameworks:"
-    echo "   • langchain (with XDG cache: $XDG_CACHE_HOME/langchain)"
-    echo "   • crewai, autogen-agentchat, semantic-kernel, haystack-ai, llama-index"
-    echo "   • openai CLI (config: $XDG_CONFIG_HOME/openai)"
-    echo "   • anthropic CLI (config: $XDG_CONFIG_HOME/anthropic)"
+    echo "✅ 🤖 AI Agent Development Frameworks (conda environment):"
+    if command -v conda &>/dev/null; then
+        local env_path="$XDG_DATA_HOME/conda/envs/agentic-ai"
+        if [[ -d "$env_path" ]]; then
+            echo "   • agentic-ai environment in XDG location: $env_path"
+            echo "   • Jupyter kernel 'Python (Agentic-AI)' with XDG data: $XDG_DATA_HOME/jupyter"
+            echo "   • LangChain ecosystem: langchain, langsmith, langserve, langchain-community"
+            echo "   • Multi-agent frameworks: crewai, autogen-agentchat, semantic-kernel"
+            echo "   • Search & retrieval: haystack-ai, llama-index with extensions"
+            echo "   • LLM clients: openai, anthropic, cohere, google-generativeai"
+            echo "   • Vector databases: chromadb, qdrant-client, weaviate-client, pinecone-client"
+            echo "   • Web frameworks: streamlit, gradio, chainlit, fastapi"
+            echo "   • Monitoring: mlflow, wandb, langfuse, arize-phoenix"
+            echo "   • Activate with: conda activate $env_name"
+        else
+            echo "   • Conda available for agentic AI environment creation"
+        fi
+    else
+        echo "   • Install miniconda for optimal agentic AI environment"
+    fi
     echo "✅ 🧠 Local LLM Capabilities (XDG-compliant):"
     if command -v ollama &>/dev/null; then
         echo "   • Ollama service with XDG model storage: $XDG_DATA_HOME/ollama/models"
@@ -2213,27 +2182,30 @@ function setup_vscode_extensions() {
         return 0
     fi
     
-    local extensions_script="$SBRN_HOME/sys/hrt/conf/vscode/manage-extensions.sh"
+    local extensions_script="$SBRN_HOME/sys/hrt/scripts/manage-vscode-extensions.sh"
     local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
     
-    # Check if extension configuration exists
-    if [[ ! -f "$extensions_file" ]]; then
-        log_warning "VS Code extensions.txt not found. Creating from current installations..."
-        if [[ -x "$extensions_script" ]]; then
+    # Check if the management script exists and is executable
+    if [[ -x "$extensions_script" ]]; then
+        log_info "Using VS Code extensions management script..."
+        
+        # If extensions file doesn't exist, create one by capturing current extensions
+        if [[ ! -f "$extensions_file" ]]; then
+            log_info "Creating VS Code extensions configuration from current installations..."
             "$extensions_script" capture
-        else
-            log_error "Extensions management script not found or not executable"
-            return 1
+            log_success "Captured current VS Code extensions to extensions.txt"
         fi
-    fi
-    
-    # Install missing extensions
-    if [[ -x "$extensions_script" && -f "$extensions_file" ]]; then
-        log_info "Installing VS Code extensions from configuration..."
+        
+        # Install missing extensions using the script
+        log_info "Installing missing VS Code extensions..."
         "$extensions_script" install
-        log_success "VS Code extensions setup completed"
+        log_success "VS Code extensions setup completed using management script"
+        
     else
-        log_error "VS Code extension setup failed - missing script or configuration"
+        # Script should exist as part of the repository
+        log_warning "VS Code extensions management script not found or not executable: $extensions_script"
+        log_info "Expected script location: $extensions_script"
+        log_info "Skipping VS Code extensions setup - please run the script manually after setup"
         return 1
     fi
 }
@@ -2247,7 +2219,7 @@ function setup_iterm_profiles() {
     
     log_info "Setting up iTerm2 profiles and color schemes from configuration..."
     
-    local iterm_script="$SBRN_HOME/sys/hrt/conf/terminal/manage-iterm-profiles.sh"
+    local iterm_script="$SBRN_HOME/sys/hrt/scripts/manage-iterm-profiles.sh"
     local colors_dir="$SBRN_HOME/sys/hrt/conf/terminal/colors"
     local profiles_dir="$SBRN_HOME/sys/hrt/conf/terminal/profiles"
     
@@ -2258,70 +2230,72 @@ function setup_iterm_profiles() {
     fi
     
     # Check if management script exists and is executable
-    if [[ ! -x "$iterm_script" ]]; then
-        log_warning "iTerm profile management script not found or not executable"
-        if [[ -f "$iterm_script" ]]; then
-            chmod +x "$iterm_script"
-            log_info "Made iTerm management script executable"
-        else
-            log_error "iTerm management script not found: $iterm_script"
-            return 1
-        fi
-    fi
-    
-    # Install color schemes if available
-    if [[ -d "$colors_dir" ]]; then
-        local color_count=$(find "$colors_dir" -name "*.itermcolors" | wc -l | tr -d ' ')
-        if [[ $color_count -gt 0 ]]; then
-            log_info "Installing $color_count iTerm2 color schemes..."
-            "$iterm_script" install
-            log_success "iTerm2 color schemes installed"
-        else
-            log_warning "No .itermcolors files found in $colors_dir"
-        fi
-    else
-        log_warning "Colors directory not found: $colors_dir"
-    fi
-    
-    # Ask user if they want to import profiles and show available profiles
-    if [[ -d "$profiles_dir" ]]; then
-        local profile_count=$(find "$profiles_dir" -name "*.json" | wc -l | tr -d ' ')
-        if [[ $profile_count -gt 0 ]]; then
-            log_info "Found $profile_count iTerm2 profile configurations:"
-            
-            # List available profile names from individual JSON files
-            for profile_file in "$profiles_dir"/*.json; do
-                if [[ -f "$profile_file" && "$(basename "$profile_file")" != "profiles.iterm2.json" ]]; then
-                    local profile_name=$(basename "$profile_file" .json)
-                    echo "   • $profile_name"
-                fi
-            done
-            
-            # Ask user if they want to import
-            echo ""
-            echo "Import iTerm2 profiles automatically? [y/N]: "
-            read -r REPLY
-            if [[ $REPLY =~ ^[Yy]$ ]]; then
-                log_info "Importing iTerm2 profiles..."
-                if "$iterm_script" import; then
-                    log_success "iTerm2 profiles import completed"
-                    log_info "Profiles are now available in iTerm2 → Preferences → Profiles"
-                else
-                    log_warning "Automatic import failed. Manual import instructions:"
-                    echo "   1. Open iTerm2 → Preferences → Profiles"
-                    echo "   2. Click 'Other Actions...' → 'Import JSON Profiles'"
-                    echo "   3. Select: $profiles_dir/profiles.iterm2.json"
-                fi
+    if [[ -x "$iterm_script" ]]; then
+        # Install color schemes if available
+        if [[ -d "$colors_dir" ]]; then
+            local color_count=$(find "$colors_dir" -name "*.itermcolors" 2>/dev/null | wc -l | tr -d ' ')
+            if [[ $color_count -gt 0 ]]; then
+                log_info "Installing $color_count iTerm2 color schemes..."
+                "$iterm_script" install
+                log_success "iTerm2 color schemes installed"
             else
-                log_info "Profile import skipped. To import later:"
-                echo "   • Run: $iterm_script import"
-                echo "   • Or manually: iTerm2 → Preferences → Profiles → Other Actions → Import JSON Profiles"
+                log_warning "No .itermcolors files found in $colors_dir"
             fi
         else
-            log_warning "No profile .json files found in $profiles_dir"
+            log_warning "Colors directory not found: $colors_dir"
+        fi
+        
+        # Ask user if they want to import profiles and show available profiles
+        if [[ -d "$profiles_dir" ]]; then
+            local profile_count=$(find "$profiles_dir" -name "*.json" 2>/dev/null | wc -l | tr -d ' ')
+            if [[ $profile_count -gt 0 ]]; then
+                log_info "Found $profile_count iTerm2 profile configurations:"
+                
+                # List available profile names from individual JSON files
+                for profile_file in "$profiles_dir"/*.json; do
+                    if [[ -f "$profile_file" && "$(basename "$profile_file")" != "profiles.iterm2.json" ]]; then
+                        local profile_name=$(basename "$profile_file" .json)
+                        echo "   • $profile_name"
+                    fi
+                done
+                
+                # Ask user if they want to import
+                echo ""
+                if [[ "$AUTO_YES" == "true" ]]; then
+                    log_info "Auto-importing iTerm2 profiles..."
+                    REPLY="y"
+                else
+                    echo "Import iTerm2 profiles automatically? [y/N]: "
+                    read -r REPLY
+                fi
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    log_info "Importing iTerm2 profiles..."
+                    if "$iterm_script" import; then
+                        log_success "iTerm2 profiles import completed"
+                        log_info "Profiles are now available in iTerm2 → Preferences → Profiles"
+                    else
+                        log_warning "Automatic import failed. Manual import instructions:"
+                        echo "   1. Open iTerm2 → Preferences → Profiles"
+                        echo "   2. Click 'Other Actions...' → 'Import JSON Profiles'"
+                        echo "   3. Select: $profiles_dir/profiles.iterm2.json"
+                    fi
+                else
+                    log_info "Profile import skipped. To import later:"
+                    echo "   • Run: $iterm_script import"
+                    echo "   • Or manually: iTerm2 → Preferences → Profiles → Other Actions → Import JSON Profiles"
+                fi
+            else
+                log_warning "No profile .json files found in $profiles_dir"
+            fi
+        else
+            log_warning "Profiles directory not found: $profiles_dir"
         fi
     else
-        log_warning "Profiles directory not found: $profiles_dir"
+        # Script should exist as part of the repository
+        log_warning "iTerm2 profiles management script not found or not executable: $iterm_script"
+        log_info "Expected script location: $iterm_script"
+        log_info "Skipping iTerm2 profiles setup - please run the script manually after setup"
+        return 1
     fi
 }
 
@@ -2337,16 +2311,16 @@ function show_vscode_impact() {
         
         echo "✅ VS Code extensions: $ext_count installed, $configured_count configured"
         echo "   • Settings: Linked from $SBRN_HOME/sys/hrt/conf/vscode/settings.json"
-        echo "   • Extensions: Managed via $SBRN_HOME/sys/hrt/conf/vscode/manage-extensions.sh"
+        echo "   • Extensions: Managed via $SBRN_HOME/sys/hrt/scripts/manage-vscode-extensions.sh"
         echo "   • Configuration: $extensions_file"
         echo "   • Management commands:"
-        echo "     - Capture current: ./manage-extensions.sh capture"
-        echo "     - Install missing: ./manage-extensions.sh install" 
-        echo "     - Sync all: ./manage-extensions.sh sync"
+        echo "     - Capture current: ./scripts/manage-vscode-extensions.sh capture"
+        echo "     - Install missing: ./scripts/manage-vscode-extensions.sh install" 
+        echo "     - Sync all: ./scripts/manage-vscode-extensions.sh sync"
     else
         echo "⚠️  VS Code not found, extensions skipped"
         echo "   • Install VS Code and run provision script again"
-        echo "   • Or manually run: $SBRN_HOME/sys/hrt/conf/vscode/manage-extensions.sh install"
+        echo "   • Or manually run: $SBRN_HOME/sys/hrt/scripts/manage-vscode-extensions.sh install"
     fi
 }
 
@@ -3224,20 +3198,31 @@ function check_ai_development_status() {
         echo "      Missing: ${missing_tools[*]}"
     fi
     
-    # Check Python AI packages
-    local ai_packages=("langchain" "transformers" "torch" "openai" "anthropic")
-    local installed_packages=()
-    
-    for package in "${ai_packages[@]}"; do
-        if python3 -c "import ${package//-/_}" &>/dev/null; then
-            installed_packages+=("$package")
+    # Check AI agent frameworks environment
+    if command -v conda &>/dev/null; then
+        local agentic_env_path="$XDG_DATA_HOME/conda/envs/agentic-ai"
+        if [[ -d "$agentic_env_path" ]]; then
+            echo "   ✅ AI Agent Frameworks: agentic-ai conda environment configured"
+            echo "      Location: $agentic_env_path"
+            
+            # Check if some key packages are installed in the environment
+            local key_packages=("langchain" "crewai" "autogen-agentchat" "streamlit")
+            local installed_packages=()
+            
+            for package in "${key_packages[@]}"; do
+                if conda run -p "$agentic_env_path" python -c "import ${package//-/_}" &>/dev/null; then
+                    installed_packages+=("$package")
+                fi
+            done
+            
+            if [[ ${#installed_packages[@]} -gt 0 ]]; then
+                echo "      Verified packages: ${installed_packages[*]}"
+            fi
+        else
+            echo "   ⚠️  AI Agent Frameworks: conda available, agentic-ai environment not created"
         fi
-    done
-    
-    if [[ ${#installed_packages[@]} -gt 0 ]]; then
-        echo "   ✅ Python AI Packages ${#installed_packages[@]}/${#ai_packages[@]}: ${installed_packages[*]}"
     else
-        echo "   ❌ Python AI Packages 0/${#ai_packages[@]}: None installed"
+        echo "   ❌ AI Agent Frameworks: conda not installed"
     fi
     
     # Check ML environment
@@ -3450,11 +3435,13 @@ show_usage() {
     echo "OPTIONS:"
     echo "  --skip-cask-apps, -c    Skip Homebrew Cask app installations - recommend manual install"
     echo "  --skip-iterm-setup, -i  Skip iTerm2 profile and color setup (avoids interactive prompts)"
+    echo "  --yes, -y               Auto-answer 'yes' to all prompts (fully automated run)"
     echo "  --status, -s            Show current system and tools status without running setup"
     echo "  --help, -h              Show this help message"
     echo ""
     echo "EXAMPLES:"
     echo "  $script_name                      Run the full developer environment setup"
+    echo "  $script_name --yes                Run fully automated setup (no prompts)"
     echo "  $script_name --skip-cask-apps     Skip GUI app installations"
     echo "  $script_name --skip-iterm-setup   Skip iTerm2 setup to avoid popups"
     echo "  $script_name --status             Check current status of tools and environment"
@@ -3470,6 +3457,10 @@ parse_arguments() {
                 ;;
             --skip-iterm-setup|-i)
                 SKIP_ITERM_SETUP=true
+                shift
+                ;;
+            --yes|-y)
+                AUTO_YES=true
                 shift
                 ;;
             --status|-s)
@@ -3515,7 +3506,7 @@ brew_cask_install() {
             log_success "$description already installed"
         fi
     else
-        log_info "Skipping cask installation: $description - manual install recommended"
+        log_info "Skipping cask installation: $description"
 
     fi
 }
@@ -3551,8 +3542,13 @@ if [[ "${BASH_SOURCE[0]:-$0}" == "${0}" ]] && [[ "$0" != *"zsh"* ]]; then
     fi
     
     # Ask for confirmation
-    echo "Proceed with developer environment setup? [y/N]: "
-    read -r REPLY
+    if [[ "$AUTO_YES" == "true" ]]; then
+        log_info "Auto-mode enabled: Starting full developer environment setup..."
+        REPLY="y"
+    else
+        echo "Proceed with developer environment setup? [y/N]: "
+        read -r REPLY
+    fi
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         main
         echo ""

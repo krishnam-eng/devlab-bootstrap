@@ -100,12 +100,23 @@ export TENSORBOARD_LOG_DIR="$XDG_DATA_HOME/tensorboard"
 export UV_CACHE_DIR="$XDG_CACHE_HOME/uv"
 export UV_CONFIG_FILE="$XDG_CONFIG_HOME/uv/uv.toml"
 
+# pipx (Python application installer) - XDG compliance
+export PIPX_HOME="$XDG_DATA_HOME/pipx"
+export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
+export PIPX_MAN_DIR="$XDG_DATA_HOME/pipx/man"
+export PIPX_SHARED_LIBS="$XDG_DATA_HOME/pipx/pyvenv"
+export PIPX_LOCAL_VENVS="$XDG_DATA_HOME/pipx/venvs"
+export PIPX_LOG_DIR="$XDG_STATE_HOME/pipx/logs"
+export PIPX_CACHE_DIR="$XDG_CACHE_HOME/pipx"
+
 # Pyenv
 export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
 
 # Python package cache
 export PIP_CACHE_DIR="$XDG_CACHE_HOME/pip"
 export PYTHON_EGG_CACHE="$XDG_CACHE_HOME/python-eggs"
+export PYENV_ROOT="$HOME/sbrn/sys/local/share/pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
 # Vector Databases
 export QDRANT_DATA_DIR="$XDG_DATA_HOME/vector-databases/qdrant"
@@ -140,7 +151,7 @@ export HOMEBREW_CACHE="$XDG_CACHE_HOME/homebrew"
 export HOMEBREW_LOGS="$XDG_STATE_HOME/homebrew/logs"
 export HOMEBREW_TEMP="$XDG_STATE_HOME/homebrew/tmp"
 
-export PATH="$HOME/sbrn/sys/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+export PATH="$HOME/sbrn/sys/bin:$PIPX_BIN_DIR:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 
 # Homebrew environment variables
 export PKG_CONFIG_PATH="/opt/homebrew/lib/pkgconfig"

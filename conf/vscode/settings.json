@@ -27,5 +27,13 @@
   "extensions.autoUpdate": true,
   "python.defaultInterpreterPath": "/opt/homebrew/bin/python3",
   "files.defaultLanguage": "markdown",
-  "tabnine.experimentalAutoImports": true
+  "tabnine.experimentalAutoImports": true,
+  "redhat.telemetry.enabled": false,
+  "yaml.schemas": {
+    "file:///Users/balamurugank/.vscode/extensions/continue.continue-1.2.2-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ]
+  },
+  "explorer.confirmDragAndDrop": false,
+  "chat.agent.maxRequests": 50
 }

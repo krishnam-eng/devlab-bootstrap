@@ -4,16 +4,6 @@
 # Cache configuration
 cache-dir = "$XDG_CACHE_HOME/uv"
 
-# Global tool installation directory
-global-tool-dir = "$XDG_DATA_HOME/uv/tools"
-global-bin-dir = "$XDG_DATA_HOME/uv/bin"
-
-# Python installation directory for UV-managed Pythons
-python-install-dir = "$XDG_DATA_HOME/uv/python"
-
-# Default Python version for new projects
-default-python = "3.12"
-
 # Package index configuration
 index-url = "https://pypi.org/simple/"
 

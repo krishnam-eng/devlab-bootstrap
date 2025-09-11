@@ -49,7 +49,7 @@ function main() {
     confirm_and_run_step "Install Essential CLI Tools" install_essential_cli_tools
     confirm_and_run_step "Install Development Tools" install_development_tools
     confirm_and_run_step "Install Programming Languages" install_programming_languages
-    confirm_and_run_step "Install IDEs and Editors" install_ides_and_editors
+    confirm_and_run_step "Install IDEs and GUI Productivity Tools" install_ides_and_gui_productivity_tools
     confirm_and_run_step "Setup AI Development Environment" setup_agentic_ai_development
 }
 
@@ -750,10 +750,10 @@ function install_build_automation_tools() {
 }
 
 ################################################################################
-# Step 6: Install IDEs and Editors
+# Step 6: Install GUI Tools like IDE, and Productivity Apps
 ################################################################################
-function install_ides_and_editors() {
-    log_step "📝 Installing IDEs and editors..."
+function install_ides_and_gui_productivity_tools() {
+    log_step "📝 Installing IDEs, editors, and GUI productivity tools..."
     
     # Development Environment for Data Science and Notebooks
     install_python_notebook_env_tools
@@ -764,22 +764,31 @@ function install_ides_and_editors() {
     # Productivity and Development Support Apps
     install_productivity_apps
     
+    # GUI Productivity and Automation Tools
+    install_gui_productivity_tools
+    
     # Create symbolic links for command-line access
     create_app_cli_symlinks
     
-    log_success "IDEs and editors installation completed"
+    log_success "IDEs, editors, and GUI productivity tools installation completed"
 }
 
 function install_core_ides_editors() {
     log_info "Installing core IDEs and editors..."
     
     local ides=(
-        "visual-studio-code" "intellij-idea-ce" "pycharm-ce" "cursor" "iterm2"
+        "visual-studio-code" "intellij-idea-ce" "pycharm-ce" "cursor" "windsurf" "zed" "iterm2"
     )
     
     for ide in "${ides[@]}"; do
         brew_cask_install "$ide"
     done
+
+    # Windsurf might not be available via brew, provide manual installation info
+    if [[ ! -d "/Applications/Windsurf.app" ]] && [[ ! -d "$HOME/Applications/Windsurf.app" ]]; then
+        log_info "Windsurf not found - manual installation required"
+        log_info "  → Download from: https://codeium.com/windsurf"
+    fi
 
     # Link VSCode settings from HRT configuration if available
     mkdir -p "$SBRN_HOME/sys/config/code/user"
@@ -801,6 +810,45 @@ function install_productivity_apps() {
     for app in "${productivity_apps[@]}"; do
         brew_cask_install "$app"
     done
+}
+
+function install_gui_productivity_tools() {
+    log_info "Installing GUI productivity and automation tools..."
+    
+    local gui_productivity_tools=(
+        "hammerspoon: Desktop automation tool"
+        "rectangle: Window management for enhanced productivity"        
+        "karabiner-elements: Keyboard customization tool"
+        "alfred: Launcher that outperforms the default Spotlight"
+        "bartender: Menu bar organization and management"
+    )
+    
+    for tool_info in "${gui_productivity_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_cask_install "$tool" "$description"
+    done
+    
+    # Install command-line system management tools
+    local cli_system_tools=(
+        "terminal-notifier: Send macOS notifications from command line"
+        "mas: Mac App Store command line interface"
+        "duti: Set default applications for document types"
+        "trash: Move files to trash from command line"
+    )
+    
+    for tool_info in "${cli_system_tools[@]}"; do
+        local tool="${tool_info%%:*}"
+        local description="${tool_info#*:}"
+        brew_install "$tool"
+    done
+    
+    # Handle brew-services (it's already available with Homebrew)
+    if command -v brew &>/dev/null; then
+        log_success "brew-services: Manage background services via Homebrew (available via brew services command)"
+    else
+        log_warning "Homebrew not available - brew-services requires Homebrew"
+    fi
 }
 
 function install_python_notebook_env_tools() {
@@ -926,12 +974,6 @@ function setup_agentic_ai_development() {
     
     # Vector Databases & Search
     install_vector_databases
-    
-    # Modern Productivity & Automation Tools
-    install_modern_productivity_tools
-    
-    # AI-Enhanced VS Code Extensions
-    setup_ai_vscode_extensions
     
     log_success "Agentic AI Development Environment setup completed"
 }
@@ -1194,14 +1236,7 @@ function install_modern_ai_ides() {
         
         case "$ide" in
             "windsurf")
-                # Windsurf might not be available via brew, provide manual installation info
-                if [[ ! -d "/Applications/Windsurf.app" ]] && [[ ! -d "$HOME/Applications/Windsurf.app" ]]; then
-                    log_info "Windsurf not found - manual installation required"
-                    log_info "  → Download from: https://codeium.com/windsurf"
-                else
-                    log_success "Windsurf already installed"
-                fi
-                ;;
+
             "continue")
                 # Continue is a VS Code extension, will be handled in AI VS Code extensions
                 log_info "Continue AI assistant will be installed as VS Code extension"
@@ -1382,862 +1417,9 @@ EOF
     log_success "Vector database XDG environment script created: $vector_db_script"
 }
 
-function install_modern_productivity_tools() {
-    log_info "Installing ⚡ Modern Productivity & Automation Tools..."
-    
-    local productivity_tools=(
-        "raycast: AI-powered launcher and productivity tool"
-        "rectangle: Window management for enhanced productivity"
-        "cleanmymac: System optimization and maintenance"
-        "bartender: Menu bar organization and management"
-        "alfred: Productivity app for macOS with workflows"
-        "karabiner-elements: Keyboard customization tool"
-        "hammerspoon: Desktop automation tool"
-        "brew-services: Manage background services via Homebrew"
-    )
-    
-    for tool_info in "${productivity_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        
-        case "$tool" in
-            "cleanmymac")
-                # CleanMyMac might require manual installation or App Store
-                if [[ ! -d "/Applications/CleanMyMac.app" ]]; then
-                    log_info "CleanMyMac requires manual installation from App Store or website"
-                    log_info "  → Download from: https://macpaw.com/cleanmymac"
-                else
-                    log_success "CleanMyMac already installed"
-                fi
-                ;;
-            "brew-services")
-                # This is a built-in brew command, not a separate package
-                if command -v brew &>/dev/null; then
-                    log_success "brew services available via Homebrew"
-                else
-                    log_warning "Homebrew not available"
-                fi
-                ;;
-            *)
-                brew_cask_install "$tool" "$description"
-                ;;
-        esac
-    done
-    
-    # Install command-line productivity tools
-    local cli_productivity=(
-        "terminal-notifier: Send macOS notifications from command line"
-        "mas: Mac App Store command line interface"
-        "duti: Set default applications for document types"
-        "trash: Move files to trash from command line"
-    )
-    
-    for tool_info in "${cli_productivity[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool" "$description"
-    done
-}
-
-function setup_ai_vscode_extensions() {
-    # Skip AI VS Code extensions if cask apps are disabled
-    if [[ "$SKIP_CASK_APPS" == "true" ]]; then
-        log_info "Skipping AI VS Code extensions setup (SKIP_CASK_APPS=true)"
-        return 0
-    fi
-    
-    log_info "Setting up 🧠 AI-Enhanced VS Code Extensions..."
-    
-    # Check if VS Code CLI is available
-    if ! command -v code &> /dev/null; then
-        log_warning "VS Code CLI 'code' command not found. Skipping AI extension installation."
-        log_info "To enable: Open VS Code → Cmd+Shift+P → 'Shell Command: Install code command in PATH'"
-        return 0
-    fi
-    
-    # AI-enhanced extensions
-    local ai_extensions=(
-        "continue.continue"
-        "codeium.codeium"
-        "github.copilot"
-        "ms-toolsai.vscode-ai"
-        "huggingface.huggingface-vscode"
-        "tabnine.tabnine-vscode"
-        "amazonwebservices.aws-toolkit-vscode"
-        "ms-toolsai.vscode-jupyter-cell-tags"
-        "charliermarsh.ruff"
-        "ms-python.black-formatter"
-        "ms-python.isort"
-        "bradlc.vscode-tailwindcss"
-        "prisma.prisma"
-        "graphql.vscode-graphql"
-        "rust-lang.rust-analyzer"
-        "golang.go"
-        "hashicorp.terraform"
-        "redhat.vscode-yaml"
-    )
-    
-    log_info "Installing AI-enhanced VS Code extensions..."
-    for extension in "${ai_extensions[@]}"; do
-        if ! code --list-extensions | grep -q "^$extension$"; then
-            log_info "Installing extension: $extension"
-            # Add error handling for VS Code CLI crashes
-            if code --install-extension "$extension" --force 2>/dev/null; then
-                log_success "Installed: $extension"
-            else
-                log_warning "Failed to install extension: $extension (installation failed)"
-                continue
-            fi
-        else
-            log_success "Extension already installed: $extension"
-        fi
-    done
-    
-    # Update the extensions.txt file with new AI extensions
-    local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
-    if [[ -f "$extensions_file" ]]; then
-        # Backup current extensions file
-        cp "$extensions_file" "$extensions_file.backup.$(date +%Y%m%d_%H%M%S)"
-        
-        # Add AI extensions header and new extensions
-        {
-            echo "# AI Development Extensions - Added $(date +%Y-%m-%d)"
-            for extension in "${ai_extensions[@]}"; do
-                # Check if extension is not already in file
-                if ! grep -q "^$extension" "$extensions_file"; then
-                    echo "$extension"
-                fi
-            done
-            echo ""
-            echo "# Original Extensions"
-            grep -v "^#" "$extensions_file" | grep -v "^$"
-        } > "$extensions_file.new"
-        
-        mv "$extensions_file.new" "$extensions_file"
-        log_success "Updated extensions.txt with AI development extensions"
-    fi
-    
-    log_success "AI-enhanced VS Code extensions setup completed"
-}
-
-################################################################################
-# Step 8: Setup Git and GitHub
-################################################################################
-function setup_git_and_github() {
-    log_step "🔗 Setting up Git and GitHub..."
-    
-    # Check if Git is configured
-    if ! git config --global user.name &>/dev/null; then
-        log_warning "Git user.name not configured. Please run:"
-        log_warning "  git config --global user.name 'Your Name'"
-    else
-        log_success "Git user.name configured: $(git config --global user.name)"
-    fi
-    
-    if ! git config --global user.email &>/dev/null; then
-        log_warning "Git user.email not configured. Please run:"
-        log_warning "  git config --global user.email 'your.email@example.com'"
-    else
-        log_success "Git user.email configured: $(git config --global user.email)"
-    fi
-    
-    # Setup SSH key if not exists
-    setup_ssh_key
-    
-    # GitHub CLI authentication
-    if command -v gh &>/dev/null; then
-        if ! gh auth status &>/dev/null; then
-            log_warning "GitHub CLI not authenticated. Please run: gh auth login"
-        else
-            log_success "GitHub CLI already authenticated"
-        fi
-    fi
-    
-    log_success "Git and GitHub setup completed"
-}
-
-function setup_ssh_key() {
-    if [[ ! -f ~/.ssh/id_ed25519 ]]; then
-        log_info "Generating SSH key for GitHub..."
-        ssh-keygen -t ed25519 -C "$(whoami)@$(hostname)" -f ~/.ssh/id_ed25519 -N ""
-        
-        # Start SSH agent and add key
-        eval "$(ssh-agent -s)"
-        ssh-add ~/.ssh/id_ed25519
-        
-        log_success "SSH key generated. Add the following public key to your GitHub account:"
-        echo ""
-        cat ~/.ssh/id_ed25519.pub
-        echo ""
-    else
-        log_success "SSH key already exists"
-    fi
-}
-
-################################################################################
-# Impact Summary Functions
-################################################################################
-
-function show_directory_impact() {
-    echo "✅ Created SBRN directory structure at: $SBRN_HOME"
-    echo "   📁 Projects: $SBRN_HOME/proj/{corp,oss,learn,lab,exp}"
-    echo "   📁 Areas: $SBRN_HOME/area/{work,personal,community,academic}"
-    echo "   📁 Resources: $SBRN_HOME/rsrc/{notes,templates,refs}"
-    echo "   📁 Archives: $SBRN_HOME/arch/{proj,area}"
-    echo "   📁 System: $SBRN_HOME/sys/{config,local,cache,bin}"
-    echo "   📁 Cloud Drives: $HOME/Drives/{iCloud,GoogleDrive,OneDrive,Dropbox}"
-    if [[ -d "$SBRN_HOME/sys/hrt" ]]; then
-        echo "   📁 HRT Tools: $SBRN_HOME/sys/hrt (cloned from GitHub)"
-    fi
-    echo "✅ Hidden standard macOS folders (Movies, Music, Desktop, Public, Pictures, Library)"
-    echo "✅ XDG Base Directory Specification configured:"
-    echo "   • XDG_CONFIG_HOME=$XDG_CONFIG_HOME"
-    echo "   • XDG_DATA_HOME=$XDG_DATA_HOME"
-    echo "   • XDG_STATE_HOME=$XDG_STATE_HOME"
-    echo "   • XDG_CACHE_HOME=$XDG_CACHE_HOME"
-    echo "✅ Application-specific directories:"
-    echo "   • ANDROID_HOME=$ANDROID_HOME"
-    echo "   • GRADLE_USER_HOME=$GRADLE_USER_HOME"
-    echo "✅ Non-shell configuration symlinks:"
-    if [[ -L "$XDG_CONFIG_HOME/git" ]]; then
-        echo "   • Git configuration linked"
-    fi
-}
-
-function show_homebrew_impact() {
-    echo "✅ Package manager installed: $(brew --version | head -1)"
-    echo "✅ Homebrew location: $(which brew)"
-    echo "✅ Package database updated to latest versions"
-    if [[ $(uname -m) == "arm64" ]]; then
-        echo "✅ Apple Silicon configuration: Added /opt/homebrew/bin to PATH"
-    fi
-}
-
-function show_zsh_impact() {
-    echo "✅ Oh My Zsh installed at: $SBRN_HOME/sys/etc/oh-my-zsh"
-    echo "✅ Powerlevel10k theme installed for enhanced prompt"
-    echo "✅ Essential plugins installed:"
-    echo "   • zsh-autosuggestions (command completion)"
-    echo "   • zsh-syntax-highlighting (syntax highlighting)"
-    echo "   • history-substring-search (better history search)"
-    echo "   • zsh-autoswitch-virtualenv (auto Python venv switch)"
-    echo "✅ Meslo Nerd Font installed for terminal icons"
-    echo "✅ Zsh configuration setup:"
-    echo "   • ZDOTDIR set to: $XDG_CONFIG_HOME/zsh"
-    echo "✅ XDG-compliant Zsh directories created:"
-    echo "   • History: $XDG_STATE_HOME/zsh/history"
-    echo "   • Completion dumps: $XDG_CACHE_HOME/zsh/zcompdump-\${ZSH_VERSION}"
-    echo "   • Sessions: $XDG_STATE_HOME/zsh/sessions/"
-    if [[ -L "$XDG_CONFIG_HOME/zsh" ]]; then
-        echo "   • Zsh configuration directory linked from HRT"
-    fi
-    if [[ -f ~/.zshenv ]]; then
-        echo "   • .zshenv symlinked from HRT configuration"
-    fi
-}
-
-function show_cli_tools_impact() {
-    echo "✅ Shell Enhancements & CLI Productivity tools installed:"
-    echo "   • coreutils (GNU core utilities with g- prefix)"
-    echo "   • tree (directory tree visualization)"
-    echo "   • fzf (command-line fuzzy finder)"
-    echo "   • tmux (terminal multiplexer)"
-    echo "   • screen (terminal multiplexer with VT100/ANSI terminal emulation)"
-    echo "   • htop (interactive process viewer)"
-    echo "   • bat (cat clone with syntax highlighting)"
-    echo "   • fd (fast alternative to find)"
-    echo "   • tldr (simplified man pages)"
-    echo "   • eza (modern ls replacement with colors and icons)"
-    echo "   • zoxide (smarter cd command)"
-    echo "   • watch (execute programs periodically)"
-    echo "   • ncdu (NCurses disk usage analyzer)"
-    echo "   • glances (system monitoring tool)"
-    echo "   • lsd (LSDeluxe - next gen ls command)"
-    echo "   • ctop (top-like interface for container metrics)"
-    echo "   • autoenv (directory-based environments)"
-    echo "   • atuin (improved shell history for zsh, bash, fish and nushell)"
-    echo "   • direnv (load/unload environment variables based on PWD)"
-    echo "   • ack (search tool like grep, optimized for programmers)"
-    echo "   • broot (new way to see and navigate directory trees)"
-    echo "   • figlet (banner-like program prints strings as ASCII art)"
-    echo "   • lolcat (rainbows and unicorns in your console)"
-    echo "   • ranger (file browser)"
-    echo "   • as-tree (print a list of paths as a tree of paths)"
-    echo "   • agedu (Unix utility for tracking down wasted disk space)"
-    echo "   • zsh-autosuggestions (fish-like autosuggestions for zsh)"
-    echo "   • zsh-completions (additional completion definitions for zsh)"
-    echo "   • bash-completion (programmable completion for Bash 3.2)"
-    echo "   • fish (user-friendly command-line shell for UNIX-like operating systems)"
-    echo "✅ Networking, Security, & Transfer tools:"
-    echo "   • curl (command-line data transfer tool)"
-    echo "   • wget (internet file retriever)"
-    echo "   • httpie (user-friendly HTTP client)"
-    echo "   • netcat (networking utility)"
-    echo "   • gnupg (GNU Pretty Good Privacy PGP package)"
-    echo "   • certbot (tool to obtain certs from Let's Encrypt)"
-    echo "   • telnet (user interface to the TELNET protocol)"
-    echo "✅ Text, Regex, JSON, Data tools & CLI Editors:"
-    echo "   • jq (lightweight JSON processor)"
-    echo "   • ripgrep (fast text search tool with configuration and aliases)"
-    echo "   • grep (GNU grep, egrep and fgrep with color aliases)"
-    echo "   • fx (terminal JSON viewer)"
-    echo "   • jid (JSON incremental digger)"
-    echo "   • colordiff (color-highlighted diff output)"
-    echo "   • base64 (encode and decode base64 files)"
-    echo "   • base91 (utility to encode and decode base91 files)"
-    echo "   • python-yq (command-line YAML and XML processor that wraps jq)"
-    echo "   • ccat (like cat but displays content with syntax highlighting)"
-    echo "   • vim (Vi IMproved - enhanced version of the vi editor)"
-    echo "   • neovim (Ambitious Vim-fork focused on extensibility and agility)"
-    echo "   • emacs (GNU Emacs text editor)"
-    echo "   • nano (Free GNU replacement for the Pico text editor)"
-}
-
-function show_dev_tools_impact() {
-    echo "✅ Developer Tools (VCS, Repos, Git Helpers):"
-    echo "   • git (distributed revision control system)"
-    echo "   • git-extras (small git utilities)"
-    echo "   • git-lfs (Git extension for versioning large files)"
-    echo "   • gh (GitHub command-line tool)"
-    echo "   • gibo (fast access to .gitignore boilerplates)"
-    echo "   • ghq (remote repository management)"
-    echo "   • lazygit (simple terminal UI for git)"
-    echo "   • tig (text-mode interface for git)"
-    echo "   • diff-so-fancy (good-lookin' diffs with diff-highlight)"
-    echo "   • git-gui (Tcl/Tk based graphical user interface to Git)"
-    echo "   • gitk (Git repository browser)"
-    echo "   • Git configured to use diff-so-fancy for enhanced diffs"
-    echo "✅ Cloud & Containers:"
-    echo "   • docker (platform for developing, shipping, and running applications)"
-    echo "   • docker-compose (isolated development environments using Docker)"
-    echo "   • colima (container runtimes on macOS with minimal setup)"
-    echo "   • kubernetes-cli (Kubernetes command-line interface)"
-    echo "   • helm (Kubernetes package manager)"
-    echo "   • awscli (official Amazon AWS command-line interface)"
-    echo "   • dive (tool for exploring each layer in a docker image)"
-    echo "   • dockviz (visualizing docker data)"
-    echo "   • k9s (Kubernetes CLI to manage clusters in style)"
-    echo "   • kubecolor (colorize your kubectl output)"
-    echo "   • kompose (tool to move from docker-compose to Kubernetes)"
-    echo "   • krew (package manager for kubectl plugins)"
-    echo "   • kube-ps1 (Kubernetes prompt info for bash and zsh)"
-    echo "   • kubebuilder (SDK for building Kubernetes APIs using CRDs)"
-    echo "   • kustomize (template-free customization of Kubernetes YAML manifests)"
-    echo "   • istioctl (Istio configuration command-line utility)"
-    echo "   • minikube (run a Kubernetes cluster locally)"
-    echo "   • terraform (tool to build, change, and version infrastructure)"
-    echo "✅ Graphics, Images, and UI Libraries:"
-    echo "   • librsvg (library to render SVG files using Cairo)"
-    echo "   • gtk+3 (toolkit for creating graphical user interfaces)"
-    echo "   • ghostscript (interpreter for PostScript and PDF)"
-    echo "   • graphviz (graph visualization software from AT&T and Bell Labs)"
-    echo "   • guile (GNU Ubiquitous Intelligent Language for Extensions)"
-    echo "   • pcre (Perl compatible regular expressions library)"
-    echo "   • xerces-c (validating XML parser)"
-    echo "   • pygobject3 (GNOME Python bindings based on GObject Introspection)"
-    echo "✅ Additional Development & API tools:"
-    echo "   • jwt-cli (super fast CLI tool to decode and encode JWTs built in Rust)"
-    echo "   • newman (command-line collection runner for Postman)"
-    echo "   • openapi-generator (generate clients, server & docs from an OpenAPI spec)"
-    echo "   • operator-sdk (SDK for building Kubernetes applications)"
-    echo "   • hugo (configurable static site generator)"
-    echo "   • logrotate (rotates, compresses, and mails system logs)"
-    echo "   • rtmpdump (tool for downloading RTMP streaming media)"
-    echo "   • sftpgo (fully featured SFTP server with HTTP/S, FTP/S and WebDAV support)"
-    echo "   • etcd (key value store for shared configuration and service discovery)"
-    echo "   • postgresql@15 (object-relational database system)"
-    echo "   • redis (persistent key-value database, with built-in net interface)"
-    echo "   • nginx (HTTP(S) server and reverse proxy, and IMAP/POP3 proxy server)"
-}
-
-function show_languages_impact() {
-    echo "✅ Core Programming Languages & Runtimes:"
-    echo "   • openjdk@17 (Java Platform, Standard Edition v17)"
-    echo "   • openjdk@21 (Java Platform, Standard Edition v21)"
-    echo "   • python@3.13 (Python 3.13 programming language)"
-    echo "   • perl (highly capable, feature-rich programming language)"
-    echo "   • node (platform built on V8 to build network applications)"
-    echo "   • go (open source programming language)"
-    echo "   • rust (safe, concurrent, practical language)"
-    echo "✅ Runtime Environment Managers:"
-    echo "   • jenv (Java runtime environment management)"
-    echo "   • uv (Python virtual environment management)"
-    echo "   • nvm (Node.js runtime environment management - Homebrew install with XDG-compliant configuration)"
-    echo "   • pipx (Isolated Python application environments)"
-    echo "✅ Build Automation Tools:"
-    echo "   • maven (Java-based project management)"
-    echo "   • gradle (build automation tool based on Groovy and Kotlin)"
-    echo "   • poetry (Python package and dependency manager)"
-    echo "   • yarn (JavaScript package manager)"
-    echo "✅ Runtime Versions:"
-    echo "   • Python: $(python3 --version 2>/dev/null || echo 'Not installed')"
-    echo "   • Node.js: $(node --version 2>/dev/null || echo 'Not installed')"
-    echo "   • Java: $(java --version 2>/dev/null | head -1 || echo 'Not installed')"
-    echo "   • Go: $(go version 2>/dev/null || echo 'Not installed')"
-    echo "   • Rust: $(rustc --version 2>/dev/null || echo 'Not installed')"
-    echo "   • Perl: $(perl --version 2>/dev/null | head -2 | tail -1 || echo 'Not installed')"
-}
-
-function show_ides_impact() {
-    echo "✅ Core IDEs and editors installed:"
-    if [[ -d "/Applications/Visual Studio Code.app" ]]; then
-        echo "   • Visual Studio Code (GUI + CLI: code)"
-    fi
-    if [[ -d "/Applications/IntelliJ IDEA CE.app" ]]; then
-        echo "   • IntelliJ IDEA CE (GUI + CLI: idea)"
-    fi
-    if [[ -d "/Applications/PyCharm CE.app" ]]; then
-        echo "   • PyCharm Community Edition"
-    fi
-    if [[ -d "/Applications/Cursor.app" ]]; then
-        echo "   • Cursor AI Editor (GUI + CLI: cursor)"
-    fi
-    if [[ -d "/Applications/iTerm.app" ]]; then
-        echo "   • iTerm2 Terminal Emulator"
-    fi
-    echo "   • CLI editors: vim, neovim, emacs, nano"
-    echo "✅ Productivity and Development Support Apps:"
-    if [[ -d "/Applications/Notion.app" ]]; then
-        echo "   • Notion (all-in-one workspace)"
-    fi
-    if [[ -d "/Applications/Obsidian.app" ]]; then
-        echo "   • Obsidian (knowledge management)"
-    fi
-    if [[ -d "/Applications/Figma.app" ]]; then
-        echo "   • Figma (collaborative design tool)"
-    fi
-    if [[ -d "/Applications/Slack.app" ]]; then
-        echo "   • Slack (team communication)"
-    fi
-    if [[ -d "/Applications/Zoom.app" ]]; then
-        echo "   • Zoom (video conferencing)"
-    fi
-    if [[ -d "/Applications/GitHub Desktop.app" ]]; then
-        echo "   • GitHub Desktop (Git GUI client)"
-    fi
-    if [[ -d "/Applications/Postman.app" ]]; then
-        echo "   • Postman (API development and testing)"
-    fi
-    if [[ -d "/Applications/Insomnia.app" ]]; then
-        echo "   • Insomnia (REST API client)"
-    fi
-    if [[ -d "/Applications/DBeaver.app" ]]; then
-        echo "   • DBeaver Community (universal database tool)"
-    fi
-    if [[ -d "/Applications/pgAdmin 4.app" ]]; then
-        echo "   • pgAdmin 4 (PostgreSQL administration)"
-    fi
-    if [[ -d "/Applications/RapidAPI.app" ]]; then
-        echo "   • RapidAPI (API testing tool)"
-    fi
-    if [[ -d "/Applications/VirtualBox.app" ]]; then
-        echo "   • VirtualBox (virtual machine software)"
-    fi
-    if [[ -d "/Applications/Microsoft Edge.app" ]]; then
-        echo "   • Microsoft Edge (web browser)"
-    fi
-    echo "✅ Development Environment Tools:"
-    if command -v jupyter &>/dev/null; then
-        echo "   • JupyterLab installed via pipx (XDG-compliant: $XDG_DATA_HOME/pipx)"
-    elif command -v pipx &>/dev/null; then
-        # Check if JupyterLab is already installed via pipx
-        if pipx list 2>/dev/null | grep -q jupyterlab; then
-            echo "   • JupyterLab already installed via pipx (XDG-compliant: $XDG_DATA_HOME/pipx)"
-        else
-            echo "   • pipx available for installing Python applications (XDG-compliant: $XDG_DATA_HOME/pipx)"
-            echo "   • Run 'pipx install jupyterlab' for isolated Jupyter installation"
-        fi
-    else
-        echo "   • Note: For Jupyter, create virtual environments to avoid system conflicts"
-    fi
-    echo "   • git-gui, gitk (Git graphical tools)"
-    echo "✅ Command-line shortcuts created in: $SBRN_HOME/sys/bin"
-    echo "✅ pipx configured with XDG Base Directory Specification:"
-    if [[ -n "${PIPX_HOME:-}" ]]; then
-        echo "   • PIPX_HOME: $PIPX_HOME"
-        echo "   • PIPX_BIN_DIR: $PIPX_BIN_DIR (added to PATH)"
-        echo "   • PIPX_CACHE_DIR: $PIPX_CACHE_DIR"
-    else
-        echo "   • pipx will use XDG directories when configured"
-    fi
-    
-    # Show iTerm2 setup status
-    if [[ "$SKIP_ITERM_SETUP" == "true" ]]; then
-        echo "⚠️  iTerm2 setup skipped (--skip-iterm-setup flag active)"
-    elif [[ -d "/Applications/iTerm.app" ]]; then
-        echo "✅ iTerm2 terminal setup:"
-        local colors_dir="$SBRN_HOME/sys/hrt/conf/terminal/colors"
-        local profiles_dir="$SBRN_HOME/sys/hrt/conf/terminal/profiles"
-        local iterm_script="$SBRN_HOME/sys/hrt/scripts/manage-iterm-profiles.sh"
-        
-        if [[ -d "$colors_dir" ]]; then
-            local color_count=$(find "$colors_dir" -name "*.itermcolors" 2>/dev/null | wc -l | tr -d ' ')
-            echo "   • Color schemes: $color_count themes available"
-        fi
-        
-        if [[ -d "$profiles_dir" ]]; then
-            local profile_count=$(find "$profiles_dir" -name "*.json" 2>/dev/null | wc -l | tr -d ' ')
-            echo "   • Profiles: $profile_count configurations available"
-        fi
-        
-        if [[ -x "$iterm_script" ]]; then
-            echo "   • Management: $iterm_script"
-            echo "   • Commands: install, import, export, backup, sync, list"
-        fi
-    else
-        echo "⚠️  iTerm2 not found - terminal configurations skipped"
-    fi
-}
-
-function show_ai_development_impact() {
-    echo "✅ 🤖 AI/ML Core Tools & Frameworks (XDG-compliant with uv):"
-    echo "   • ollama (local LLM deployment with XDG model storage: $XDG_DATA_HOME/ollama/models)"
-    echo "   • huggingface-cli (with XDG cache: $XDG_CACHE_HOME/huggingface)"
-    echo "   • duckdb (with XDG data: $XDG_DATA_HOME/duckdb)"
-    echo "   • mlflow (with XDG tracking: $XDG_DATA_HOME/mlflow)"
-    echo "   • datasette, sqlite-utils"
-    echo "   • uv (modern Python package manager with XDG compliance)"
-    if command -v pyenv &>/dev/null; then
-        echo "   • pyenv (XDG root: $XDG_DATA_HOME/pyenv)"
-    fi
-    echo "✅ 🐍 ML-Optimized Python Environment (uv-based, XDG-compliant):"
-    if command -v uv &>/dev/null; then
-        local env_path="$XDG_DATA_HOME/python-projects/ml-dev"
-        if [[ -d "$env_path" ]]; then
-            echo "   • ml-dev uv project in XDG location: $env_path"
-            echo "   • Jupyter kernel 'Python (ML-Dev-UV)' with XDG data: $XDG_DATA_HOME/jupyter"
-            echo "   • Packages: torch, transformers, scikit-learn, chromadb, streamlit"
-            echo "   • Activate with: cd $env_path && uv shell"
-        else
-            echo "   • uv available for XDG-compliant ML environment creation"
-        fi
-    else
-        echo "   • Install uv for optimal XDG-compliant ML environment"
-    fi
-    echo "✅ 🤖 AI Agent Development Frameworks (uv-based project):"
-    if command -v uv &>/dev/null; then
-        local env_path="$XDG_DATA_HOME/python-projects/agentic-ai"
-        if [[ -d "$env_path" ]]; then
-            echo "   • agentic-ai uv project in XDG location: $env_path"
-            echo "   • Jupyter kernel 'Python (Agentic-AI-UV)' with XDG data: $XDG_DATA_HOME/jupyter"
-            echo "   • LangChain ecosystem: langchain, langsmith, langserve, langchain-community"
-            echo "   • Multi-agent frameworks: crewai, autogen-agentchat, semantic-kernel"
-            echo "   • Search & retrieval: haystack-ai, llama-index with extensions"
-            echo "   • LLM clients: openai, anthropic, cohere, google-generativeai"
-            echo "   • Vector databases: chromadb, qdrant-client, weaviate-client, pinecone-client"
-            echo "   • Web frameworks: streamlit, gradio, chainlit, fastapi"
-            echo "   • Monitoring: mlflow, wandb, langfuse, arize-phoenix"
-            echo "   • Activate with: cd $env_path && uv shell"
-        else
-            echo "   • uv available for agentic AI environment creation"
-        fi
-    else
-        echo "   • Install uv for optimal agentic AI environment"
-    fi
-    echo "✅ 🧠 Local LLM Capabilities (XDG-compliant):"
-    if command -v ollama &>/dev/null; then
-        echo "   • Ollama service with XDG model storage: $XDG_DATA_HOME/ollama/models"
-        echo "   • Models: llama3.2:3b, codellama:7b, mistral:7b, phi3:mini"
-        echo "   • Configuration: $XDG_CONFIG_HOME/ollama/config.yaml"
-    fi
-    if [[ -f "$SBRN_HOME/sys/bin/llamafile" ]]; then
-        echo "   • llamafile with XDG data dir: $XDG_DATA_HOME/llamafile"
-    fi
-    echo "✅ 🚀 Modern AI-Enhanced IDEs:"
-    if [[ -d "/Applications/Cursor.app" ]] || [[ -d "$HOME/Applications/Cursor.app" ]]; then
-        echo "   • Cursor (AI-native code editor)"
-    fi
-    if [[ -d "/Applications/Zed.app" ]] || [[ -d "$HOME/Applications/Zed.app" ]]; then
-        echo "   • Zed (high-performance collaborative editor)"
-    fi
-    if [[ -d "/Applications/Windsurf.app" ]] || [[ -d "$HOME/Applications/Windsurf.app" ]]; then
-        echo "   • Windsurf (Codeium AI-native IDE)"
-    fi
-    echo "✅ 🔍 Vector Databases & Search (XDG-compliant):"
-    if command -v docker &>/dev/null; then
-        echo "   • Qdrant (Docker with XDG persistence: $XDG_DATA_HOME/vector-databases/qdrant)"
-    fi
-    echo "   • ChromaDB (XDG data: $XDG_DATA_HOME/vector-databases/chromadb)"
-    echo "   • Weaviate client (XDG config: $XDG_CONFIG_HOME/vector-databases/weaviate)"
-    echo "   • Pinecone client, pgvector setup script"
-    echo "   • Environment setup: $XDG_CONFIG_HOME/vector-databases/env-setup.sh"
-    echo "✅ ⚡ Modern Productivity & Automation:"
-    if [[ -d "/Applications/Raycast.app" ]] || [[ -d "$HOME/Applications/Raycast.app" ]]; then
-        echo "   • Raycast (AI-powered launcher)"
-    fi
-    if [[ -d "/Applications/Rectangle.app" ]] || [[ -d "$HOME/Applications/Rectangle.app" ]]; then
-        echo "   • Rectangle (window management)"
-    fi
-    if [[ -d "/Applications/Alfred.app" ]] || [[ -d "$HOME/Applications/Alfred.app" ]]; then
-        echo "   • Alfred (productivity workflows)"
-    fi
-    if command -v terminal-notifier &>/dev/null; then
-        echo "   • terminal-notifier, mas CLI, trash CLI"
-    fi
-    echo "✅ 🧠 AI-Enhanced VS Code Extensions:"
-    if command -v code &>/dev/null; then
-        local ai_ext_count=$(code --list-extensions | grep -E "(continue|codeium|copilot|tabnine|huggingface)" | wc -l | tr -d ' ')
-        echo "   • $ai_ext_count AI extensions installed (Continue, Codeium, Copilot Labs, etc.)"
-        echo "   • Extensions updated in: $SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
-    else
-        echo "   • VS Code CLI not available - extensions pending"
-    fi
-    echo "✅ 🌐 Modern Cloud & Deployment Tools:"
-    if command -v pulumi &>/dev/null; then
-        echo "   • Pulumi, Railway, Vercel CLIs"
-    fi
-    echo "✅ 📁 XDG Configuration:"
-    echo "   • uv configuration: $XDG_CONFIG_HOME/uv/uv.toml"
-    echo "   • uv data directory: $XDG_DATA_HOME/uv"
-    echo "   • Python projects: $XDG_DATA_HOME/python-projects/{ml-dev,agentic-ai}"
-    echo "   • Vector databases: $XDG_CONFIG_HOME/vector-databases/"
-    echo "   • All AI tool data in XDG-compliant locations"
-}
-
-function show_git_impact() {
-    echo "✅ Git configuration:"
-    echo "   • User name: $(git config --global user.name 2>/dev/null || echo 'Not configured')"
-    echo "   • User email: $(git config --global user.email 2>/dev/null || echo 'Not configured')"
-    if [[ -f ~/.ssh/id_ed25519 ]]; then
-        echo "✅ SSH key generated for GitHub authentication"
-    fi
-    if command -v gh &>/dev/null; then
-        if gh auth status &>/dev/null; then
-            echo "✅ GitHub CLI authenticated"
-        else
-            echo "⚠️  GitHub CLI installed but not authenticated"
-        fi
-    fi
-}
-
-function setup_vscode_extensions() {
-    # Skip VS Code extensions setup if cask apps are disabled
-    if [[ "$SKIP_CASK_APPS" == "true" ]]; then
-        log_info "Skipping VS Code extensions setup (SKIP_CASK_APPS=true)"
-        return 0
-    fi
-    
-    log_info "Setting up VS Code extensions from configuration..."
-    
-    # Check if VS Code CLI is available
-    if ! command -v code &> /dev/null; then
-        log_warning "VS Code CLI 'code' command not found. Skipping extension installation."
-        log_info "To enable: Open VS Code → Cmd+Shift+P → 'Shell Command: Install code command in PATH'"
-        return 0
-    fi
-    
-    local extensions_script="$SBRN_HOME/sys/hrt/scripts/manage-vscode-extensions.sh"
-    local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
-    
-    # Check if the management script exists and is executable
-    if [[ -x "$extensions_script" ]]; then
-        log_info "Using VS Code extensions management script..."
-        
-        # If extensions file doesn't exist, create one by capturing current extensions
-        if [[ ! -f "$extensions_file" ]]; then
-            log_info "Creating VS Code extensions configuration from current installations..."
-            "$extensions_script" capture
-            log_success "Captured current VS Code extensions to extensions.txt"
-        fi
-        
-        # Install missing extensions using the script
-        log_info "Installing missing VS Code extensions..."
-        if "$extensions_script" install; then
-            log_success "VS Code extensions setup completed using management script"
-        else
-            log_warning "VS Code extension installation failed"
-            log_info "You can run this manually later: $extensions_script install"
-        fi
-        
-    else
-        # Script should exist as part of the repository
-        log_warning "VS Code extensions management script not found or not executable: $extensions_script"
-        log_info "Expected script location: $extensions_script"
-        log_info "Skipping VS Code extensions setup - please run the script manually after setup"
-        return 1
-    fi
-}
-
-function setup_iterm_profiles() {
-    # Skip iTerm setup if flag is set
-    if [[ "$SKIP_ITERM_SETUP" == "true" ]]; then
-        log_info "Skipping iTerm2 setup (SKIP_ITERM_SETUP=true)"
-        return 0
-    fi
-    
-    log_info "Setting up iTerm2 profiles and color schemes from configuration..."
-    
-    local iterm_script="$SBRN_HOME/sys/hrt/scripts/manage-iterm-profiles.sh"
-    local colors_dir="$SBRN_HOME/sys/hrt/conf/terminal/colors"
-    local profiles_dir="$SBRN_HOME/sys/hrt/conf/terminal/profiles"
-    
-    # Check if iTerm2 is installed
-    if [[ ! -d "/Applications/iTerm.app" ]]; then
-        log_warning "iTerm2 not found. Installing via Homebrew..."
-        brew_cask_install "iterm2" "iTerm2 - Terminal emulator for macOS"
-    fi
-    
-    # Check if management script exists and is executable
-    if [[ -x "$iterm_script" ]]; then
-        # Install color schemes if available
-        if [[ -d "$colors_dir" ]]; then
-            local color_count=$(find "$colors_dir" -name "*.itermcolors" 2>/dev/null | wc -l | tr -d ' ')
-            if [[ $color_count -gt 0 ]]; then
-                log_info "Installing $color_count iTerm2 color schemes..."
-                "$iterm_script" install
-                log_success "iTerm2 color schemes installed"
-            else
-                log_warning "No .itermcolors files found in $colors_dir"
-            fi
-        else
-            log_warning "Colors directory not found: $colors_dir"
-        fi
-        
-        # Ask user if they want to import profiles and show available profiles
-        if [[ -d "$profiles_dir" ]]; then
-            local profile_count=$(find "$profiles_dir" -name "*.json" 2>/dev/null | wc -l | tr -d ' ')
-            if [[ $profile_count -gt 0 ]]; then
-                log_info "Found $profile_count iTerm2 profile configurations:"
-                
-                # List available profile names from individual JSON files
-                for profile_file in "$profiles_dir"/*.json; do
-                    if [[ -f "$profile_file" && "$(basename "$profile_file")" != "profiles.iterm2.json" ]]; then
-                        local profile_name=$(basename "$profile_file" .json)
-                        echo "   • $profile_name"
-                    fi
-                done
-                
-                # Ask user if they want to import
-                echo ""
-                if [[ "$AUTO_YES" == "true" ]]; then
-                    log_info "Auto-importing iTerm2 profiles..."
-                    REPLY="y"
-                else
-                    echo "Import iTerm2 profiles automatically? [y/N]: "
-                    read -r REPLY
-                fi
-                if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    log_info "Importing iTerm2 profiles..."
-                    if "$iterm_script" import; then
-                        log_success "iTerm2 profiles import completed"
-                        log_info "Profiles are now available in iTerm2 → Preferences → Profiles"
-                    else
-                        log_warning "Automatic import failed. Manual import instructions:"
-                        echo "   1. Open iTerm2 → Preferences → Profiles"
-                        echo "   2. Click 'Other Actions...' → 'Import JSON Profiles'"
-                        echo "   3. Select: $profiles_dir/profiles.iterm2.json"
-                    fi
-                else
-                    log_info "Profile import skipped. To import later:"
-                    echo "   • Run: $iterm_script import"
-                    echo "   • Or manually: iTerm2 → Preferences → Profiles → Other Actions → Import JSON Profiles"
-                fi
-            else
-                log_warning "No profile .json files found in $profiles_dir"
-            fi
-        else
-            log_warning "Profiles directory not found: $profiles_dir"
-        fi
-    else
-        # Script should exist as part of the repository
-        log_warning "iTerm2 profiles management script not found or not executable: $iterm_script"
-        log_info "Expected script location: $iterm_script"
-        log_info "Skipping iTerm2 profiles setup - please run the script manually after setup"
-        return 1
-    fi
-}
-
-function show_vscode_impact() {
-    if command -v code &>/dev/null; then
-        local ext_count=$(code --list-extensions | wc -l)
-        local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
-        local configured_count=0
-        
-        if [[ -f "$extensions_file" ]]; then
-            # Backup current extensions file
-            cp "$extensions_file" "$extensions_file.backup.$(date +%Y%m%d_%H%M%S)"
-            
-            # Add AI extensions header and new extensions
-            {
-                echo "# AI Development Extensions - Added $(date +%Y-%m-%d)"
-                for extension in "${ai_extensions[@]}"; do
-                    # Check if extension is not already in file
-                    if ! grep -q "^$extension" "$extensions_file"; then
-                        echo "$extension"
-                    fi
-                done
-                echo ""
-                echo "# Original Extensions"
-                grep -v "^#" "$extensions_file" | grep -v "^$"
-            } > "$extensions_file.new"
-            
-            mv "$extensions_file.new" "$extensions_file"
-            log_success "Updated extensions.txt with AI development extensions"
-        fi
-        
-        echo "✅ VS Code extensions: $ext_count installed, $configured_count configured"
-        echo "   • Settings: Linked from $SBRN_HOME/sys/hrt/conf/vscode/settings.json"
-        echo "   • Extensions: Managed via $SBRN_HOME/sys/hrt/scripts/manage-vscode-extensions.sh"
-        echo "   • Configuration: $extensions_file"
-        echo "   • Management commands:"
-        echo "     - Capture current: ./scripts/manage-vscode-extensions.sh capture"
-        echo "     - Install missing: ./scripts/manage-vscode-extensions.sh install" 
-        echo "     - Sync all: ./scripts/manage-vscode-extensions.sh sync"
-    else
-        echo "⚠️  VS Code not found, extensions skipped"
-        echo "   • Install VS Code and run provision script again"
-        echo "   • Or manually run: $SBRN_HOME/sys/hrt/scripts/manage-vscode-extensions.sh install"
-    fi
-}
-
-function show_final_config_impact() {
-    echo "✅ Shell configuration files updated:"
-    if [[ -f "$HOME/.zshenv" ]]; then
-        echo "   • ~/.zshenv (SBRN and XDG environment variables)"
-    fi
-    if [[ -f "$HOME/.zshrc" ]]; then
-        echo "   • ~/.zshrc (SBRN paths and aliases)"
-    fi
-    echo "✅ Configuration files created:"
-    echo "   • $SBRN_HOME/sys/config/aliases (development shortcuts)"
-    echo "   • $SBRN_HOME/sys/config/dev-env (environment variables)"
-    echo "   • $SBRN_HOME/sys/config/ripgrep/config (ripgrep configuration)"
-}
-
 ################################################################################
 # Utility Functions
 ################################################################################
-
-# Shell-based timeout function for commands that don't have built-in timeout
-run_with_timeout() {
-    local timeout_duration="$1"
-    shift
-    local command=("$@")
-    
-    # Run command in background
-    "${command[@]}" &
-    local cmd_pid=$!
-    
-    # Start timeout counter in background
-    (
-        sleep "$timeout_duration"
-        if kill -0 "$cmd_pid" 2>/dev/null; then
-            kill "$cmd_pid" 2>/dev/null
-        fi
-    ) &
-    local timeout_pid=$!
-    
-    # Wait for command to complete
-    if wait "$cmd_pid" 2>/dev/null; then
-        # Command completed successfully, kill timeout process
-        kill "$timeout_pid" 2>/dev/null
-        return 0
-    else
-        # Command failed or was killed by timeout
-        kill "$timeout_pid" 2>/dev/null
-        return 1
-    fi
-}
 
 # Helper function to install Homebrew packages
 function brew_install() {
@@ -2290,10 +1472,6 @@ function parse_arguments() {
                 log_info "Auto-mode enabled: All confirmations will be automatically accepted"
                 shift
                 ;;
-            --status)
-                show_system_summary
-                exit 0
-                ;;
             -h|--help)
                 show_usage
                 exit 0
@@ -2316,7 +1494,6 @@ function show_usage() {
     echo "  -c, --skip-cask-apps     Skip GUI application installations (brew cask apps)"
     echo "  -i, --skip-iterm-setup   Skip iTerm2 profiles and color schemes setup"
     echo "  -y, --yes               Auto-accept all confirmations (non-interactive mode)"
-    echo "      --status            Show current system status and exit"
     echo "  -h, --help              Show this help message and exit"
     echo ""
     echo "Examples:"
@@ -2324,26 +1501,9 @@ function show_usage() {
     echo "  $0 --yes               # Automated setup with all options"
     echo "  $0 -c -y               # Automated setup, skip GUI apps"
     echo "  $0 --skip-iterm-setup  # Interactive setup, skip iTerm2 setup"
-    echo "  $0 --status            # Check current installation status"
 }
 
-function show_system_summary() {
-    echo "════════════════════════════════════════════════════════════════════════════════"
-    echo "🖥️  SYSTEM SUMMARY"
-    echo "════════════════════════════════════════════════════════════════════════════════"
-    echo "macOS Version: $(sw_vers -productVersion)"
-    echo "Architecture: $(uname -m)"
-    echo "Hostname: $(hostname)"
-    echo "User: $(whoami)"
-    echo "Shell: $SHELL"
-    echo "Home Directory: $HOME"
-    if [[ -n "${SBRN_HOME:-}" ]]; then
-        echo "SBRN Home: $SBRN_HOME"
-    else
-        echo "SBRN Home: Not yet configured"
-    fi
-    echo "════════════════════════════════════════════════════════════════════════════════"
-}
+
 
 ################################################################################
 # Script Entry Point - Only execute when script is run directly, not sourced
@@ -2356,10 +1516,6 @@ parse_arguments "$@"
         log_error "This script is designed for macOS only"
         exit 1
     fi
-    
-    # Show system summary before starting
-    show_system_summary
-    echo ""
     
     # Show configuration warnings
     if [[ $SKIP_CASK_APPS == true ]]; then
@@ -2384,8 +1540,6 @@ parse_arguments "$@"
     fi
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         main
-        echo ""
-        show_system_summary
     else
         log_info "Installation cancelled"
         exit 0

@@ -3,14 +3,13 @@
 # Run: ../scripts/manage-vscode-extensions.sh install
 
 # AI Development Extensions
-continue.continue
-tabnine.tabnine-vscode
 github.copilot
 github.copilot-chat
 ms-toolsai.vscode-ai
-huggingface.huggingface-vscode
-danielsanmedium.dscodegpt
-codeium.codeium
+#danielsanmedium.dscodegpt
+#codeium.codeium
+#tabnine.tabnine-vscode
+#amazonwebservices.amazon-q-vscode
 
 # Cloud & Infrastructure
 amazonwebservices.aws-toolkit-vscode

@@ -11,3 +11,7 @@
 - iTerm2
 
 Histroy of IDE and Where we stand today:
+
+## Clean Code in AI Era
+
+How to reduce code bloating with AI assistance?

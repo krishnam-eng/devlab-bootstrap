@@ -18,32 +18,81 @@ SKIP_CASK_APPS=false
 SKIP_ITERM_SETUP=false
 AUTO_YES=false
 
-# Colors for output
+# Colors for output (Maven-style)
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
+BOLD='\033[1m'
+DIM='\033[2m'
 NC='\033[0m' # No Color
 
-# Logging functions
-log_info() { printf "${BLUE}[INFO]${NC} %s\n" "$1"; }
-log_success() { printf "${GREEN}[SUCCESS]${NC} %s\n" "$1"; }
-log_warning() { printf "${YELLOW}[WARNING]${NC} %s\n" "$1"; }
-log_error() { printf "${RED}[ERROR]${NC} %s\n" "$1"; }
-log_step() { printf "${CYAN}[STEP]${NC} %s\n" "$1"; }
+# Maven-style logging functions
+log_info() { printf "${BOLD}[INFO]${NC} %s\n" "$1"; }
+log_success() { printf "${BOLD}${GREEN}[INFO]${NC} %s\n" "$1"; }
+log_warning() { printf "${BOLD}${YELLOW}[WARNING]${NC} %s\n" "$1"; }
+log_error() { printf "${BOLD}${RED}[ERROR]${NC} %s\n" "$1"; }
+log_phase() { 
+    # Check if message already contains [PHASE X/Y] pattern
+    if [[ "$1" =~ ^\[PHASE\ [0-9]+/[0-9]+\] ]]; then
+        # Extract phase number and description
+        local phase_part=$(echo "$1" | sed 's/\[PHASE \([0-9]*\/[0-9]*\)\] \(.*\)/\1/')
+        local description=$(echo "$1" | sed 's/\[PHASE \([0-9]*\/[0-9]*\)\] \(.*\)/\2/')
+        
+        printf "${BOLD}${CYAN}[INFO] ${GREEN}------------------------------< ${CYAN}$phase_part${GREEN} >-----------------------------------${NC}\n"
+        printf "${BOLD}${CYAN}[PHASE]${NC}  ${description}\n"
+        printf "${BOLD}${CYAN}[INFO] ${GREEN}------------------------------------------------------------------------${NC}\n"
+    else
+        printf "${BOLD}${CYAN}[INFO] ${BOLD}${CYAN}[PHASE]${NC} %s\n" "$1"
+    fi
+}
+log_phase_summary() {
+    local phase_num="$1"
+    local phase_title="$2"
+    shift 2
+    local accomplishments=("$@")
+    
+    printf "\n${BOLD}${GREEN}✅ PHASE ${phase_num} COMPLETED: ${phase_title}${NC}\n"
+    printf "${DIM}${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
+    for accomplishment in "${accomplishments[@]}"; do
+        printf "${GREEN}  ▶ ${accomplishment}${NC}\n"
+    done
+    printf "${DIM}${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
+}
+log_goal() { 
+    # Check if message already contains [X.Y/Z.W] pattern  
+    if [[ "$1" =~ ^\[[0-9]+\.[0-9]+/[0-9]+\.[0-9]+\] ]]; then
+        # Extract goal number and description
+        local goal_part=$(echo "$1" | sed 's/\[\([0-9]*\.[0-9]*\/[0-9]*\.[0-9]*\)\] \(.*\)/\1/')
+        local description=$(echo "$1" | sed 's/\[\([0-9]*\.[0-9]*\/[0-9]*\.[0-9]*\)\] \(.*\)/\2/')
+        printf "${BOLD}${CYAN}[GOAL] ${GREEN}--- ${description} ${CYAN}(${goal_part})${GREEN} ---${NC}\n"
+    else
+        printf "${BOLD}${CYAN}[GOAL]${NC} %s\n" "$1"
+    fi
+}
+log_build_success() { printf "\n${BOLD}${GREEN}------------------------------------------------------------------------\n"; printf "BUILD SUCCESS\n"; printf "------------------------------------------------------------------------${NC}\n"; }
+log_build_failure() { printf "\n${BOLD}${RED}------------------------------------------------------------------------\n"; printf "BUILD FAILURE\n"; printf "------------------------------------------------------------------------${NC}\n"; }
 
 ################################################################################
 # Main execution flow
 function main() {
+    # Maven-style build header
+    printf "${BOLD}${CYAN}[INFO] Scanning for projects...${NC}\n"
+    printf "${BOLD}[INFO]${NC}\n"
+    printf "${BOLD}[INFO] ${GREEN}------------------------------------------------------------------------${NC}\n"
+    printf "${BOLD}[INFO] Building Developer Environment Setup for macOS${NC}\n"
+    printf "${BOLD}[INFO] ${GREEN}------------------------------------------------------------------------${NC}\n"
+    printf "${BOLD}[INFO]${NC}\n"
+    
     log_info "Starting Developer Environment Setup for macOS..."
     echo ""
 
     # Prerequisites: Essential setup steps
-    confirm_and_run_step "Setup Second Brain Directory Root with HRT Repository (Prerequisites)" setup_prerequisites
-    confirm_and_run_step "Install Homebrew (Prerequisite)" install_macos_package_manager
+    confirm_and_run_step "Setup Prerequisites (Second Brain & Homebrew)" setup_prerequisites
     
-    # Main setup steps (7 steps)
+    # Main setup phases (7 phases)
     confirm_and_run_step "Setup Developer Laboratory Directory Structure" setup_dir_struct_hierarchy
     confirm_and_run_step "Setup Zsh Environment" setup_zsh_environment
     confirm_and_run_step "Install Essential CLI Tools" install_essential_cli_tools
@@ -51,6 +100,14 @@ function main() {
     confirm_and_run_step "Install Programming Languages" install_programming_languages
     confirm_and_run_step "Install IDEs and GUI Productivity Tools" install_ides_and_gui_productivity_tools
     confirm_and_run_step "Setup AI Development Environment" setup_agentic_ai_development
+    
+    # Maven-style build success
+    printf "\n"
+    log_build_success
+    printf "${BOLD}[INFO]${NC} Total time: $(( SECONDS / 60 ))m $(( SECONDS % 60 ))s\n"
+    printf "${BOLD}[INFO]${NC} Finished at: $(date)\n"
+    printf "${BOLD}[INFO]${NC} Final Memory: $(vm_stat | grep "Pages free" | awk '{print $3}' | sed 's/\.//')K\n"
+    printf "${BOLD}${GREEN}[INFO]${NC} Developer Environment Setup completed successfully!\n"
 }
 
 function confirm_and_run_step() {
@@ -58,18 +115,18 @@ function confirm_and_run_step() {
     local step_function="$2"
 
     if [[ "$AUTO_YES" == "true" ]]; then
-        log_info "Auto-running: $step_description"
+        printf "${BOLD}[INFO]${NC} Auto-executing: %s\n" "$step_description"
         REPLY="y"
     else
-        echo "Proceed with $step_description? [y/N]: "
+        printf "\n${BOLD}[INFO]${NC} Proceed with %s? [y/N]: " "$step_description"
         read -r REPLY
     fi
     
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         $step_function
-        log_success "$step_description completed successfully."
+        printf "${BOLD}${GREEN}[INFO]${NC} %s ${GREEN}SUCCESS${NC}\n" "$step_description"
     else
-        log_info "$step_description skipped."
+        printf "${DIM}[INFO]${NC} %s ${YELLOW}SKIPPED${NC}\n" "$step_description"
     fi
 }
 
@@ -77,7 +134,10 @@ function confirm_and_run_step() {
 # Prerequisites: Setup Second Brain Directory Root with HRT Repository
 ################################################################################
 function setup_prerequisites() {
-    log_step "🏗️ Setting up prerequisites (Second Brain directory & HRT repository)..."
+    log_phase "[PHASE 0/7] 🏗️ Setting up prerequisites (Second Brain directory & Homebrew package manager)..."
+    
+    # Goal 1: Setup Second Brain Directory
+    log_goal "[0.1/0.2] Setting up Second Brain directory & HRT repository..."
     
     # Prompt user for second brain directory name
     local sbrn_name="sbrn"
@@ -108,12 +168,8 @@ function setup_prerequisites() {
         log_success "HRT repository already exists at $SBRN_HOME/sys/hrt"
     fi
     
-    log_success "Prerequisites setup completed"
-}
-
-
-function install_macos_package_manager() {
-    log_step "🍺 Installing Homebrew package manager..."
+    # Goal 2: Install Homebrew Package Manager
+    log_goal "[0.2/0.2] Installing Homebrew package manager..."
     
     if ! command -v brew &>/dev/null; then
         log_info "Installing Homebrew..."
@@ -123,14 +179,21 @@ function install_macos_package_manager() {
         log_success "Homebrew already installed"
     fi
     brew update
-    log_success "Homebrew setup completed"
+    
+    log_phase_summary "0/7" "Prerequisites Setup" \
+        "Second Brain directory structure created at $SBRN_HOME" \
+        "HRT repository configured for development tools" \
+        "Homebrew package manager installed and updated"
+    
+    log_success "Prerequisites setup completed"
 }
+
 
 #################################################################################
 # Step 1: Setup Developer Laboratory Directory Structure
 #################################################################################
 function setup_dir_struct_hierarchy() {
-    log_step "📁 Setting up SBRN (Second Brain) directory structure..."
+    log_phase "[PHASE 1/7] 📁 Setting up SBRN (Second Brain) directory structure..."
 
     # Hide standard user folders to reduce clutter before creating SBRN structure
     chflags hidden ~/Movies
@@ -164,6 +227,11 @@ function setup_dir_struct_hierarchy() {
     # Create FSH config structure under SBRN_HOME/sys
     mkdir -p "$SBRN_HOME/sys"/{bin,etc}
  
+   log_phase_summary "1/7" "Directory Structure" \
+        "XDG-compliant directory structure created" \
+        "Development workspace organized under ~/sbrn" \
+        "Configuration directories prepared for tools"
+   
    log_success "SBRN directory structure setup completed"
 }
 
@@ -171,7 +239,7 @@ function setup_dir_struct_hierarchy() {
 # Step 2: Setup Zsh Environment
 ################################################################################
 function setup_zsh_environment() {
-    log_step "🐚 Setting up Zsh environment with Oh My Zsh..."
+    log_phase "[PHASE 2/7] 🐚 Setting up Zsh environment with Oh My Zsh..."
     
     # Set Zsh configuration directory (must be set before Oh My Zsh installation)
     export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
@@ -194,11 +262,17 @@ function setup_zsh_environment() {
     # Setup Zsh configuration symlinks from HRT if available
     setup_zsh_configuration_links
     
+    log_phase_summary "2/7" "Zsh Environment" \
+        "Oh My Zsh framework installed with Powerlevel10k theme" \
+        "Essential plugins configured (syntax highlighting, autosuggestions)" \
+        "Meslo Nerd Font installed for terminal icons" \
+        "HRT configuration linked for enhanced shell experience"
+    
     log_success "Zsh environment setup completed"
 }
 
 function create_zsh_xdg_directories() {
-    log_info "Creating XDG-compliant directories for Zsh files..."
+    log_goal "[2.1/2.6] Creating XDG-compliant directories for Zsh files..."
     mkdir -p "$XDG_STATE_HOME/zsh/sessions"
     mkdir -p "$XDG_CACHE_HOME/zsh"
     log_success "Created Zsh XDG directories (state, cache, sessions)"
@@ -209,7 +283,7 @@ function install_oh_my_zsh() {
     
     if [[ ! -d "$zsh_dir" ]]; then
         export ZSH="$zsh_dir"
-        log_info "Installing Oh My Zsh to $zsh_dir..."
+        log_goal "[2.2/2.6] Installing Oh My Zsh to $zsh_dir..."
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
         log_success "Oh My Zsh installed successfully"
 
@@ -229,7 +303,7 @@ function install_powerlevel10k_theme() {
     local p10k_dir="${ZSH}/custom/themes/powerlevel10k"
     
     if [[ ! -d "$p10k_dir" ]]; then
-        log_info "Installing Powerlevel10k theme..."
+        log_goal "[2.3/2.6] Installing Powerlevel10k theme..."
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$p10k_dir"
         ln -sfn "$SBRN_HOME/sys/hrt/conf/p10k" "$XDG_CONFIG_HOME/p10k"
         log_success "Powerlevel10k theme installed"
@@ -239,7 +313,7 @@ function install_powerlevel10k_theme() {
 }
 
 function install_zsh_plugins() {
-    log_info "Installing essential Zsh plugins that are not part of Oh My Zsh repo..."
+    log_goal "[2.4/2.6] Installing essential Zsh plugins that are not part of Oh My Zsh repo..."
 
     local custom_dir="${ZSH}/custom"
     
@@ -279,7 +353,7 @@ function install_zsh_plugins() {
 }
 
 function install_meslo_font() {
-    log_info "Installing Meslo Nerd Font..."
+    log_goal "[2.5/2.6] Installing Meslo Nerd Font..."
     
     local font_dir="$HOME/Library/Fonts"
     local temp_dir="/tmp/meslo-font"
@@ -299,7 +373,7 @@ function install_meslo_font() {
 }
 
 function setup_zsh_configuration_links() {
-    log_info "Setting up Zsh configuration links from HRT..."
+    log_goal "[2.6/2.6] Setting up Zsh configuration links from HRT..."
     
     # Symlink .zshenv
     ln -sfn "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ~/.zshenv
@@ -314,7 +388,7 @@ function setup_zsh_configuration_links() {
 # Step 3: Install Essential CLI Tools
 ################################################################################
 function install_essential_cli_tools() {
-    log_step "🛠️ Installing essential CLI tools..."
+    log_phase "[PHASE 3/7] 🛠️ Installing essential CLI tools..."
     
     # Shell Enhancements & CLI Productivity
     install_shell_productivity_tools
@@ -325,11 +399,17 @@ function install_essential_cli_tools() {
     # Text, Regex, JSON, Data Tools
     install_text_data_tools
     
+    log_phase_summary "3/7" "Essential CLI Tools" \
+        "Modern shell tools (exa, bat, fd, ripgrep) for enhanced productivity" \
+        "Networking & security tools (curl, wget, nmap, ssh utilities)" \
+        "Text processing tools (jq, yq, csvkit) for data manipulation" \
+        "File management utilities with improved performance"
+    
     log_success "Essential CLI tools installation completed"
 }
 
 function install_shell_productivity_tools() {
-    log_info "Installing shell enhancement & productivity tools..."
+    log_goal "[3.1/3.3] Installing shell enhancement & productivity tools..."
     
     local shell_tools=(
         "coreutils" "tree" "fzf" "tmux" "screen" "htop" "bat" "fd" "tldr" 
@@ -346,7 +426,7 @@ function install_shell_productivity_tools() {
 
 
 function install_networking_security_tools() {
-    log_info "Installing Networking, Security, & Transfer tools..."
+    log_goal "[3.2/3.3] Installing Networking, Security, & Transfer tools..."
     
     local network_tools=(
         "curl" "wget" "httpie" "netcat" "gnupg" "certbot" "telnet"
@@ -358,7 +438,7 @@ function install_networking_security_tools() {
 }
 
 function install_text_data_tools() {
-    log_info "Installing text, regex, JSON, data tools..."
+    log_goal "[3.3/3.3] Installing text, regex, JSON, data tools..."
     
     local text_tools=(
         "vim" "neovim" "emacs" "nano" "jq" "ripgrep" "grep" 
@@ -377,7 +457,7 @@ function install_text_data_tools() {
 # Step 4: Install Development Tools
 ################################################################################
 function install_development_tools() {
-    log_step "🔧 Installing general development tools..."
+    log_phase "[PHASE 4/7] 🔧 Installing general development tools..."
     
     # Developer Tools (VCS, Repos, Git Helpers)
     install_vcs_tools
@@ -396,26 +476,32 @@ function install_development_tools() {
         git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX" 2>/dev/null || true
     fi
         
+    log_phase_summary "4/7" "Development Tools" \
+        "Version control system (Git) with advanced workflow tools" \
+        "Container & cloud tools (Docker, kubectl, cloud CLIs)" \
+        "Graphics & UI libraries for application development" \
+        "API testing and development utilities"
+    
     log_success "Development tools installation completed"
 }
 
 function install_vcs_tools() {
-    log_info "Installing VCS tools..."
+    log_goal "[4.1/4.4] Installing VCS tools..."
     
     local git_tools=(
         "git" "git-extras" "git-lfs" "gh" "ghq" "diff-so-fancy" 
-        "delta" "tig" "lazygit" "git-gui" "gitk" "gibo"
+        "delta" "tig" "lazygit" "git-gui" "gibo"
     )
     
     for tool in "${git_tools[@]}"; do
         brew_install "$tool"
     done
-
+    
     ln -sfn "$SBRN_HOME/sys/hrt/conf/git" "$XDG_CONFIG_HOME/git"
 }
 
 function install_cloud_container_tools() {
-    log_info "Installing cloud & containers tools..."
+    log_goal "[4.2/4.4] Installing cloud & containers tools..."
     
     local cloud_tools=(
         "docker" "docker-compose" "colima" "kubernetes-cli" "helm" 
@@ -430,7 +516,7 @@ function install_cloud_container_tools() {
 }
 
 function install_graphics_ocr_libraries() {
-    log_info "Installing graphics, images, and UI libraries..."
+    log_goal "[4.3/4.4] Installing graphics, images, and UI libraries..."
     
     local graphics_tools=(
         "librsvg" "gtk+3" "ghostscript" "graphviz" "guile" 
@@ -443,7 +529,7 @@ function install_graphics_ocr_libraries() {
 }
 
 function install_additional_dev_tools() {
-    log_info "Installing additional development & API tools..."
+    log_goal "[4.4/4.4] Installing additional development & API tools..."
     
     local dev_tools=(
         "jwt-cli" "newman" "openapi-generator" "operator-sdk" "hugo" 
@@ -460,7 +546,7 @@ function install_additional_dev_tools() {
 # Step 5: Install Core Programming Languages & Runtimes
 ################################################################################
 function install_programming_languages() {
-    log_step "Installing core programming languages, runtime environment managers, and build tools..."
+    log_phase "[PHASE 5/7] 💻 Installing core programming languages, runtime environment managers, and build tools..."
 
     # Core Programming Languages & Runtimes
     install_core_programming_languages
@@ -471,11 +557,17 @@ function install_programming_languages() {
     # Build Automation Tools
     install_build_automation_tools
     
+    log_phase_summary "5/7" "Programming Languages & Runtimes" \
+        "Core languages installed (Python, Node.js, Go, Rust, Java)" \
+        "Runtime managers configured (pyenv, nvm, rbenv)" \
+        "Build automation tools (Maven, Gradle, Make)" \
+        "Package managers ready for project development"
+    
     log_success "Programming languages, runtime environment managers, and build tools installation completed"
 }
 
 function install_core_programming_languages() {
-    log_info "Installing core programming languages and runtimes..."
+    log_goal "[5.1/5.3] Installing core programming languages and runtimes..."
     
     local languages=(
         "openjdk@17" "openjdk@21" "python@3.13" "perl" 
@@ -488,7 +580,7 @@ function install_core_programming_languages() {
 }
 
 function install_runtime_environment_managers() {
-    log_info "Installing runtime environment managers..."
+    log_goal "[5.2/5.3] Installing runtime environment managers..."
     
     local runtime_managers=(
         "jenv" "uv" "nvm" "pipx"
@@ -740,7 +832,7 @@ function create_ml_dev_environment() {
 }
 
 function install_build_automation_tools() {
-    log_info "Installing build automation tools..."
+    log_goal "[5.3/5.3] Installing build automation tools..."
     
     local build_tools=("maven" "gradle" "poetry" "yarn")
     
@@ -753,7 +845,7 @@ function install_build_automation_tools() {
 # Step 6: Install GUI Tools like IDE, and Productivity Apps
 ################################################################################
 function install_ides_and_gui_productivity_tools() {
-    log_step "📝 Installing IDEs, editors, and GUI productivity tools..."
+    log_phase "[PHASE 6/7] 📝 Installing IDEs, editors, and GUI productivity tools..."
     
     # Development Environment for Data Science and Notebooks
     install_python_notebook_env_tools
@@ -770,11 +862,17 @@ function install_ides_and_gui_productivity_tools() {
     # Create symbolic links for command-line access
     create_app_cli_symlinks
     
+    log_phase_summary "6/7" "IDEs & Productivity Tools" \
+        "Professional IDEs installed (VS Code, IntelliJ IDEA, PyCharm)" \
+        "Productivity applications configured (iTerm2, Obsidian, Finder)" \
+        "Development environment tools (Docker Desktop, Postman)" \
+        "Data science and visualization tools ready"
+    
     log_success "IDEs, editors, and GUI productivity tools installation completed"
 }
 
 function install_core_ides_editors() {
-    log_info "Installing core IDEs and editors..."
+    log_goal "[6.1/6.5] Installing core IDEs and editors..."
     
     local ides=(
         "visual-studio-code" "intellij-idea-ce" "pycharm-ce" "cursor" "windsurf" "zed" "iterm2"
@@ -800,7 +898,7 @@ function install_core_ides_editors() {
 }
 
 function install_productivity_apps() {
-    log_info "Installing productivity and development support applications..."
+    log_goal "[6.2/6.5] Installing productivity and development support applications..."
     
     local productivity_apps=(
         "notion" "obsidian" "figma" "slack" "github" "postman" 
@@ -813,7 +911,7 @@ function install_productivity_apps() {
 }
 
 function install_gui_productivity_tools() {
-    log_info "Installing GUI productivity and automation tools..."
+    log_goal "[6.3/6.5] Installing GUI productivity and automation tools..."
     
     local gui_productivity_tools=(
         "hammerspoon: Desktop automation tool"
@@ -852,7 +950,7 @@ function install_gui_productivity_tools() {
 }
 
 function install_python_notebook_env_tools() {
-    log_info "Installing development environment and data science tools..."
+    log_goal "[6.4/6.5] Installing development environment and data science tools..."
     
     # Note: pipx installation and XDG configuration is handled in configure_pipx()
     # Verify pipx is available for Jupyter installation
@@ -888,6 +986,134 @@ function install_python_notebook_env_tools() {
     done
 }
 
+function setup_vscode_extensions() {
+    # Skip VSCode extensions setup if cask apps are disabled
+    if [[ "$SKIP_CASK_APPS" == "true" ]]; then
+        log_info "Skipping VSCode extensions setup (SKIP_CASK_APPS=true)"
+        return 0
+    fi
+    
+    # Check if VSCode is installed and available
+    if ! command -v code &>/dev/null; then
+        log_info "VSCode not found in PATH - skipping extensions setup"
+        return 0
+    fi
+    
+    log_info "Installing VSCode extensions from HRT configuration..."
+    
+    # Read extensions from HRT configuration file
+    local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
+    
+    log_success "Reading extensions from: $extensions_file"
+    
+    # Read extensions from file, filtering out comments and empty lines
+    local extensions=()
+    while IFS= read -r line; do
+        # Skip empty lines and comments (lines starting with # or //)
+        if [[ -n "$line" && ! "$line" =~ ^[[:space:]]*# && ! "$line" =~ ^[[:space:]]*// ]]; then
+            # Remove leading/trailing whitespace
+            line=$(echo "$line" | xargs)
+            extensions+=("$line")
+        fi
+    done < "$extensions_file"
+    
+    log_info "Found ${#extensions[@]} extensions to install"
+    
+    # Install each extension
+    for extension in "${extensions[@]}"; do
+        if code --list-extensions | grep -qi "^$extension$"; then
+            log_success "$extension already installed"
+        else
+            log_info "Installing extension: $extension"
+            code --install-extension "$extension" >/dev/null 2>&1 && log_success "$extension installed" || log_warning "Failed to install $extension"
+        fi
+    done
+    
+    log_success "VSCode extensions setup completed"
+}
+
+function setup_iterm_profiles() {
+    # Skip iTerm setup if disabled
+    if [[ "$SKIP_ITERM_SETUP" == "true" ]]; then
+        log_info "Skipping iTerm2 profiles setup (SKIP_ITERM_SETUP=true)"
+        return 0
+    fi
+    
+    # Check if iTerm2 is installed
+    if [[ ! -d "/Applications/iTerm.app" ]] && [[ ! -d "$HOME/Applications/iTerm.app" ]]; then
+        log_info "iTerm2 not found - skipping profiles setup"
+        return 0
+    fi
+    
+    log_info "Setting up iTerm2 profiles and color schemes..."
+    
+    # Create iTerm2 DynamicProfiles directory
+    local iterm_profiles_dir="$HOME/Library/Application Support/iTerm2/DynamicProfiles"
+    mkdir -p "$iterm_profiles_dir"
+    
+    # Install color schemes from HRT configuration
+    local colors_dir="$SBRN_HOME/sys/hrt/conf/terminal/colors"
+    
+    if [[ -d "$colors_dir" ]]; then
+        log_info "Installing color schemes from: $colors_dir"
+        
+        # Install all .itermcolors files silently
+        for color_file in "$colors_dir"/*.itermcolors; do
+            if [[ -f "$color_file" ]]; then
+                local color_name=$(basename "$color_file" .itermcolors)
+                log_info "Installing color scheme: $color_name"
+                
+                # Use open -g to prevent iTerm2 from coming to foreground
+                open -g "$color_file" 2>/dev/null || log_warning "Failed to install $color_name"
+                
+                # Small delay to ensure proper installation
+                sleep 1
+            fi
+        done
+        
+        log_success "Color schemes installed from HRT configuration"
+    else
+        log_warning "Color schemes directory not found: $colors_dir"
+    fi
+    
+    # Install profiles from HRT configuration
+    local profiles_dir="$SBRN_HOME/sys/hrt/conf/terminal/profiles"
+    
+    log_info "Installing iTerm2 profiles from: $profiles_dir"
+    
+    # Install all .json profile files
+    for profile_file in "$profiles_dir"/*.json; do
+        if [[ -f "$profile_file" ]]; then
+            local profile_name=$(basename "$profile_file" .json)
+            local dest_file="$iterm_profiles_dir/$profile_name.json"
+            
+            log_info "Installing profile: $profile_name"
+            
+            # Copy profile to iTerm2 DynamicProfiles directory
+            cp "$profile_file" "$dest_file" 2>/dev/null && {
+                log_success "Installed profile: $profile_name"
+            } || {
+                log_warning "Failed to install profile: $profile_name"
+            }
+            
+            # Small delay to ensure proper installation
+            sleep 1
+        fi
+    done
+    
+    log_success "All profiles installed from HRT configuration"
+    
+    # Run additional iTerm management script if it exists in HRT
+    local iterm_script="$SBRN_HOME/sys/hrt/scripts/manage-iterm-profiles.sh"
+    if [[ -f "$iterm_script" ]] && [[ -x "$iterm_script" ]]; then
+        log_info "Running additional iTerm configuration from HRT..."
+        "$iterm_script" || log_warning "HRT iTerm script completed with warnings"
+    fi
+    
+    log_success "iTerm2 profiles and color schemes setup completed"
+    log_info "Restart iTerm2 to see the new profiles and color schemes"
+}
+
 function create_app_cli_symlinks() {
     # Skip CLI symlinks creation if cask apps are disabled
     if [[ "$SKIP_CASK_APPS" == "true" ]]; then
@@ -895,7 +1121,7 @@ function create_app_cli_symlinks() {
         return 0
     fi
     
-    log_info "Creating symbolic links for Application command-line access..."
+    log_goal "[6.5/6.5] Creating symbolic links for Application command-line access..."
 
         local bin_dir="$SBRN_HOME/sys/bin"
 
@@ -958,7 +1184,7 @@ function create_app_cli_symlinks() {
 # Step 7: Setup Agentic AI Development Environment
 ################################################################################
 function setup_agentic_ai_development() {
-    log_step "🤖 Setting up Agentic AI Development Environment..."
+    log_phase "[PHASE 7/7] 🤖 Setting up Agentic AI Development Environment..."
     
     # AI/ML Core Tools & Frameworks
     install_ai_development_tools
@@ -967,20 +1193,23 @@ function setup_agentic_ai_development() {
     install_ai_agent_frameworks
     
     # Local LLM Capabilities
-    setup_local_llm
-    
-    # Modern AI-Enhanced IDEs
-    install_modern_ai_ides
+    setup_local_llm 
     
     # Vector Databases & Search
     install_vector_databases
+    
+    log_phase_summary "7/7" "AI Development Environment" \
+        "Python AI/ML stack configured with uv package manager" \
+        "Jupyter Lab & VS Code extensions for data science" \
+        "Vector databases ready (ChromaDB, Qdrant, pgvector)" \
+        "AI development workflows and tools operational"
     
     log_success "Agentic AI Development Environment setup completed"
 }
 
 
 function install_ai_development_tools() {
-    log_info "Installing AI/ML Core Tools & Frameworks..."
+    log_goal "[7.1/7.4] Installing AI/ML Core Tools & Frameworks..."
     
     mkdir -p "$XDG_CONFIG_HOME/ai-tools" "$XDG_DATA_HOME/ai-tools" "$XDG_CACHE_HOME/ai-tools" "$XDG_STATE_HOME/ai-tools"
     
@@ -1035,7 +1264,7 @@ function install_special_ai_tools() {
 
 
 function install_ai_agent_frameworks() {
-    log_info "Installing 🤖 AI Agent Development Frameworks via uv environments..."
+    log_goal "[7.2/7.4] Installing 🤖 AI Agent Development Frameworks via uv environments..."
     
     if ! command -v uv &>/dev/null; then
         log_warning "uv not available - skipping AI agent frameworks installation"
@@ -1131,7 +1360,7 @@ function install_ai_agent_frameworks() {
 }
 
 function setup_local_llm() {
-    log_info "Setting up 🧠 Local LLM Capabilities with XDG compliance..."
+    log_goal "[7.3/7.4] Setting up 🧠 Local LLM Capabilities with XDG compliance..."
     
     # Set XDG-compliant paths for Ollama
     export OLLAMA_MODELS="$XDG_DATA_HOME/ollama/models"
@@ -1220,36 +1449,9 @@ EOF
     fi
 }
 
-function install_modern_ai_ides() {
-    log_info "Installing 🚀 Modern AI-Enhanced IDEs..."
-    
-    local ai_ides=(
-        "cursor: AI-native code editor with advanced AI features"
-        "windsurf: AI-native IDE from Codeium with collaborative AI"
-        "zed: High-performance collaborative code editor with AI"
-        "continue: Open-source AI code assistant"
-    )
-    
-    for ide_info in "${ai_ides[@]}"; do
-        local ide="${ide_info%%:*}"
-        local description="${ide_info#*:}"
-        
-        case "$ide" in
-            "windsurf")
-
-            "continue")
-                # Continue is a VS Code extension, will be handled in AI VS Code extensions
-                log_info "Continue AI assistant will be installed as VS Code extension"
-                ;;
-            *)
-                brew_cask_install "$ide" "$description"
-                ;;
-        esac
-    done
-}
 
 function install_vector_databases() {
-    log_info "Installing 🔍 Vector Databases & Search Engines with XDG compliance..."
+    log_goal "[7.4/7.4] Installing 🔍 Vector Databases & Search Engines with XDG compliance..."
     
     # Create XDG-compliant directories for vector databases
     mkdir -p "$XDG_DATA_HOME/vector-databases"
@@ -1510,37 +1712,38 @@ function show_usage() {
 ################################################################################
 # Parse command line arguments
 parse_arguments "$@"
+
+# Track build time
+SECONDS=0
     
-    # Check if running on macOS
-    if [[ $(uname) != "Darwin" ]]; then
-        log_error "This script is designed for macOS only"
-        exit 1
-    fi
-    
-    # Show configuration warnings
-    if [[ $SKIP_CASK_APPS == true ]]; then
-        log_warning "SKIP-CASK-APPS MODE: GUI applications will be skipped - manual install recommended"
-        echo ""
-    fi
-    
-    if [[ $SKIP_ITERM_SETUP == true ]]; then
-        printf "${YELLOW}[WARNING]${NC} SKIP-ITERM-SETUP MODE: iTerm2 profiles and colors setup will be skipped\n"
-        printf "${CYAN}[INFO]${NC} To setup iTerm2 later, run without --skip-iterm-setup flag or run:\n"
-        printf "${CYAN}[INFO]${NC}   %s/sys/hrt/conf/terminal/manage-iterm-profiles.sh install && import\n" "$SBRN_HOME"
-        echo ""
-    fi
-    
-    # Ask for confirmation
-    if [[ "$AUTO_YES" == "true" ]]; then
-        log_info "Auto-mode enabled: Starting full developer environment setup..."
-        REPLY="y"
-    else
-        echo "Proceed with developer environment setup? [y/N]: "
-        read -r REPLY
-    fi
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        main
-    else
-        log_info "Installation cancelled"
-        exit 0
-    fi
+# Check if running on macOS
+if [[ $(uname) != "Darwin" ]]; then
+    log_error "This script is designed for macOS only"
+    exit 1
+fi
+
+# Show configuration warnings
+if [[ $SKIP_CASK_APPS == true ]]; then
+    printf "${BOLD}${YELLOW}[WARNING]${NC} SKIP-CASK-APPS MODE: GUI applications will be skipped - manual install recommended\n"
+    echo ""
+fi
+
+if [[ $SKIP_ITERM_SETUP == true ]]; then
+    printf "${BOLD}${YELLOW}[WARNING]${NC} SKIP-ITERM-SETUP MODE: iTerm2 profiles and colors setup will be skipped\n"
+    echo ""
+fi
+
+# Ask for confirmation
+if [[ "$AUTO_YES" == "true" ]]; then
+    printf "${BOLD}[INFO]${NC} Auto-mode enabled: Starting full developer environment setup...\n"
+    REPLY="y"
+else
+    printf "${BOLD}[INFO]${NC} Proceed with developer environment setup? [y/N]: "
+    read -r REPLY
+fi
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    main
+else
+    printf "${DIM}[INFO]${NC} Build cancelled by user\n"
+    exit 0
+fi

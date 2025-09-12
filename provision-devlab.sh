@@ -22,7 +22,7 @@ AUTO_YES=false
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
+BLUE='\033[1;34m'  # Changed to bright/bold blue for better visibility
 CYAN='\033[0;36m'
 MAGENTA='\033[0;35m'
 BOLD='\033[1m'
@@ -30,8 +30,8 @@ DIM='\033[2m'
 NC='\033[0m' # No Color
 
 # Maven-style logging functions
-log_info() { printf "${BOLD}[INFO]${NC} %s\n" "$1"; }
-log_success() { printf "${BOLD}${GREEN}[INFO]${NC} %s\n" "$1"; }
+log_info() { printf "${DIM}[INFO]${NC} %s\n" "$1"; }
+log_success() { printf "${BOLD}${GREEN}[SUCCESS]${NC} %s\n" "$1"; }
 log_warning() { printf "${BOLD}${YELLOW}[WARNING]${NC} %s\n" "$1"; }
 log_error() { printf "${BOLD}${RED}[ERROR]${NC} %s\n" "$1"; }
 log_phase() { 
@@ -41,11 +41,11 @@ log_phase() {
         local phase_part=$(echo "$1" | sed 's/\[PHASE \([0-9]*\/[0-9]*\)\] \(.*\)/\1/')
         local description=$(echo "$1" | sed 's/\[PHASE \([0-9]*\/[0-9]*\)\] \(.*\)/\2/')
         
-        printf "${BOLD}${CYAN}[INFO] ${GREEN}------------------------------< ${CYAN}$phase_part${GREEN} >-----------------------------------${NC}\n"
+        printf "${BOLD}${DIM}[INFO] ${GREEN}------------------------------< ${CYAN}$phase_part${GREEN} >-----------------------------------${NC}\n"
         printf "${BOLD}${CYAN}[PHASE]${NC}  ${description}\n"
-        printf "${BOLD}${CYAN}[INFO] ${GREEN}------------------------------------------------------------------------${NC}\n"
+        printf "${BOLD}${DIM}[INFO] ${GREEN}------------------------------------------------------------------------${NC}\n"
     else
-        printf "${BOLD}${CYAN}[INFO] ${BOLD}${CYAN}[PHASE]${NC} %s\n" "$1"
+        printf "${BOLD}${DIM}[INFO] ${BOLD}${CYAN}[PHASE]${NC} %s\n" "$1"
     fi
 }
 log_phase_summary() {
@@ -57,7 +57,7 @@ log_phase_summary() {
     printf "\n${BOLD}${GREEN}✅ PHASE ${phase_num} COMPLETED: ${phase_title}${NC}\n"
     printf "${DIM}${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
     for accomplishment in "${accomplishments[@]}"; do
-        printf "${GREEN}  ▶ ${accomplishment}${NC}\n"
+        printf "${CYAN}  ▶ ${accomplishment}${NC}\n"
     done
     printf "${DIM}${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 }
@@ -67,9 +67,9 @@ log_goal() {
         # Extract goal number and description
         local goal_part=$(echo "$1" | sed 's/\[\([0-9]*\.[0-9]*\/[0-9]*\.[0-9]*\)\] \(.*\)/\1/')
         local description=$(echo "$1" | sed 's/\[\([0-9]*\.[0-9]*\/[0-9]*\.[0-9]*\)\] \(.*\)/\2/')
-        printf "${BOLD}${CYAN}[GOAL] ${GREEN}--- ${description} ${CYAN}(${goal_part})${GREEN} ---${NC}\n"
+        printf "${BOLD}${BLUE}[GOAL] ${GREEN}--- ${description} ${BLUE}(${goal_part})${GREEN} ---${NC}\n"
     else
-        printf "${BOLD}${CYAN}[GOAL]${NC} %s\n" "$1"
+        printf "${BOLD}${BLUE}[GOAL]${NC} %s\n" "$1"
     fi
 }
 log_build_success() { printf "\n${BOLD}${GREEN}------------------------------------------------------------------------\n"; printf "BUILD SUCCESS\n"; printf "------------------------------------------------------------------------${NC}\n"; }
@@ -78,47 +78,93 @@ log_build_failure() { printf "\n${BOLD}${RED}-----------------------------------
 ################################################################################
 # Main execution flow
 function main() {
-    # Maven-style build header
-    printf "${BOLD}${CYAN}[INFO] Scanning for projects...${NC}\n"
-    printf "${BOLD}[INFO]${NC}\n"
-    printf "${BOLD}[INFO] ${GREEN}------------------------------------------------------------------------${NC}\n"
-    printf "${BOLD}[INFO] Building Developer Environment Setup for macOS${NC}\n"
-    printf "${BOLD}[INFO] ${GREEN}------------------------------------------------------------------------${NC}\n"
-    printf "${BOLD}[INFO]${NC}\n"
-    
-    log_info "Starting Developer Environment Setup for macOS..."
-    echo ""
+    # Opening sequence
+    printf "\n${BOLD}${DIM}[INIT]${NC} 🧪 Initializing Developer Laboratory Setup Protocol...${NC}\n"
+    printf "${BOLD}${DIM}[SCAN]${NC} 🔍 Analyzing system configuration and requirements...${NC}\n"
+    printf "${DIM}[INFO]${NC}\n"
+    printf "${DIM}[INFO]${NC} ${GREEN}========================================================================${NC}\n"
+    printf "${DIM}[INFO]${NC} 🚀 Developer Laboratory Environment Construction Sequence v1.0${NC}\n"
+    printf "${DIM}[INFO]${NC} 🧬 Crafting Your Ultimate Development DNA${NC}\n"
+    printf "${DIM}[INFO]${NC} ${GREEN}========================================================================${NC}\n"
+    printf "${DIM}[INFO]${NC}\n"
+    printf "${BOLD}${DIM}[STATUS]${NC} System ready for enhancement. Commencing setup sequence...${NC}\n"
+    printf "${BOLD}${DIM}[CONFIG]${NC} Preparing to transform your macOS into a programming powerhouse${NC}\n"
 
     # Prerequisites: Essential setup steps
-    confirm_and_run_step "Setup Prerequisites (Second Brain & Homebrew)" setup_prerequisites
+    confirm_and_run_step "Setup Prerequisites (Second Brain & Homebrew)" setup_prerequisites "0"
     
     # Main setup phases (7 phases)
-    confirm_and_run_step "Setup Developer Laboratory Directory Structure" setup_dir_struct_hierarchy
-    confirm_and_run_step "Setup Zsh Environment" setup_zsh_environment
-    confirm_and_run_step "Install Essential CLI Tools" install_essential_cli_tools
-    confirm_and_run_step "Install Development Tools" install_development_tools
-    confirm_and_run_step "Install Programming Languages" install_programming_languages
-    confirm_and_run_step "Install IDEs and GUI Productivity Tools" install_ides_and_gui_productivity_tools
-    confirm_and_run_step "Setup AI Development Environment" setup_agentic_ai_development
+    confirm_and_run_step "Setup Developer Laboratory Directory Structure" setup_dir_struct_hierarchy "1"
+    confirm_and_run_step "Setup Zsh Environment" setup_zsh_environment "2"
+    confirm_and_run_step "Install Essential CLI Tools" install_essential_cli_tools "3"
+    confirm_and_run_step "Install Development Tools" install_development_tools "4"
+    confirm_and_run_step "Install Programming Languages" install_programming_languages "5"
+    confirm_and_run_step "Install IDEs and GUI Productivity Tools" install_ides_and_gui_productivity_tools "6"
+    confirm_and_run_step "Setup AI Development Environment" setup_agentic_ai_development "7"
     
     # Maven-style build success
     printf "\n"
     log_build_success
-    printf "${BOLD}[INFO]${NC} Total time: $(( SECONDS / 60 ))m $(( SECONDS % 60 ))s\n"
-    printf "${BOLD}[INFO]${NC} Finished at: $(date)\n"
-    printf "${BOLD}[INFO]${NC} Final Memory: $(vm_stat | grep "Pages free" | awk '{print $3}' | sed 's/\.//')K\n"
+    printf "${DIM}[INFO]${NC} Total time: $(( SECONDS / 60 ))m $(( SECONDS % 60 ))s\n"
+    printf "${DIM}[INFO]${NC} Finished at: $(date)\n"
+    printf "${DIM}[INFO]${NC} Final Memory: $(vm_stat | grep "Pages free" | awk '{print $3}' | sed 's/\.//')K\n"
     printf "${BOLD}${GREEN}[INFO]${NC} Developer Environment Setup completed successfully!\n"
 }
 
 function confirm_and_run_step() {
     local step_description="$1"
     local step_function="$2"
+    local phase_number="${3:-0}"  # Default to 0 if not provided
+    
+    # Map step functions to phase emojis and descriptions
+    local emoji
+    local phase_desc
+    case "$step_function" in
+        setup_prerequisites)
+            emoji="🏗️"
+            phase_desc="Foundation Phase"
+            ;;
+        setup_dir_struct_hierarchy)
+            emoji="📁"
+            phase_desc="Directory Structure Phase"
+            ;;
+        setup_zsh_environment)
+            emoji="🐚"
+            phase_desc="Shell Environment Phase"
+            ;;
+        install_essential_cli_tools)
+            emoji="🛠️"
+            phase_desc="CLI Tools Phase"
+            ;;
+        install_development_tools)
+            emoji="🔧"
+            phase_desc="Development Tools Phase"
+            ;;
+        install_programming_languages)
+            emoji="💻"
+            phase_desc="Programming Languages Phase"
+            ;;
+        install_ides_and_gui_productivity_tools)
+            emoji="📝"
+            phase_desc="IDEs & Tools Phase"
+            ;;
+        setup_agentic_ai_development)
+            emoji="🤖"
+            phase_desc="AI Development Phase"
+            ;;
+        *)
+            emoji="⚡"
+            phase_desc="Setup Phase"
+            ;;
+    esac
 
     if [[ "$AUTO_YES" == "true" ]]; then
-        printf "${BOLD}[INFO]${NC} Auto-executing: %s\n" "$step_description"
+        printf "${BOLD}${CYAN}[PHASE ${phase_number}/7]${NC} ${BOLD}${emoji} Initiating %s...${NC}\n" "${phase_desc}"
+        printf "${BOLD}[AUTO]${NC} Auto-executing: %s\n" "$step_description"
         REPLY="y"
     else
-        printf "\n${BOLD}[INFO]${NC} Proceed with %s? [y/N]: " "$step_description"
+        printf "\n${BOLD}${CYAN}[PHASE ${phase_number}/7]${NC} ${BOLD}${emoji} Prepare to enter %s${NC}\n" "${phase_desc}"
+        printf "${BOLD}${YELLOW}[CONFIRM]${NC} Ready to proceed with %s? [y/N]: " "$step_description"
         read -r REPLY
     fi
     
@@ -126,7 +172,7 @@ function confirm_and_run_step() {
         $step_function
         printf "${BOLD}${GREEN}[INFO]${NC} %s ${GREEN}SUCCESS${NC}\n" "$step_description"
     else
-        printf "${DIM}[INFO]${NC} %s ${YELLOW}SKIPPED${NC}\n" "$step_description"
+        printf "${DIM}${BLUE}[INFO]${NC} %s ${YELLOW}SKIPPED${NC}\n" "$step_description"
     fi
 }
 
@@ -181,9 +227,10 @@ function setup_prerequisites() {
     brew update
     
     log_phase_summary "0/7" "Prerequisites Setup" \
-        "Second Brain directory structure created at $SBRN_HOME" \
-        "HRT repository configured for development tools" \
-        "Homebrew package manager installed and updated"
+        "Second Brain root directory created at $SBRN_HOME" \
+        "Basic sys directory structure initialized" \
+        "HRT repository cloned or verified at $SBRN_HOME/sys/hrt" \
+        "Homebrew package manager checked and updated"
     
     log_success "Prerequisites setup completed"
 }
@@ -228,9 +275,14 @@ function setup_dir_struct_hierarchy() {
     mkdir -p "$SBRN_HOME/sys"/{bin,etc}
  
    log_phase_summary "1/7" "Directory Structure" \
-        "XDG-compliant directory structure created" \
-        "Development workspace organized under ~/sbrn" \
-        "Configuration directories prepared for tools"
+        "XDG-compliant directory structure fully initialized" \
+        "PARA method directories created (Projects, Areas, Resources, Archives)" \
+        "Development workspace organized under ~/sbrn with specialized subdirectories" \
+        "Cloud drive mount points prepared (iCloud, Google Drive, OneDrive, Dropbox)" \
+        "System directories organized (bin, etc, cache, config, local)" \
+        "User directories optimized (Desktop, Documents, Downloads)" \
+        "FSH-compliant configuration structure established" \
+        "All paths set with proper permissions and ownership"
    
    log_success "SBRN directory structure setup completed"
 }
@@ -239,40 +291,52 @@ function setup_dir_struct_hierarchy() {
 # Step 2: Setup Zsh Environment
 ################################################################################
 function setup_zsh_environment() {
-    log_phase "[PHASE 2/7] 🐚 Setting up Zsh environment with Oh My Zsh..."
+    log_phase "[PHASE 2/7] 🐚 Setting up Zsh environment with My Zsh..."
     
     # Set Zsh configuration directory (must be set before Oh My Zsh installation)
     export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
     
-    # Create XDG-compliant directories for Zsh files
+    # Goal 1: Create XDG-compliant directories for Zsh files
+    log_goal "[2.1/2.6] Creating XDG-compliant directories for Zsh files..."
     create_zsh_xdg_directories
     
-    # Install Oh My Zsh to custom directory
+    # Goal 2: Install Oh My Zsh
+    log_goal "[2.2/2.6] Installing Oh My Zsh to custom directory..."
     install_oh_my_zsh
     
-    # Install Powerlevel10k theme
+    # Goal 3: Install Powerlevel10k theme
+    log_goal "[2.3/2.6] Installing Powerlevel10k theme..."
     install_powerlevel10k_theme
     
-    # Install essential plugins
+    # Goal 4: Install essential plugins
+    log_goal "[2.4/2.6] Installing essential Zsh plugins that are not part of Oh My Zsh repo..."
     install_zsh_plugins
     
-    # Install Meslo Nerd Font
+    # Goal 5: Install Meslo Nerd Font
+    log_goal "[2.5/2.6] Installing Meslo Nerd Font..."
     install_meslo_font
     
-    # Setup Zsh configuration symlinks from HRT if available
+    # Goal 6: Setup Zsh configuration links from HRT
+    log_goal "[2.6/2.6] Setting up Zsh configuration links from HRT..."
     setup_zsh_configuration_links
     
     log_phase_summary "2/7" "Zsh Environment" \
-        "Oh My Zsh framework installed with Powerlevel10k theme" \
-        "Essential plugins configured (syntax highlighting, autosuggestions)" \
-        "Meslo Nerd Font installed for terminal icons" \
-        "HRT configuration linked for enhanced shell experience"
+        "Oh My Zsh framework installed with custom configuration" \
+        "Powerlevel10k theme configured with optimal settings" \
+        "Essential plugins installed and configured:" \
+        "  • Syntax highlighting for command validation" \
+        "  • Autosuggestions for command completion" \
+        "  • History substring search for quick recall" \
+        "  • Autoswitch virtualenv for Python development" \
+        "Meslo Nerd Font installed for rich terminal visuals" \
+        "Custom aliases and functions from HRT linked" \
+        "Shell configuration files properly organized" \
+        "XDG-compliant Zsh directory structure implemented"
     
     log_success "Zsh environment setup completed"
 }
 
 function create_zsh_xdg_directories() {
-    log_goal "[2.1/2.6] Creating XDG-compliant directories for Zsh files..."
     mkdir -p "$XDG_STATE_HOME/zsh/sessions"
     mkdir -p "$XDG_CACHE_HOME/zsh"
     log_success "Created Zsh XDG directories (state, cache, sessions)"
@@ -313,8 +377,6 @@ function install_powerlevel10k_theme() {
 }
 
 function install_zsh_plugins() {
-    log_goal "[2.4/2.6] Installing essential Zsh plugins that are not part of Oh My Zsh repo..."
-
     local custom_dir="${ZSH}/custom"
     
     # zsh-autosuggestions
@@ -353,8 +415,6 @@ function install_zsh_plugins() {
 }
 
 function install_meslo_font() {
-    log_goal "[2.5/2.6] Installing Meslo Nerd Font..."
-    
     local font_dir="$HOME/Library/Fonts"
     local temp_dir="/tmp/meslo-font"
     
@@ -373,8 +433,6 @@ function install_meslo_font() {
 }
 
 function setup_zsh_configuration_links() {
-    log_goal "[2.6/2.6] Setting up Zsh configuration links from HRT..."
-    
     # Symlink .zshenv
     ln -sfn "$SBRN_HOME/sys/hrt/conf/zsh/.zshenv" ~/.zshenv
     log_success "Linked .zshenv configuration"
@@ -400,10 +458,23 @@ function install_essential_cli_tools() {
     install_text_data_tools
     
     log_phase_summary "3/7" "Essential CLI Tools" \
-        "Modern shell tools (exa, bat, fd, ripgrep) for enhanced productivity" \
-        "Networking & security tools (curl, wget, nmap, ssh utilities)" \
-        "Text processing tools (jq, yq, csvkit) for data manipulation" \
-        "File management utilities with improved performance"
+        "Modern shell productivity tools installed:" \
+        "  • File operations (eza, bat, fd, ripgrep, tree)" \
+        "  • System monitoring (htop, glances, ctop, ncdu)" \
+        "  • Terminal multiplexers (tmux, screen)" \
+        "  • Navigation helpers (fzf, zoxide, broot)" \
+        "Networking & security suite configured:" \
+        "  • Data transfer (curl, wget, httpie)" \
+        "  • Security (gnupg, certbot, ssh tools)" \
+        "  • Network diagnostics (netcat, telnet)" \
+        "Text processing powertools enabled:" \
+        "  • JSON/YAML processing (jq, yq, fx, jid)" \
+        "  • Text manipulation (vim, neovim, ripgrep)" \
+        "  • Data formatting (colordiff, ccat)" \
+        "Shell enhancements activated:" \
+        "  • Command history (atuin)" \
+        "  • Directory management (ranger, as-tree)" \
+        "  • Environment control (direnv, autoenv)"
     
     log_success "Essential CLI tools installation completed"
 }
@@ -477,10 +548,24 @@ function install_development_tools() {
     fi
         
     log_phase_summary "4/7" "Development Tools" \
-        "Version control system (Git) with advanced workflow tools" \
-        "Container & cloud tools (Docker, kubectl, cloud CLIs)" \
-        "Graphics & UI libraries for application development" \
-        "API testing and development utilities"
+        "Version Control System tools configured:" \
+        "  • Git with advanced features (git-extras, git-lfs)" \
+        "  • GUI tools (git-gui, lazygit, tig)" \
+        "  • GitHub CLI and utilities (gh, ghq)" \
+        "Container & Cloud Development tools installed:" \
+        "  • Container tools (Docker, Colima, dive)" \
+        "  • Kubernetes suite (kubectl, helm, k9s, minikube)" \
+        "  • Cloud provider CLIs (awscli, terraform, pulumi)" \
+        "  • Service mesh tools (istioctl)" \
+        "Graphics & UI Development libraries:" \
+        "  • Core libraries (gtk+3, librsvg)" \
+        "  • Image processing (ghostscript, graphviz)" \
+        "  • UI development tools (guile, pygobject3)" \
+        "Development Support Tools:" \
+        "  • API tools (openapi-generator, postman)" \
+        "  • Database tools (postgresql, redis, etcd)" \
+        "  • Web servers (nginx)" \
+        "  • Documentation (hugo)"
     
     log_success "Development tools installation completed"
 }
@@ -558,10 +643,14 @@ function install_programming_languages() {
     install_build_automation_tools
     
     log_phase_summary "5/7" "Programming Languages & Runtimes" \
-        "Core languages installed (Python, Node.js, Go, Rust, Java)" \
-        "Runtime managers configured (pyenv, nvm, rbenv)" \
-        "Build automation tools (Maven, Gradle, Make)" \
-        "Package managers ready for project development"
+        "Core languages installed (Python 3.13, Node.js LTS, Go, Rust, Java 17, Java 21, Perl)" \
+        "Runtime managers configured (uv for Python, nvm for Node.js, jenv for Java)" \
+        "Modern package managers (uv, pipx for Python isolation, yarn for Node.js)" \
+        "Build automation tools (Maven, Gradle, Poetry)" \
+        "Environment managers set up (Python venvs, Node.js npm/yarn, Java SDKMAN)" \
+        "XDG-compliant configurations for all tools and runtimes" \
+        "ML development environment prepared with latest Python" \
+        "All tools configured with optimal default settings"
     
     log_success "Programming languages, runtime environment managers, and build tools installation completed"
 }
@@ -697,8 +786,8 @@ function configure_uv() {
     
     # Install a modern Python version if not available
     if command -v uv &>/dev/null; then
-        log_info "Installing Python 3.12 via uv for optimal AI/ML compatibility..."
-        uv python install 3.12 2>/dev/null || log_warning "Python 3.12 installation skipped (may already exist)"
+        log_info "Installing Python 3.13 via uv for optimal AI/ML compatibility..."
+        uv python install 3.13 2>/dev/null || log_warning "Python 3.13 installation skipped (may already exist)"
         log_success "uv Python management configured"
     fi
     
@@ -863,10 +952,28 @@ function install_ides_and_gui_productivity_tools() {
     create_app_cli_symlinks
     
     log_phase_summary "6/7" "IDEs & Productivity Tools" \
-        "Professional IDEs installed (VS Code, IntelliJ IDEA, PyCharm)" \
-        "Productivity applications configured (iTerm2, Obsidian, Finder)" \
-        "Development environment tools (Docker Desktop, Postman)" \
-        "Data science and visualization tools ready"
+        "Professional IDEs installed and configured:" \
+        "  • VS Code with essential extensions" \
+        "  • JetBrains suite (IntelliJ IDEA CE, PyCharm CE)" \
+        "  • Modern editors (Cursor, Windsurf, Zed)" \
+        "Development Environment Tools:" \
+        "  • Terminal emulator (iTerm2 with custom profiles)" \
+        "  • Database tools (DBeaver, pgAdmin4)" \
+        "  • API testing (Postman, Insomnia)" \
+        "Productivity Applications:" \
+        "  • Note-taking (Obsidian, Notion)" \
+        "  • Design tools (Figma)" \
+        "  • Team communication (Slack)" \
+        "  • Version control (GitHub Desktop)" \
+        "System Enhancement Tools:" \
+        "  • Window management (Rectangle)" \
+        "  • Keyboard customization (Karabiner-Elements)" \
+        "  • Automation (Hammerspoon, Alfred)" \
+        "  • Menu bar organization (Bartender)" \
+        "Data Science Environment:" \
+        "  • Jupyter Lab configured with custom kernels" \
+        "  • Scientific computing tools" \
+        "  • Visualization libraries"
     
     log_success "IDEs, editors, and GUI productivity tools installation completed"
 }
@@ -1199,10 +1306,31 @@ function setup_agentic_ai_development() {
     install_vector_databases
     
     log_phase_summary "7/7" "AI Development Environment" \
-        "Python AI/ML stack configured with uv package manager" \
-        "Jupyter Lab & VS Code extensions for data science" \
-        "Vector databases ready (ChromaDB, Qdrant, pgvector)" \
-        "AI development workflows and tools operational"
+        "AI/ML Core Tools & Frameworks:" \
+        "  • Package management (uv with Python 3.13)" \
+        "  • ML environment tools (mlflow, tensorboard)" \
+        "  • Data processing (duckdb, datasette)" \
+        "AI Agent Development Framework:" \
+        "  • LangChain environment configured" \
+        "  • Agent templates and examples ready" \
+        "  • Custom kernels for AI development" \
+        "Local LLM Capabilities:" \
+        "  • Ollama installed with essential models:" \
+        "    - llama3.2:3b for general tasks" \
+        "    - codellama:7b for code generation" \
+        "    - mistral:7b for chat" \
+        "    - phi3:mini for efficient inference" \
+        "  • llamafile for portable deployment" \
+        "Vector Databases & Search:" \
+        "  • ChromaDB with optimal settings" \
+        "  • Qdrant with Docker configuration" \
+        "  • Weaviate client tools" \
+        "  • PostgreSQL with pgvector extension" \
+        "Development Environment:" \
+        "  • Jupyter Lab with AI/ML extensions" \
+        "  • VS Code with AI-specific tooling" \
+        "  • HuggingFace CLI tools" \
+        "  • Wandb for experiment tracking"
     
     log_success "Agentic AI Development Environment setup completed"
 }
@@ -1283,8 +1411,8 @@ function install_ai_agent_frameworks() {
         mkdir -p "$project_path"
         cd "$project_path"
         
-        # Initialize uv project with Python 3.12
-        if ! uv init --python 3.12 .; then
+        # Initialize uv project with Python 3.13
+        if ! uv init --python 3.13 .; then
             log_error "Failed to create uv project."
             log_error "Please ensure uv is properly installed:"
             log_error "  uv init --python 3.12 \"$project_path\""
@@ -1699,7 +1827,7 @@ function show_usage() {
     echo "  -h, --help              Show this help message and exit"
     echo ""
     echo "Examples:"
-    echo "  $0                      # Interactive setup with all options"
+       echo "  $0                      # Interactive setup with all options"
     echo "  $0 --yes               # Automated setup with all options"
     echo "  $0 -c -y               # Automated setup, skip GUI apps"
     echo "  $0 --skip-iterm-setup  # Interactive setup, skip iTerm2 setup"
@@ -1733,17 +1861,8 @@ if [[ $SKIP_ITERM_SETUP == true ]]; then
     echo ""
 fi
 
-# Ask for confirmation
+# Start the main setup process
 if [[ "$AUTO_YES" == "true" ]]; then
     printf "${BOLD}[INFO]${NC} Auto-mode enabled: Starting full developer environment setup...\n"
-    REPLY="y"
-else
-    printf "${BOLD}[INFO]${NC} Proceed with developer environment setup? [y/N]: "
-    read -r REPLY
 fi
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    main
-else
-    printf "${DIM}[INFO]${NC} Build cancelled by user\n"
-    exit 0
-fi
+main

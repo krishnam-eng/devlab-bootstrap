@@ -922,6 +922,7 @@ function install_core_ides_editors() {
     ln -sfn $SBRN_HOME/sys/hrt/conf/vscode/settings.json $SBRN_HOME/sys/config/code/user/settings.json
     ln -sfn "${XDG_CONFIG_HOME:-$HOME/.config}/code/user" "$HOME/Library/Application Support/Code/User"
     
+    # Install VSCode extensions using Python utility
     setup_vscode_extensions
     setup_iterm_profiles
 }
@@ -1023,93 +1024,13 @@ function setup_vscode_extensions() {
         return 0
     fi
     
-    log_info "Installing VSCode extensions from HRT configuration..."
+    log_info "Installing VSCode extensions using Python utility..."
     
-    # Read extensions from HRT configuration file
-    local extensions_file="$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt"
-    
-    log_success "Reading extensions from: $extensions_file"
-    
-    # Read extensions from file, filtering out comments and empty lines
-    local extensions=()
-    while IFS= read -r line; do
-        # Skip empty lines and comments (lines starting with # or //)
-        if [[ -n "$line" && ! "$line" =~ ^[[:space:]]*# && ! "$line" =~ ^[[:space:]]*// ]]; then
-            # Remove leading/trailing whitespace
-            line=$(echo "$line" | xargs)
-            extensions+=("$line")
-        fi
-    done < "$extensions_file"
-    
-    log_info "Found ${#extensions[@]} extensions to install"
-    
-    # Install extensions with improved error handling and retry logic
-    local failed_extensions=()
-    local extension_count=0
-    
-    for extension in "${extensions[@]}"; do
-        extension_count=$((extension_count + 1))
-        
-        # Check if extension is already installed using a more robust approach
-        local installed_extensions
-        if ! installed_extensions=$(timeout 30 code --list-extensions 2>/dev/null); then
-            log_warning "Failed to get list of installed extensions - VSCode may be unresponsive"
-            # Try to recover by waiting a moment
-            sleep 2
-            if ! installed_extensions=$(timeout 30 code --list-extensions 2>/dev/null); then
-                log_error "VSCode appears to be unresponsive. Stopping extension installation."
-                break
-            fi
-        fi
-        
-        if echo "$installed_extensions" | grep -qi "^$extension$"; then
-            log_success "$extension already installed"
-        else
-            log_info "Installing extension ($extension_count/${#extensions[@]}): $extension"
-            
-            # Install with timeout and better error handling
-            local install_result=0
-            local install_output
-            
-            # Use timeout to prevent hanging and capture both stdout and stderr
-            if ! install_output=$(timeout 60 code --install-extension "$extension" 2>&1); then
-                install_result=$?
-                
-                # Check if it was a timeout (exit code 124)
-                if [[ $install_result -eq 124 ]]; then
-                    log_warning "Extension installation timed out: $extension"
-                    failed_extensions+=("$extension (timeout)")
-                else
-                    log_warning "Failed to install extension: $extension (exit code: $install_result)"
-                    failed_extensions+=("$extension (error)")
-                fi
-                
-                # Add delay after failed installation to let VSCode recover
-                sleep 3
-            else
-                log_success "$extension installed successfully"
-                # Small delay between successful installations to avoid overwhelming VSCode
-                sleep 1
-            fi
-            
-            # Every 10 extensions, give VSCode a moment to process
-            if [[ $((extension_count % 10)) -eq 0 ]]; then
-                log_info "Pausing briefly to let VSCode process extensions..."
-                sleep 5
-            fi
-        fi
-    done
-    
-    # Report results
-    if [[ ${#failed_extensions[@]} -eq 0 ]]; then
-        log_success "All VSCode extensions setup completed successfully"
-    else
-        log_warning "VSCode extensions setup completed with ${#failed_extensions[@]} failures:"
-        for failed_ext in "${failed_extensions[@]}"; do
-            log_warning "  - $failed_ext"
-        done
-        log_info "You can manually install failed extensions later using: code --install-extension <extension-id>"
-    fi
+    # Use Python utility for extension management
+    python3 "$SBRN_HOME/sys/hrt/scripts/util/vscode_helper.py" \
+        --install \
+        --extensions-file "$SBRN_HOME/sys/hrt/conf/vscode/extensions.txt" \
+        --backup-dir "$SBRN_HOME/sys/hrt/scripts"
 }
 
 function setup_iterm_profiles() {

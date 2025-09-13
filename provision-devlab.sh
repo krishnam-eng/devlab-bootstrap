@@ -13,10 +13,11 @@
 #   ./provision-devlab.sh --help          # Show usage options
 ################################################################################
 
-# Global variables
-SKIP_CASK_APPS=false
-SKIP_ITERM_SETUP=false
+# Global variables - Default to skip optional GUI features
+SKIP_CASK_APPS=true
+SKIP_ITERM_SETUP=true
 AUTO_YES=false
+SCRIPT_NAME="provision-devlab.sh"
 
 # Colors for output (Maven-style)
 RED='\033[0;31m'
@@ -82,14 +83,14 @@ function main() {
     # Opening sequence
     printf "\n${BLUE}[INIT]${NC} 🧪 Initializing Developer Laboratory Setup Protocol...${NC}\n"
     printf "${BLUE}[SCAN]${NC} 🔍 Analyzing system configuration and requirements...${NC}\n"
-    printf "${GREY}[INFO]${NC}\n"
     printf "${GREY}[INFO]${NC} ${GREEN}========================================================================${NC}\n"
     printf "${GREY}[INFO]${NC} 🚀 Developer Laboratory Environment Construction Sequence v1.0${NC}\n"
-    printf "${GREY}[INFO]${NC} 🧬 Crafting Your Ultimate Development DNA${NC}\n"
+    printf "${GREY}[INFO]${NC} 🧬 Crafting Your Ultimate Development DNA (CLI-Focused Setup)${NC}\n"
     printf "${GREY}[INFO]${NC} ${GREEN}========================================================================${NC}\n"
-    printf "${GREY}[INFO]${NC}\n"
-    printf "${BLUE}[STATUS]${NC} System ready for enhancement. Commencing setup sequence...${NC}\n"
-    printf "${BLUE}[CONFIG]${NC} Preparing to transform your macOS into a programming powerhouse${NC}\n"
+    printf "${BLUE}[STATUS]${NC} System ready for enhancement. Commencing CLI-focused setup sequence...${NC}\n"
+    if [[ $SKIP_CASK_APPS == true || $SKIP_ITERM_SETUP == true ]]; then
+        printf "${DIM}[NOTE]${NC} For GUI apps and iTerm themes, use: $SCRIPT_NAME -c -i${NC}\n"
+    fi
 
     # Prerequisites: Essential setup steps
     confirm_and_run_step "Setup Prerequisites (Second Brain & Homebrew)" setup_prerequisites "0"
@@ -104,7 +105,6 @@ function main() {
     confirm_and_run_step "Setup AI Development Environment" setup_agentic_ai_development "7"
     
     # Maven-style build success
-    printf "\n"
     log_build_success
     printf "${DIM}[INFO]${NC} Total time: $(( SECONDS / 60 ))m $(( SECONDS % 60 ))s\n"
     printf "${DIM}[INFO]${NC} Finished at: $(date)\n"
@@ -164,7 +164,7 @@ function confirm_and_run_step() {
         printf "[AUTO]${NC} Auto-executing: %s\n" "$step_description"
         REPLY="y"
     else
-        printf "\n${BOLD}${CYAN}[PHASE ${phase_number}/7]${NC} ${BOLD}${emoji} Prepare to enter %s${NC}\n" "${phase_desc}"
+        printf "${BOLD}${CYAN}[PHASE ${phase_number}/7]${NC} ${BOLD}${emoji} Prepare to enter %s${NC}\n" "${phase_desc}"
         printf "${YELLOW}[CONFIRM]${NC} Ready to proceed with %s? [y/N]: " "$step_description"
         read -r REPLY
     fi
@@ -629,7 +629,6 @@ function install_runtime_environment_managers() {
     configure_uv
     configure_nvm
     configure_pipx
-    create_ml_dev_environment
 }
 
 function configure_jenv() {
@@ -687,7 +686,8 @@ function configure_nvm() {
     log_success "NVM loaded from Homebrew installation"
     
     # Install latest LTS Node.js if no versions are installed
-    if ! nvm list | grep -q "v"; then
+    # Check if any Node.js versions exist by looking at the versions directory
+    if [[ ! -d "$NVM_DIR/versions/node" ]] || [[ -z "$(ls -A "$NVM_DIR/versions/node" 2>/dev/null)" ]]; then
         log_info "Installing latest LTS Node.js version..."
         nvm install --lts
         nvm use --lts
@@ -789,7 +789,7 @@ function configure_pipx() {
 }
 
 function create_ml_dev_environment() {
-    log_info "Creating ML development environment using uv..."
+    log_goal "[7.2/7.5] Creating ML development environment using uv..."
     
     if ! command -v uv &>/dev/null; then
         log_warning "uv not available - skipping ML environment creation"
@@ -879,17 +879,17 @@ function install_build_automation_tools() {
 function install_ides_and_gui_productivity_tools() {
     log_phase "[PHASE 6/7] 📝 Installing IDEs, editors, and GUI productivity tools..."
     
-    # Development Environment for Data Science and Notebooks
-    install_python_notebook_env_tools
-
     # Core IDEs and Editors
     install_core_ides_editors
     
-    # Productivity and Development Support Apps
-    install_productivity_apps
+    # Productivity, Communication, and Development Support Apps
+    install_productivity_and_communication_apps
     
-    # GUI Productivity and Automation Tools
-    install_gui_productivity_tools
+    # Automation, Window Management, and System Tools
+    install_automation_and_system_tools
+    
+    # Development Environment for Data Science and Notebooks
+    install_python_notebook_env_tools
     
     # Create symbolic links for command-line access
     create_app_cli_symlinks
@@ -923,33 +923,44 @@ function install_core_ides_editors() {
     setup_iterm_profiles
 }
 
-function install_productivity_apps() {
-    log_goal "[6.2/6.5] Installing productivity and development support applications..."
+function install_productivity_and_communication_apps() {
+    log_goal "[6.2/6.5] Installing productivity, communication, and development support applications..."
     
+    # Productivity and communication applications
     local productivity_apps=(
-        "notion" "obsidian" "figma" "slack" "github" "postman" 
-        "insomnia" "dbeaver-community" "pgadmin4" "rapidapi"
+        "notion" "obsidian" "figma" "slack" "github"
     )
     
+    # Development and API tools
+    local dev_support_apps=(
+        "postman" "insomnia" "dbeaver-community" "pgadmin4" "rapidapi"
+    )
+    
+    log_info "Installing productivity and communication apps..."
     brew_cask_install_batch "${productivity_apps[@]}"
+    
+    log_info "Installing development support applications..."
+    brew_cask_install_batch "${dev_support_apps[@]}"
 }
 
-function install_gui_productivity_tools() {
-    log_goal "[6.3/6.5] Installing GUI productivity and automation tools..."
+function install_automation_and_system_tools() {
+    log_goal "[6.3/6.5] Installing automation, window management, and system tools..."
     
-    # GUI productivity applications (casks)
-    local gui_productivity_casks=(
+    # GUI automation and window management applications (casks)
+    local automation_gui_apps=(
         "hammerspoon" "rectangle" "karabiner-elements" "alfred" "bartender"
     )
     
-    brew_cask_install_batch "${gui_productivity_casks[@]}"
+    log_info "Installing GUI automation and window management tools..."
+    brew_cask_install_batch "${automation_gui_apps[@]}"
     
-    # Install command-line system management tools (regular brew packages)
-    local cli_system_tools=(
+    # Command-line system management and notification tools (regular brew packages)
+    local system_cli_tools=(
         "terminal-notifier" "mas" "duti" "trash"
     )
     
-    brew_install_batch "${cli_system_tools[@]}"
+    log_info "Installing system management CLI tools..."
+    brew_install_batch "${system_cli_tools[@]}"
     
     # Handle brew-services (it's already available with Homebrew)
     if python3 "$BREW_UTIL_SCRIPT" --check-homebrew &>/dev/null; then
@@ -1199,6 +1210,9 @@ function setup_agentic_ai_development() {
     # AI/ML Core Tools & Frameworks
     install_ai_development_tools
     
+    # ML Development Environment Setup
+    create_ml_dev_environment
+    
     # AI Agent Development Frameworks
     install_ai_agent_frameworks
     
@@ -1213,6 +1227,11 @@ function setup_agentic_ai_development() {
         "  • Package management (uv with Python 3.13)" \
         "  • ML environment tools (mlflow, tensorboard)" \
         "  • Data processing (duckdb, datasette)" \
+        "ML Development Environment:" \
+        "  • Dedicated ml-dev project with uv" \
+        "  • Essential ML packages pre-installed" \
+        "  • Jupyter kernel 'Python (ML-Dev-UV)' available" \
+        "  • XDG-compliant project location" \
         "AI Agent Development Framework:" \
         "  • LangChain environment configured" \
         "  • Agent templates and examples ready" \
@@ -1240,7 +1259,7 @@ function setup_agentic_ai_development() {
 
 
 function install_ai_development_tools() {
-    log_goal "[7.1/7.4] Installing AI/ML Core Tools & Frameworks..."
+    log_goal "[7.1/7.5] Installing AI/ML Core Tools & Frameworks..."
     
     mkdir -p "$XDG_CONFIG_HOME/ai-tools" "$XDG_DATA_HOME/ai-tools" "$XDG_CACHE_HOME/ai-tools" "$XDG_STATE_HOME/ai-tools"
     
@@ -1293,7 +1312,7 @@ function install_special_ai_tools() {
 
 
 function install_ai_agent_frameworks() {
-    log_goal "[7.2/7.4] Installing 🤖 AI Agent Development Frameworks via uv environments..."
+    log_goal "[7.3/7.5] Installing 🤖 AI Agent Development Frameworks via uv environments..."
     
     if ! command -v uv &>/dev/null; then
         log_warning "uv not available - skipping AI agent frameworks installation"
@@ -1389,7 +1408,7 @@ function install_ai_agent_frameworks() {
 }
 
 function setup_local_llm() {
-    log_goal "[7.3/7.4] Setting up 🧠 Local LLM Capabilities with XDG compliance..."
+    log_goal "[7.4/7.5] Setting up 🧠 Local LLM Capabilities with XDG compliance..."
     
     # Set XDG-compliant paths for Ollama
     export OLLAMA_MODELS="$XDG_DATA_HOME/ollama/models"
@@ -1480,7 +1499,7 @@ EOF
 
 
 function install_vector_databases() {
-    log_goal "[7.4/7.4] Installing 🔍 Vector Databases & Search Engines with XDG compliance..."
+    log_goal "[7.5/7.5] Installing 🔍 Vector Databases & Search Engines with XDG compliance..."
     
     # Create XDG-compliant directories for vector databases
     mkdir -p "$XDG_DATA_HOME/vector-databases"
@@ -1712,14 +1731,12 @@ function generate_phase_summary() {
 function parse_arguments() {
     while [[ $# -gt 0 ]]; do
         case $1 in
-            -c|--skip-cask-apps)
-                SKIP_CASK_APPS=true
-                log_info "SKIP-CASK-APPS mode enabled: GUI applications will be skipped"
+            -c|--enable-cask-apps)
+                SKIP_CASK_APPS=false
                 shift
                 ;;
-            -i|--skip-iterm-setup)
-                SKIP_ITERM_SETUP=true
-                log_info "SKIP-ITERM-SETUP mode enabled: iTerm2 profiles setup will be skipped"
+            -i|--enable-iterm-setup)
+                SKIP_ITERM_SETUP=false
                 shift
                 ;;
             -y|--yes)
@@ -1741,21 +1758,25 @@ function parse_arguments() {
 }
 
 function show_usage() {
-    echo "Usage: $0 [OPTIONS]"
+    echo "Usage: $SCRIPT_NAME [OPTIONS]"
     echo ""
     echo "Portable Replicatable Scalable Developer Laboratory Setup for macOS"
     echo ""
+    echo "By default, GUI applications and iTerm setup are SKIPPED for faster CLI-focused setup."
+    echo "Use the flags below to enable these optional features:"
+    echo ""
     echo "Options:"
-    echo "  -c, --skip-cask-apps     Skip GUI application installations (brew cask apps)"
-    echo "  -i, --skip-iterm-setup   Skip iTerm2 profiles and color schemes setup"
+    echo "  -c, --enable-cask-apps   Enable GUI application installations (VSCode, IDEs, etc.)"
+    echo "  -i, --enable-iterm-setup Enable iTerm2 profiles and color schemes setup"
     echo "  -y, --yes               Auto-accept all confirmations (non-interactive mode)"
     echo "  -h, --help              Show this help message and exit"
     echo ""
     echo "Examples:"
-       echo "  $0                      # Interactive setup with all options"
-    echo "  $0 --yes               # Automated setup with all options"
-    echo "  $0 -c -y               # Automated setup, skip GUI apps"
-    echo "  $0 --skip-iterm-setup  # Interactive setup, skip iTerm2 setup"
+    echo "  $SCRIPT_NAME                      # CLI-focused setup (skips GUI apps and iTerm setup)"
+    echo "  $SCRIPT_NAME --yes               # Automated CLI-focused setup"
+    echo "  $SCRIPT_NAME -c -i               # Full setup with GUI apps and iTerm profiles"
+    echo "  $SCRIPT_NAME -c -i -y            # Automated full setup with all features"
+    echo "  $SCRIPT_NAME -c                  # Setup with GUI apps, but skip iTerm setup"
 }
 
 
@@ -1775,19 +1796,24 @@ if [[ $(uname) != "Darwin" ]]; then
     exit 1
 fi
 
-# Show configuration warnings
+# Show configuration info and available options
 if [[ $SKIP_CASK_APPS == true ]]; then
-    printf "${BOLD}${YELLOW}[WARNING]${NC} SKIP-CASK-APPS MODE: GUI applications will be skipped - manual install recommended\n"
-    echo ""
+    printf "${BOLD}${BLUE}[INFO]${NC} CLI-focused setup: GUI applications will be skipped\n"
+    printf "${DIM}[HINT]${NC} To include GUI apps (IDEs, productivity tools), use: $SCRIPT_NAME -c\n"
 fi
 
 if [[ $SKIP_ITERM_SETUP == true ]]; then
-    printf "${BOLD}${YELLOW}[WARNING]${NC} SKIP-ITERM-SETUP MODE: iTerm2 profiles and colors setup will be skipped\n"
-    echo ""
+    printf "${BOLD}${BLUE}[INFO]${NC} Basic terminal setup: iTerm2 profiles and colors will be skipped\n"
+    printf "${DIM}[HINT]${NC} To include iTerm2 customization, use: $SCRIPT_NAME -i\n"
+fi
+
+if [[ $SKIP_CASK_APPS == true && $SKIP_ITERM_SETUP == true ]]; then
+    printf "${DIM}[HINT]${NC} For full setup with all features, use: $SCRIPT_NAME -c -i\n"
 fi
 
 # Start the main setup process
 if [[ "$AUTO_YES" == "true" ]]; then
     printf "${BOLD}[INFO]${NC} Auto-mode enabled: Starting full developer environment setup...\n"
 fi
+
 main

@@ -11,6 +11,7 @@ Author: Balamurugan Krishnamoorthy
 
 import subprocess
 import sys
+import os
 from typing import List, Set, Tuple
 
 
@@ -139,9 +140,85 @@ class BrewUtil:
         self._load_installed_formulas()
         return package in self._installed_formulas
     
+    def _get_cask_app_path(self, cask: str) -> str:
+        """
+        Get the expected application path for a cask
+        
+        Args:
+            cask: Cask name
+            
+        Returns:
+            Expected app path in ~/Applications or /Applications
+        """
+        # Try to get cask info to find the actual app name
+        try:
+            result = self._run_command(['brew', 'info', '--cask', cask])
+            if result.returncode == 0:
+                # Parse the output to find .app files
+                lines = result.stdout.split('\n')
+                for line in lines:
+                    if '.app' in line and ('→' in line or 'installed' in line):
+                        # Extract app name from the line
+                        parts = line.split()
+                        for part in parts:
+                            if part.endswith('.app'):
+                                app_name = part
+                                break
+                        else:
+                            continue
+                        
+                        # Check both ~/Applications and /Applications
+                        user_apps_path = os.path.expanduser(f"~/Applications/{app_name}")
+                        system_apps_path = f"/Applications/{app_name}"
+                        
+                        if os.path.exists(user_apps_path):
+                            return user_apps_path
+                        elif os.path.exists(system_apps_path):
+                            return system_apps_path
+        except Exception:
+            pass
+        
+        # Fallback: use cask name with common patterns
+        possible_names = [
+            f"{cask}.app",
+            f"{cask.capitalize()}.app",
+            f"{cask.title()}.app",
+            f"{cask.upper()}.app",
+            f"{'-'.join(word.capitalize() for word in cask.split('-'))}.app",
+            f"{cask.replace('-', ' ').title().replace(' ', '')}.app"
+        ]
+        
+        for app_name in possible_names:
+            user_path = os.path.expanduser(f"~/Applications/{app_name}")
+            system_path = f"/Applications/{app_name}"
+            
+            if os.path.exists(user_path):
+                return user_path
+            elif os.path.exists(system_path):
+                return system_path
+        
+        return ""
+    
+    def _is_app_installed_in_filesystem(self, cask: str) -> bool:
+        """
+        Check if the application is already installed in the filesystem
+        
+        Args:
+            cask: Cask name to check
+            
+        Returns:
+            True if app exists in filesystem, False otherwise
+        """
+        app_path = self._get_cask_app_path(cask)
+        return bool(app_path and os.path.exists(app_path))
+    
     def is_cask_installed(self, cask: str) -> bool:
         """
         Check if a Homebrew cask is installed
+        
+        This method checks both:
+        1. If the cask is managed by Homebrew (appears in `brew list --cask`)
+        2. If the application exists in the filesystem (covers manual installations)
         
         Args:
             cask: Cask name to check
@@ -150,7 +227,18 @@ class BrewUtil:
             True if installed, False otherwise
         """
         self._load_installed_casks()
-        return cask in self._installed_casks
+        
+        # First check if it's in brew's cask list
+        if cask in self._installed_casks:
+            return True
+        
+        # Also check if the app exists in the filesystem
+        # This catches cases where apps were installed manually or through other means
+        if self._is_app_installed_in_filesystem(cask):
+            Logger.info(f"{cask} found installed in filesystem (not managed by brew)")
+            return True
+        
+        return False
     
     def install_formula(self, package: str) -> bool:
         """
@@ -291,7 +379,7 @@ class BrewUtil:
         
         if self.skip_cask_apps:
             Logger.info(f"Skipping {len(casks)} cask applications (SKIP_CASK_APPS=true)")
-            return [], casks
+            return [], []  # Return empty lists instead of treating skips as failures
         
         self._load_installed_casks()
         
@@ -300,12 +388,12 @@ class BrewUtil:
         # Separate installed from missing casks
         missing_casks = []
         for cask in casks:
-            if cask in self._installed_casks:
+            if self.is_cask_installed(cask):  # This now checks both brew list and filesystem
                 Logger.success(f"{cask} already installed")
             else:
                 missing_casks.append(cask)
         
-        successful_casks = [c for c in casks if c in self._installed_casks]
+        successful_casks = [c for c in casks if self.is_cask_installed(c)]
         failed_casks = []
         
         # Install missing casks in batch if any
@@ -420,9 +508,15 @@ def main():
     
     if args.install_casks:
         successful, failed = brew_util.install_casks_batch(args.install_casks)
-        if failed:
+        if failed and not args.skip_cask_apps:
+            # Only treat as error if we're not intentionally skipping casks
             Logger.error(f"Failed to install casks: {' '.join(failed)}")
             sys.exit(1)
+        elif failed and args.skip_cask_apps:
+            # This shouldn't happen with the updated logic, but just in case
+            Logger.warning(f"Casks skipped due to SKIP_CASK_APPS: {' '.join(failed)}")
+        elif args.skip_cask_apps:
+            Logger.info("All cask installations skipped due to SKIP_CASK_APPS=true")
 
 
 if __name__ == '__main__':

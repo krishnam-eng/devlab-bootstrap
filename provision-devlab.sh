@@ -19,6 +19,9 @@ SKIP_ITERM_SETUP=true
 AUTO_YES=false
 SCRIPT_NAME="provision-devlab.sh"
 
+# Path to the Python brew helper utility module
+BREW_UTIL_SCRIPT="$(dirname "${BASH_SOURCE[0]}")/scripts/util/brew_helper.py"
+
 # Colors for output (Maven-style)
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -1040,17 +1043,73 @@ function setup_vscode_extensions() {
     
     log_info "Found ${#extensions[@]} extensions to install"
     
-    # Install each extension
+    # Install extensions with improved error handling and retry logic
+    local failed_extensions=()
+    local extension_count=0
+    
     for extension in "${extensions[@]}"; do
-        if code --list-extensions | grep -qi "^$extension$"; then
+        extension_count=$((extension_count + 1))
+        
+        # Check if extension is already installed using a more robust approach
+        local installed_extensions
+        if ! installed_extensions=$(timeout 30 code --list-extensions 2>/dev/null); then
+            log_warning "Failed to get list of installed extensions - VSCode may be unresponsive"
+            # Try to recover by waiting a moment
+            sleep 2
+            if ! installed_extensions=$(timeout 30 code --list-extensions 2>/dev/null); then
+                log_error "VSCode appears to be unresponsive. Stopping extension installation."
+                break
+            fi
+        fi
+        
+        if echo "$installed_extensions" | grep -qi "^$extension$"; then
             log_success "$extension already installed"
         else
-            log_info "Installing extension: $extension"
-            code --install-extension "$extension" >/dev/null 2>&1 && log_success "$extension installed" || log_warning "Failed to install $extension"
+            log_info "Installing extension ($extension_count/${#extensions[@]}): $extension"
+            
+            # Install with timeout and better error handling
+            local install_result=0
+            local install_output
+            
+            # Use timeout to prevent hanging and capture both stdout and stderr
+            if ! install_output=$(timeout 60 code --install-extension "$extension" 2>&1); then
+                install_result=$?
+                
+                # Check if it was a timeout (exit code 124)
+                if [[ $install_result -eq 124 ]]; then
+                    log_warning "Extension installation timed out: $extension"
+                    failed_extensions+=("$extension (timeout)")
+                else
+                    log_warning "Failed to install extension: $extension (exit code: $install_result)"
+                    failed_extensions+=("$extension (error)")
+                fi
+                
+                # Add delay after failed installation to let VSCode recover
+                sleep 3
+            else
+                log_success "$extension installed successfully"
+                # Small delay between successful installations to avoid overwhelming VSCode
+                sleep 1
+            fi
+            
+            # Every 10 extensions, give VSCode a moment to process
+            if [[ $((extension_count % 10)) -eq 0 ]]; then
+                log_info "Pausing briefly to let VSCode process extensions..."
+                sleep 5
+            fi
         fi
     done
     
-    log_success "VSCode extensions setup completed"
+    # Report results
+    if [[ ${#failed_extensions[@]} -eq 0 ]]; then
+        log_success "All VSCode extensions setup completed successfully"
+    else
+        log_warning "VSCode extensions setup completed with ${#failed_extensions[@]} failures:"
+        for failed_ext in "${failed_extensions[@]}"; do
+            log_warning "  - $failed_ext"
+        done
+        log_info "You can manually install failed extensions later using: code --install-extension <extension-id>"
+    fi
 }
 
 function setup_iterm_profiles() {
@@ -1641,9 +1700,6 @@ EOF
 ################################################################################
 # Utility Functions
 ################################################################################
-
-# Path to the Python brew utility module
-BREW_UTIL_SCRIPT="$(dirname "${BASH_SOURCE[0]}")/scripts/brew_util.py"
 
 # Helper function to install Homebrew packages using Python module
 function brew_install() {

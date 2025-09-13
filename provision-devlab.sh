@@ -1144,61 +1144,62 @@ function create_app_cli_symlinks() {
     
     log_goal "[6.5/6.5] Creating symbolic links for Application command-line access..."
 
-        local bin_dir="$SBRN_HOME/sys/bin"
+    local bin_dir="$SBRN_HOME/sys/bin"
+    mkdir -p "$bin_dir"
 
+    # App symlink definitions: app_name|cli_name|executable_path
+    local app_definitions=(
+        "Visual Studio Code.app|code|Contents/Resources/app/bin/code"
+        "IntelliJ IDEA.app|idea-ultimate|Contents/MacOS/idea"
+        "IntelliJ IDEA CE.app|idea|Contents/MacOS/idea"
+        "PyCharm.app|pycharm|Contents/MacOS/pycharm"
+        "Cursor.app|cursor|Contents/MacOS/Cursor"
+        "DBeaver.app|dbeaver|Contents/MacOS/dbeaver"
+        "DevToys.app|devtoys|Contents/MacOS/DevToys"
+        "LM Studio.app|lmstudio|Contents/MacOS/LM Studio"
+        "Figma.app|figma|Contents/MacOS/Figma"
+        "Framer.app|framer|Contents/MacOS/Framer"
+        "Obsidian.app|obsidian|Contents/MacOS/Obsidian"
+        "Notion.app|notion|Contents/MacOS/Notion"
+        "GitHub Desktop.app|github|Contents/MacOS/GitHub Desktop"
+        "Insomnia.app|insomnia|Contents/MacOS/Insomnia"
+        "Postman.app|postman|Contents/MacOS/Postman"
+        "Rancher Desktop.app|rancher|Contents/MacOS/Rancher Desktop"
+        "RapidAPI.app|rapidapi|Contents/MacOS/RapidAPI"
+        "Slack.app|slack|Contents/MacOS/Slack"
+        "VirtualBox.app|vbox|Contents/MacOS/VirtualBoxVM"
+        "pgAdmin 4.app|pgadmin|Contents/MacOS/pgAdmin 4"
+        "zoom.us.app|zoom|Contents/MacOS/zoom.us"
+    )
 
-        # App symlink definitions: (relative app dir, cli_name, actual_executable)
-        typeset -A app_symlinks
-        app_symlinks=(
-            "Visual Studio Code.app" "code:Contents/Resources/app/bin/code"
-            "IntelliJ IDEA.app" "idea-ultimate:Contents/MacOS/idea"
-            "IntelliJ IDEA CE.app" "idea:Contents/MacOS/idea"
-            "PyCharm.app" "pycharm:Contents/MacOS/pycharm"
-            "Cursor.app" "cursor:Contents/MacOS/Cursor"
-            "DBeaver.app" "dbeaver:Contents/MacOS/dbeaver"
-            "DevToys.app" "devtoys:Contents/MacOS/DevToys"
-            "LM Studio.app" "lmstudio:Contents/MacOS/LM Studio"
-            "Figma.app" "figma:Contents/MacOS/Figma"
-            "Framer.app" "framer:Contents/MacOS/Framer"
-            "Obsidian.app" "obsidian:Contents/MacOS/Obsidian"
-            "Notion.app" "notion:Contents/MacOS/Notion"
-            "GitHub Desktop.app" "github:Contents/MacOS/GitHub Desktop"
-            "Insomnia.app" "insomnia:Contents/MacOS/Insomnia"
-            "Postman.app" "postman:Contents/MacOS/Postman"
-            "Rancher Desktop.app" "rancher:Contents/MacOS/Rancher Desktop"
-            "RapidAPI.app" "rapidapi:Contents/MacOS/RapidAPI"
-            "Slack.app" "slack:Contents/MacOS/Slack"
-            "VirtualBox.app" "vbox:Contents/MacOS/VirtualBoxVM"
-            "pgAdmin 4.app" "pgadmin:Contents/MacOS/pgAdmin 4"
-            "zoom.us.app" "zoom:Contents/MacOS/zoom.us"
-        )
-
-        # Check both /Applications and $HOME/Applications
-        for app_dir in "${!app_symlinks[@]}"; do
-            local cli_def="${app_symlinks[$app_dir]}"
-            local cli_name="${cli_def%%:*}"
-            local exec_rel_path="${cli_def#*:}"
-            local found_app_path=""
-            for base_dir in "/Applications" "$HOME/Applications"; do
-                local app_path="$base_dir/$app_dir"
-                local exec_path="$app_path/$exec_rel_path"
-                if [[ -d "$app_path" ]] && [[ -f "$exec_path" ]]; then
-                    found_app_path="$exec_path"
-                    break
-                fi
-            done
-            if [[ -n "$found_app_path" ]] && [[ ! -L "$bin_dir/$cli_name" ]]; then
-                ln -sf "$found_app_path" "$bin_dir/$cli_name"
-                log_success "Created symlink for $cli_name ($found_app_path)"
+    # Check both /Applications and $HOME/Applications
+    for app_def in "${app_definitions[@]}"; do
+        local app_name="${app_def%%|*}"
+        local remaining="${app_def#*|}"
+        local cli_name="${remaining%%|*}"
+        local exec_rel_path="${remaining#*|}"
+        local found_app_path=""
+        
+        for base_dir in "/Applications" "$HOME/Applications"; do
+            local app_path="$base_dir/$app_name"
+            local exec_path="$app_path/$exec_rel_path"
+            if [[ -d "$app_path" ]] && [[ -f "$exec_path" ]]; then
+                found_app_path="$exec_path"
+                break
             fi
         done
-
-        # Add bin directory to PATH if not already there
-        if [[ ":$PATH:" != *":$bin_dir:"* ]]; then
-            echo "export PATH=\"$bin_dir:\$PATH\"" >> ~/.zshrc
-            export PATH="$bin_dir:$PATH"
-            log_success "Added $bin_dir to PATH"
+        
+        if [[ -n "$found_app_path" ]] && [[ ! -L "$bin_dir/$cli_name" ]]; then
+            ln -sf "$found_app_path" "$bin_dir/$cli_name"
+            log_success "Created symlink for $cli_name -> $found_app_path"
         fi
+    done
+
+    # Add bin directory to PATH if not already there
+    if [[ ":$PATH:" != *":$bin_dir:"* ]]; then
+        export PATH="$bin_dir:$PATH"
+        log_success "Added $bin_dir to PATH"
+    fi
 }
 
 ################################################################################

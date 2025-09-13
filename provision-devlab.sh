@@ -27,13 +27,14 @@ CYAN='\033[0;36m'
 MAGENTA='\033[0;35m'
 BOLD='\033[1m'
 DIM='\033[2m'
+GREY='\033[37m'    # Light grey color
 NC='\033[0m' # No Color
 
 # Maven-style logging functions
-log_info() { printf "${DIM}[INFO]${NC} %s\n" "$1"; }
-log_success() { printf "${BOLD}${GREEN}[SUCCESS]${NC} %s\n" "$1"; }
-log_warning() { printf "${BOLD}${YELLOW}[WARNING]${NC} %s\n" "$1"; }
-log_error() { printf "${BOLD}${RED}[ERROR]${NC} %s\n" "$1"; }
+log_info() { printf "${GREY}[INFO]${NC} %s\n" "$1"; }
+log_success() { printf "${GREEN}[SUCCESS]${NC} %s\n" "$1"; }
+log_warning() { printf "${YELLOW}[WARNING]${NC} %s\n" "$1"; }
+log_error() { printf "${RED}[ERROR]${NC} %s\n" "$1"; }
 log_phase() { 
     # Check if message already contains [PHASE X/Y] pattern
     if [[ "$1" =~ ^\[PHASE\ [0-9]+/[0-9]+\] ]]; then
@@ -41,11 +42,11 @@ log_phase() {
         local phase_part=$(echo "$1" | sed 's/\[PHASE \([0-9]*\/[0-9]*\)\] \(.*\)/\1/')
         local description=$(echo "$1" | sed 's/\[PHASE \([0-9]*\/[0-9]*\)\] \(.*\)/\2/')
         
-        printf "${BOLD}${DIM}[INFO] ${GREEN}------------------------------< ${CYAN}$phase_part${GREEN} >-----------------------------------${NC}\n"
-        printf "${BOLD}${CYAN}[PHASE]${NC}  ${description}\n"
-        printf "${BOLD}${DIM}[INFO] ${GREEN}------------------------------------------------------------------------${NC}\n"
+        printf "${GREY}[INFO] ${GREEN}------------------------------< ${CYAN}$phase_part${GREEN} >-----------------------------------${NC}\n"
+        printf "${CYAN}[PHASE]${NC}  ${description}\n"
+        printf "${GREY}[INFO] ${GREEN}------------------------------------------------------------------------${NC}\n"
     else
-        printf "${BOLD}${DIM}[INFO] ${BOLD}${CYAN}[PHASE]${NC} %s\n" "$1"
+        printf "${GREY}[INFO] ${BOLD}${CYAN}[PHASE]${NC} %s\n" "$1"
     fi
 }
 log_phase_summary() {
@@ -67,9 +68,9 @@ log_goal() {
         # Extract goal number and description
         local goal_part=$(echo "$1" | sed 's/\[\([0-9]*\.[0-9]*\/[0-9]*\.[0-9]*\)\] \(.*\)/\1/')
         local description=$(echo "$1" | sed 's/\[\([0-9]*\.[0-9]*\/[0-9]*\.[0-9]*\)\] \(.*\)/\2/')
-        printf "${BOLD}${BLUE}[GOAL] ${GREEN}--- ${description} ${BLUE}(${goal_part})${GREEN} ---${NC}\n"
+        printf "${BLUE}[GOAL] ${GREEN}--- ${description} ${BLUE}(${goal_part})${GREEN} ---${NC}\n"
     else
-        printf "${BOLD}${BLUE}[GOAL]${NC} %s\n" "$1"
+        printf "${BLUE}[GOAL]${NC} %s\n" "$1"
     fi
 }
 log_build_success() { printf "\n${BOLD}${GREEN}------------------------------------------------------------------------\n"; printf "BUILD SUCCESS\n"; printf "------------------------------------------------------------------------${NC}\n"; }
@@ -79,16 +80,16 @@ log_build_failure() { printf "\n${BOLD}${RED}-----------------------------------
 # Main execution flow
 function main() {
     # Opening sequence
-    printf "\n${BOLD}${DIM}[INIT]${NC} 🧪 Initializing Developer Laboratory Setup Protocol...${NC}\n"
-    printf "${BOLD}${DIM}[SCAN]${NC} 🔍 Analyzing system configuration and requirements...${NC}\n"
-    printf "${DIM}[INFO]${NC}\n"
-    printf "${DIM}[INFO]${NC} ${GREEN}========================================================================${NC}\n"
-    printf "${DIM}[INFO]${NC} 🚀 Developer Laboratory Environment Construction Sequence v1.0${NC}\n"
-    printf "${DIM}[INFO]${NC} 🧬 Crafting Your Ultimate Development DNA${NC}\n"
-    printf "${DIM}[INFO]${NC} ${GREEN}========================================================================${NC}\n"
-    printf "${DIM}[INFO]${NC}\n"
-    printf "${BOLD}${DIM}[STATUS]${NC} System ready for enhancement. Commencing setup sequence...${NC}\n"
-    printf "${BOLD}${DIM}[CONFIG]${NC} Preparing to transform your macOS into a programming powerhouse${NC}\n"
+    printf "\n${BLUE}[INIT]${NC} 🧪 Initializing Developer Laboratory Setup Protocol...${NC}\n"
+    printf "${BLUE}[SCAN]${NC} 🔍 Analyzing system configuration and requirements...${NC}\n"
+    printf "${GREY}[INFO]${NC}\n"
+    printf "${GREY}[INFO]${NC} ${GREEN}========================================================================${NC}\n"
+    printf "${GREY}[INFO]${NC} 🚀 Developer Laboratory Environment Construction Sequence v1.0${NC}\n"
+    printf "${GREY}[INFO]${NC} 🧬 Crafting Your Ultimate Development DNA${NC}\n"
+    printf "${GREY}[INFO]${NC} ${GREEN}========================================================================${NC}\n"
+    printf "${GREY}[INFO]${NC}\n"
+    printf "${BLUE}[STATUS]${NC} System ready for enhancement. Commencing setup sequence...${NC}\n"
+    printf "${BLUE}[CONFIG]${NC} Preparing to transform your macOS into a programming powerhouse${NC}\n"
 
     # Prerequisites: Essential setup steps
     confirm_and_run_step "Setup Prerequisites (Second Brain & Homebrew)" setup_prerequisites "0"
@@ -146,7 +147,7 @@ function confirm_and_run_step() {
             ;;
         install_ides_and_gui_productivity_tools)
             emoji="📝"
-            phase_desc="IDEs & Tools Phase"
+            phase_desc="IDEs & GUI Tools Phase"
             ;;
         setup_agentic_ai_development)
             emoji="🤖"
@@ -160,19 +161,19 @@ function confirm_and_run_step() {
 
     if [[ "$AUTO_YES" == "true" ]]; then
         printf "${BOLD}${CYAN}[PHASE ${phase_number}/7]${NC} ${BOLD}${emoji} Initiating %s...${NC}\n" "${phase_desc}"
-        printf "${BOLD}[AUTO]${NC} Auto-executing: %s\n" "$step_description"
+        printf "[AUTO]${NC} Auto-executing: %s\n" "$step_description"
         REPLY="y"
     else
         printf "\n${BOLD}${CYAN}[PHASE ${phase_number}/7]${NC} ${BOLD}${emoji} Prepare to enter %s${NC}\n" "${phase_desc}"
-        printf "${BOLD}${YELLOW}[CONFIRM]${NC} Ready to proceed with %s? [y/N]: " "$step_description"
+        printf "${YELLOW}[CONFIRM]${NC} Ready to proceed with %s? [y/N]: " "$step_description"
         read -r REPLY
     fi
     
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         $step_function
-        printf "${BOLD}${GREEN}[INFO]${NC} %s ${GREEN}SUCCESS${NC}\n" "$step_description"
+        printf "${GREEN}[INFO]${NC} %s ${GREEN}SUCCESS${NC}\n" "$step_description"
     else
-        printf "${DIM}${BLUE}[INFO]${NC} %s ${YELLOW}SKIPPED${NC}\n" "$step_description"
+        printf "${BLUE}[INFO]${NC} %s ${YELLOW}SKIPPED${NC}\n" "$step_description"
     fi
 }
 
@@ -187,14 +188,7 @@ function setup_prerequisites() {
     
     # Prompt user for second brain directory name
     local sbrn_name="sbrn"
-    if [[ "$AUTO_YES" != "true" ]]; then
-        echo "Enter your Second Brain directory name [default: sbrn]: "
-        read -r user_input
-        if [[ -n "$user_input" ]]; then
-            sbrn_name="$user_input"
-        fi
-    fi
-    
+
     # Set SBRN_HOME based on user input
     export SBRN_HOME="$HOME/$sbrn_name"
     log_info "Second Brain directory set to: $SBRN_HOME"
@@ -217,20 +211,16 @@ function setup_prerequisites() {
     # Goal 2: Install Homebrew Package Manager
     log_goal "[0.2/0.2] Installing Homebrew package manager..."
     
-    if ! command -v brew &>/dev/null; then
+    if ! python3 "$BREW_UTIL_SCRIPT" --check-homebrew &>/dev/null; then
         log_info "Installing Homebrew..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         log_info "Homebrew PATH configuration is managed by HRT .zprofile"
     else
         log_success "Homebrew already installed"
     fi
-    brew update
+    python3 "$BREW_UTIL_SCRIPT" --update
     
-    log_phase_summary "0/7" "Prerequisites Setup" \
-        "Second Brain root directory created at $SBRN_HOME" \
-        "Basic sys directory structure initialized" \
-        "HRT repository cloned or verified at $SBRN_HOME/sys/hrt" \
-        "Homebrew package manager checked and updated"
+    generate_phase_summary "0" "Prerequisites Setup"
     
     log_success "Prerequisites setup completed"
 }
@@ -274,15 +264,7 @@ function setup_dir_struct_hierarchy() {
     # Create FSH config structure under SBRN_HOME/sys
     mkdir -p "$SBRN_HOME/sys"/{bin,etc}
  
-   log_phase_summary "1/7" "Directory Structure" \
-        "XDG-compliant directory structure fully initialized" \
-        "PARA method directories created (Projects, Areas, Resources, Archives)" \
-        "Development workspace organized under ~/sbrn with specialized subdirectories" \
-        "Cloud drive mount points prepared (iCloud, Google Drive, OneDrive, Dropbox)" \
-        "System directories organized (bin, etc, cache, config, local)" \
-        "User directories optimized (Desktop, Documents, Downloads)" \
-        "FSH-compliant configuration structure established" \
-        "All paths set with proper permissions and ownership"
+   generate_phase_summary "1" "Directory Structure"
    
    log_success "SBRN directory structure setup completed"
 }
@@ -320,18 +302,7 @@ function setup_zsh_environment() {
     log_goal "[2.6/2.6] Setting up Zsh configuration links from HRT..."
     setup_zsh_configuration_links
     
-    log_phase_summary "2/7" "Zsh Environment" \
-        "Oh My Zsh framework installed with custom configuration" \
-        "Powerlevel10k theme configured with optimal settings" \
-        "Essential plugins installed and configured:" \
-        "  • Syntax highlighting for command validation" \
-        "  • Autosuggestions for command completion" \
-        "  • History substring search for quick recall" \
-        "  • Autoswitch virtualenv for Python development" \
-        "Meslo Nerd Font installed for rich terminal visuals" \
-        "Custom aliases and functions from HRT linked" \
-        "Shell configuration files properly organized" \
-        "XDG-compliant Zsh directory structure implemented"
+    generate_phase_summary "2" "Zsh Environment"
     
     log_success "Zsh environment setup completed"
 }
@@ -457,24 +428,8 @@ function install_essential_cli_tools() {
     # Text, Regex, JSON, Data Tools
     install_text_data_tools
     
-    log_phase_summary "3/7" "Essential CLI Tools" \
-        "Modern shell productivity tools installed:" \
-        "  • File operations (eza, bat, fd, ripgrep, tree)" \
-        "  • System monitoring (htop, glances, ctop, ncdu)" \
-        "  • Terminal multiplexers (tmux, screen)" \
-        "  • Navigation helpers (fzf, zoxide, broot)" \
-        "Networking & security suite configured:" \
-        "  • Data transfer (curl, wget, httpie)" \
-        "  • Security (gnupg, certbot, ssh tools)" \
-        "  • Network diagnostics (netcat, telnet)" \
-        "Text processing powertools enabled:" \
-        "  • JSON/YAML processing (jq, yq, fx, jid)" \
-        "  • Text manipulation (vim, neovim, ripgrep)" \
-        "  • Data formatting (colordiff, ccat)" \
-        "Shell enhancements activated:" \
-        "  • Command history (atuin)" \
-        "  • Directory management (ranger, as-tree)" \
-        "  • Environment control (direnv, autoenv)"
+    # Generate phase summary using utility function
+    generate_phase_summary "3" "Essential CLI Tools"
     
     log_success "Essential CLI tools installation completed"
 }
@@ -484,15 +439,13 @@ function install_shell_productivity_tools() {
     
     local shell_tools=(
         "coreutils" "tree" "fzf" "tmux" "screen" "htop" "bat" "fd" "tldr" 
-        "eza" "zoxide" "watch" "ncdu" "glances" "lsd" "ctop" "autoenv" 
-        "atuin" "direnv" "ack" "broot" "figlet" "lolcat" "ranger" 
+        "eza" "zoxide" "watch" "ncdu" "glances" "lsd" "autoenv" 
+        "atuin" "direnv" "broot" "figlet" "lolcat" "ranger" 
         "as-tree" "agedu" "zsh-autosuggestions" "zsh-completions" 
         "bash-completion" "fish" "starship"
     )
     
-    for tool in "${shell_tools[@]}"; do
-        brew_install "$tool"
-    done
+    brew_install_batch "${shell_tools[@]}"
 }
 
 
@@ -503,22 +456,17 @@ function install_networking_security_tools() {
         "curl" "wget" "httpie" "netcat" "gnupg" "certbot" "telnet"
     )
     
-    for tool in "${network_tools[@]}"; do
-        brew_install "$tool"
-    done
+    brew_install_batch "${network_tools[@]}"
 }
 
 function install_text_data_tools() {
-    log_goal "[3.3/3.3] Installing text, regex, JSON, data tools..."
+    log_goal "[3.3/3.3] Installing basic text processing tools..."
     
     local text_tools=(
-        "vim" "neovim" "emacs" "nano" "jq" "ripgrep" "grep" 
-        "fx" "jid" "colordiff" "base64" "base91" "python-yq" "ccat"
+        "emacs" "nano" "grep" "colordiff" "base64" "base91" "ccat"
     )
     
-    for tool in "${text_tools[@]}"; do
-        brew_install "$tool"
-    done
+    brew_install_batch "${text_tools[@]}"
 
     # Create ripgrep config directory and link configuration
     ln -sfn "$SBRN_HOME/sys/hrt/conf/ripgrep" "$XDG_CONFIG_HOME/ripgrep"
@@ -528,7 +476,7 @@ function install_text_data_tools() {
 # Step 4: Install Development Tools
 ################################################################################
 function install_development_tools() {
-    log_phase "[PHASE 4/7] 🔧 Installing general development tools..."
+    log_phase "[PHASE 4/7] 🔧 Installing developer CLI tools..."
     
     # Developer Tools (VCS, Repos, Git Helpers)
     install_vcs_tools
@@ -539,33 +487,21 @@ function install_development_tools() {
     # Graphics, OCR, and UI Libraries
     install_graphics_ocr_libraries
 
-    # Additional Development & API tools
-    install_additional_dev_tools
+    # Code Editors and Development Tools
+    install_code_editors_and_tools
+    
+    # API Development Tools
+    install_api_development_tools
+    
+    # Backend Services and Data Stores
+    install_backend_services
 
     # Configure Git to use diff-so-fancy
     if command -v diff-so-fancy &>/dev/null; then
         git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX" 2>/dev/null || true
     fi
         
-    log_phase_summary "4/7" "Development Tools" \
-        "Version Control System tools configured:" \
-        "  • Git with advanced features (git-extras, git-lfs)" \
-        "  • GUI tools (git-gui, lazygit, tig)" \
-        "  • GitHub CLI and utilities (gh, ghq)" \
-        "Container & Cloud Development tools installed:" \
-        "  • Container tools (Docker, Colima, dive)" \
-        "  • Kubernetes suite (kubectl, helm, k9s, minikube)" \
-        "  • Cloud provider CLIs (awscli, terraform, pulumi)" \
-        "  • Service mesh tools (istioctl)" \
-        "Graphics & UI Development libraries:" \
-        "  • Core libraries (gtk+3, librsvg)" \
-        "  • Image processing (ghostscript, graphviz)" \
-        "  • UI development tools (guile, pygobject3)" \
-        "Development Support Tools:" \
-        "  • API tools (openapi-generator, postman)" \
-        "  • Database tools (postgresql, redis, etcd)" \
-        "  • Web servers (nginx)" \
-        "  • Documentation (hugo)"
+    generate_phase_summary "4" "Development Tools"
     
     log_success "Development tools installation completed"
 }
@@ -578,9 +514,7 @@ function install_vcs_tools() {
         "delta" "tig" "lazygit" "git-gui" "gibo"
     )
     
-    for tool in "${git_tools[@]}"; do
-        brew_install "$tool"
-    done
+    brew_install_batch "${git_tools[@]}"
     
     ln -sfn "$SBRN_HOME/sys/hrt/conf/git" "$XDG_CONFIG_HOME/git"
 }
@@ -592,12 +526,10 @@ function install_cloud_container_tools() {
         "docker" "docker-compose" "colima" "kubernetes-cli" "helm" 
         "awscli" "dive" "dockviz" "k9s" "kubecolor" "kompose" "krew" 
         "kube-ps1" "kubebuilder" "kustomize" "istioctl" "minikube" 
-        "terraform" "pulumi" "railway" "vercel-cli"
+        "terraform" "pulumi" "railway" "vercel-cli" "ctop"
     )
     
-    for tool in "${cloud_tools[@]}"; do
-        brew_install "$tool"
-    done
+    brew_install_batch "${cloud_tools[@]}"
 }
 
 function install_graphics_ocr_libraries() {
@@ -608,23 +540,48 @@ function install_graphics_ocr_libraries() {
         "pcre" "xerces-c" "pygobject3"
     )
     
-    for tool in "${graphics_tools[@]}"; do
-        brew_install "$tool"
-    done
+    brew_install_batch "${graphics_tools[@]}"
 }
 
-function install_additional_dev_tools() {
-    log_goal "[4.4/4.4] Installing additional development & API tools..."
+function install_code_editors_and_tools() {
+    log_goal "[4.4/4.6] Installing development editors and code tools..."
     
-    local dev_tools=(
-        "jwt-cli" "newman" "openapi-generator" "operator-sdk" "hugo" 
-        "logrotate" "rtmpdump" "sftpgo" "etcd" "postgresql@15" 
-        "redis" "nginx"
+    local dev_editors=(
+        "vim" "neovim" "ripgrep" "ack"
     )
     
-    for tool in "${dev_tools[@]}"; do
-        brew_install "$tool"
-    done
+    brew_install_batch "${dev_editors[@]}"
+}
+
+function install_api_development_tools() {
+    log_goal "[4.5/4.6] Installing API development and documentation tools..."
+    
+    local api_tools=(
+        "jwt-cli" "newman" "openapi-generator" "hugo"
+    )
+    
+    brew_install_batch "${api_tools[@]}"
+}
+
+function install_backend_services() {
+    log_goal "[4.6/4.6] Installing backend services and data stores..."
+    
+    # Database and caching services
+    local data_services=(
+        "postgresql@15" "redis" "etcd"
+    )
+    
+    log_info "Installing database and caching services..."
+    brew_install_batch "${data_services[@]}"
+    
+    # Server and service tools
+    local server_tools=(
+        "nginx" "sftpgo" "operator-sdk" 
+        "logrotate" "rtmpdump"
+    )
+    
+    log_info "Installing server and service tools..."
+    brew_install_batch "${server_tools[@]}"
 }
 
 ################################################################################
@@ -642,15 +599,7 @@ function install_programming_languages() {
     # Build Automation Tools
     install_build_automation_tools
     
-    log_phase_summary "5/7" "Programming Languages & Runtimes" \
-        "Core languages installed (Python 3.13, Node.js LTS, Go, Rust, Java 17, Java 21, Perl)" \
-        "Runtime managers configured (uv for Python, nvm for Node.js, jenv for Java)" \
-        "Modern package managers (uv, pipx for Python isolation, yarn for Node.js)" \
-        "Build automation tools (Maven, Gradle, Poetry)" \
-        "Environment managers set up (Python venvs, Node.js npm/yarn, Java SDKMAN)" \
-        "XDG-compliant configurations for all tools and runtimes" \
-        "ML development environment prepared with latest Python" \
-        "All tools configured with optimal default settings"
+    generate_phase_summary "5" "Programming Languages & Runtimes"
     
     log_success "Programming languages, runtime environment managers, and build tools installation completed"
 }
@@ -663,9 +612,7 @@ function install_core_programming_languages() {
         "node" "go" "rust"
     )
     
-    for lang in "${languages[@]}"; do
-        brew_install "$lang"
-    done
+    brew_install_batch "${languages[@]}"
 }
 
 function install_runtime_environment_managers() {
@@ -675,9 +622,7 @@ function install_runtime_environment_managers() {
         "jenv" "uv" "nvm" "pipx"
     )
     
-    for rm in "${runtime_managers[@]}"; do
-        brew_install "$rm"
-    done
+    brew_install_batch "${runtime_managers[@]}"
     
     # Configure runtime environment managers
     configure_jenv
@@ -787,7 +732,7 @@ function configure_uv() {
     # Install a modern Python version if not available
     if command -v uv &>/dev/null; then
         log_info "Installing Python 3.13 via uv for optimal AI/ML compatibility..."
-        uv python install 3.13 2>/dev/null || log_warning "Python 3.13 installation skipped (may already exist)"
+        uv python install 3.13 2>/dev/null || log_info "Python 3.13 installation skipped (already exist)"
         log_success "uv Python management configured"
     fi
     
@@ -925,9 +870,7 @@ function install_build_automation_tools() {
     
     local build_tools=("maven" "gradle" "poetry" "yarn")
     
-    for tool in "${build_tools[@]}"; do
-        brew_install "$tool"
-    done
+    brew_install_batch "${build_tools[@]}"
 }
 
 ################################################################################
@@ -951,29 +894,7 @@ function install_ides_and_gui_productivity_tools() {
     # Create symbolic links for command-line access
     create_app_cli_symlinks
     
-    log_phase_summary "6/7" "IDEs & Productivity Tools" \
-        "Professional IDEs installed and configured:" \
-        "  • VS Code with essential extensions" \
-        "  • JetBrains suite (IntelliJ IDEA CE, PyCharm CE)" \
-        "  • Modern editors (Cursor, Windsurf, Zed)" \
-        "Development Environment Tools:" \
-        "  • Terminal emulator (iTerm2 with custom profiles)" \
-        "  • Database tools (DBeaver, pgAdmin4)" \
-        "  • API testing (Postman, Insomnia)" \
-        "Productivity Applications:" \
-        "  • Note-taking (Obsidian, Notion)" \
-        "  • Design tools (Figma)" \
-        "  • Team communication (Slack)" \
-        "  • Version control (GitHub Desktop)" \
-        "System Enhancement Tools:" \
-        "  • Window management (Rectangle)" \
-        "  • Keyboard customization (Karabiner-Elements)" \
-        "  • Automation (Hammerspoon, Alfred)" \
-        "  • Menu bar organization (Bartender)" \
-        "Data Science Environment:" \
-        "  • Jupyter Lab configured with custom kernels" \
-        "  • Scientific computing tools" \
-        "  • Visualization libraries"
+    generate_phase_summary "6" "IDEs & Productivity Tools"
     
     log_success "IDEs, editors, and GUI productivity tools installation completed"
 }
@@ -985,9 +906,7 @@ function install_core_ides_editors() {
         "visual-studio-code" "intellij-idea-ce" "pycharm-ce" "cursor" "windsurf" "zed" "iterm2"
     )
     
-    for ide in "${ides[@]}"; do
-        brew_cask_install "$ide"
-    done
+    brew_cask_install_batch "${ides[@]}"
 
     # Windsurf might not be available via brew, provide manual installation info
     if [[ ! -d "/Applications/Windsurf.app" ]] && [[ ! -d "$HOME/Applications/Windsurf.app" ]]; then
@@ -1012,44 +931,28 @@ function install_productivity_apps() {
         "insomnia" "dbeaver-community" "pgadmin4" "rapidapi"
     )
     
-    for app in "${productivity_apps[@]}"; do
-        brew_cask_install "$app"
-    done
+    brew_cask_install_batch "${productivity_apps[@]}"
 }
 
 function install_gui_productivity_tools() {
     log_goal "[6.3/6.5] Installing GUI productivity and automation tools..."
     
-    local gui_productivity_tools=(
-        "hammerspoon: Desktop automation tool"
-        "rectangle: Window management for enhanced productivity"        
-        "karabiner-elements: Keyboard customization tool"
-        "alfred: Launcher that outperforms the default Spotlight"
-        "bartender: Menu bar organization and management"
+    # GUI productivity applications (casks)
+    local gui_productivity_casks=(
+        "hammerspoon" "rectangle" "karabiner-elements" "alfred" "bartender"
     )
     
-    for tool_info in "${gui_productivity_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_cask_install "$tool" "$description"
-    done
+    brew_cask_install_batch "${gui_productivity_casks[@]}"
     
-    # Install command-line system management tools
+    # Install command-line system management tools (regular brew packages)
     local cli_system_tools=(
-        "terminal-notifier: Send macOS notifications from command line"
-        "mas: Mac App Store command line interface"
-        "duti: Set default applications for document types"
-        "trash: Move files to trash from command line"
+        "terminal-notifier" "mas" "duti" "trash"
     )
     
-    for tool_info in "${cli_system_tools[@]}"; do
-        local tool="${tool_info%%:*}"
-        local description="${tool_info#*:}"
-        brew_install "$tool"
-    done
+    brew_install_batch "${cli_system_tools[@]}"
     
     # Handle brew-services (it's already available with Homebrew)
-    if command -v brew &>/dev/null; then
+    if python3 "$BREW_UTIL_SCRIPT" --check-homebrew &>/dev/null; then
         log_success "brew-services: Manage background services via Homebrew (available via brew services command)"
     else
         log_warning "Homebrew not available - brew-services requires Homebrew"
@@ -1260,7 +1163,7 @@ function create_app_cli_symlinks() {
         )
 
         # Check both /Applications and $HOME/Applications
-        for app_dir in "${(@k)app_symlinks}"; do
+        for app_dir in "${!app_symlinks[@]}"; do
             local cli_def="${app_symlinks[$app_dir]}"
             local cli_name="${cli_def%%:*}"
             local exec_rel_path="${cli_def#*:}"
@@ -1348,9 +1251,7 @@ function install_ai_development_tools() {
         "sqlite-utils" "uv" "pyenv"
     )
     
-    for tool in "${ai_tools[@]}"; do
-        brew_install "$tool"
-    done
+    brew_install_batch "${ai_tools[@]}"
     
     install_special_ai_tools
 }
@@ -1751,34 +1652,58 @@ EOF
 # Utility Functions
 ################################################################################
 
-# Helper function to install Homebrew packages
+# Path to the Python brew utility module
+BREW_UTIL_SCRIPT="$(dirname "${BASH_SOURCE[0]}")/scripts/brew_util.py"
+
+# Helper function to install Homebrew packages using Python module
 function brew_install() {
     local package="$1"
-    
-    if brew list "$package" &>/dev/null; then
-        log_success "$package already installed"
-    else
-        log_info "Installing $package..."
-        brew install "$package" >/dev/null 2>&1 && log_success "$package installed successfully" || log_warning "Failed to install $package"
-    fi
+    python3 "$BREW_UTIL_SCRIPT" --install-formulas "$package"
 }
 
-# Helper function to install Homebrew Cask applications
+# Optimized batch function to install multiple Homebrew packages using Python module
+function brew_install_batch() {
+    local packages=("$@")
+    python3 "$BREW_UTIL_SCRIPT" --install-formulas "${packages[@]}"
+}
+
+# Helper function to install Homebrew Cask applications using Python module
 function brew_cask_install() {
     local cask="$1"
     local description="${2:-$cask}"
     
-    if [[ $SKIP_CASK_APPS == false ]]; then
-        if ! brew list --cask "$cask" &>/dev/null; then
-            log_info "Installing $description..."
-            brew install --cask --appdir=~/Applications "$cask" >/dev/null 2>&1 && log_success "$description installed successfully" || log_warning "Failed to install $description"
-        else
-            log_success "$description already installed"
-        fi
+    if [[ $SKIP_CASK_APPS == true ]]; then
+        python3 "$BREW_UTIL_SCRIPT" --skip-cask-apps --install-casks "$cask"
     else
-        log_info "Skipping cask installation: $description"
-
+        python3 "$BREW_UTIL_SCRIPT" --install-casks "$cask"
     fi
+}
+
+# Optimized batch function to install multiple Homebrew Cask applications using Python module
+function brew_cask_install_batch() {
+    local casks=("$@")
+    
+    if [[ $SKIP_CASK_APPS == true ]]; then
+        python3 "$BREW_UTIL_SCRIPT" --skip-cask-apps --install-casks "${casks[@]}"
+    else
+        python3 "$BREW_UTIL_SCRIPT" --install-casks "${casks[@]}"
+    fi
+}
+
+# Helper function to generate phase summaries using Python utility
+function generate_phase_summary() {
+    local phase_number="$1"
+    local phase_title="$2"
+    local script_dir="$(dirname "${BASH_SOURCE[0]}")/scripts"
+    local summary_lines=()
+    
+    # Import and call the Python utility
+    while IFS= read -r line; do
+        summary_lines+=("$line")
+    done < <(python3 "$script_dir/devlab_summary.py" "$phase_number")
+    
+    # Call the original log_phase_summary with imported content
+    log_phase_summary "$phase_number/7" "$phase_title" "${summary_lines[@]}"
 }
 
 ################################################################################

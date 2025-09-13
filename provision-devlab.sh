@@ -1223,37 +1223,7 @@ function setup_agentic_ai_development() {
     # Vector Databases & Search
     install_vector_databases
     
-    log_phase_summary "7/7" "AI Development Environment" \
-        "AI/ML Core Tools & Frameworks:" \
-        "  • Package management (uv with Python 3.13)" \
-        "  • ML environment tools (mlflow, tensorboard)" \
-        "  • Data processing (duckdb, datasette)" \
-        "ML Development Environment:" \
-        "  • Dedicated ml-dev project with uv" \
-        "  • Essential ML packages pre-installed" \
-        "  • Jupyter kernel 'Python (ML-Dev-UV)' available" \
-        "  • XDG-compliant project location" \
-        "AI Agent Development Framework:" \
-        "  • LangChain environment configured" \
-        "  • Agent templates and examples ready" \
-        "  • Custom kernels for AI development" \
-        "Local LLM Capabilities:" \
-        "  • Ollama installed with essential models:" \
-        "    - llama3.2:3b for general tasks" \
-        "    - codellama:7b for code generation" \
-        "    - mistral:7b for chat" \
-        "    - phi3:mini for efficient inference" \
-        "  • llamafile for portable deployment" \
-        "Vector Databases & Search:" \
-        "  • ChromaDB with optimal settings" \
-        "  • Qdrant with Docker configuration" \
-        "  • Weaviate client tools" \
-        "  • PostgreSQL with pgvector extension" \
-        "Development Environment:" \
-        "  • Jupyter Lab with AI/ML extensions" \
-        "  • VS Code with AI-specific tooling" \
-        "  • HuggingFace CLI tools" \
-        "  • Wandb for experiment tracking"
+    generate_phase_summary "7" "AI Development Environment"
     
     log_success "Agentic AI Development Environment setup completed"
 }
@@ -1509,9 +1479,9 @@ function install_vector_databases() {
     
     local vector_tools=(
         "qdrant: Vector search engine for AI applications"
-        "chroma: AI-native open-source embedding database"
-        "weaviate: Cloud-native vector database"
-        "pinecone: Managed vector database service CLI"
+        "chroma: AI-native open-source embedding database (CLI + Python library)"
+        "weaviate: Cloud-native vector database (Python library in AI environments)"
+        "pinecone: Managed vector database service (Python library in AI environments)"
         "pgvector: Vector similarity search for PostgreSQL"
     )
     
@@ -1565,15 +1535,14 @@ EOF
                 ;;
             "chroma"|"pinecone")
                 if ! pipx list | grep -q "^${tool}db" && ! pipx list | grep -q "^$tool"; then
-                    log_info "Installing $description via pipx..."
                     if [[ "$tool" == "chroma" ]]; then
-                        pipx install chromadb || log_warning "Failed to install chromadb via pipx"
-                    else
-                        pipx install pinecone-client || log_warning "Failed to install pinecone-client via pipx"
-                    fi
-                    
-                    # Configure XDG paths for ChromaDB
-                    if [[ "$tool" == "chroma" ]]; then
+                        log_info "Installing $description via pipx..."
+                        pipx install chromadb || {
+                            log_warning "Failed to install chromadb via pipx"
+                            log_info "ChromaDB will be available in AI development environments instead"
+                        }
+                        
+                        # Configure XDG paths for ChromaDB
                         local chroma_config="$XDG_CONFIG_HOME/vector-databases/chromadb.conf"
                         cat > "$chroma_config" << EOF
 # ChromaDB XDG-compliant configuration
@@ -1583,29 +1552,30 @@ EOF
                         mkdir -p "$XDG_DATA_HOME/vector-databases/chromadb"
                         log_success "$description installed with XDG data dir: $XDG_DATA_HOME/vector-databases/chromadb"
                     else
-                        log_success "$description installed via pipx"
+                        log_info "$description will be available in AI development environments"
+                        log_info "Note: pinecone-client is a Python library and will be available in AI development environments"
+                        log_success "$description client configured for AI environments"
                     fi
                 else
-                    log_success "$description already installed"
+                    if [[ "$tool" == "chroma" ]]; then
+                        log_success "$description already installed"
+                    else
+                        log_success "$description will be available in AI environments"
+                    fi
                 fi
                 ;;
             "weaviate")
-                if ! pipx list | grep -q "weaviate"; then
-                    log_info "Installing $description via pipx..."
-                    pipx install weaviate-client || log_warning "Failed to install weaviate-client via pipx"
-                    
-                    # Create XDG-compliant configuration for Weaviate
-                    local weaviate_config="$XDG_CONFIG_HOME/vector-databases/weaviate.conf"
-                    cat > "$weaviate_config" << EOF
+                log_info "$description will be available in AI development environments"
+                # Create XDG-compliant configuration for Weaviate
+                local weaviate_config="$XDG_CONFIG_HOME/vector-databases/weaviate.conf"
+                cat > "$weaviate_config" << EOF
 # Weaviate XDG-compliant configuration
 export WEAVIATE_DATA_PATH="$XDG_DATA_HOME/vector-databases/weaviate"
 export WEAVIATE_CONFIG_PATH="$XDG_CONFIG_HOME/vector-databases/weaviate"
 EOF
-                    mkdir -p "$XDG_DATA_HOME/vector-databases/weaviate"
-                    log_success "$description client installed with XDG configuration"
-                else
-                    log_success "$description already installed"
-                fi
+                mkdir -p "$XDG_DATA_HOME/vector-databases/weaviate"
+                log_success "$description client configured with XDG configuration"
+                log_info "Note: weaviate-client is a Python library and will be available in AI development environments"
                 ;;
             "pgvector")
                 # pgvector is a PostgreSQL extension

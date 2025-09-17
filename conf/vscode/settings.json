@@ -35,5 +35,6 @@
     ]
   },
   "explorer.confirmDragAndDrop": false,
-  "chat.agent.maxRequests": 50
+  "chat.agent.maxRequests": 50,
+  "terminal.integrated.suggest.enabled": true
 }

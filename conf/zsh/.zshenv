@@ -37,7 +37,8 @@ export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
 export ANDROID_HOME="$XDG_DATA_HOME/android"
 
 export GIT_CONFIG_GLOBAL="$XDG_CONFIG_HOME/git/config"
-export GIT_TEMPLATE_DIR="$XDG_DATA_HOME/git/templates"
+# let Git use its default template location
+#export GIT_TEMPLATE_DIR="$XDG_DATA_HOME/git/templates"
 
 export LESSHISTFILE="$XDG_STATE_HOME/less_history"
 export VIMINFOFILE="$XDG_STATE_HOME/vim/viminfo"

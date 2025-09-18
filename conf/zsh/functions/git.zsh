@@ -344,7 +344,7 @@ update-repos-in-dir() {
         
         echo "[$current_num/$repo_count] 📁 Updating: $rel_path"
         
-        if (cd "$repo_path" && git pull --ff-only 2>/dev/null); then
+        if (cd "$repo_path" && env -i PATH="$PATH" HOME="$HOME" git pull --ff-only 2>/dev/null); then
             echo "   ✅ Successfully updated"
             ((success_count++))
         else

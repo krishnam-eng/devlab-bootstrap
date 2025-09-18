@@ -36,5 +36,9 @@
   },
   "explorer.confirmDragAndDrop": false,
   "chat.agent.maxRequests": 50,
-  "terminal.integrated.suggest.enabled": true
+  "terminal.integrated.suggest.enabled": true,
+  "[java]": {
+    "editor.suggest.snippetsPreventQuickSuggestions": false
+  },
+  "git.enableSmartCommit": true
 }

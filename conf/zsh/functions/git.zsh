@@ -6,125 +6,31 @@
 #
 # Available Functions:
 #
-# 1. update-project-repos (alias: upr)
-#    Usage: update-project-repos
-#    Purpose: Updates all git repositories in ~/sbrn/proj/, ~/sbrn/proj/workshop/*, and ~/sbrn/sys/
-#    Example: update-project-repos
-#    Alias: upr
+# 2. update-repos-in-dir (alias: glA)
+#    Usage: update-repos-in-dir [directory]
+#    Purpose: Updates all git repositories recursively under a given directory
+#    Example: update-repos-in-dir ~/projects or update-repos-in-dir (for current dir)
+#    Alias: updir
 #
-# 2. create-quick-pull-request (alias: qpr)
+# 3. create-quick-pull-request (alias: qpr)
 #    Usage: create-quick-pull-request "PR Title" "PR Body"
 #    Purpose: Fast PR creation with title and body
 #    Example: create-quick-pull-request "Fix auth bug" "Resolves login validation issue"
 #    Alias: qpr
 #
-# 3. create-smart-pull-request (alias: smartpr, spr)
+# 4. create-smart-pull-request (alias: smartpr, spr)
 #    Usage: create-smart-pull-request "PR Title"
 #    Purpose: Creates PR with auto-generated body from commits + checklists
 #    Example: create-smart-pull-request "Implement user dashboard"
 #    Aliases: smartpr, spr
 #
-# 4. create-interactive-pull-request (alias: ipr)
+# 5. create-interactive-pull-request (alias: ipr)
 #    Usage: create-interactive-pull-request
 #    Purpose: Interactive prompts for careful PR creation
 #    Example: create-interactive-pull-request (then follow prompts)
 #    Alias: ipr
 #
-# =============================================================================
-
-# update-project-repos - Update all git repos in ~/sbrn/proj/, ~/sbrn/proj/workshop/*, and ~/sbrn/sys/
-# Usage: update-project-repos
-# Alias: upr
-update-project-repos() {
-    local main_proj=~/sbrn/proj
-    local sys_dir=~/sbrn/sys
-    local repo
-    local subdir
-    local all_repos=()
-    local repo_count=0
-    local success_count=0
-    local failed_repos=()
-
-    echo "🔍 Scanning for git repositories..."
-    echo
-
-    # Collect all repos recursively under ~/sbrn/proj/ (excluding workshop for now)
-    for repo in $main_proj/**/.git(N); do
-        repo_dir="${repo%/.git}"
-        # Skip workshop directory as we handle it separately
-        if [[ "$repo_dir" != *"/workshop/"* ]]; then
-            all_repos+=("$repo_dir")
-            ((repo_count++))
-        fi
-    done
-
-    # For ~/sbrn/proj/workshop/, update repos one level deeper
-    for subdir in $main_proj/workshop/*; do
-        if [[ -d "$subdir/.git" ]]; then
-            echo "� Updating $subdir"
-            (cd "$subdir" && git pull --ff-only)
-        fi
-    done
-
-    # Collect all repos recursively under ~/sbrn/sys/
-    for repo in $sys_dir/**/.git(N); do
-        repo_dir="${repo%/.git}"
-        all_repos+=("$repo_dir")
-        ((repo_count++))
-    done
-
-    # Display all identified repositories
-    if [[ $repo_count -eq 0 ]]; then
-        echo "⚠️  No git repositories found in specified directories"
-        return 0
-    fi
-
-    echo "📊 Found $repo_count git repositories:"
-    for repo_path in "${all_repos[@]}"; do
-        echo "   📁 $repo_path"
-    done
-    echo
-
-    echo "🔄 Starting updates..."
-    echo
-
-    # Update all collected repositories
-    local current_num=0
-    for repo_path in "${all_repos[@]}"; do
-        ((current_num++))
-        repo_name="$(basename "$repo_path")"
-        
-        echo "[$current_num/$repo_count] 📁 Updating: $repo_name"
-        echo "   Path: $repo_path"
-        
-        if (cd "$repo_path" && git pull --ff-only 2>/dev/null); then
-            echo "   ✅ Successfully updated"
-            ((success_count++))
-        else
-            echo "   ❌ Update failed (conflicts, uncommitted changes, or network issues)"
-            failed_repos+=("$repo_name")
-        fi
-        echo
-    done
-
-    # Summary
-    echo "📊 Update Summary:"
-    echo "   Total repositories: $repo_count"
-    echo "   Successfully updated: $success_count"
-    echo "   Failed: $((repo_count - success_count))"
-    
-    if [[ ${#failed_repos[@]} -gt 0 ]]; then
-        echo
-        echo "❌ Failed repositories:"
-        for failed in "${failed_repos[@]}"; do
-            echo "   • $failed"
-        done
-    else
-        echo "   🎉 All repositories updated successfully!"
-    fi
-}
-
-alias glA='update-project-repos'
+# ==========================================================================
 
 # create-quick-pull-request - Quick GitHub PR Creation
 # Creates a GitHub pull request with current branch as head and master as base
@@ -376,6 +282,97 @@ create-interactive-pull-request() {
 
 # Alias for create-interactive-pull-request
 alias ipr='create-interactive-pull-request'
+
+# update-repos-in-dir - Update all git repositories recursively under a directory
+# Updates all git repositories found recursively under the specified directory
+# Usage: update-repos-in-dir [directory]
+#   directory: Path to scan for git repos (default: current directory)
+# Example: update-repos-in-dir ~/projects
+# Example: update-repos-in-dir (updates repos in current directory)
+# Alias: updir
+update-repos-in-dir() {
+    local target_dir="${1:-.}"
+    local original_dir="$(pwd)"
+    local all_repos=()
+    local repo_count=0
+    local success_count=0
+    local failed_repos=()
+    
+    # Convert to absolute path
+    target_dir="$(cd "$target_dir" 2>/dev/null && pwd)"
+    
+    if [[ ! -d "$target_dir" ]]; then
+        echo "❌ Error: Directory '$1' does not exist"
+        return 1
+    fi
+    
+    echo "🔍 Scanning for git repositories in: $target_dir"
+    echo
+    
+    # Collect all repos recursively under the target directory
+    for repo in "$target_dir"/**/.git(N); do
+        repo_dir="${repo%/.git}"
+        all_repos+=("$repo_dir")
+        ((repo_count++))
+    done
+    
+    # Display all identified repositories
+    if [[ $repo_count -eq 0 ]]; then
+        echo "⚠️  No git repositories found in $target_dir"
+        return 0
+    fi
+    
+    echo "📊 Found $repo_count git repositories:"
+    for repo_path in "${all_repos[@]}"; do
+        # Show relative path for better readability
+        local rel_path="${repo_path#$target_dir/}"
+        [[ "$rel_path" == "$repo_path" ]] && rel_path="$(basename "$repo_path")"
+        echo "   📁 $rel_path"
+    done
+    echo
+    
+    echo "🔄 Starting updates..."
+    echo
+    
+    # Update all collected repositories
+    local current_num=0
+    for repo_path in "${all_repos[@]}"; do
+        ((current_num++))
+        repo_name="$(basename "$repo_path")"
+        local rel_path="${repo_path#$target_dir/}"
+        [[ "$rel_path" == "$repo_path" ]] && rel_path="$repo_name"
+        
+        echo "[$current_num/$repo_count] 📁 Updating: $rel_path"
+        
+        if (cd "$repo_path" && git pull --ff-only 2>/dev/null); then
+            echo "   ✅ Successfully updated"
+            ((success_count++))
+        else
+            echo "   ❌ Update failed (conflicts, uncommitted changes, or network issues)"
+            failed_repos+=("$rel_path")
+        fi
+        echo
+    done
+    
+    # Summary
+    echo "📊 Update Summary:"
+    echo "   Total repositories: $repo_count"
+    echo "   Successfully updated: $success_count"
+    echo "   Failed: $((repo_count - success_count))"
+    
+    if [[ ${#failed_repos[@]} -gt 0 ]]; then
+        echo
+        echo "❌ Failed repositories:"
+        for failed in "${failed_repos[@]}"; do
+            echo "   • $failed"
+        done
+    else
+        echo "   🎉 All repositories updated successfully!"
+    fi
+}
+
+# Alias for update-repos-in-dir
+alias glA='update-repos-in-dir'
 
 # Future git functions can be added here following the same pattern
 # Example: create-git-status-report, check-repository-health, etc.

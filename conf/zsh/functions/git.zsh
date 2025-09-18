@@ -1,18 +1,16 @@
 #!/usr/bin/env zsh
-# Git workspace management functions
-# Description: Functions for managing multiple git repositories and GitHub PRs
-
-# =============================================================================
+# Git workspace management function
+# ==========================================================================
 # USAGE GUIDE
-# =============================================================================
+# ==========================================================================
 #
 # Available Functions:
 #
-# 1. update-all-repositories (alias: update-repos, uar)
-#    Usage: update-all-repositories [directory]
-#    Purpose: Updates all git repositories in a directory
-#    Example: update-all-repositories ~/sbrn/proj/workshop/component-repos/
-#    Aliases: update-repos, uar
+# 1. update-project-repos (alias: upr)
+#    Usage: update-project-repos
+#    Purpose: Updates all git repositories in ~/sbrn/proj/, ~/sbrn/proj/workshop/*, and ~/sbrn/sys/
+#    Example: update-project-repos
+#    Alias: upr
 #
 # 2. create-quick-pull-request (alias: qpr)
 #    Usage: create-quick-pull-request "PR Title" "PR Body"
@@ -34,91 +32,84 @@
 #
 # =============================================================================
 
-# update-all-repositories - Update All Git Repositories in Directory
-# Updates all git repositories in a given directory by pulling latest changes
-# Usage: update-all-repositories [directory]
-#   directory: Path to workspace containing git repos (default: current directory)
-# Example: update-all-repositories ~/sbrn/proj/workshop/component-repos/
-# Aliases: update-repos, uar
-update-all-repositories() {
-    local workspace_dir="${1:-.}"
-    local original_dir="$(pwd)"
+# update-project-repos - Update all git repos in ~/sbrn/proj/, ~/sbrn/proj/workshop/*, and ~/sbrn/sys/
+# Usage: update-project-repos
+# Alias: upr
+update-project-repos() {
+    local main_proj=~/sbrn/proj
+    local sys_dir=~/sbrn/sys
+    local repo
+    local subdir
+    local all_repos=()
     local repo_count=0
     local success_count=0
     local failed_repos=()
-    
-    # Convert to absolute path
-    workspace_dir="$(cd "$workspace_dir" && pwd)"
-    
-    echo "🔄 Updating all git repositories in: $workspace_dir"
+
+    echo "🔍 Scanning for git repositories..."
     echo
-    
-    # Find all directories containing .git folders
-    for repo_path in "$workspace_dir"/*/.git(N); do
-        repo_dir="${repo_path%/.git}"
-        repo_name="$(basename "$repo_dir")"
-        
+
+    # Collect all repos recursively under ~/sbrn/proj/ (excluding workshop for now)
+    for repo in $main_proj/**/.git(N); do
+        repo_dir="${repo%/.git}"
+        # Skip workshop directory as we handle it separately
+        if [[ "$repo_dir" != *"/workshop/"* ]]; then
+            all_repos+=("$repo_dir")
+            ((repo_count++))
+        fi
+    done
+
+    # For ~/sbrn/proj/workshop/, update repos one level deeper
+    for subdir in $main_proj/workshop/*; do
+        if [[ -d "$subdir/.git" ]]; then
+            echo "� Updating $subdir"
+            (cd "$subdir" && git pull --ff-only)
+        fi
+    done
+
+    # Collect all repos recursively under ~/sbrn/sys/
+    for repo in $sys_dir/**/.git(N); do
+        repo_dir="${repo%/.git}"
+        all_repos+=("$repo_dir")
         ((repo_count++))
+    done
+
+    # Display all identified repositories
+    if [[ $repo_count -eq 0 ]]; then
+        echo "⚠️  No git repositories found in specified directories"
+        return 0
+    fi
+
+    echo "📊 Found $repo_count git repositories:"
+    for repo_path in "${all_repos[@]}"; do
+        echo "   📁 $repo_path"
+    done
+    echo
+
+    echo "🔄 Starting updates..."
+    echo
+
+    # Update all collected repositories
+    local current_num=0
+    for repo_path in "${all_repos[@]}"; do
+        ((current_num++))
+        repo_name="$(basename "$repo_path")"
         
-        echo "📁 Processing: $repo_name"
+        echo "[$current_num/$repo_count] 📁 Updating: $repo_name"
+        echo "   Path: $repo_path"
         
-        cd "$repo_dir" || {
-            echo "   ❌ Error: Cannot access directory"
-            failed_repos+=("$repo_name (access error)")
-            continue
-        }
-        
-        # Check if it's actually a git repository
-        if ! git rev-parse --git-dir >/dev/null 2>&1; then
-            echo "   ⚠️  Warning: Not a valid git repository"
-            failed_repos+=("$repo_name (not a git repo)")
-            continue
-        fi
-        
-        # Get current branch
-        local current_branch
-        current_branch="$(git branch --show-current 2>/dev/null)"
-        
-        if [[ -z "$current_branch" ]]; then
-            echo "   ⚠️  Warning: Detached HEAD or no commits"
-            failed_repos+=("$repo_name (detached HEAD)")
-            continue
-        fi
-        
-        echo "   🌿 Branch: $current_branch"
-        
-        # Check if there's a remote configured
-        if ! git remote >/dev/null 2>&1; then
-            echo "   ⚠️  Warning: No remote configured"
-            failed_repos+=("$repo_name (no remote)")
-            continue
-        fi
-        
-        # Fetch and pull
-        echo "   📥 Fetching from remote..."
-        if git fetch 2>/dev/null; then
-            echo "   🔄 Pulling changes..."
-            if git pull 2>/dev/null; then
-                echo "   ✅ Successfully updated"
-                ((success_count++))
-            else
-                echo "   ❌ Pull failed (may have conflicts or uncommitted changes)"
-                failed_repos+=("$repo_name (pull failed)")
-            fi
+        if (cd "$repo_path" && git pull --ff-only 2>/dev/null); then
+            echo "   ✅ Successfully updated"
+            ((success_count++))
         else
-            echo "   ❌ Fetch failed"
-            failed_repos+=("$repo_name (fetch failed)")
+            echo "   ❌ Update failed (conflicts, uncommitted changes, or network issues)"
+            failed_repos+=("$repo_name")
         fi
-        
         echo
     done
-    
-    # Return to original directory
-    cd "$original_dir"
-    
+
     # Summary
-    echo "📊 Summary:"
-    echo "   Total repositories found: $repo_count"
+    echo "📊 Update Summary:"
+    echo "   Total repositories: $repo_count"
     echo "   Successfully updated: $success_count"
     echo "   Failed: $((repo_count - success_count))"
     
@@ -128,16 +119,12 @@ update-all-repositories() {
         for failed in "${failed_repos[@]}"; do
             echo "   • $failed"
         done
-    fi
-    
-    if [[ $repo_count -eq 0 ]]; then
-        echo "   ⚠️  No git repositories found in $workspace_dir"
+    else
+        echo "   🎉 All repositories updated successfully!"
     fi
 }
 
-# Aliases for update-all-repositories
-alias update-repos='update-all-repositories'
-alias uar='update-all-repositories'
+alias glA='update-project-repos'
 
 # create-quick-pull-request - Quick GitHub PR Creation
 # Creates a GitHub pull request with current branch as head and master as base

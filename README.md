@@ -1,38 +1,39 @@
 # Provision Developer Laboratory
 
-**Author:** Balamurugan Krishnamoorthy
-**Repo Life:** Since 2019, actively maintained
-**Version:** 25.0.0 (Sep 2025)
+> **Author:** Balamurugan Krishnamoorthy
+> **Repo Life:** Since 2017, actively maintained
+> 
+> **Version:** 9.9.0 (Sep 2025)
 
-Provision Developer Laboratory is a reproducible, opinionated developer lab — a safe, portable sandbox that turns a fresh or messy machine into an exploration-ready workstation. This repo and its single, auditable script automate a robust base setup (shell, CLI tools, runtimes, IDEs, containers, local LLM tooling, and vector DBs) so engineers can jump straight into learning, prototyping, and experimenting across many stacks without wasting hours on environment plumbing.
+Provision Developer Laboratory is a reproducible, opinionated developer lab — a safe, portable sandbox that turns a fresh or messy machine into an exploration-ready workstation. This repo and its single, auditable script automate a robust base setup (shell, CLI tools, runtimes, IDEs, langs & libs, build tools, environment isolations, containers, local LLM tooling, and vector DBs) so engineers can jump straight into learning, prototyping, and experimenting across many stacks without wasting hours on environment plumbing.
 
 ### Important framing — this is a lab, not production
 
-	-	This environment is intentionally designed for experimentation, learning, proof-of-concept work, and reproducible local development.
-	-	It is not hardened or secured for production workloads, high-availability deployments, or sensitive data processing.
-	-	Treat it as your personal or team sandbox: explore freely, break things, iterate fast — then harden and migrate only what you need for production through proper CI/CD and security controls.
+* This environment is intentionally designed for experimentation, learning, proof-of-concept work, and reproducible local development.
+* It is not hardened or secured for production workloads, high-availability deployments, or sensitive data processing.
+* Treat it as your personal or team sandbox: explore freely, break things, iterate fast — then harden and migrate only what you need for production through proper CI/CD and security controls.
 
 ### Problems this lab solves
 
-	-	Removes tedious, repetitive setup work so engineers spend time building and learning instead of fixing toolchain issues.
-	-	Provides a consistent baseline across machines, reducing onboarding friction and configuration drift.
-	-	Gives a curated, XDG/PARA-aligned home directory and HRT-managed config so personal projects, experiments, and models remain organized and portable.
-	-	Bundles modern AI tooling (local LLM hosting, vector DBs, LangChain ecosystem) safely into XDG-compliant paths so AI experiments don’t clutter system directories.
+* Removes tedious, repetitive setup work so engineers spend time building and learning instead of fixing toolchain issues.
+* Provides a consistent baseline across machines, reducing onboarding friction and configuration drift.
+* Gives a curated, XDG/PARA-aligned home directory and HRT-managed config so personal projects, experiments, and models remain organized and portable.
+* Bundles modern AI tooling (local LLM hosting, vector DBs, LangChain ecosystem) safely into XDG-compliant paths so AI experiments don’t clutter system directories.
 
 ### Productivity patterns baked in
 
-	-	Reproducible Environments – identical setups across machines, eliminating “works on my machine” problems.
-	-	Rapid Feedback Loops – short cycles for trying new frameworks, languages, or AI stacks without setup drag.
-	-	Build-Run Autonomy – self-service setup lets developers own their environments without waiting on ops.
-	-	Muscle Memory Consistency – PARA + XDG structures and CLI enhancements (fzf, zoxide, autosuggestions) reduce context switching.
-	-	Automation First – repetitive steps (package installs, IDE configs, runtime setup) are scripted, not manual.
-	-	Knowledge Organization – Second Brain-style file system that makes projects and resources easy to find, search, and reuse.
+* Reproducible Environments – identical setups across machines, eliminating “works on my machine” problems.
+* Rapid Feedback Loops – short cycles for trying new frameworks, languages, or AI stacks without setup drag.
+* Build-Run Autonomy – self-service setup lets developers own their environments without waiting on ops.
+* Muscle Memory Consistency – PARA + XDG structures and CLI enhancements (fzf, zoxide, autosuggestions) reduce context switching.
+* Automation First – repetitive steps (package installs, IDE configs, runtime setup) are scripted, not manual.
+* Knowledge Organization – Second Brain-style file system that makes projects and resources easy to find, search, and reuse.
 
 ### What you get
-	-	A ready-to-use sandbox: Zsh + Powerlevel10k, essential CLIs (git, docker, kubectl, terraform), multiple runtimes (Python, Node, Java, Go, Rust), IDEs/editors, and an opinionated Agentic AI stack (conda envs, Ollama/llamafile, Qdrant/Chroma integration).
-	-	A PARA + XDG-aligned ~/sbrn/ layout that keeps experiments, projects, resources, and archives neatly separated.
-	-	Flexible CLI flags for interactive vs unattended runs, with options to skip GUI apps — works equally for laptops, cloud workstations, or CI images.
-	-	A --status audit to verify installations and highlight what still needs attention.
+* A ready-to-use sandbox: Zsh + Powerlevel10k, essential CLIs (git, docker, kubectl, terraform), multiple runtimes (Python, Node, Java, Go, Rust), IDEs/editors, and an opinionated Agentic AI stack (conda envs, Ollama/llamafile, Qdrant/Chroma integration).
+* A PARA + XDG-aligned ~/sbrn/ layout that keeps experiments, projects, resources, and archives neatly separated.
+* Flexible CLI flags for interactive vs unattended runs, with options to skip GUI apps — works equally for laptops, cloud workstations, or CI images.
+* A --status audit to verify installations and highlight what still needs attention.
 
 ## Table of Contents
 - [Provision Developer Laboratory](#provision-developer-laboratory)

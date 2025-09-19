@@ -1,12 +1,114 @@
-# PROVISION-DEVLAB.md
-
-## Portable Replicatable Scalable Developer Laboratory Setup for macOS
+# Provision Developer Laboratory
 
 **Author:** Balamurugan Krishnamoorthy
+**Repo Life:** Since 2019, actively maintained
+**Version:** 25.0.0 (Sep 2025)
+
+Provision Developer Laboratory is a reproducible, opinionated developer lab — a safe, portable sandbox that turns a fresh or messy machine into an exploration-ready workstation. This repo and its single, auditable script automate a robust base setup (shell, CLI tools, runtimes, IDEs, containers, local LLM tooling, and vector DBs) so engineers can jump straight into learning, prototyping, and experimenting across many stacks without wasting hours on environment plumbing.
+
+### Important framing — this is a lab, not production
+
+	-	This environment is intentionally designed for experimentation, learning, proof-of-concept work, and reproducible local development.
+	-	It is not hardened or secured for production workloads, high-availability deployments, or sensitive data processing.
+	-	Treat it as your personal or team sandbox: explore freely, break things, iterate fast — then harden and migrate only what you need for production through proper CI/CD and security controls.
+
+### Problems this lab solves
+
+	-	Removes tedious, repetitive setup work so engineers spend time building and learning instead of fixing toolchain issues.
+	-	Provides a consistent baseline across machines, reducing onboarding friction and configuration drift.
+	-	Gives a curated, XDG/PARA-aligned home directory and HRT-managed config so personal projects, experiments, and models remain organized and portable.
+	-	Bundles modern AI tooling (local LLM hosting, vector DBs, LangChain ecosystem) safely into XDG-compliant paths so AI experiments don’t clutter system directories.
+
+### Productivity patterns baked in
+
+	-	Reproducible Environments – identical setups across machines, eliminating “works on my machine” problems.
+	-	Rapid Feedback Loops – short cycles for trying new frameworks, languages, or AI stacks without setup drag.
+	-	Build-Run Autonomy – self-service setup lets developers own their environments without waiting on ops.
+	-	Muscle Memory Consistency – PARA + XDG structures and CLI enhancements (fzf, zoxide, autosuggestions) reduce context switching.
+	-	Automation First – repetitive steps (package installs, IDE configs, runtime setup) are scripted, not manual.
+	-	Knowledge Organization – Second Brain-style file system that makes projects and resources easy to find, search, and reuse.
+
+### What you get
+	-	A ready-to-use sandbox: Zsh + Powerlevel10k, essential CLIs (git, docker, kubectl, terraform), multiple runtimes (Python, Node, Java, Go, Rust), IDEs/editors, and an opinionated Agentic AI stack (conda envs, Ollama/llamafile, Qdrant/Chroma integration).
+	-	A PARA + XDG-aligned ~/sbrn/ layout that keeps experiments, projects, resources, and archives neatly separated.
+	-	Flexible CLI flags for interactive vs unattended runs, with options to skip GUI apps — works equally for laptops, cloud workstations, or CI images.
+	-	A --status audit to verify installations and highlight what still needs attention.
+
+## Table of Contents
+- [Provision Developer Laboratory](#provision-developer-laboratory)
+    - [Important framing — this is a lab, not production](#important-framing--this-is-a-lab-not-production)
+    - [Problems this lab solves](#problems-this-lab-solves)
+    - [Productivity patterns baked in](#productivity-patterns-baked-in)
+    - [What you get](#what-you-get)
+  - [Table of Contents](#table-of-contents)
+  - [Portable Replicatable Scalable Developer Laboratory Setup for macOS, Ubuntu, Windows](#portable-replicatable-scalable-developer-laboratory-setup-for-macos-ubuntu-windows)
+  - [Philosophy](#philosophy)
+    - [Leverage Industry-Tested Standards for Effortless Productivity](#leverage-industry-tested-standards-for-effortless-productivity)
+    - [Key Benefits](#key-benefits)
+  - [Quick Start](#quick-start)
+    - [Command Line Options](#command-line-options)
+  - [What This Script Does](#what-this-script-does)
+    - [Prerequisites](#prerequisites)
+    - [Main Setup Steps (7 Phases)](#main-setup-steps-7-phases)
+    - [PHASE 0/7: 🏗️ Prerequisites - Homebrew Package Manager Installation](#phase-07-️-prerequisites---homebrew-package-manager-installation)
+    - [PHASE 1/7: 📁 SBRN Directory Structure Setup](#phase-17--sbrn-directory-structure-setup)
+      - [Core Principle: Leveraging Industry-Tested Standards](#core-principle-leveraging-industry-tested-standards)
+      - [Industry Standards Implemented](#industry-standards-implemented)
+      - [Target Persona](#target-persona)
+      - [Industry Adoption and Tool Support](#industry-adoption-and-tool-support)
+    - [PHASE 2/7: 🐚 Zsh Environment Setup](#phase-27--zsh-environment-setup)
+    - [PHASE 3/7: 🛠️ Essential CLI Tools Installation](#phase-37-️-essential-cli-tools-installation)
+      - [🖥️ Shell Enhancements \& CLI Productivity](#️-shell-enhancements--cli-productivity)
+      - [🌐 Networking, Security, \& Transfer Tools](#-networking-security--transfer-tools)
+      - [📊 Text, Regex, JSON, Data Tools](#-text-regex-json-data-tools)
+    - [PHASE 4/7: 🔧 Development Tools Installation](#phase-47--development-tools-installation)
+      - [🔧 Developer Tools (VCS, Repos, Git Helpers)](#-developer-tools-vcs-repos-git-helpers)
+      - [☁️ Cloud \& Containers](#️-cloud--containers)
+      - [🎨 Graphics, OCR, and UI Libraries](#-graphics-ocr-and-ui-libraries)
+      - [🛠️ Additional Development \& API Tools](#️-additional-development--api-tools)
+    - [PHASE 5/7: 💻 Programming Languages \& Runtimes Installation](#phase-57--programming-languages--runtimes-installation)
+      - [Core Programming Languages \& Runtimes](#core-programming-languages--runtimes)
+      - [Version Managers](#version-managers)
+      - [Package \& Build Tools](#package--build-tools)
+    - [PHASE 6/7: 📝 IDEs and Editors Installation](#phase-67--ides-and-editors-installation)
+      - [Core IDEs and Editors](#core-ides-and-editors)
+      - [Productivity and Development Support Apps](#productivity-and-development-support-apps)
+      - [System Automation \& Window Management Tools](#system-automation--window-management-tools)
+      - [Development Environment for Data Science](#development-environment-for-data-science)
+    - [PHASE 7/7: 🤖 Agentic AI Development Environment Setup](#phase-77--agentic-ai-development-environment-setup)
+      - [AI/ML Core Tools \& Frameworks](#aiml-core-tools--frameworks)
+      - [Conda Package Manager Setup](#conda-package-manager-setup)
+      - [Local LLM Capabilities](#local-llm-capabilities)
+      - [Modern AI-Enhanced IDEs](#modern-ai-enhanced-ides)
+      - [Vector Databases \& Search](#vector-databases--search)
+      - [Modern Productivity \& Automation Tools](#modern-productivity--automation-tools)
+  - [System Summary Output](#system-summary-output)
+    - [📊 System Information](#-system-information)
+    - [📁 SBRN Directory Structure](#-sbrn-directory-structure)
+    - [📦 Package Manager](#-package-manager)
+    - [🐚 Shell Environment](#-shell-environment)
+    - [🛠️ Essential CLI Tools](#️-essential-cli-tools)
+    - [🔧 Development Tools](#-development-tools)
+    - [💻 Programming Languages \& Runtimes](#-programming-languages--runtimes)
+    - [📝 IDEs and Editors](#-ides-and-editors)
+    - [🤖 Agentic AI Development](#-agentic-ai-development)
+  - [XDG Base Directory Specification](#xdg-base-directory-specification)
+  - [Application CLI Symlinks](#application-cli-symlinks)
+  - [Configuration Management](#configuration-management)
+  - [Productivity Impact](#productivity-impact)
+    - [Time Savings](#time-savings)
+    - [Consistency Benefits](#consistency-benefits)
+    - [Workflow Optimization](#workflow-optimization)
+  - [Troubleshooting](#troubleshooting)
+    - [Common Issues](#common-issues)
+    - [Support](#support)
+  - [License](#license)
+
+## Portable Replicatable Scalable Developer Laboratory Setup for macOS, Ubuntu, Windows
 
 > **📖 Complete Documentation:** This is the authoritative documentation for `provision-devlab.sh`. The script references this file for detailed explanations of all features, industry standards, and implementation details.
 
-This script sets up a complete macOS development environment based on industry-tested standards for effortless productivity.
+This script sets up a complete macOS (,Ubuntu, and Windows) development environment based on industry-tested standards for effortless productivity.
 
 ## Philosophy
 
@@ -39,16 +141,19 @@ chmod +x provision-devlab.sh
 ### Command Line Options
 
 ```bash
-# Full interactive setup
+# CLI-focused interactive setup (default - skips GUI apps and iTerm setup)
 ./provision-devlab.sh
 
-# Fully automated setup (no prompts)
+# Fully automated CLI-focused setup (no prompts)
 ./provision-devlab.sh --yes
 
-# Skip GUI app installations (CLI tools only)
+# Full setup including GUI apps and iTerm themes
+./provision-devlab.sh -c -i
+
+# Skip GUI app installations (CLI tools only) - explicit option
 ./provision-devlab.sh --skip-cask-apps
 
-# Skip iTerm2 setup (avoid interactive prompts)
+# Skip iTerm2 setup (avoid interactive prompts) - explicit option
 ./provision-devlab.sh --skip-iterm-setup
 
 # Check current system status
@@ -66,19 +171,20 @@ The provision-devlab.sh script creates a comprehensive macOS development environ
 
 **🍺 Package Manager** - Installs and configures Homebrew for macOS package management (required for all subsequent installations)
 
-### Main Setup Steps (7 Steps)
+### Main Setup Steps (7 Phases)
 
-1. **📁 Directory Structure** - Creates SBRN (Second Brain) organization using PARA, XDG, DAM, and FHS standards
-2. **🐚 Shell Environment** - Sets up Zsh with Oh My Zsh, Powerlevel10k theme, and essential plugins
-3. **🛠️ CLI Tools** - Installs 40+ productivity command-line tools (shell, network, text processing)
-4. **🔧 Development Tools** - Installs Git, Docker, Kubernetes, cloud tools, and API development utilities
-5. **💻 Programming Languages** - Installs Java, Python, Node.js, Go, Rust with version managers and build tools
-6. **📝 IDEs & Editors** - Installs VS Code, IntelliJ, PyCharm, Cursor, and productivity apps like Notion, Figma
-7. **🤖 AI Development** - Sets up local LLMs (Ollama), AI frameworks (LangChain, CrewAI), and vector databases
+**PHASE 0/7**: **🏗️ Prerequisites** - Setting up Second Brain directory & Homebrew package manager
+**PHASE 1/7**: **📁 Directory Structure** - Setting up SBRN (Second Brain) directory structure using PARA, XDG, DAM, and FHS standards  
+**PHASE 2/7**: **🐚 Shell Environment** - Setting up Zsh environment with Oh My Zsh, Powerlevel10k theme, and essential plugins
+**PHASE 3/7**: **🛠️ Essential CLI Tools** - Installing essential CLI tools for shell productivity, networking, and text processing
+**PHASE 4/7**: **🔧 Development Tools** - Installing developer CLI tools for Git, Docker, Kubernetes, cloud tools, and API development
+**PHASE 5/7**: **💻 Programming Languages** - Installing core programming languages, runtime environment managers, and build tools
+**PHASE 6/7**: **📝 IDEs & GUI Tools** - Installing IDEs, editors, and GUI productivity tools including VS Code, IntelliJ, and communication apps
+**PHASE 7/7**: **🤖 AI Development** - Setting up Agentic AI Development Environment with local LLMs, AI frameworks, and vector databases
 
 ---
 
-### Prerequisite: 🍺 Homebrew Package Manager Installation
+### PHASE 0/7: 🏗️ Prerequisites - Homebrew Package Manager Installation
 
 Installs and configures Homebrew, the essential package manager for macOS that enables all subsequent tool installations.
 
@@ -87,7 +193,7 @@ Installs and configures Homebrew, the essential package manager for macOS that e
 - Updates package database to latest versions
 - **Requirement**: This must be installed first as all other tools depend on it
 
-### 1. 📁 SBRN Directory Structure Setup
+### PHASE 1/7: 📁 SBRN Directory Structure Setup
 
 Creates a scalable, portable directory structure following **PARA (Projects, Areas, Resources, Archives)**, **XDG Base Directory Specification**, **DAM (Digital Asset Management)**, and **FHS (Filesystem Hierarchy Standard)** principles.
 
@@ -176,7 +282,7 @@ This hybrid approach provides enterprise-grade organization with personal workfl
 └── Dropbox/
 ```
 
-### 2. 🐚 Zsh Environment Setup
+### PHASE 2/7: 🐚 Zsh Environment Setup
 
 Sets up a powerful, customized Zsh environment with Oh My Zsh and essential plugins.
 
@@ -190,7 +296,7 @@ Sets up a powerful, customized Zsh environment with Oh My Zsh and essential plug
 - **history-substring-search**: Better history search with substring matching
 - **zsh-autoswitch-virtualenv**: Automatic Python virtual environment switching
 
-### 3. 🛠️ Essential CLI Tools Installation
+### PHASE 3/7: 🛠️ Essential CLI Tools Installation
 
 Installs productivity-enhancing command-line tools organized by category.
 
@@ -251,7 +357,7 @@ Installs productivity-enhancing command-line tools organized by category.
 - **python-yq**: Command-line YAML and XML processor wrapping jq
 - **ccat**: Cat clone with syntax highlighting
 
-### 4. 🔧 Development Tools Installation
+### PHASE 4/7: 🔧 Development Tools Installation
 
 Comprehensive development tools covering version control, cloud, containers, and APIs.
 
@@ -320,7 +426,7 @@ Comprehensive development tools covering version control, cloud, containers, and
 - **redis**: In-memory data structure store and message broker
 - **nginx**: HTTP server, reverse proxy, and mail proxy server
 
-### 5. 💻 Programming Languages & Runtimes Installation
+### PHASE 5/7: 💻 Programming Languages & Runtimes Installation
 
 Essential programming languages, version managers, and build tools.
 
@@ -328,7 +434,7 @@ Essential programming languages, version managers, and build tools.
 
 - **openjdk@17**: Java Platform, Standard Edition v17 (LTS)
 - **openjdk@21**: Java Platform, Standard Edition v21 (LTS)
-- **python@3.13**: Python 3.13 programming language
+- **python@3.13**: Python 3.13 programming language with AI/ML optimizations
 - **perl**: Highly capable, feature-rich programming language
 - **node**: JavaScript runtime built on Chrome's V8 engine
 - **go**: Open source programming language from Google
@@ -348,7 +454,7 @@ Essential programming languages, version managers, and build tools.
 - **pipx**: Install and run Python applications in isolated environments
 - **yarn**: Fast, reliable, and secure dependency management for JavaScript
 
-### 6. 📝 IDEs and Editors Installation
+### PHASE 6/7: 📝 IDEs and Editors Installation
 
 Modern development environments and productivity applications.
 
@@ -373,13 +479,24 @@ Modern development environments and productivity applications.
 - **pgAdmin 4**: PostgreSQL administration and development platform
 - **RapidAPI**: API testing and development platform
 
+#### System Automation & Window Management Tools
+
+- **Rectangle**: Window management for enhanced productivity
+- **Alfred**: Productivity app with workflows and AI features
+- **Hammerspoon**: Desktop automation tool using Lua
+- **Karabiner Elements**: Keyboard customization tool
+- **terminal-notifier**: Send macOS notifications from command line
+- **mas**: Mac App Store command line interface
+- **trash**: Move files to trash from command line
+- **duti**: Tool to set default applications for document types
+
 #### Development Environment for Data Science
 
 - **JupyterLab**: Web-based interactive development environment
 - **Jupyter Notebook**: Original web application for creating notebooks
 - **pipx**: Manages Python applications in isolated environments with XDG compliance
 
-### 7. 🤖 Agentic AI Development Environment Setup
+### PHASE 7/7: 🤖 Agentic AI Development Environment Setup
 
 Comprehensive AI and machine learning development stack.
 
@@ -415,17 +532,30 @@ Comprehensive AI and machine learning development stack.
 #### Modern AI-Enhanced IDEs
 
 - **Cursor**: AI-native code editor with advanced AI features
-- **Windsurf**: AI-native IDE from Codeium with collaborative AI
+- **Windsurf**: AI-native IDE from Codeium with collaborative AI (manual installation required)
 - **Zed**: High-performance collaborative code editor with AI
 - **Continue**: Open-source AI code assistant (VS Code extension)
 
 #### Vector Databases & Search
 
 - **Qdrant**: Vector search engine with Docker deployment and XDG persistence
-- **ChromaDB**: AI-native open-source embedding database
-- **Weaviate**: Cloud-native vector database client
-- **Pinecone**: Managed vector database service CLI
-- **pgvector**: Vector similarity search extension for PostgreSQL
+  - Docker-based installation with XDG-compliant data persistence
+  - Pre-configured docker-compose.yml for easy deployment
+  - Data stored in `$XDG_DATA_HOME/vector-databases/qdrant`
+- **ChromaDB**: AI-native open-source embedding database with XDG-compliant configuration
+  - Pipx installation with DuckDB+Parquet backend
+  - XDG-compliant data directory: `$XDG_DATA_HOME/vector-databases/chromadb`
+  - Environment configuration via `chromadb.conf`
+- **Weaviate**: Cloud-native vector database client with XDG configuration
+  - Python client library available in AI environments
+  - XDG-compliant configuration and data paths
+- **Pinecone**: Managed vector database service CLI (available in AI environments)
+  - Python client library for vector operations
+- **pgvector**: Vector similarity search extension for PostgreSQL with setup scripts
+  - SQL setup script for extension installation
+  - Example table and index configurations
+  - Integration with PostgreSQL database
+- **Unified Configuration**: Environment setup script (`env-setup.sh`) for all vector databases with XDG compliance
 
 #### Modern Productivity & Automation Tools
 

@@ -33,7 +33,7 @@ conf/zsh/
 ### Loading Functions
 Functions are automatically loaded when you source `functions.zsh`:
 ```bash
-source /Users/balamurugank/sbrn/sys/hrt/conf/zsh/rc.d/functions.zsh
+source $HOME/sbrn/sys/hrt/conf/zsh/rc.d/functions.zsh
 ```
 
 ### Available Functions
@@ -105,7 +105,7 @@ source /Users/balamurugank/sbrn/sys/hrt/conf/zsh/rc.d/functions.zsh
 Add this line to your `.zshrc` or main zsh configuration:
 ```bash
 # Load function modules
-source /Users/balamurugank/sbrn/sys/hrt/conf/zsh/rc.d/functions.zsh
+source $HOME/sbrn/sys/hrt/conf/zsh/rc.d/functions.zsh
 ```
 
 ## Benefits

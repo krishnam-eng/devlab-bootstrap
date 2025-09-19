@@ -27,6 +27,7 @@ tmux/plugins/tmux-mem-cpu-load
 # private config
 ctrls/darwin/map/private.bash
 ctrls/darwin/map/private.zsh
+conf/git/config-work
 
 
 #

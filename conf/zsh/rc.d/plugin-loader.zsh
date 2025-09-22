@@ -1,52 +1,11 @@
 #!/usr/bin/env zsh
-# Function Loader System
-# Description: Extensible system for loading modular zsh functions
-# Follows Open-Closed Principle (OCP) for easy extension
+# Simple Plugin Loader
+# Description: Load all .zsh files from the plugins directory
 
-# Function to load all function modules from the functions directory
-load_zsh_functions() {
-    local functions_dir="${ZSH_FUNCTIONS_DIR:-${ZDOTDIR:-$HOME/.config/zsh}/functions}"
-    local loaded_count=0
-    local failed_modules=()
-    
-    # Check if functions directory exists
-    if [[ ! -d "$functions_dir" ]]; then
-        echo "⚠️  Functions directory not found: $functions_dir"
-        return 1
-    fi
-    
-    # Load all .zsh files in the functions directory
-    for function_file in "$functions_dir"/*.zsh(N); do
-        local module_name="$(basename "$function_file" .zsh)"
-        
-        if [[ -r "$function_file" ]]; then
-            if source "$function_file" 2>/dev/null; then
-                ((loaded_count++))
-                [[ -n "$ZSH_FUNCTIONS_VERBOSE" ]] && echo "✅ Loaded: $module_name functions"
-            else
-                failed_modules+=("$module_name")
-                echo "❌ Failed to load: $module_name functions"
-            fi
-        else
-            failed_modules+=("$module_name (not readable)")
-            echo "❌ Cannot read: $function_file"
-        fi
-    done
-    
-    # Summary (only show if verbose or there were failures)
-    if [[ -n "$ZSH_FUNCTIONS_VERBOSE" ]] || [[ ${#failed_modules[@]} -gt 0 ]]; then
-        echo "📊 Function modules loaded: $loaded_count"
-        
-        if [[ ${#failed_modules[@]} -gt 0 ]]; then
-            echo "❌ Failed modules:"
-            for failed in "${failed_modules[@]}"; do
-                echo "   • $failed"
-            done
-        fi
-    fi
-    
-    return 0
-}
+# Load all .zsh files from plugins directory
+for plugin in "${ZSH_PLUGINS_DIR:-${ZDOTDIR:-$HOME/.config/zsh}/plugins}"/*.zsh(N); do
+    [[ -r "$plugin" ]] && source "$plugin"
+done
 
 # Function to reload all function modules (useful for development)
 reload_zsh_functions() {

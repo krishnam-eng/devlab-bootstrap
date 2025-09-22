@@ -19,3 +19,6 @@
 *.tmp
 *~
 
+# Sensitive configuration files
+rc.d/sensitive.nameddirs-hash.zsh
+

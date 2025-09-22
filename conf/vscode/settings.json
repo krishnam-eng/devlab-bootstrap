@@ -1,6 +1,4 @@
 {
-  "git.path": "/opt/homebrew/bin/git",
-  "git.defaultCloneDirectory": "~/sbrn/proj/exp",
   "git.autofetch": true,
   "git.confirmSync": false,
   "github.copilot.nextEditSuggestions.enabled": true,
@@ -35,5 +33,12 @@
   "[java]": {
     "editor.suggest.snippetsPreventQuickSuggestions": false
   },
-  "git.enableSmartCommit": true
+  "git.enableSmartCommit": true,
+  "yaml.schemas": {
+    "file:///Users/balamurugank/.vscode/extensions/continue.continue-1.2.4-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ]
+  },
+  "git.path": "/opt/homebrew/bin/git",
+  "git.defaultCloneDirectory": "~/sbrn/proj/exp"
 }

@@ -52,6 +52,13 @@ class Logger:
 class BrewUtil:
     """Utility class for Homebrew package management"""
     
+    # Mapping of package names that install under different formula names
+    # Key: name used for installation, Value: actual formula name after installation
+    PACKAGE_NAME_MAPPING = {
+        'delta': 'git-delta',
+        # Add more mappings here as needed for other packages with naming inconsistencies
+    }
+    
     def __init__(self, skip_cask_apps: bool = False):
         """
         Initialize BrewUtil
@@ -138,7 +145,17 @@ class BrewUtil:
             True if installed, False otherwise
         """
         self._load_installed_formulas()
-        return package in self._installed_formulas
+        
+        # Check if the exact package name is installed
+        if package in self._installed_formulas:
+            return True
+        
+        # Check if the package has a mapped name and if that mapped name is installed
+        mapped_name = self.PACKAGE_NAME_MAPPING.get(package)
+        if mapped_name and mapped_name in self._installed_formulas:
+            return True
+        
+        return False
     
     def _get_cask_app_path(self, cask: str) -> str:
         """
@@ -259,7 +276,9 @@ class BrewUtil:
             result = self._run_command(['brew', 'install', package], capture_output=False)
             if result.returncode == 0:
                 Logger.success(f"{package} installed successfully")
-                self._installed_formulas.add(package)
+                # Reload installed formulas since a new package was installed
+                self._formulas_loaded = False
+                self._installed_formulas.clear()
                 return True
             else:
                 Logger.warning(f"Failed to install {package}")
@@ -325,12 +344,12 @@ class BrewUtil:
         # Separate installed from missing packages
         missing_packages = []
         for package in packages:
-            if package in self._installed_formulas:
+            if self.is_formula_installed(package):
                 Logger.success(f"{package} already installed")
             else:
                 missing_packages.append(package)
         
-        successful_packages = [p for p in packages if p in self._installed_formulas]
+        successful_packages = [p for p in packages if self.is_formula_installed(p)]
         failed_packages = []
         
         # Install missing packages in batch if any
@@ -339,9 +358,13 @@ class BrewUtil:
             try:
                 result = self._run_command(['brew', 'install'] + missing_packages, capture_output=False)
                 if result.returncode == 0:
+                    # Reload installed formulas since new packages were installed
+                    self._formulas_loaded = False
+                    self._installed_formulas.clear()
+                    self._load_installed_formulas()
+                    
                     for package in missing_packages:
                         Logger.success(f"{package} installed successfully")
-                        self._installed_formulas.add(package)
                     successful_packages.extend(missing_packages)
                 else:
                     Logger.warning("Some packages may have failed to install - checking individually...")

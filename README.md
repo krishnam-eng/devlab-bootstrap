@@ -1,6 +1,7 @@
 # Provision Developer Laboratory
 
 > **Author:** Balamurugan Krishnamoorthy
+> 
 > **Repo Life:** Since 2017, actively maintained
 >
 > **Version:** 9.9.0 (Sep 2025)
@@ -25,9 +26,9 @@ Provision Developer Laboratory is a reproducible, opinionated developer lab — 
 * Reproducible Environments – identical setups across machines, eliminating “works on my machine” problems.
 * Rapid Feedback Loops – short cycles for trying new frameworks, languages, or AI stacks without setup drag.
 * Build-Run Autonomy – self-service setup lets developers own their environments without waiting on ops.
-* Muscle Memory Consistency – PARA + XDG structures and CLI enhancements (fzf, zoxide, autosuggestions) reduce context switching.
+* Muscle Memory Consistency – PARA, [XDG structures](https://specifications.freedesktop.org/basedir-spec/latest/), [DAM Conventions](https://www.orangelogic.com/folder-in-digital-asset-management) and CLI enhancements (fzf, zoxide, autosuggestions) reduce context switching.
 * Automation First – repetitive steps (package installs, IDE configs, runtime setup) are scripted, not manual.
-* Knowledge Organization – Second Brain-style file system that makes projects and resources easy to find, search, and reuse.
+* Knowledge Organization – [Second Brain-style](https://www.buildingasecondbrain.com/) file system that makes projects and resources easy to find, search, and reuse. 
 
 ## What you get
 

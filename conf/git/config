@@ -1,7 +1,7 @@
 # Default/fallback configuration
 [user]
-	name = Gitea Admin
-	email = admin@gitea.local
+    name = Bala K
+    email = krishnam.balamurugan@outlook.com
 
 # Work projects - using environment variable for portability
 [includeIf "gitdir:~/sbrn/proj/workshop/"]

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Disallow merge commits to enforce a linear history.
+# Fast-forward merges do not trigger this hook because they do not create a commit.
+echo "Merge commits are disabled for this repository. Use 'git pull --rebase' or 'git merge --ff-only'." >&2
+exit 1
+
+

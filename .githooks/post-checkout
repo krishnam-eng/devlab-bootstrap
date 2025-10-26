@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Keep repo-local config aligned for linear history workflows
+git config pull.rebase true
+git config pull.ff only
+git config rebase.autoStash true
+git config rebase.autoSquash true
+
+exit 0
+
+

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Re-assert repo-local settings after merges
+git config pull.rebase true
+git config pull.ff only
+git config rebase.autoStash true
+git config rebase.autoSquash true
+
+exit 0
+
+

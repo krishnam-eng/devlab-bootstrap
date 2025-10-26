@@ -466,7 +466,7 @@ function install_text_data_tools() {
     log_goal "[3.3/3.3] Installing basic text processing tools..."
     
     local text_tools=(
-        "emacs" "nano" "grep" "colordiff" "base64" "base91" "ccat"
+        "emacs" "nano" "grep" "colordiff" "base64" "base91" "ccat" "pygments"
     )
     
     brew_install_batch "${text_tools[@]}"

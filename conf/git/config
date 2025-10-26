@@ -1,10 +1,10 @@
 # Default/fallback configuration
 [user]
-    name = krishnam
-    email = krishnam.balamurugan@outlook.com
+	name = Gitea Admin
+	email = admin@gitea.local
 
 # Work projects - using environment variable for portability
-[includeIf "gitdir:~/sbrn/proj/corp/"]
+[includeIf "gitdir:~/sbrn/proj/workshop/"]
     path = ~/sbrn/sys/hrt/conf/git/config-work
 
 # Work journal - using environment variable for portability  
@@ -21,7 +21,7 @@
 
 # modern standard
 [init]
-    defaultBranch = main
+	defaultBranch = main
 
 [push]
     default = simple

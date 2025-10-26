@@ -35,10 +35,31 @@
   },
   "git.enableSmartCommit": true,
   "yaml.schemas": {
-    "file:///Users/balamurugank/.vscode/extensions/continue.continue-1.2.4-darwin-arm64/config-yaml-schema.json": [
+    "file:///Users/balamurugank/.vscode/extensions/continue.continue-1.2.10-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
   "git.path": "/opt/homebrew/bin/git",
-  "git.defaultCloneDirectory": "~/sbrn/proj/exp"
+  "git.defaultCloneDirectory": "~/sbrn/proj/exp",
+  "window.confirmSaveUntitledWorkspace": false,
+  "chat.tools.terminal.autoApprove": {
+    "./validate-gitea.sh": true,
+    "curl -f http://localhost:7080/ | head -20": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "docker-compose": true,
+    "gh": true,
+    "coder": true,
+    "docker": true,
+    "whoami": true,
+    "lsof": true,
+    "git": true,
+    "hugo": true,
+    "npm": true,
+    "make": true
+  },
+  "remote.SSH.remotePlatform": {"coder-vscode.localhost--balamurugank--test-workspace.main":"linux","coder-vscode.localhost--balamurugank--workspace-test.main":"linux","coder-vscode.localhost--balamurugank--my-docker-dev.main":"linux","coder-vscode.localhost--admin--coder-demo.main":"linux","coder-vscode.localhost--admin--tenant-config-demo.main":"linux","coder-vscode.localhost--admin--balamurugank-ws.main":"linux"},
+  "remote.SSH.connectTimeout": 1800,
+  "diffEditor.renderSideBySide": false
 }

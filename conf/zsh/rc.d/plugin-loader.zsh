@@ -75,6 +75,9 @@ create_function_module() {
 ${module_name}_hello() {
     echo "Hello from ${module_name} module!"
 }
+
+# Define a safe no-op stub for dump_zsh_state if not present
+typeset -f dump_zsh_state >/dev/null 2>&1 || dump_zsh_state() { : }
 EOF
     
     echo "✅ Created new function module: $module_file"

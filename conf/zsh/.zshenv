@@ -119,7 +119,7 @@ export PIPX_CACHE_DIR="$XDG_CACHE_HOME/pipx"
 export PIP_CACHE_DIR="$XDG_CACHE_HOME/pip"
 export PYTHON_EGG_CACHE="$XDG_CACHE_HOME/python-eggs"
 export PYENV_ROOT="$HOME/sbrn/sys/local/share/pyenv"
-export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+# PATH is configured in a single consolidated block below
 
 # Vector Databases
 export QDRANT_DATA_DIR="$XDG_DATA_HOME/vector-databases/qdrant"
@@ -154,7 +154,39 @@ export HOMEBREW_CACHE="$XDG_CACHE_HOME/homebrew"
 export HOMEBREW_LOGS="$XDG_STATE_HOME/homebrew/logs"
 export HOMEBREW_TEMP="$XDG_STATE_HOME/homebrew/tmp"
 
-export PATH="$HOME/sbrn/sys/bin:$PIPX_BIN_DIR:$UV_TOOL_BIN_DIR:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+# =============================
+# PATH setup (order matters)
+# =============================
+
+# Project scripts and utilities
+export PATH="$HOME/sbrn/sys/bin:$PATH"
+
+# pipx-installed application entry points
+export PATH="$PIPX_BIN_DIR:$PATH"
+
+# uv-installed tool binaries
+export PATH="$UV_TOOL_BIN_DIR:$PATH"
+
+# pyenv shims (must be before system python)
+export PATH="$PYENV_ROOT/shims:$PATH"
+
+# pyenv core binaries
+export PATH="$PYENV_ROOT/bin:$PATH"
+
+# Custom Homebrew prefix under $HOME (preferred)
+export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$PATH"
+
+# Alternate custom Homebrew prefix under $HOME
+export PATH="$HOME/.homebrew/bin:$HOME/.homebrew/sbin:$PATH"
+
+# Intel/macOS default Homebrew prefix
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+
+# Apple Silicon Homebrew prefix
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
+# GNU coreutils with standard names (from Homebrew)
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
 # Homebrew environment variables
 export PKG_CONFIG_PATH="/opt/homebrew/lib/pkgconfig"
@@ -164,5 +196,4 @@ export DYLD_LIBRARY_PATH="/opt/homebrew/lib"
 export EDITOR="vim"
 export VISUAL="vim"
 
-# If you need to use these commands with their normal names, you can add a "gnubin" directory to your PATH with:
-PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+# If you need to use these commands with their normal names, you can add a "gnubin" directory to your PATH with (already added above)

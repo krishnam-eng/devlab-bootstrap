@@ -2,6 +2,18 @@
 alias py="python3"
 alias js="node"
 
+# Git: enforce linear history on pull across all repos
+# - Uses per-command config (-c) which overrides local repo settings
+# - Bypass with: `command git ...` if you need the raw git
+git() {
+  command git \
+    -c pull.rebase=true \
+    -c pull.ff=only \
+    -c rebase.autoStash=true \
+    -c rebase.autoSquash=true \
+    "$@"
+}
+
 # # AI Development shortcuts
 # alias ll="ollama list"
 # alias lp="ollama pull"

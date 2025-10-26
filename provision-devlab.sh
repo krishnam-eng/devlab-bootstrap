@@ -113,6 +113,13 @@ function main() {
     printf "${DIM}[INFO]${NC} Finished at: $(date)\n"
     printf "${DIM}[INFO]${NC} Final Memory: $(vm_stat | grep "Pages free" | awk '{print $3}' | sed 's/\.//')K\n"
     printf "${BOLD}${GREEN}[INFO]${NC} Developer Environment Setup completed successfully!\n"
+
+    # Final manual review reminder for Git user profile configuration
+    printf "\n${YELLOW}[ACTION REQUIRED]${NC} Review and update your Git user profile configuration files:\n"
+    printf "  • %s\n" "$SBRN_HOME/sys/hrt/conf/git/config"
+    printf "  • %s\n" "$SBRN_HOME/sys/hrt/conf/git/config-personal"
+    printf "  • %s\n" "$SBRN_HOME/sys/hrt/conf/git/config-work"
+    printf "${DIM}[HINT]${NC} Ensure your name and email are correct in the appropriate contexts.\n\n"
 }
 
 function confirm_and_run_step() {

@@ -147,24 +147,24 @@ plugins=(
 # 3. Development Environments & Language Managers
 
 #   ## Python (Most common python tools)
-  pylint                   # Python linter
-  autopep8                 # Automatic code formatting
-  pip                      # Pip package manager wrapper - if you mostly use uv or conda environment package management interfaces, this may be less useful but can keep for convenience.
-  pipenv                   # Python Pipenv environment manager
-  conda                    # Conda environment management
-  conda-env                # Conda env helpers
-  pyenv                    # Python version management - flexible Python version management independent of conda or uv’s Python versions
-  poetry                   # Modern Python packaging & dependency management - Useful if you use Poetry for packaging and dependencies; if uv handles all these well for you, this might be redundant but can keep it if you specifically use Poetry.
+  # pylint                   # Python linter
+  # autopep8                 # Automatic code formatting
+  # pip                      # Pip package manager wrapper - if you mostly use uv or conda environment package management interfaces, this may be less useful but can keep for convenience.
+  # pipenv                   # Python Pipenv environment manager
+  # conda                    # Conda environment management
+  # conda-env                # Conda env helpers
+  # pyenv                    # Python version management - flexible Python version management independent of conda or uv’s Python versions
+  # poetry                   # Modern Python packaging & dependency management - Useful if you use Poetry for packaging and dependencies; if uv handles all these well for you, this might be redundant but can keep it if you specifically use Poetry.
   # virtualenvwrapper        # Manage virtualenvs efficiently - Since uv automates virtualenv management better and conda handles environments itself, you likely do not need this and can keep it disabled to avoid conflict or redundancy.
 
 #   ## Java, Go, Rust, Flutter
   jenv                     # Java version manager
   mvn                      # Maven Java build tool
-  gradle                   # Gradle build tool helpers
+  # gradle                   # Gradle build tool helpers
   spring                   # Spring Java framework helpers  
-  golang                   # Go language helpers
-  rust                     # Rust environment helpers
-  flutter                  # Flutter development helpers
+  # golang                   # Go language helpers
+  # rust                     # Rust environment helpers
+  # flutter                  # Flutter development helpers
 
 #   ## Node.js / JavaScript
   nvm                      # Node Version Manager for switching Node versions
@@ -189,26 +189,26 @@ plugins=(
   gnu-utils                # Provides GNU versions of common cli utilities on macOS, which typically come with BSD versions by default. GNU utils offer more features and options (e.g., gfind, gsed, gawk, gtar, gtimeout)
   macos                    # macOS-specific fixes and helpers: Contains macOS-specific fixes, shortcuts, and helper functions to improve the terminal experience tailored to macOS quirks and features
   brew                     # Homebrew package manager helper: Adds shortcuts and helper aliases for Homebrew, the popular macOS package manager, making it easier to install, update, and manage packages from the terminal
-  iterm2                   # iTerm 2 integration helpers: Integrates with the iTerm2 terminal emulator on macOS to provide enhanced features like reporting the current directory, better paste behavior, and other usability improvements
-  tmux                     # Terminal multiplexer helpers: Provides helper functions and aliases to manage tmux sessions, windows, and panes, useful if you use tmux for terminal multiplexing 
-  ssh                      # SSH helpers & shortcuts: Adds useful SSH-related aliases and shortcuts to simplify connecting to and managing SSH sessions 
+  # iterm2                   # iTerm 2 integration helpers: Integrates with the iTerm2 terminal emulator on macOS to provide enhanced features like reporting the current directory, better paste behavior, and other usability improvements
+  # tmux                     # Terminal multiplexer helpers: Provides helper functions and aliases to manage tmux sessions, windows, and panes, useful if you use tmux for terminal multiplexing 
+  # ssh                      # SSH helpers & shortcuts: Adds useful SSH-related aliases and shortcuts to simplify connecting to and managing SSH sessions 
   # ssh-agent                # Manages SSH keys easily - Creates console output-> Starting ssh-agent ...
 
 # 6. General Utilities & Tools (Useful daily helpers)
-  autoenv                  # Loads environment variables automatically
+  # autoenv                  # Loads environment variables automatically
   dotenv                   # Load .env files into environment
   colorize                 # Colorizes command output
-  command-not-found        # Suggests install commands for unknown commands
-  httpie                   # HTTP client helpers
-  jsontools                # JSON processing utilities
-  qrcode                   # Generate QR codes in terminal
-  rsync                    # Rsync helpers for syncing
-  urltools                 # URL manipulation tools
-  encode64                 # Base64 encoding/decoding tools
-  copypath                 # Copy file paths helper
-  copyfile                 # Copy files helper
-  invoke                   # Task execution helpers
-  isodate                  # ISO date helpers
+  # command-not-found        # Suggests install commands for unknown commands
+  # httpie                   # HTTP client helpers
+  # jsontools                # JSON processing utilities
+  # qrcode                   # Generate QR codes in terminal
+  # rsync                    # Rsync helpers for syncing
+  # urltools                 # URL manipulation tools
+  # encode64                 # Base64 encoding/decoding tools
+  # copypath                 # Copy file paths helper
+  # copyfile                 # Copy files helper
+  # invoke                   # Task execution helpers
+  # isodate                  # ISO date helpers
 
 # 7. Aliases & Productivity Enhancers
   aliases                  # A collection of useful aliases
@@ -220,11 +220,11 @@ plugins=(
   colored-man-pages        # Colorize man pages for readability
   man                      # Enhanced man command features
   tldr                     # Simplified man pages with examples
-  fastfile                 # Fastlane fastfile helpers
+  # fastfile                 # Fastlane fastfile helpers
 
 # 9. Directory Jumping & Navigation (Pick 1-2 from this group)
-  z                        # Fast directory jumping by frecency
-  fasd                     # Jump to files and dirs by usage frequency
+  # z                        # Fast directory jumping by frecency
+  # fasd                     # Jump to files and dirs by usage frequency
 #   wd                       # Jump to recent directories
 #   jump                     # Jump to dirs by partial names
 #   scd                      # Smart cd with autosuggestions

@@ -17,4 +17,4 @@ compile-bytecode = true
 link-mode = "copy"
 
 # Enable keyring for credential storage
-keyring-provider = "auto"
+keyring-provider = "subprocess"

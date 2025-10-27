@@ -59,7 +59,6 @@
     "npm": true,
     "make": true
   },
-  "remote.SSH.remotePlatform": {"coder-vscode.localhost--balamurugank--test-workspace.main":"linux","coder-vscode.localhost--balamurugank--workspace-test.main":"linux","coder-vscode.localhost--balamurugank--my-docker-dev.main":"linux","coder-vscode.localhost--admin--coder-demo.main":"linux","coder-vscode.localhost--admin--tenant-config-demo.main":"linux","coder-vscode.localhost--admin--balamurugank-ws.main":"linux"},
   "remote.SSH.connectTimeout": 1800,
   "diffEditor.renderSideBySide": false
 }

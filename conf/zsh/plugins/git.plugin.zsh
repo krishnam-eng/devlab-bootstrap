@@ -376,3 +376,41 @@ alias glA='update-repos-in-dir'
 
 # Future git functions can be added here following the same pattern
 # Example: create-git-status-report, check-repository-health, etc.
+ 
+# greset - Force local master to match origin/master and purge all untracked/ignored files
+# Usage: greset
+# WARNING: This will irreversibly discard LOCAL changes (uncommitted work) and remove
+#          ALL untracked files and directories (including those ignored by .gitignore).
+# Steps performed:
+#   1. git reset --hard origin/master    (align working tree & index to remote master)
+#   2. git clean -fdx                    (delete untracked files, dirs, and ignored files)
+# If you need to target a different branch, run manually:
+#   git reset --hard origin/<branch>; git clean -fdx
+greset() {
+    echo "⚠️  HARD RESET: Aligning local 'master' to 'origin/master' and cleaning ALL untracked files..."
+    echo "    This will DELETE uncommitted changes and untracked/ignored files." 
+    read -q "_confirm?Proceed? (y/N) " || { echo; echo "Aborted."; return 1; }
+    echo
+    # Ensure we are in a git repo
+    if ! git rev-parse --git-dir >/dev/null 2>&1; then
+        echo "❌ Error: Not inside a git repository"; return 1
+    fi
+    # Optional: fetch latest remote state to avoid stale origin/master
+    git fetch origin master >/dev/null 2>&1 || echo "⚠️  Warning: fetch failed; proceeding with existing origin/master"
+    # Perform hard reset
+    if git reset --hard origin/master; then
+        echo "✅ Hard reset complete"
+    else
+        echo "❌ Hard reset failed"; return 1
+    fi
+    # Clean untracked + ignored files
+    if git clean -fdx; then
+        echo "🧹 Workspace cleaned (including ignored files)"
+        echo "🎯 Local master now exactly matches origin/master"
+    else
+        echo "❌ git clean failed"; return 1
+    fi
+}
+
+# Alias for convenience (optional; function name is already short)
+alias greset='greset'

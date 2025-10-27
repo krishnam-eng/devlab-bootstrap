@@ -52,11 +52,10 @@ hash -d sbrn=$HOME/sbrn
 # === PARA Method Directories ===
 # Projects - Active work requiring completion by a specific deadline
 hash -d proj=~sbrn/proj
-hash -d corp=~sbrn/proj/corp        # Corporate/client projects
-hash -d oss=~sbrn/proj/oss          # Open source projects
-hash -d learn=~sbrn/proj/learn      # Learning projects
-hash -d lab=~sbrn/proj/lab          # Laboratory/experimental projects
-hash -d exp=~sbrn/proj/exp          # Experimental projects
+hash -d oss=~sbrn/proj/oss            # Open source projects
+hash -d learn=~sbrn/proj/learn        # Learning projects
+hash -d lab=~sbrn/proj/lab            # Laboratory/experimental projects
+hash -d workshop=~sbrn/proj/workshop # Workshop projects
 
 # Areas - Ongoing responsibilities to maintain over time
 hash -d area=~sbrn/area

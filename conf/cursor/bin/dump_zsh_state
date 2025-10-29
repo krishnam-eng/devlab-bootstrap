@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+# Cursor/VSCode shell integration: dump current shell state
+# This script outputs zsh commands that can be eval'd to restore shell state
+
+# Output current directory as the first line (REQUIRED by Cursor)
+builtin pwd
+
+# Output minimal executable state commands
+# Note: Cursor will eval this output to restore state in the next command
+
+# Re-export critical environment variables if they changed
+[[ -n "${PWD:-}" ]] && builtin print "builtin cd ${(q-)PWD} 2>/dev/null || true"
+
+# That's all - keep it minimal to avoid issues
+builtin print "# end"
+
+exit 0

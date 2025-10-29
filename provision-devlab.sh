@@ -932,6 +932,25 @@ function install_core_ides_editors() {
     # Install VSCode extensions using Python utility
     setup_vscode_extensions
     setup_iterm_profiles
+
+    # Setup Cursor shell integration symlink for dump_zsh_state
+    # WHY: Cursor (the IDE) is supposed to provide a dump_zsh_state function via its
+    # shell integration. On this setup, that integration is either absent or brittle,
+    # causing noisy "base64: invalid input" and eval errors when Cursor wraps commands.
+    # To make shell-state capture deterministic and quiet across machines/CI, we keep a
+    # minimal, repo-tracked implementation under conf/cursor/bin and symlink it into
+    # $SBRN_HOME/sys/bin so Cursor's wrapper can always invoke it reliably.
+    # If Cursor later provides a robust built-in, this workaround can be removed.
+    local repo_dump="$SBRN_HOME/sys/hrt/conf/cursor/bin/dump_zsh_state"
+    local bin_dump="$SBRN_HOME/sys/bin/dump_zsh_state"
+    mkdir -p "$(dirname "$bin_dump")"
+    if [[ -f "$repo_dump" ]]; then
+        chmod +x "$repo_dump" 2>/dev/null || true
+        ln -sfn "$repo_dump" "$bin_dump"
+        log_success "Linked dump_zsh_state -> HRT copy for Cursor integration"
+    else
+        log_warning "HRT Cursor dump_zsh_state not found at: $repo_dump"
+    fi
 }
 
 function install_productivity_and_communication_apps() {

@@ -34,11 +34,6 @@
     "editor.suggest.snippetsPreventQuickSuggestions": false
   },
   "git.enableSmartCommit": true,
-  "yaml.schemas": {
-    "file:///Users/balamurugank/.vscode/extensions/continue.continue-1.2.10-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ]
-  },
   "git.path": "/opt/homebrew/bin/git",
   "git.defaultCloneDirectory": "~/sbrn/proj/exp",
   "window.confirmSaveUntitledWorkspace": false,
@@ -61,9 +56,10 @@
   },
   "remote.SSH.connectTimeout": 1800,
   "diffEditor.renderSideBySide": false,
-  "workbench.colorTheme": "Solarized Dark",
+  "workbench.colorTheme": "Darkerized Better Solarized Dark",
   "chat.mcp.gallery.enabled": true,
   "gitlens.ai.model": "vscode",
   "gitlens.ai.vscode.model": "copilot:gpt-4.1",
-  "workbench.editor.enablePreview": false
+  "workbench.editor.enablePreview": false,
+  "security.workspace.trust.untrustedFiles": "open"
 }

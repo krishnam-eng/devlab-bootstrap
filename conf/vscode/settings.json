@@ -60,5 +60,10 @@
     "make": true
   },
   "remote.SSH.connectTimeout": 1800,
-  "diffEditor.renderSideBySide": false
+  "diffEditor.renderSideBySide": false,
+  "workbench.colorTheme": "Solarized Dark",
+  "chat.mcp.gallery.enabled": true,
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+  "workbench.editor.enablePreview": false
 }

@@ -36,3 +36,8 @@ conf/git/config-work
 .DS_Store
 */.DS_Store
 "Icon\r"
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class

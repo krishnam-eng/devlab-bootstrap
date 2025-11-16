@@ -3,10 +3,11 @@
   "git.confirmSync": false,
   "github.copilot.nextEditSuggestions.enabled": true,
   "github.copilot.enable": {
-    "*": true,
+    "*": false,
     "plaintext": false,
     "markdown": true,
-    "scminput": false
+    "scminput": false,
+    "spring-boot-properties": false
   },
   "terminal.integrated.fontFamily": "MesloLGS NF, MesloLGS-NF-Regular, 'MesloLGS NF Regular', Menlo, Monaco, 'Courier New'",
   "terminal.integrated.fontSize": 13,
@@ -52,7 +53,15 @@
     "git": true,
     "hugo": true,
     "npm": true,
-    "make": true
+    "make": true,
+    "./registry": true,
+    "jq": true,
+    "terraform": true,
+    "journalctl": true,
+    "/dev/null": true,
+    "code-server": true,
+    "\"\\(.server.name)": true,
+    "tar": true
   },
   "remote.SSH.connectTimeout": 1800,
   "diffEditor.renderSideBySide": false,

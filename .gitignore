@@ -41,3 +41,9 @@ conf/git/config-work
 __pycache__/
 *.py[cod]
 *$py.class
+
+# ssh
+/conf/ssh/config
+
+# VSCode project-specific settings (ignore local editor config)
+conf/vscode/settings.json

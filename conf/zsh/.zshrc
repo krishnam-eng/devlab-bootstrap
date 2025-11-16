@@ -195,9 +195,10 @@ plugins=(
   # ssh-agent                # Manages SSH keys easily - Creates console output-> Starting ssh-agent ...
 
 # 6. General Utilities & Tools (Useful daily helpers)
-  # autoenv                  # Loads environment variables automatically
   dotenv                   # Load .env files into environment
-  colorize                 # Colorizes command output
+  # direnv                   # Manage environment variables per directory
+  # autoenv                  # Loads environment variables automatically
+  # colorize                 # Colorizes command output
   # command-not-found        # Suggests install commands for unknown commands
   # httpie                   # HTTP client helpers
   # jsontools                # JSON processing utilities

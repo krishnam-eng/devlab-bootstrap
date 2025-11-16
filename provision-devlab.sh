@@ -540,6 +540,94 @@ function install_cloud_container_tools() {
     )
     
     brew_install_batch "${cloud_tools[@]}"
+    
+    # Install Docker Compose v2 plugin after Docker is installed
+    configure_docker_compose_v2
+}
+
+function configure_docker_compose_v2() {
+    log_info "Configuring Docker Compose v2 plugin..."
+    
+    # Check if Docker is installed
+    if ! command -v docker &>/dev/null; then
+        log_warning "Docker not found - skipping Docker Compose v2 plugin installation"
+        return 1
+    fi
+    
+    # Determine Docker config directory (use DOCKER_CONFIG if set, otherwise default)
+    local docker_config="${DOCKER_CONFIG:-$HOME/.docker}"
+    local cli_plugins_dir="$docker_config/cli-plugins"
+    
+    # Create cli-plugins directory if it doesn't exist
+    mkdir -p "$cli_plugins_dir"
+    
+    # Check if Docker Compose v2 plugin already exists and is working
+    if [[ -f "$cli_plugins_dir/docker-compose" ]] && docker compose version &>/dev/null; then
+        local current_version=$(docker compose version 2>/dev/null | grep -o 'v[0-9.]*' | head -1)
+        log_success "Docker Compose v2 plugin already installed: $current_version"
+        return 0
+    fi
+    
+    # Determine system architecture
+    local arch=$(uname -m)
+    local compose_arch=""
+    
+    case "$arch" in
+        "arm64"|"aarch64")
+            compose_arch="darwin-aarch64"
+            ;;
+        "x86_64")
+            compose_arch="darwin-x86_64"
+            ;;
+        *)
+            log_warning "Unsupported architecture: $arch - skipping Docker Compose v2 plugin installation"
+            return 1
+            ;;
+    esac
+    
+    # Get latest version from GitHub API
+    log_info "Fetching latest Docker Compose version..."
+    local latest_version=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -o '"tag_name": "[^"]*"' | head -1 | cut -d'"' -f4)
+    
+    if [[ -z "$latest_version" ]]; then
+        log_warning "Failed to fetch latest version - using fallback v2.40.3"
+        latest_version="v2.40.3"
+    else
+        log_info "Latest version: $latest_version"
+    fi
+    
+    # Download Docker Compose v2 plugin
+    local compose_url="https://github.com/docker/compose/releases/download/${latest_version}/docker-compose-${compose_arch}"
+    local compose_binary="$cli_plugins_dir/docker-compose"
+    local temp_binary="$cli_plugins_dir/docker-compose.tmp"
+    
+    log_info "Downloading Docker Compose v2 plugin ($latest_version) for $compose_arch..."
+    
+    if curl -L -f -o "$temp_binary" "$compose_url" 2>/dev/null; then
+        # Verify the downloaded file is not empty and is a valid binary
+        if [[ -s "$temp_binary" ]] && file "$temp_binary" | grep -q "Mach-O"; then
+            mv "$temp_binary" "$compose_binary"
+            chmod +x "$compose_binary"
+            
+            # Verify installation
+            if docker compose version &>/dev/null; then
+                local installed_version=$(docker compose version 2>/dev/null | grep -o 'v[0-9.]*' | head -1)
+                log_success "Docker Compose v2 plugin installed successfully: $installed_version"
+                log_info "Plugin location: $compose_binary"
+            else
+                log_warning "Docker Compose v2 plugin installed but verification failed"
+                log_info "You may need to restart your shell or Docker daemon"
+            fi
+        else
+            rm -f "$temp_binary"
+            log_warning "Downloaded file appears invalid - skipping installation"
+            return 1
+        fi
+    else
+        log_warning "Failed to download Docker Compose v2 plugin from: $compose_url"
+        log_info "You can manually install it later or use the standalone docker-compose command"
+        return 1
+    fi
 }
 
 function install_graphics_ocr_libraries() {

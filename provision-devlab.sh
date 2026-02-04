@@ -536,10 +536,14 @@ function install_cloud_container_tools() {
         "docker" "docker-compose" "colima" "kubernetes-cli" "helm" 
         "awscli" "dive" "dockviz" "k9s" "kubecolor" "kompose" "krew" 
         "kube-ps1" "kubebuilder" "kustomize" "istioctl" "minikube" 
-        "terraform" "pulumi" "railway" "vercel-cli" "ctop"
+        "terraform" "pulumi" "railway" "vercel-cli" "ctop" "hcl2json"
+        "docker-buildx"
     )
     
     brew_install_batch "${cloud_tools[@]}"
+    
+    # Configure Docker settings
+    configure_docker_config
     
     # Install Docker Compose v2 plugin after Docker is installed
     configure_docker_compose_v2
@@ -626,6 +630,65 @@ function configure_docker_compose_v2() {
     else
         log_warning "Failed to download Docker Compose v2 plugin from: $compose_url"
         log_info "You can manually install it later or use the standalone docker-compose command"
+        return 1
+    fi
+}
+
+function configure_docker_config() {
+    log_info "Configuring Docker settings..."
+    
+    # Check if Docker is installed
+    if ! command -v docker &>/dev/null; then
+        log_warning "Docker not found - skipping Docker configuration"
+        return 1
+    fi
+    
+    # Determine Docker config directory (use DOCKER_CONFIG if set, otherwise default)
+    local docker_config="${DOCKER_CONFIG:-$HOME/.docker}"
+    local config_file="$docker_config/config.json"
+    local source_config="$SBRN_HOME/sys/hrt/conf/docker/config.json"
+    
+    # Check if source config exists
+    if [[ ! -f "$source_config" ]]; then
+        log_warning "Docker config template not found at $source_config - skipping"
+        return 1
+    fi
+    
+    # Create .docker directory if it doesn't exist
+    mkdir -p "$docker_config"
+    
+    # Backup existing config if it exists and is not already a symlink
+    if [[ -f "$config_file" ]] && [[ ! -L "$config_file" ]]; then
+        local backup_file="$config_file.backup.$(date +%Y%m%d_%H%M%S)"
+        log_info "Backing up existing Docker config to: $backup_file"
+        mv "$config_file" "$backup_file"
+    fi
+    
+    # Remove existing symlink if present (to recreate it)
+    if [[ -L "$config_file" ]]; then
+        rm "$config_file"
+    fi
+    
+    # Create symlink to our managed config
+    ln -sfn "$source_config" "$config_file"
+    log_success "Docker config symlinked: $config_file -> $source_config"
+    
+    # Verify the configuration
+    if [[ -L "$config_file" ]] && [[ -f "$config_file" ]]; then
+        log_success "Docker configuration successfully linked"
+        
+        # Check if buildx is available (for macOS with Homebrew Docker)
+        if command -v docker &>/dev/null; then
+            if docker buildx version &>/dev/null 2>&1; then
+                local buildx_version=$(docker buildx version 2>/dev/null | head -1)
+                log_success "Docker buildx is available: $buildx_version"
+            else
+                log_warning "Docker buildx not found. Install with: brew install docker-buildx"
+                log_info "Then restart your terminal for the config to take effect"
+            fi
+        fi
+    else
+        log_warning "Docker config link verification failed"
         return 1
     fi
 }
@@ -717,7 +780,7 @@ function install_runtime_environment_managers() {
     log_goal "[5.2/5.3] Installing runtime environment managers..."
     
     local runtime_managers=(
-        "jenv" "uv" "nvm" "pipx"
+        "jenv" "uv" "nvm" "pipx" "pandoc" "mactex-no-gui"
     )
     
     brew_install_batch "${runtime_managers[@]}"
@@ -725,8 +788,25 @@ function install_runtime_environment_managers() {
     # Configure runtime environment managers
     configure_jenv
     configure_uv
+    setup_uv_python_toolbox_venv
     configure_nvm
     configure_pipx
+
+}
+
+# Setup a dedicated uv Python venv in XDG_DATA_HOME/python-envs/toolbox
+function setup_uv_python_toolbox_venv() {
+    log_info "Setting up dedicated Python venv for toolbox in $XDG_DATA_HOME/python-envs/toolbox ..."
+    local venv_dir="$XDG_DATA_HOME/python-envs/toolbox"
+    mkdir -p "$XDG_DATA_HOME/python-envs"
+    if [[ ! -d "$venv_dir" ]]; then
+        python3 -m venv "$venv_dir" && log_success "Created venv at $venv_dir" || log_error "Failed to create venv at $venv_dir"
+    else
+        log_success "Python venv already exists at $venv_dir"
+    fi
+    # shellcheck disable=SC1090
+    source "$venv_dir/bin/activate"
+    log_success "Activated Python venv: $venv_dir"
 }
 
 function configure_jenv() {

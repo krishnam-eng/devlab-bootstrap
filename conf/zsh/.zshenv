@@ -190,6 +190,9 @@ export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 # GNU coreutils with standard names (from Homebrew)
 export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
+# DO This : eval "$(/usr/libexec/path_helper)"
+export PATH="/Library/TeX/texbin:$PATH"
+
 # Homebrew environment variables
 export PKG_CONFIG_PATH="/opt/homebrew/lib/pkgconfig"
 export DYLD_LIBRARY_PATH="/opt/homebrew/lib"

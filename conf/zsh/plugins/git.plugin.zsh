@@ -386,6 +386,7 @@ alias glA='update-repos-in-dir'
 #   2. git clean -fdx                    (delete untracked files, dirs, and ignored files)
 # If you need to target a different branch, run manually:
 #   git reset --hard origin/<branch>; git clean -fdx
+unalias greset 2>/dev/null
 greset() {
     echo "⚠️  HARD RESET: Aligning local 'master' to 'origin/master' and cleaning ALL untracked files..."
     echo "    This will DELETE uncommitted changes and untracked/ignored files." 
@@ -411,6 +412,3 @@ greset() {
         echo "❌ git clean failed"; return 1
     fi
 }
-
-# Alias for convenience (optional; function name is already short)
-alias greset='greset'

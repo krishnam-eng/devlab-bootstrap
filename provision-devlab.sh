@@ -1081,7 +1081,7 @@ function install_core_ides_editors() {
     log_goal "[6.1/6.5] Installing core IDEs and editors..."
     
     local ides=(
-        "visual-studio-code" "intellij-idea-ce" "pycharm-ce" "cursor" "windsurf" "zed" "iterm2"
+        "visual-studio-code" "intellij-idea-ce" "pycharm-ce" "claude-code" "cursor" "windsurf" "zed" "antigravity" "iterm2"
     )
     
     brew_cask_install_batch "${ides[@]}"

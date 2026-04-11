@@ -438,6 +438,9 @@ function install_essential_cli_tools() {
     # Text, Regex, JSON, Data Tools
     install_text_data_tools
     
+    # AI Assistant Tools
+    install_ai_assistant_tools
+    
     # Generate phase summary using utility function
     generate_phase_summary "3" "Essential CLI Tools"
     
@@ -445,7 +448,7 @@ function install_essential_cli_tools() {
 }
 
 function install_shell_productivity_tools() {
-    log_goal "[3.1/3.3] Installing shell enhancement & productivity tools..."
+    log_goal "[3.1/3.4] Installing shell enhancement & productivity tools..."
     
     local shell_tools=(
         "coreutils" "tree" "fzf" "tmux" "screen" "htop" "bat" "fd" "tldr" 
@@ -460,7 +463,7 @@ function install_shell_productivity_tools() {
 
 
 function install_networking_security_tools() {
-    log_goal "[3.2/3.3] Installing Networking, Security, & Transfer tools..."
+    log_goal "[3.2/3.4] Installing Networking, Security, & Transfer tools..."
     
     local network_tools=(
         "curl" "wget" "httpie" "netcat" "gnupg" "certbot" "telnet"
@@ -470,7 +473,7 @@ function install_networking_security_tools() {
 }
 
 function install_text_data_tools() {
-    log_goal "[3.3/3.3] Installing basic text processing tools..."
+    log_goal "[3.3/3.4] Installing basic text processing tools..."
     
     local text_tools=(
         "emacs" "nano" "grep" "colordiff" "base64" "base91" "ccat" "pygments"
@@ -480,6 +483,22 @@ function install_text_data_tools() {
 
     # Create ripgrep config directory and link configuration
     ln -sfn "$SBRN_HOME/sys/hrt/conf/ripgrep" "$XDG_CONFIG_HOME/ripgrep"
+}
+
+function install_ai_assistant_tools() {
+    log_goal "[3.4/3.4] Installing AI assistant tools..."
+    
+    log_info "Installing Claude CLI from claude.ai..."
+    if command -v claude &> /dev/null; then
+        log_success "Claude CLI already installed"
+    else
+        curl -fsSL https://claude.ai/install.sh | bash
+        if command -v claude &> /dev/null; then
+            log_success "Claude CLI installed successfully"
+        else
+            log_warning "Claude CLI installation may have failed - please check manually"
+        fi
+    fi
 }
 
 ################################################################################

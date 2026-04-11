@@ -1161,7 +1161,7 @@
   typeset -g POWERLEVEL9K_JENV_SOURCES=(shell local global)
   # If set to false, hide java version if it's the same as global:
   # $(jenv version-name) == $(jenv global).
-  typeset -g POWERLEVEL9K_JENV_PROMPT_ALWAYS_SHOW=false
+  typeset -g POWERLEVEL9K_JENV_PROMPT_ALWAYS_SHOW=true
   # If set to false, hide java version if it's equal to "system".
   typeset -g POWERLEVEL9K_JENV_SHOW_SYSTEM=true
   # Custom icon.
